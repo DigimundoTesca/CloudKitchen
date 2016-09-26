@@ -1,0 +1,16 @@
+{% extends "base_simple_nav.html" %}
+
+{% block page_title %}
+	{{ page_title }}
+{% endblock page_title %}
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+
+{% block content %}
+	<h3>Bienvenido a Cashflow Amigo :D</h1>
+	<p>Página inicial en construcción, disculpa las molestias</p>
+
+	<a href="{% url 'views.login' %}" title="login">Iniciar sesión</a>
+{% endblock content %}

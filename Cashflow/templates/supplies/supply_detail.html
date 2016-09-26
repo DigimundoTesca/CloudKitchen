@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+	{{ supplie.name }}
+{% endblock page_title %}
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col s12 l6"> 
+			<h1>{{ supply.name }}</h1>
+		</div>
+	</div>
+	
+
+	<p>
+		{# <strong>Categoría: </strong>{{ supplie.category }} #}
+	</p>
+	<p>
+		<strong>Precio: </strong>{{ supply.price }}
+	</p>
+
+	<img class="materialboxed" width="650" src="{{ supply.image.url | default_if_none:'#'}}">
+
+{% endblock content %}

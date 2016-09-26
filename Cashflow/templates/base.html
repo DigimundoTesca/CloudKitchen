@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        {% load static %}
+        <meta charset="utf-8"/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"/>
+        <link href="{% static 'css/materialize.min.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css"/>
+        <title>
+            {% block page_title %}{% endblock page_title %}
+        </title>
+    </head>
+</html>
+<body>
+    <header>
+        <!-- Dropdown Structure -->
+        <ul class="dropdown-content" id="dropdown_settings">
+            <li>
+                <a class="waves-effect primary-text" href="summary.html">
+                    Resumen
+                </a>
+            </li>
+            <li class="divider">
+            </li>
+            <li>
+                <a class="waves-effect primary-text" href="../login.html">
+                    Cerrar sesión
+                </a>
+            </li>
+        </ul>
+        <div class="navbar-fixed">
+            <nav class="red">
+                <div class="container" id="header_nav">
+                    <div class="nav-wrapper">
+                        <a class="brand-logo" href="l_events.html">
+                            {% block title %}{% endblock title %}
+                        </a>
+                        <a class="button-collapse" data-activates="mobile-demo" href="#">
+                            <i class="material-icons">
+                                menu
+                            </i>
+                        </a>
+                        <ul class="right hide-on-med-and-down" id="ul_nav">
+                            <li>
+                                <a class="waves-effect" href="{% url 'index' %}" title="Inicio">
+                                    <i class="material-icons">
+                                        home
+                                    </i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" href="{% url 'views.supplies' %}" title="Catálogo">
+                                    <i class="material-icons">
+                                        local_cafe
+                                    </i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-button waves-effect" data-activates="dropdown_settings" href="#!" id="user_name_nav" title="Nombre de usuario">
+                                    <i class="material-icons right">
+                                        person
+                                    </i>
+                                    <span id="nick_name">
+                                        Nombre del usuario.
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="side-nav" id="mobile-demo">
+                            <li>
+                                <a class="waves-effect" href="{% url 'index' %}">
+                                    Inicio
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" href="{% url 'views.categories' %}">
+                                    Categorias
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" href="{% url 'views.supplies' %}">
+                                    Insumos
+                                </a>
+                            </li>
+                            <li class="no-padding">
+                                <ul class="collapsible" data-collapsible="accordion" id="dropdown_settings">
+                                    <li class="bold">
+                                        <a class="collapsible-header waves-effect" href="#!">
+                                            <i class="material-icons right">
+                                                arrow_drop_down
+                                            </i>
+                                            Mi cuenta
+                                        </a>
+                                        <div class="collapsible-body">
+                                            <ul class="normal">
+                                                <li>
+                                                    <a class="waves-effect" href="summary.html">
+                                                        Resumen
+                                                    </a>
+                                                </li>
+                                                <li class="divider">
+                                                </li>
+                                                <li>
+                                                    <a class="waves-effect" href="{% url 'views.login' %}">
+                                                        Cerrar sesión
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <section>
+                {% block content %}
+                {% endblock content %}
+            </section>
+        </div>
+    </main>
+    <footer class="page-footer primary-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h5 class="white-text">
+                        CashFlow
+                    </h5>
+                    <p class="white-text light">
+                        Made with ♥ by Digimundo
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2016 CashFlow, All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+<!-- Scripts -->
+<script src=" {% static 'js/jquery-2.1.1-min.js' %}" type="text/javascript">
+</script>
+<script src=" {% static 'js/materialize.min.js' %} " type="text/javascript">
+</script>
+<script src=" {% static 'js/scripts.js' %}" type="text/javascript">
+</script>

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+	{{ title }}
+{% endblock page_title %}
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+{% block content %}
+	<div class="row">
+		{% for ctg in category %}
+			<div class="col s12 m6 l4">
+				<div class="card medium hoverable">
+					<div class="card-image  waves-effect waves-light">
+					<a href="" title="{{ ctg.name }}">
+						<img src="{{ ctg.image.url }}">
+					</a>
+					</div>
+					<div class="card-content">
+						<p>
+							<span class="card-title">{{ ctg.name }}</span>
+						</p>
+						<p>
+							<strong>Categoria: </strong>
+							{# <a href="" title="">{{ sp.category }}</a> #}
+						</p>
+					</div>
+					<div class="card-action">
+						<a href="">Texto</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</ul>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+	<a class="btn-floating btn-large waves-effect waves-light accent" href="{% url 'views.new_supply' %}"><i class="material-icons">add</i></a>
+</div>
+{% endblock content %}

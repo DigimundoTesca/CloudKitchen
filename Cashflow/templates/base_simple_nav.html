@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  <title>{% block page_title %}{% endblock page_title %}</title>
+</head>
+<body>
+  <header>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper row primary">
+          <div class="col s12">
+            <a href="#" class="brand-logo">{% block title %}{% endblock title %}</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main>
+  <section>
+    {% block content %}
+    {% endblock content %}
+  </section>
+  </main>
+  <footer class="page-footer primary-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col s12">
+          <h5 class="white-text">
+          CashFlow
+          </h5>
+          <p class="white-text light">
+            Made with ♥ by Digimundo
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        © 2016 CashFlow, All rights reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+<!-- Scripts -->
+<script type="text/javascript" src=" {% static 'js/jquery-2.1.1-min.js' %}"></script>
+<script type="text/javascript" src=" {% static 'js/materialize.min.js' %} "></script>
+<script type="text/javascript" src=" {% static 'js/scripts.js' %}"></script>
+</html>

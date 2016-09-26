@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+	{{ title }}
+{% endblock page_title %}
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+
+
+{% block content %}
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button class="btn waves-effect waves-light accent right large" type="submit"> 
+			Submit <i class="material-icons right">send</i>
+		</button>
+	</form>
+{% endblock content %}
