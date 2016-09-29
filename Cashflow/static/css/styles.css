@@ -75,8 +75,9 @@ h1,h2,h3,h4,h5 {
     font-weight: 300;
 }
 html { 
-    color: rgb(32,105,137);
+    color: #01579b;
 }
+
 main {
     padding-top: 2rem;
     -ms-flex: 1 0 auto;
@@ -259,7 +260,7 @@ nav ul li {
 
 /** ---- Colors ---- */
 .accent {
-    background-color: rgba(255,171,0,1) !important;
+    background-color: #0288d1 !important;
 }
 .bold {
     font-weight: 600;
@@ -271,10 +272,10 @@ nav ul li {
     font-weight: 400;
 }
 .primary {
-    background-color: rgb(244,67,54);
+    background-color: #ff9800 !important;
 }
 .primary-dark {
-    background-color: rgb(183,28,28) !important;
+    background-color: #ef6c00 !important;
 }
 .primary-text { 
     color: rgba(32,105,137,1) !important;
@@ -311,25 +312,25 @@ nav ul li {
 .input-field input[type=text]:focus + label,
 .input-field input[type=email]:focus + label,
 .input-field input[type=password]:focus + label {
-    color: rgba(255,171,0,1) ;
+    color: #ff9800 ;
 }
 /* label underline focus color */
 .input-field input[type=email]:focus,
 .input-field input[type=password]:focus,
 .input-field input[type=text]:focus {
-    border-bottom: 1px solid rgba(255,171,0,1);
-    box-shadow: 0 1px 0 0 rgba(255,171,0,1);
+    border-bottom: 1px solid #ff9800;
+    box-shadow: 0 1px 0 0 #ff9800;
 }
 /* icon prefix focus color */
 .input-field .prefix.active {
-    color: rgba(255,171,0,1);
+    color: #0277bd   ;
 }
 .switch label input[type=checkbox]:checked+.lever:after {
-    background-color: rgba(255,171,0,1) !important;
+    background-color: #ff9800 !important;
 }
 .switch label 
 input[type=checkbox]:checked+.lever {
-    background-color: rgba(255,171,0,0.5);
+    background-color: #ff9800;
 }
 
 /** Repair bug labels */
