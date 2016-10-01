@@ -1,13 +1,5 @@
 {% extends "base.html" %}
 
-{% block page_title %}
-	{{ supplie.name }}
-{% endblock page_title %}
-
-{% block title %}
-	{{ title }}
-{% endblock title %}
-
 {% block content %}
 
 	<div class="row">
@@ -20,7 +12,16 @@
 	<p>
 	</p>
 	<p>
-		<strong>Precio: </strong>{{ supply.price }}
+		<strong>Precio: </strong>
+	</p>
+	<p>
+		<strong>Categoria: </strong> {{ supply.category }}
+	</p>
+	<p>
+		<strong>Codigo de barras: </strong> {{ supply.barcode }}
+	</p>
+	<p>
+		<strong>Proveedor: </strong> {{ supply.provider }}
 	</p>
 
 	<img class="materialboxed" width="650" src="{{ supply.image.url | default_if_none:'#'}}">

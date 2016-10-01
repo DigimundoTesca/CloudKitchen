@@ -1,12 +1,5 @@
 {% extends "base.html" %}
 
-{% block page_title %}
-	{{ title }}
-{% endblock page_title %}
-
-{% block title %}
-	{{ title }}
-{% endblock title %}
 {% block content %}
 	<div class="row">
 		{% for sp in supply %}
@@ -23,11 +16,11 @@
 						</p>
 						<p>
 							<strong>Categoria: </strong>
-							{# <a href="" title="">{{ sp.category }}</a> #}
+							<a href="{% url 'views.categories_supplies' sp.category %}" title="">{{ sp.category }}</a>
 						</p>
 					</div>
 					<div class="card-action">
-						<a href="{% url 'views.supply_detail' pk=sp.pk %}">Detalles</a>
+						<a href="{% url 'views.supply_detail' sp.pk %}">Detalles</a>
 					</div>
 				</div>
 			</div>
@@ -36,6 +29,18 @@
 </ul>
 
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-	<a class="btn-floating btn-large waves-effect waves-light accent" href="{% url 'views.new_supply' %}"><i class="material-icons">add</i></a>
+	<a class="btn-floating btn-large waves-effect waves-light accent" href="{% url 'views.new_supply' %}">
+    <i class="large material-icons">restaurant</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating primary-dark" href="#"><i class="material-icons">create</i></a></li>
+    <li><a class="btn-floating primary-dark" href="#"><i class="material-icons">clear</i></a></li>
+    <li><a class="btn-floating primary-dark" href="#"><i class="material-icons">publish</i></a></li>
+    <li><a class="btn-floating primary-dark" href="{% url 'views.new_supply' %}"><i class="material-icons">add</i></a></li>
+  </ul>
 </div>
+
+
+</div>
+
 {% endblock content %}

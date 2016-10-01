@@ -54,7 +54,11 @@ def new_supply(request):
 	template   = loader.get_template('supplies/new_supply.html')
 	page_title = 'Cash Flow'
 	title      = 'Nuevo insumo'
+	categories = Category.objects.order_by('name')
+	providers  = Provider.objects.order_by('name')
 	context    = {
+		'categories':categories,
+		'providers': providers,
 		'form': form,
 		'title': title,
 		'page_title': page_title
@@ -82,6 +86,20 @@ def categories(request):
 	title      = 'Categorias'
 	context    = { 
 		'category' : category,
+		'title' : title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
+
+
+def categories_supplies(request, categ):
+	category   = Category.objects.filter(name = categ)
+	supply     = Supply.objects.filter(category = category)
+	template   = loader.get_template('supplies/supplies.html')
+	page_title = 'Cashflow'
+	title      = categ
+	context    = { 
+		'supply' : supply,
 		'title' : title,
 		'page_title': page_title
 	}

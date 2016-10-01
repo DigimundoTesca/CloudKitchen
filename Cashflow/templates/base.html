@@ -6,8 +6,9 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"/>
         <link href="{% static 'css/materialize.min.css' %}" rel="stylesheet" type="text/css"/>
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <title>
-            {% block page_title %}{% endblock page_title %}
+            {{ title }}
         </title>
     </head>
 </html>
@@ -29,11 +30,11 @@
             </li>
         </ul>
         <div class="navbar-fixed">
-            <nav class="red">
+            <nav class="primary">
                 <div class="container" id="header_nav">
                     <div class="nav-wrapper">
-                        <a class="brand-logo" href="l_events.html">
-                            {% block title %}{% endblock title %}
+                        <a class="brand-logo" href="{% url 'views.categories' %}">
+                            {{ title }}
                         </a>
                         <a class="button-collapse" data-activates="mobile-demo" href="#">
                             <i class="material-icons">
@@ -49,9 +50,16 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="waves-effect" href="{% url 'views.supplies' %}" title="Catálogo">
+                                <a class="waves-effect" href="{% url 'views.supplies' %}" title="Insumos">
                                     <i class="material-icons">
-                                        local_cafe
+                                        widgets
+                                    </i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" href="{% url 'views.categories' %}" title="Categorias">
+                                    <i class="material-icons">
+                                        style
                                     </i>
                                 </a>
                             </li>
@@ -124,7 +132,7 @@
             </section>
         </div>
     </main>
-    <footer class="page-footer primary-dark">
+    <footer class="page-footer primary">
         <div class="container">
             <div class="row">
                 <div class="col s12">
