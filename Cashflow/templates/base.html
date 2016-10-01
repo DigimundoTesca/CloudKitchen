@@ -8,7 +8,7 @@
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <title>
-            {% block page_title %}{% endblock page_title %}
+            {{ title }}
         </title>
     </head>
 </html>
@@ -33,7 +33,7 @@
             <nav class="primary">
                 <div class="container" id="header_nav">
                     <div class="nav-wrapper">
-                        <a class="brand-logo" href="l_events.html">
+                        <a class="brand-logo" href="{% url 'views.categories' %}">
                             {{ title }}
                         </a>
                         <a class="button-collapse" data-activates="mobile-demo" href="#">
@@ -50,9 +50,16 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="waves-effect" href="{% url 'views.supplies' %}" title="Catálogo">
+                                <a class="waves-effect" href="{% url 'views.supplies' %}" title="Insumos">
                                     <i class="material-icons">
-                                        local_cafe
+                                        widgets
+                                    </i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" href="{% url 'views.categories' %}" title="Categorias">
+                                    <i class="material-icons">
+                                        style
                                     </i>
                                 </a>
                             </li>

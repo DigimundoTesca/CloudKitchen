@@ -266,19 +266,19 @@ nav ul li {
     font-weight: 600;
 }
 .side-nav a {
-    color: rgba(32,105,137,1);   /*primary-text*/
+    color: #2075b7;
 }
 .normal {
     font-weight: 400;
 }
 .primary {
-    background-color: #ff9800 !important;
+    background-color: #f57c00 !important;
 }
 .primary-dark {
-    background-color: #ef6c00 !important;
+    background-color: #ff3d00 !important;
 }
 .primary-text { 
-    color: rgba(32,105,137,1) !important;
+    color: #2075b7 !important;
 }
 .primary-text-accent {
     color: rgba(255,171,0,1);
@@ -309,17 +309,21 @@ nav ul li {
 }
 /* label focus color */
 /*#ul_nav, */
+.dropdown-content li>a,
+.dropdown-content li>span,
 .input-field input[type=text]:focus + label,
+.input-field input[type=number]:focus + label,
 .input-field input[type=email]:focus + label,
 .input-field input[type=password]:focus + label {
-    color: #ff9800 ;
+    color: #0288d1 ;
 }
 /* label underline focus color */
 .input-field input[type=email]:focus,
+.input-field input[type=number]:focus,
 .input-field input[type=password]:focus,
 .input-field input[type=text]:focus {
-    border-bottom: 1px solid #ff9800;
-    box-shadow: 0 1px 0 0 #ff9800;
+    border-bottom: 1px solid #0288d1;
+    box-shadow: 0 1px 0 0 #0288d1;
 }
 /* icon prefix focus color */
 .input-field .prefix.active {

@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-  <title>{% block page_title %}{% endblock page_title %}</title>
+  <title>{{ title }}</title>
 </head>
 <body>
   <header>
@@ -14,7 +14,7 @@
       <nav class="primary">
         <div class="nav-wrapper row">
           <div class="col s12">
-            <a href="#" class="brand-logo">{% block title %}{% endblock title %}</a>
+            <a href="{% url 'views.categories' %}" class="brand-logo">{{ page_title }}</a>
           </div>
         </div>
       </nav>
