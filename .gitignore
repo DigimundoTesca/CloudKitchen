@@ -3,8 +3,4 @@ Lib/
 Scripts/
 tcl/
 pip-selfcheck.json
-Cashflow/__pycache__/
-Cashflow/supplies/__pychache__/
-Cashflow/supplies/migrations/__pychache__/
-Cashflow/users/__pychache__/
-Cashflow/users/migrations/__pychache__/
+*.pyc
