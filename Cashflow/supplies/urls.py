@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^supplies/(?P<pk>[0-9]+)/$', views.supply_detail, name='views.supply_detail'),
 
     url(r'^categories/$', views.categories, name='views.categories'),
-    # url(r'^categories/(?P<pk>[0-9]+)/$', views.supplies, name='views.supplies'),
+    url(r'^categories/([A-Za-z]+)/$', views.categories_supplies, name='views.categories_supplies'),
 ]

@@ -13,7 +13,7 @@
 			<div class="col s12 m6 l4">
 				<div class="card medium hoverable">
 					<div class="card-image  waves-effect waves-light">
-					<a href="" title="{{ ctg.name }}">
+					<a href="{% url 'views.categories_supplies' ctg.name %}" title="{{ ctg.name }}">
 						<img src="{{ ctg.image.url }}">
 					</a>
 					</div>
@@ -21,8 +21,9 @@
 						<p>
 							<span class="card-title">{{ ctg.name }}</span>
 						</p>
-						<p>
-							<strong>Categoria: </strong>
+						<p class="truncate">
+							<strong >Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua: </strong>
 							{# <a href="" title="">{{ sp.category }}</a> #}
 						</p>
 					</div>
@@ -36,6 +37,15 @@
 </ul>
 
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-	<a class="btn-floating btn-large waves-effect waves-light accent" href="{% url 'views.new_supply' %}"><i class="material-icons">add</i></a>
+  <a class="btn-floating btn-large waves-effect waves-light accent" href="{% url 'views.new_supply' %}">
+    <i class="large material-icons">restaurant</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating primary-dark" href="{% url 'views.new_supply' %}"><i class="material-icons">add</i></a></li>
+    <li><a class="btn-floating primary-dark" href="{% url 'views.new_supply' %}"><i class="material-icons">favorite</i></a></li>
+    <li><a class="btn-floating primary-dark" href="{% url 'views.new_supply' %}"><i class="material-icons">flash_on</i></a></li>
+    <li><a class="btn-floating primary-dark" href="{% url 'views.new_supply' %}"><i class="material-icons">brush</i></a></li>
+  </ul>
 </div>
+
 {% endblock content %}

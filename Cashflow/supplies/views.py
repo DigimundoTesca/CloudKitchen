@@ -86,3 +86,17 @@ def categories(request):
 		'page_title': page_title
 	}
 	return HttpResponse(template.render(context, request))
+
+
+def categories_supplies(request, category):
+	category   = Category.objects.filter(name = category)
+	supply     = Supply.objects.filter(category = category)
+	template   = loader.get_template('supplies/supplies.html')
+	page_title = 'Cashflow'
+	title      = 'Categorias'
+	context    = { 
+		'supply' : supply,
+		'title' : title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
