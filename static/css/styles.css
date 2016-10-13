@@ -77,13 +77,10 @@ h1,h2,h3,h4,h5 {
 html { 
     color: #01579b;
 }
-
 main {
-    padding-top: 2rem;
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
 }
-
 nav ul li {
     transition: background-color .3s;
     transition-property: background-color;
@@ -92,6 +89,9 @@ nav ul li {
     transition-delay: initial;
     float: left;
     padding: 0;
+}
+section {
+    margin-top: 2rem;
 }
 .avatar_product_image {
     height: 100%;
@@ -164,9 +164,16 @@ nav ul li {
 .hidden {
     display: none !important;
 }
+.page-footer {
+    margin-top: 0px !important;
+}
+.parallax-container {
+    height: 500px
+}
+
 .product_content {
     display: -ms-flexbox;
-        display: flex;
+    display: flex;
     min-height: 300px;
 }
 .product_image {

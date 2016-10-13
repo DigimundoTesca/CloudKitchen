@@ -1,16 +1,25 @@
 {% extends "base_simple_nav.html" %}
 
 {% block page_title %}
-	{{ page_title }}
+    {{ page_title }}
 {% endblock page_title %}
 
 {% block title %}
-	{{ title }}
+    {{ title }}
 {% endblock title %}
 
 {% block content %}
-	<h3>Bienvenido a Cashflow Amigo :D</h1>
-	<p>Página inicial en construcción, disculpa las molestias</p>
-
-	<a href="{% url 'views.login' %}" title="login">Iniciar sesión</a>
+{% load static %}
+    <div class="parallax-container">
+        <div class="parallax"><img src="{% static 'media/images/wallpaper.jpg' %}"></div>
+    </div>
+    <div class="section container">
+        <div class="row">
+            <h2 class="header">Binvenido a Cash Flow!</h2>
+            <h5><a href="{% url 'views.login' %}" title="login">Iniciar sesión</a></h5>
+        </div>
+    </div>
+    <div class="parallax-container">
+        <div class="parallax"><img src="{% static 'media/images/wallpaper.jpg' %}"></div>
+    </div>
 {% endblock content %}
