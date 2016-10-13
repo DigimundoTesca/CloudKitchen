@@ -1,3 +1,4 @@
+# coding=utf-8
 from __future__ import unicode_literals
 
 from django.db import models
@@ -32,7 +33,7 @@ class Category(models.Model):
 class Supply(models.Model):
 	name     = models.CharField(max_length = 255, unique = True)
 	category = models.ForeignKey(Category, default = 1)
-	barcode  = models.PositiveIntegerField(help_text="(Código de barras de 13 digitos)", validators=[MaxValueValidator(9999999999999)], blank = True, null = True)
+	barcode  = models.PositiveIntegerField(help_text='(Codigo de barras de 13 digitos)', validators=[MaxValueValidator(9999999999999)], blank = True, null = True)
 	provider = models.ForeignKey(Provider, default = 1)
 	image    = models.ImageField(blank = False)
 
