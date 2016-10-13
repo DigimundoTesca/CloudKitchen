@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
 
-from .forms import SupplyForm
+from .forms import SupplyForm, CategoryForm
 from .models import Provider, Category, Supply
 
 def login(request):
@@ -28,6 +28,8 @@ def index(request):
 	}
 	return HttpResponse(template.render(context, request))
 
+
+# -------------------------------------  Insumos ------------------------------------- 
 
 def supplies(request):
 	supply     = Supply.objects.order_by('id')
@@ -79,6 +81,7 @@ def supply_detail(request, pk):
 	return HttpResponse(template.render(context, request))
 
 
+# ------------------------------------- Categorias ------------------------------------- 
 
 def categories(request):
 	category   = Category.objects.order_by('id')
@@ -88,6 +91,27 @@ def categories(request):
 	context    = { 
 		'category' : category,
 		'title' : title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
+
+
+def new_category(request):
+	if request.method == 'POST':
+		form = CategoryForm(request.POST, request.FILES)
+		if form.is_valid():
+			category = form.save(commit=False)
+			category.save()
+			return HttpResponseRedirect('/categories')
+	else:
+		form = CategoryForm()
+
+	template   = loader.get_template('categories/new_category.html')
+	page_title = 'Cash Flow'
+	title      = 'Nueva Categoria'
+	context    = {
+		'form': form,
+		'title': title,
 		'page_title': page_title
 	}
 	return HttpResponse(template.render(context, request))

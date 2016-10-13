@@ -53,8 +53,6 @@ class Supply(models.Model):
         verbose_name        = 'Supply'
         verbose_name_plural = 'Supplies'
 
-
-
 class Metric(models.Model):
     METRICS_TYPE = (
         ('gramos', 'gramos'),
