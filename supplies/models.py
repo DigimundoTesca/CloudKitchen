@@ -2,11 +2,14 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator
 
 
 class Provider(models.Model):
-    name  = models.CharField(max_length=255, unique=True)
+    name  = models.CharField(
+        validators=[MinLengthValidator(8)],
+        max_length=255,
+        unique=True)
     image = models.ImageField(blank=False)    
 
     def __str__(self):
@@ -20,7 +23,10 @@ class Provider(models.Model):
 
 
 class Category(models.Model):
-    name  = models.CharField(max_length=125, unique=True)
+    name  = models.CharField(
+        validators=[MinLengthValidator(8)],
+        max_length=125, 
+        unique=True)
     image = models.ImageField(blank = False)    
 
     def __str__(self):
@@ -34,7 +40,10 @@ class Category(models.Model):
 
 
 class Supply(models.Model):
-    name             = models.CharField(max_length=125, unique=True)
+    name             = models.CharField(
+        validators=[MinLengthValidator(8)],
+        max_length=125, 
+        unique=True)
     category         = models.ForeignKey(Category, default=1)
     barcode          = models.PositiveIntegerField(
         help_text='(Codigo de barras de 13 digitos)', 
