@@ -1,0 +1,42 @@
+{% extends "base_simple_nav.html" %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+        <div class="row">
+            <div id="card_login" class="card col s12 m10 l8 offset-m1 offset-l2">
+                <div class="center">
+                    <h4 class="primary-text-dark">Iniciar sesión</h4>
+                    <figure id="avatar_login">
+                        <img id="avatar_login_img" src="{% static 'media/images/img_boy.png' %}"/>
+                    </figure>
+                </div> 
+                <div class="row">
+                    <form class="col s10 offset-s1" action="{% url 'views.categories' %}">
+                        <div class="row"> 
+                            <div class="input-field col s12 ">
+                                <i class="material-icons prefix">email</i>
+                                <input id="email" type="email" class="validate" required>
+                                <label for="email" data-error="Email inválido">Email</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">lock</i>
+                                <input id="password" type="password" class="validate" required>
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <button class="btn waves-effect waves-light accent right large" type="submit" name="action">
+                                    Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                            <div class="input-field col s12">
+                                <a class="right" href="">Olvidé mi contraseña</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
