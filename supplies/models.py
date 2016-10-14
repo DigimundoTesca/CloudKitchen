@@ -7,7 +7,7 @@ from django.core.validators import MaxValueValidator, MinLengthValidator
 
 class Provider(models.Model):
     name  = models.CharField(
-        validators=[MinLengthValidator(8)],
+        validators=[MinLengthValidator(4)],
         max_length=255,
         unique=True)
     image = models.ImageField(blank=False)    
@@ -24,7 +24,7 @@ class Provider(models.Model):
 
 class Category(models.Model):
     name  = models.CharField(
-        validators=[MinLengthValidator(8)],
+        validators=[MinLengthValidator(4)],
         max_length=125, 
         unique=True)
     image = models.ImageField(blank = False)    
@@ -41,7 +41,7 @@ class Category(models.Model):
 
 class Supply(models.Model):
     name             = models.CharField(
-        validators=[MinLengthValidator(8)],
+        validators=[MinLengthValidator(4)],
         max_length=125, 
         unique=True)
     category         = models.ForeignKey(Category, default=1)

@@ -4,7 +4,7 @@ from django.template import loader
 from django.shortcuts import render, get_object_or_404
 
 from .forms import SupplyForm, CategoryForm
-from .models import Provider, Category, Supply
+from .models import Provider, Category, Supply, Cartridge
 
 def login(request):
 	supply     = Supply.objects.order_by('id')
@@ -28,8 +28,21 @@ def index(request):
 	}
 	return HttpResponse(template.render(context, request))
 
+# -------------------------------------  Providers ------------------------------------- 
+def providers(request):
+	provider   = Provider.objects.order_by('id')
+	template   = loader.get_template('providers/providers.html')
+	page_title = 'Cashflow'
+	title      = 'Proveedores'
+	context    = { 
+		'provider' : provider,
+		'title' : title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
 
-# -------------------------------------  Insumos ------------------------------------- 
+
+# -------------------------------------  Supplies ------------------------------------- 
 
 def supplies(request):
 	supply     = Supply.objects.order_by('id')
@@ -50,7 +63,7 @@ def new_supply(request):
 		if form.is_valid():
 			supply = form.save(commit=False)
 			supply.save()
-			return HttpResponseRedirect('/supplies')
+			return HttpResponseRedirect('/supplies/')
 	else:
 		form = SupplyForm()
 
@@ -81,7 +94,7 @@ def supply_detail(request, pk):
 	return HttpResponse(template.render(context, request))
 
 
-# ------------------------------------- Categorias ------------------------------------- 
+# ------------------------------------- Categories ------------------------------------- 
 
 def categories(request):
 	category   = Category.objects.order_by('id')
@@ -129,3 +142,6 @@ def categories_supplies(request, categ):
 		'page_title': page_title
 	}
 	return HttpResponse(template.render(context, request))
+
+
+# -------------------------------------  Cartridges ------------------------------------- 
