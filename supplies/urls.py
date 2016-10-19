@@ -16,7 +16,8 @@ urlpatterns = [
     url(r'^categories/([A-Za-z]+)/$', views.categories_supplies, name='views.categories_supplies'),
 
     # Cartridges
-    # url(r'^cartridges/$', views.cartridges, name='views.cartridges'),
+    url(r'^cartridges/$', views.cartridges, name='views.cartridges'),
+    url(r'^cartridges/new/$', views.new_cartridge, name='views.new_cartridge'),
 
     # Providers
     url(r'^providers/$', views.providers, name='views.providers'),

@@ -1,25 +1,19 @@
 {% extends "base_simple_nav.html" %}
-
 {% block page_title %}
-    {{ page_title }}
+  {{ page_title }}
 {% endblock page_title %}
-
 {% block title %}
-    {{ title }}
+  {{ title }}
 {% endblock title %}
-
-{% block content %}
 {% load static %}
-    <div class="parallax-container">
-        <div class="parallax"><img src="{% static 'media/images/wallpaper.jpg' %}"></div>
-    </div>
-    <div class="section container">
-        <div class="row">
-            <h2 class="header">Binvenido a Cash Flow!</h2>
-            <h5><a href="{% url 'views.login' %}" title="login">Iniciar sesión</a></h5>
-        </div>
-    </div>
-    <div class="parallax-container">
-        <div class="parallax"><img src="{% static 'media/images/wallpaper.jpg' %}"></div>
+{% block content %}
+  <div class="parallax-container">
+    <div class="parallax"><img src="{% static 'media/images/wallpaper.jpg' %}"></div>
+  </div>
+    <div class="row container">
+      <div class="center">
+        <h2 class="header">Bienvenido a Cash Flow</h2>
+        <h5><a href="{% url 'views.login' %}" title="login">Iniciar sesión</a></h5>
+      </div>
     </div>
 {% endblock content %}

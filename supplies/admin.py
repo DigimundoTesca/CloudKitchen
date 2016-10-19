@@ -29,7 +29,7 @@ class  AdminPackageCartridges(admin.ModelAdmin):
 
 @admin.register(Cartridge)
 class  AdminCartridge(admin.ModelAdmin):
-    list_display    = ('name', 'description', 'packageCartridges_id')
+    list_display    = ('id', 'packageCartridges_id')
 
 @admin.register(StockChain)
 class  AdminStockChain(admin.ModelAdmin):

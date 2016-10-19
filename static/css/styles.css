@@ -90,9 +90,6 @@ nav ul li {
     float: left;
     padding: 0;
 }
-section {
-    margin-top: 2rem;
-}
 .avatar_product_image {
     height: 100%;
 }
@@ -168,7 +165,8 @@ section {
     margin-top: 0px !important;
 }
 .parallax-container {
-    height: 500px
+    min-height: calc(80%); 
+    height: 600px;
 }
 
 .product_content {

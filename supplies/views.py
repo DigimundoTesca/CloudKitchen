@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
 
-from .forms import SupplyForm, CategoryForm
+from .forms import SupplyForm, CategoryForm, CartridgeForm
 from .models import Provider, Category, Supply, Cartridge
 
 def login(request):
@@ -145,3 +145,35 @@ def categories_supplies(request, categ):
 
 
 # -------------------------------------  Cartridges ------------------------------------- 
+def cartridges(request):
+	cartridge  = Cartridge.objects.order_by('id')
+	template   = loader.get_template('cartridges/cartridges.html')
+	page_title = 'Cashflow'
+	title      = 'Cartuchos'
+	context    = { 
+		'cartridge' : cartridge,
+		'title' : title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
+
+
+def new_cartridge(request):
+	if request.method == 'POST':
+		form = CartridgeForm(request.POST, request.FILES)
+		if form.is_valid():
+			cartridge = form.save(commit=False)
+			cartridge.save()
+			return HttpResponseRedirect('/cartridges')
+	else:
+		form = CartridgeForm()
+
+	template   = loader.get_template('cartridges/new_cartridge.html')
+	page_title = 'Cash Flow'
+	title      = 'Nuevo Cartucho'
+	context    = {
+		'form': form,
+		'title': title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))

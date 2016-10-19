@@ -1,6 +1,7 @@
 # coding=utf-8
 from __future__ import unicode_literals
 
+from datetime import datetime
 from django.db import models
 from django.core.validators import MaxValueValidator, MinLengthValidator
 
@@ -96,15 +97,15 @@ class PackageCartridges(models.Model):
 
 
 class Cartridge(models.Model):
-    name                 = models.CharField(max_length=90)
-    description          = models.CharField(max_length=255)
+    created_at           = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
     packageCartridges_id = models.ForeignKey(PackageCartridges, blank=True, null=True)
     
     def __str__(self):
-        return self.name
+        return '%s' % self.id
+
 
     class Meta:
-        ordering            = ('name',)
+        ordering            = ('id',)
         verbose_name        = 'Cartridge'
         verbose_name_plural = 'Cartridges'
 
@@ -116,9 +117,9 @@ class StockChain(models.Model):
         ('3','Assemblied'),
         ('4','Selled')
     )
-    registered_at = models.DateField()
-    expiry_date   = models.DateField()
     supply        = models.ForeignKey(Supply, default=1)
+    registered_at = models.DateField(editable=False, auto_now=True)
+    expiry_date   = models.DateField()
     status        = models.CharField(max_length=1, choices=STATUS, default=1)
     metric        = models.ForeignKey(Metric, default = 1)
     cartridge_id  = models.ForeignKey(Cartridge, blank=True, null=True)
