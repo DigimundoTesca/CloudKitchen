@@ -4,7 +4,7 @@
 		<div class="row">
 			{% for c in cartridge %}
 				<div class="col s12 m6 l4">
-					<div class="card medium hoverable">
+					<div class="card small hoverable">
 						<div class="card-image  waves-effect waves-light">
 							<a href="{% url 'views.cartridges' %}" title="{{ c.name }}">
 								<img src="{{ c.image.url }}">

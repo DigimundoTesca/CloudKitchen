@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.contrib import admin
-from .models import Supply, Category, Provider, StockChain, Metric, PackageCartridges, Cartridge
+from .models import Supply, Category, Provider, StockChain, PackageCartridges, Cartridge
 
 @admin.register(Provider)
 class  AdminProvider(admin.ModelAdmin):
@@ -15,11 +15,6 @@ class  AdminCategory(admin.ModelAdmin):
 @admin.register(Supply)
 class  AdminSupply(admin.ModelAdmin):
     list_display    = ('name' , 'category', 'barcode', 'provider', 'ideal_durability', 'image')
-
-
-@admin.register(Metric)
-class  AdminMetric(admin.ModelAdmin):
-    list_display    = ('metric_type', 'stock', 'parent_metric')
 
 
 @admin.register(PackageCartridges)

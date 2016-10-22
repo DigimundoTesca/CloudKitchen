@@ -165,8 +165,8 @@ nav ul li {
     margin-top: 0px !important;
 }
 .parallax-container {
-    min-height: calc(80%); 
-    height: 600px;
+    
+    height: 500px;
 }
 
 .product_content {
@@ -277,7 +277,7 @@ nav ul li {
     font-weight: 400;
 }
 .primary {
-    background-color: #f57c00 !important;
+    background-color: #d47c00 !important;
 }
 .primary-dark {
     background-color: #ff3d00 !important;
