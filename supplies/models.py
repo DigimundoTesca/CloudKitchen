@@ -51,11 +51,13 @@ class Supply(models.Model):
 
 
 class Lot(models.Model):
+    PACKING = 'PA'
+    BOX = 'BO'
     METRICS = (
-        (1, 'empaques'),
-        (2, 'cajas')
+        (PACKING, 'empaques'),
+        (BOX, 'cajas')
     )
-    metric    = models.CharField(METRICS, max_length=10, default=1)
+    metric    = models.CharField(choices=METRICS, max_length=10, default=PACKING)
     parent_id = models.ForeignKey('self')
 
     def __str__(self):
@@ -82,7 +84,7 @@ class PackageCartridges(models.Model):
 
 class Cartridge(models.Model):
     name                 = models.CharField(max_length=128 , default='')
-    packageCartridges_id = models.ForeignKey(PackageCartridges, blank=True, null=True)
+    packageCartridges    = models.ManyToManyField(PackageCartridges)
     created_at           = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
 
     def __str__(self):
@@ -95,22 +97,29 @@ class Cartridge(models.Model):
 
 
 class StockChain(models.Model):
+    PROVIDER = 'PR'
+    STOCK = 'ST'
+    ASSEMBLED = 'AS'
+    SOLD = 'SO'
     STATUS = (
-        (1, 'Provider'),
-        (2, 'Stock'),
-        (3, 'Assembled'),
-        (4, 'Selled')
+        (PROVIDER, 'Provider'),
+        (STOCK, 'Stock'),
+        (ASSEMBLED, 'Assembled'),
+        (SOLD, 'Sold'),
     )
+
+    LITER = 'LI'
+    GRAM = 'GR'
     METRICS = (
-        (1, 'lt'),
-        (2, 'gr')
+        (GRAM, 'gramo'),
+        (LITER, 'litro'),
     )
 
     supply        = models.ForeignKey(Supply, default=1)
     registered_at = models.DateField(editable=False, auto_now=True)
     expiry_date   = models.DateField()
-    status        = models.CharField(max_length=1, choices=STATUS, default=1)
-    metric        = models.CharField(METRICS, max_length=2, default=1)
+    status        = models.CharField(choices=STATUS, default=PROVIDER, max_length=15)
+    metric        = models.CharField(choices=METRICS, default=GRAM, max_length=2)
     cartridge_id    = models.ForeignKey(Cartridge, blank=True, null=True)
 
     def __str__(self):
@@ -123,8 +132,10 @@ class StockChain(models.Model):
 
 
 class CashRegisters(models.Model):
+    ACTIVE = 'AC'
+    OFF = 'OF'
     STATUS = (
-        (1, 'Active'),
-        (2, 'Off')
+        (ACTIVE, 'Activa'),
+        (OFF, 'Descativa'),
     )
-    status = models.CharField(max_length=10, default=STATUS)
+    status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
