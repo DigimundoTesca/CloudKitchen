@@ -70,8 +70,8 @@ class Lot(models.Model):
 
 
 class PackageCartridges(models.Model):
-    name        = models.CharField(max_length=90)
-    description = models.CharField(max_length=255)
+    name  = models.CharField(max_length=90)
+    price = models.DecimalField(default=0, max_digits=6, decimal_places=2)
 
     def __str__(self):
         return self.name

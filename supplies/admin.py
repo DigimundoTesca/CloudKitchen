@@ -1,4 +1,5 @@
 # coding=utf-8
+from __future__ import unicode_literals
 from django.contrib import admin
 from .models import Supply, Category, Provider, StockChain, PackageCartridges, Cartridge
 
@@ -20,7 +21,7 @@ class AdminSupply(admin.ModelAdmin):
 
 @admin.register(PackageCartridges)
 class AdminPackageCartridges(admin.ModelAdmin):
-    list_display = ('name', 'description')
+    list_display = ('name',)
 
 
 @admin.register(Cartridge)
