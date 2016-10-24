@@ -1,7 +1,12 @@
 # coding=utf-8
 from __future__ import unicode_literals
 from django.contrib import admin
-from .models import Supply, Category, Provider, StockChain, PackageCartridges, Cartridge, Order, OrdersDetails
+from .models import Supply, Category, Provider, StockChain, PackageCartridges, Cartridge, Order, OrdersDetails, BranchOffice, CashRegister
+
+@admin.register(BranchOffice)
+class AdminBranchOffice(admin.ModelAdmin):
+    list_display = ('name', 'addres')
+
 
 @admin.register(Cartridge)
 class AdminCartridge(admin.ModelAdmin):
@@ -11,6 +16,11 @@ class AdminCartridge(admin.ModelAdmin):
 @admin.register(Category)
 class AdminCategory(admin.ModelAdmin):
     list_display = ('name', 'image')
+
+
+@admin.register(CashRegister)
+class AdminCashRegister(admin.ModelAdmin):
+    list_display = ('id', 'code', 'status', 'branch_office')
 
 
 @admin.register(Order)

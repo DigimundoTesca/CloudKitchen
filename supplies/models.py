@@ -168,11 +168,35 @@ class StockChain(models.Model):
         verbose_name_plural = 'Stocks Chain'
 
 
-class CashRegisters(models.Model):
+class BranchOffice(models.Model):
+    name    = models.CharField(max_length=90, default='')
+    addres  = models.CharField(max_length=255, default='')
+    manager = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Branch Office'
+        verbose_name_plural = 'Branch Offices'
+
+
+class CashRegister(models.Model):
     ACTIVE = 'AC'
     OFF = 'OF'
     STATUS = (
-        (ACTIVE, 'Activa'),
-        (OFF, 'Descativa'),
+        (ACTIVE, 'On'),
+        (OFF, 'Off'),
     )
     status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
+    branch_office = models.ForeignKey(BranchOffice, default=1)
+    code = models.CharField(max_length=5, default='Dab')
+
+    def __str__(self):
+        return '%s' % self.id
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Cash Register'
+        verbose_name_plural = 'Cash Registers'
