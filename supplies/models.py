@@ -130,6 +130,7 @@ class Cartridge(models.Model):
     name                 = models.CharField(max_length=128, default='')
     packageCartridges    = models.ManyToManyField(PackageCartridges)
     created_at           = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+    price                = models.FloatField(default=1)
 
     def __str__(self):
         return '%s' % self.id
