@@ -1,9 +1,20 @@
 # coding=utf-8
 from __future__ import unicode_literals
-
 from django.db import models
 from django.core.validators import MaxValueValidator, MinLengthValidator
+GRAM = 'GR'
+LITER = 'LI'
+PIECE = 'PI'
+PACKAGE = 'PA'
+BOX = 'BO'
 
+METRICS = (
+    (GRAM, 'gramo'),
+    (LITER, 'litro'),
+    (PIECE, 'pieza'),
+    (PACKAGE, 'paquete'),
+    (BOX, 'caja')
+)
 
 class Provider(models.Model):
     name  = models.CharField(validators=[MinLengthValidator(4)], max_length=255, unique=True)
@@ -59,27 +70,38 @@ class Order(models.Model):
         (RECEIVED, 'Recibido'),
         (CANCELED, 'Cancelado'),
     )
-    status = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
-    created_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+    created_at       = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
     last_modified_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+    status           = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
 
     def __str__(self):
-        return '%s' % self.id
+        date_time = ('%s' % self.last_modified_at)
+
+        return '%s' % date_time
 
     class Meta:
         ordering = ('id',)
         verbose_name = 'Order'
         verbose_name_plural = 'Orders'
 
+class OrdersDetails(models.Model):
+    order    = models.ForeignKey(Order, default=1)
+    supply   = models.ForeignKey(Supply, default=1)
+    quantity = models.PositiveIntegerField(default=1)
+    metric   = models.CharField(choices=METRICS, default=BOX, max_length=2)
+    cost     = models.FloatField(default=1)
+
+    def __str__(self):
+        return '%s %s %s' % (self.id, self.supply, self.quantity)
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Order Details'
+        verbose_name_plural = 'Orders Details'
+
 
 class Lot(models.Model):
-    PACKING = 'PA'
-    BOX = 'BO'
-    METRICS = (
-        (PACKING, 'empaques'),
-        (BOX, 'cajas')
-    )
-    metric    = models.CharField(choices=METRICS, max_length=10, default=PACKING)
+    metric    = models.CharField(choices=METRICS, max_length=10, default=PACKAGE)
     parent_id = models.ForeignKey('self')
 
     def __str__(self):
@@ -105,7 +127,7 @@ class PackageCartridges(models.Model):
 
 
 class Cartridge(models.Model):
-    name                 = models.CharField(max_length=128 , default='')
+    name                 = models.CharField(max_length=128, default='')
     packageCartridges    = models.ManyToManyField(PackageCartridges)
     created_at           = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
 
@@ -130,18 +152,11 @@ class StockChain(models.Model):
         (SOLD, 'Sold'),
     )
 
-    LITER = 'LI'
-    GRAM = 'GR'
-    METRICS = (
-        (GRAM, 'gramo'),
-        (LITER, 'litro'),
-    )
-
     supply        = models.ForeignKey(Supply, default=1)
     registered_at = models.DateField(editable=False, auto_now=True)
     expiry_date   = models.DateField()
     status        = models.CharField(choices=STATUS, default=PROVIDER, max_length=15)
-    metric        = models.CharField(choices=METRICS, default=GRAM, max_length=2)
+    metric        = models.CharField(choices=METRICS, default=GRAM, max_length=10)
     cartridge_id    = models.ForeignKey(Cartridge, blank=True, null=True)
 
     def __str__(self):

@@ -8,13 +8,12 @@ from .forms import SupplyForm, CategoryForm, CartridgeForm
 from .models import Provider, Category, Supply, Cartridge
 
 def login(request):
-	supply     = Supply.objects.order_by('id')
 	template   = loader.get_template('auth/login.html')
-	page_title = 'Cashflow'
+	page_title = 'DabbaNet'
 	title      = 'Iniciar Sesión'
 	context    = {
-		'page_title' : page_title,
-		'title' : title
+		'page_title': page_title,
+		'title': title
 	}
 	return HttpResponse(template.render(context, request))
 
