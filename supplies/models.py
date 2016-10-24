@@ -50,6 +50,28 @@ class Supply(models.Model):
         verbose_name_plural = 'Supplies'
 
 
+class Order(models.Model):
+    CANCELED   = 'CA'
+    IN_PROCESS = 'IP'
+    RECEIVED   = 'RE'
+    STATUS = (
+        (IN_PROCESS, 'En proceso'),
+        (RECEIVED, 'Recibido'),
+        (CANCELED, 'Cancelado'),
+    )
+    status = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
+    created_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+    last_modified_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.id
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
+
+
 class Lot(models.Model):
     PACKING = 'PA'
     BOX = 'BO'
