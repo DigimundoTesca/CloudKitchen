@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import MaxValueValidator, MinLengthValidator
-import time
 GRAM = 'GR'
 LITER = 'LI'
 PIECE = 'PI'
@@ -117,10 +116,11 @@ class PackageCartridges(models.Model):
 
 
 class Cartridge(models.Model):
-    name                 = models.CharField(max_length=128, default='')
-    packageCartridges    = models.ManyToManyField(PackageCartridges)
-    created_at           = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
-    price                = models.FloatField(default=1)
+    name              = models.CharField(max_length=128, default='')
+    category          = models.ForeignKey(Category, default=1, max_length=1)
+    packageCartridges = models.ManyToManyField(PackageCartridges)
+    created_at        = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+    price             = models.FloatField(default=1)
 
     def __str__(self):
         return '%s' % self.id
