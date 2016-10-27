@@ -74,12 +74,12 @@ class Order(models.Model):
     )
 
     status           = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
-    created_at       = models.DateTimeField(editable=False, auto_now=False, auto_now_add=True)
-    expiry_date      = models.DateField(editable=True, auto_now=False, auto_now_add=False)
-    last_modified_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+    created_at       = models.DateTimeField(editable=False, auto_now_add=True)
+    expiry_date      = models.DateField(editable=True, auto_now_add=False)
+    last_modified_at = models.DateTimeField(editable=False, auto_now=True)
 
     def __str__(self):
-        return '%s' % self.last_modified_at
+        return '%s' % self.id
 
     class Meta:
         ordering = ('id',)
@@ -143,11 +143,11 @@ class StockChain(models.Model):
         (SOLD, 'Sold'),
     )
 
-    supply        = models.ForeignKey(Supply, default=1)
-    registered_at = models.DateField(editable=False, auto_now=True)
-    expiry_date   = models.DateField()
-    status        = models.CharField(choices=STATUS, default=PROVIDER, max_length=15)
-    metric        = models.CharField(choices=METRICS, default=GRAM, max_length=10)
+    supply          = models.ForeignKey(Supply, default=1)
+    registered_at   = models.DateField(editable=False, auto_now_add=True)
+    expiry_date     = models.DateField(editable=True, auto_now_add=True)
+    status          = models.CharField(choices=STATUS, default=PROVIDER, max_length=15)
+    metric          = models.CharField(choices=METRICS, default=GRAM, max_length=10)
     cartridge_id    = models.ForeignKey(Cartridge, blank=True, null=True)
 
     def __str__(self):
