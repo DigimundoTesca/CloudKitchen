@@ -1,7 +1,8 @@
-# coding=utf-8
+# -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import MaxValueValidator, MinLengthValidator
+import time
 GRAM = 'GR'
 LITER = 'LI'
 PIECE = 'PI'
@@ -55,6 +56,7 @@ class Supply(models.Model):
     def __str__(self):
         return self.name
 
+
     class Meta:
         ordering = ('id',)
         verbose_name = 'Supply'
@@ -66,23 +68,24 @@ class Order(models.Model):
     IN_PROCESS = 'IP'
     RECEIVED   = 'RE'
     STATUS = (
-        (IN_PROCESS, 'En proceso'),
+        (IN_PROCESS, 'Pedido'),
         (RECEIVED, 'Recibido'),
         (CANCELED, 'Cancelado'),
     )
-    created_at       = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
-    last_modified_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+
     status           = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
+    created_at       = models.DateTimeField(editable=False, auto_now=False, auto_now_add=True)
+    expiry_date      = models.DateField(editable=True, auto_now=False, auto_now_add=False)
+    last_modified_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        date_time = ('%s' % self.last_modified_at)
-
-        return '%s' % date_time
+        return '%s' % self.last_modified_at
 
     class Meta:
         ordering = ('id',)
         verbose_name = 'Order'
         verbose_name_plural = 'Orders'
+
 
 class OrdersDetails(models.Model):
     order    = models.ForeignKey(Order, default=1)
@@ -98,19 +101,6 @@ class OrdersDetails(models.Model):
         ordering = ('id',)
         verbose_name = 'Order Details'
         verbose_name_plural = 'Orders Details'
-
-
-class Lot(models.Model):
-    metric    = models.CharField(choices=METRICS, max_length=10, default=PACKAGE)
-    parent_id = models.ForeignKey('self')
-
-    def __str__(self):
-        return '%s' % self.id
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Lot'
-        verbose_name_plural = 'Lots'
 
 
 class PackageCartridges(models.Model):
