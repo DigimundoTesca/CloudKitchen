@@ -6,15 +6,17 @@
 			<div class="card-panel">
 				<form method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
-                    <div class="inpu-field">
-                        <label for="id_name">Name:</label>
-                        <input id="id_name" maxlength="125" name="name" type="text" required="">
-                    </div>
+                    <!--<div class="inpu-field">-->
+                        <!--<label for="id_name">Name:</label>-->
+                        <!--<input id="id_name" maxlength="125" name="name" type="text" required="">-->
+                    <!--</div>-->
 
-                    <label for="id_image">Image:</label><br>
-                    <input id="id_image" name="image" type="file" required="">
+                    <!--<label for="id_image">Image:</label><br>-->
+                    <!--<input id="id_image" name="image" type="file" required="">-->
 
-					<button class="btn wvaes-effect waves-light accent right large" type="submit"> 
+                    {{ form }}
+
+					<button class="btn wvaes-effect waves-light accent right large" type="submit">
 						Submit <i class="material-icons right">send</i>
 					</button>
 				</form>
