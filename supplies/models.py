@@ -182,7 +182,7 @@ class CashRegister(models.Model):
     )
     status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
     branch_office = models.ForeignKey(BranchOffice, default=1)
-    code = models.CharField(max_length=5, default='Dab')
+    code = models.CharField(max_length=5, default='Cash_')
 
     def __str__(self):
         return '%s' % self.id
@@ -191,3 +191,9 @@ class CashRegister(models.Model):
         ordering = ('id',)
         verbose_name = 'Cash Register'
         verbose_name_plural = 'Cash Registers'
+
+
+class Tickets(models.Model):
+    price = models.FloatField(default=0)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    cash_register = models.ForeignKey(CashRegister=1)
