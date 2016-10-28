@@ -77,13 +77,10 @@ h1,h2,h3,h4,h5 {
 html { 
     color: #01579b;
 }
-
 main {
-    padding-top: 2rem;
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
 }
-
 nav ul li {
     transition: background-color .3s;
     transition-property: background-color;
@@ -164,9 +161,17 @@ nav ul li {
 .hidden {
     display: none !important;
 }
+.page-footer {
+    margin-top: 0px !important;
+}
+.parallax-container {
+    
+    height: 500px;
+}
+
 .product_content {
     display: -ms-flexbox;
-        display: flex;
+    display: flex;
     min-height: 300px;
 }
 .product_image {
@@ -272,7 +277,7 @@ nav ul li {
     font-weight: 400;
 }
 .primary {
-    background-color: #f57c00 !important;
+    background-color: #d47c00 !important;
 }
 .primary-dark {
     background-color: #ff3d00 !important;

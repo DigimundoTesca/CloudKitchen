@@ -1,94 +1,199 @@
-# coding=utf-8
+# -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator
+GRAM = 'GR'
+LITER = 'LI'
+PIECE = 'PI'
+PACKAGE = 'PA'
+BOX = 'BO'
 
+METRICS = (
+    (GRAM, 'gramo'),
+    (LITER, 'litro'),
+    (PIECE, 'pieza'),
+    (PACKAGE, 'paquete'),
+    (BOX, 'caja')
+)
 
 class Provider(models.Model):
-    name  = models.CharField(max_length = 255, unique = True)
-    image = models.ImageField(blank = False)    
+    name  = models.CharField(validators=[MinLengthValidator(4)], max_length=255, unique=True)
+    image = models.ImageField(blank=False)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering            = ('id',)
-        verbose_name        = 'Provider'
+        ordering = ('id',)
+        verbose_name = 'Provider'
         verbose_name_plural = 'Providers'
-        
 
 
 class Category(models.Model):
-    name  = models.CharField(max_length = 255, unique = True)
-    image = models.ImageField(blank = False)    
+    name  = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
+    image = models.ImageField(blank=False)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering            = ('id',)
-        verbose_name        = 'Category'
+        ordering = ('id',)
+        verbose_name = 'Category'
         verbose_name_plural = 'Categories'
 
 
-
 class Supply(models.Model):
-    name             = models.CharField(max_length = 255, unique = True)
-    category         = models.ForeignKey(Category, default = 1)
-    barcode          = models.PositiveIntegerField(help_text='(Codigo de barras de 13 digitos)', validators=[MaxValueValidator(9999999999999)], blank = True, null = True)
-    provider         = models.ForeignKey(Provider, default = 1)
+    name             = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
+    category         = models.ForeignKey(Category, default=1)
+    barcode          = models.PositiveIntegerField(
+        help_text='(Código de barras de 13 dígitos)',
+        validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
+    provider         = models.ForeignKey(Provider, default=1)
     ideal_durability = models.IntegerField(default=10)
-    image            = models.ImageField(blank = False)
+    image            = models.ImageField(blank=False)
+
+    def __str__(self):
+        return self.name
+
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Supply'
+        verbose_name_plural = 'Supplies'
+
+
+class Order(models.Model):
+    CANCELED   = 'CA'
+    IN_PROCESS = 'IP'
+    RECEIVED   = 'RE'
+    STATUS = (
+        (IN_PROCESS, 'Pedido'),
+        (RECEIVED, 'Recibido'),
+        (CANCELED, 'Cancelado'),
+    )
+
+    status           = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
+    created_at       = models.DateTimeField(editable=False, auto_now_add=True)
+    expiry_date      = models.DateField(editable=True, auto_now_add=False)
+    last_modified_at = models.DateTimeField(editable=False, auto_now=True)
+
+    def __str__(self):
+        return '%s' % self.id
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
+
+
+class OrdersDetails(models.Model):
+    order    = models.ForeignKey(Order, default=1)
+    supply   = models.ForeignKey(Supply, default=1)
+    quantity = models.PositiveIntegerField(default=1)
+    metric   = models.CharField(choices=METRICS, default=BOX, max_length=2)
+    cost     = models.FloatField(default=1)
+
+    def __str__(self):
+        return '%s %s %s' % (self.id, self.supply, self.quantity)
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Order Details'
+        verbose_name_plural = 'Orders Details'
+
+
+class PackageCartridges(models.Model):
+    name  = models.CharField(max_length=90)
+    price = models.DecimalField(default=0, max_digits=6, decimal_places=2)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering            = ('id',)
-        verbose_name        = 'Supply'
-        verbose_name_plural = 'Supplies'
+        ordering = ('name',)
+        verbose_name = 'Package Cartridges'
+        verbose_name_plural = 'Packages Cartridges'
 
 
-
-
-class Metric(models.Model):
-    METRICS_TYPE = (
-        ('gramos', 'gramos'),
-        ('litros', 'litros'),
-        ('empaques', 'empaques'),
-        ('cajas', 'cajas')
-    )
-    metric_type = models.CharField(max_length = 8, choices=METRICS_TYPE)
-    stock       = models.DecimalField(max_digits=9, decimal_places=3)
-    parent_metric   = models.ForeignKey('self', blank = True, null = True)
+class Cartridge(models.Model):
+    name              = models.CharField(max_length=128, default='')
+    category          = models.ForeignKey(Category, default=1, max_length=1)
+    packageCartridges = models.ManyToManyField(PackageCartridges)
+    created_at        = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+    price             = models.FloatField(default=1)
 
     def __str__(self):
-        return '%s > %s > %s' % (self.stock, self.metric_type, self.parent_metric)
+        return '%s' % self.id
 
     class Meta:
-        ordering            = ('id',)
-        verbose_name        = 'Metric'
-        verbose_name_plural = 'Metrics'
+        ordering = ('id',)
+        verbose_name = 'Cartridge'
+        verbose_name_plural = 'Cartridges'
 
 
 class StockChain(models.Model):
+    PROVIDER = 'PR'
+    STOCK = 'ST'
+    ASSEMBLED = 'AS'
+    SOLD = 'SO'
     STATUS = (
-        ('1','Provider'),
-        ('2','Stock'),
-        ('3','Assemblied'),
-        ('4','Selled')
+        (PROVIDER, 'Provider'),
+        (STOCK, 'Stock'),
+        (ASSEMBLED, 'Assembled'),
+        (SOLD, 'Sold'),
     )
-    registered_at = models.DateField()
-    expiry_date   = models.DateField()
-    supply        = models.ForeignKey(Supply, default = 1)
-    status        = models.CharField(max_length=1, choices=STATUS, default = 1)
-    metric        = models.ForeignKey(Metric, default = 1)
+
+    supply          = models.ForeignKey(Supply, default=1)
+    registered_at   = models.DateField(editable=False, auto_now_add=True)
+    expiry_date     = models.DateField(editable=True, auto_now_add=True)
+    status          = models.CharField(choices=STATUS, default=PROVIDER, max_length=15)
+    metric          = models.CharField(choices=METRICS, default=GRAM, max_length=10)
+    cartridge_id    = models.ForeignKey(Cartridge, blank=True, null=True)
 
     def __str__(self):
-        return self.id
+        return '%s' % self.id
 
     class Meta:
-        ordering            = ('id',)
-        verbose_name        = 'Stock Chain'
+        ordering = ('id',)
+        verbose_name = 'Stock Chain'
         verbose_name_plural = 'Stocks Chain'
+
+
+class BranchOffice(models.Model):
+    name    = models.CharField(max_length=90, default='')
+    addres  = models.CharField(max_length=255, default='')
+    manager = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Branch Office'
+        verbose_name_plural = 'Branch Offices'
+
+
+class CashRegister(models.Model):
+    ACTIVE = 'AC'
+    OFF = 'OF'
+    STATUS = (
+        (ACTIVE, 'On'),
+        (OFF, 'Off'),
+    )
+    status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
+    branch_office = models.ForeignKey(BranchOffice, default=1)
+    code = models.CharField(max_length=5, default='Cash_')
+
+    def __str__(self):
+        return '%s' % self.id
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Cash Register'
+        verbose_name_plural = 'Cash Registers'
+
+
+class Tickets(models.Model):
+    price = models.FloatField(default=0)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    cash_register = models.ForeignKey(CashRegister=1)

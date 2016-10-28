@@ -1,19 +1,19 @@
-# coding=utf-8
+# -*- encoding: utf-8 -*-
+from __future__ import unicode_literals
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
 
-from .forms import SupplyForm
-from .models import Provider, Category, Supply
+from .forms import SupplyForm, CategoryForm, CartridgeForm
+from .models import Provider, Category, Supply, Cartridge
 
 def login(request):
-	supply     = Supply.objects.order_by('id')
 	template   = loader.get_template('auth/login.html')
-	page_title = 'Cashflow'
+	page_title = 'DabbaNet'
 	title      = 'Iniciar Sesión'
 	context    = {
-		'page_title' : page_title,
-		'title' : title
+		'page_title': page_title,
+		'title': title
 	}
 	return HttpResponse(template.render(context, request))
 
@@ -28,6 +28,21 @@ def index(request):
 	}
 	return HttpResponse(template.render(context, request))
 
+# -------------------------------------  Providers ------------------------------------- 
+def providers(request):
+	provider   = Provider.objects.order_by('id')
+	template   = loader.get_template('providers/providers.html')
+	page_title = 'Cashflow'
+	title      = 'Proveedores'
+	context    = { 
+		'provider' : provider,
+		'title' : title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
+
+
+# -------------------------------------  Supplies ------------------------------------- 
 
 def supplies(request):
 	supply     = Supply.objects.order_by('id')
@@ -48,7 +63,7 @@ def new_supply(request):
 		if form.is_valid():
 			supply = form.save(commit=False)
 			supply.save()
-			return HttpResponseRedirect('/supplies')
+			return HttpResponseRedirect('/supplies/')
 	else:
 		form = SupplyForm()
 
@@ -79,6 +94,7 @@ def supply_detail(request, pk):
 	return HttpResponse(template.render(context, request))
 
 
+# ------------------------------------- Categories ------------------------------------- 
 
 def categories(request):
 	category   = Category.objects.order_by('id')
@@ -93,6 +109,27 @@ def categories(request):
 	return HttpResponse(template.render(context, request))
 
 
+def new_category(request):
+	if request.method == 'POST':
+		form = CategoryForm(request.POST, request.FILES)
+		if form.is_valid():
+			category = form.save(commit=False)
+			category.save()
+			return HttpResponseRedirect('/categories')
+	else:
+		form = CategoryForm()
+
+	template   = loader.get_template('categories/new_category.html')
+	page_title = 'Cash Flow'
+	title      = 'Nueva Categoria'
+	context    = {
+		'form': form,
+		'title': title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
+
+
 def categories_supplies(request, categ):
 	category   = Category.objects.filter(name = categ)
 	supply     = Supply.objects.filter(category = category)
@@ -102,6 +139,41 @@ def categories_supplies(request, categ):
 	context    = { 
 		'supply' : supply,
 		'title' : title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
+
+
+# -------------------------------------  Cartridges ------------------------------------- 
+def cartridges(request):
+	cartridge  = Cartridge.objects.order_by('id')
+	template   = loader.get_template('cartridges/cartridges.html')
+	page_title = 'Cashflow'
+	title      = 'Cartuchos'
+	context    = { 
+		'cartridge' : cartridge,
+		'title' : title,
+		'page_title': page_title
+	}
+	return HttpResponse(template.render(context, request))
+
+
+def new_cartridge(request):
+	if request.method == 'POST':
+		form = CartridgeForm(request.POST, request.FILES)
+		if form.is_valid():
+			cartridge = form.save(commit=False)
+			cartridge.save()
+			return HttpResponseRedirect('/cartridges')
+	else:
+		form = CartridgeForm()
+
+	template   = loader.get_template('cartridges/new_cartridge.html')
+	page_title = 'Cash Flow'
+	title      = 'Nuevo Cartucho'
+	context    = {
+		'form': form,
+		'title': title,
 		'page_title': page_title
 	}
 	return HttpResponse(template.render(context, request))

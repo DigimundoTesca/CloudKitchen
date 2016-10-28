@@ -6,48 +6,46 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-  <title>{{ title }}</title>
-</head>
-<body>
-  <header>
-    <div class="navbar-fixed">
-      <nav class="primary">
-        <div class="nav-wrapper row">
-          <div class="col s12">
-            <a href="{% url 'views.categories' %}" class="brand-logo">{{ page_title }}</a>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <nav class="primary">
+          <div class="nav-wrapper row container">
+            <div class="col s12">
+              <a href="{% url 'views.categories' %}" class="brand-logo">{{ page_title }}</a>
+            </div>
           </div>
-        </div>
-      </nav>
-    </div>
-  </header>
-  <main>
-  <section>
+        </nav>
+      </div>
+    </header>
+    <main>
     {% block content %}
     {% endblock content %}
-  </section>
-  </main>
-  <footer class="page-footer primary">
-    <div class="container">
-      <div class="row">
-        <div class="col s12">
-          <h5 class="white-text">
-          CashFlow
-          </h5>
-          <p class="white-text light">
-            Made with ♥ by Digimundo
-          </p>
+    </main>
+    <footer class="page-footer primary">
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <h5 class="white-text">
+            CashFlow
+            </h5>
+            <p class="white-text light">
+              Made with ♥ by Digimundo
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-        © 2016 CashFlow, All rights reserved.
+      <div class="footer-copyright">
+        <div class="container">
+          © 2016 CashFlow, All rights reserved.
+        </div>
       </div>
-    </div>
-  </footer>
-</body>
-<!-- Scripts -->
-<script type="text/javascript" src=" {% static 'js/jquery-2.1.1-min.js' %}"></script>
-<script type="text/javascript" src=" {% static 'js/materialize.min.js' %} "></script>
-<script type="text/javascript" src=" {% static 'js/scripts.js' %}"></script>
+    </footer>
+  </body>
+  <!-- Scripts -->
+  <script type="text/javascript" src=" {% static 'js/jquery-2.1.1-min.js' %}"></script>
+  <script type="text/javascript" src=" {% static 'js/materialize.min.js' %} "></script>
+  <script type="text/javascript" src=" {% static 'js/scripts.js' %}"></script>
 </html>
