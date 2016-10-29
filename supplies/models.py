@@ -18,6 +18,40 @@ METRICS = (
 )
 
 
+class BranchOffice(models.Model):
+    name = models.CharField(max_length=90, default='')
+    address = models.CharField(max_length=255, default='')
+    manager = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Branch Office'
+        verbose_name_plural = 'Branch Offices'
+
+
+class CashRegister(models.Model):
+    ACTIVE = 'AC'
+    OFF = 'OF'
+    STATUS = (
+        (ACTIVE, 'On'),
+        (OFF, 'Off'),
+    )
+    status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
+    branch_office = models.ForeignKey(BranchOffice, default=1, on_delete=models.CASCADE)
+    code = models.CharField(max_length=5, default='Cash_')
+
+    def __str__(self):
+        return '%s' % self.id
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Cash Register'
+        verbose_name_plural = 'Cash Registers'
+
+
 class Provider(models.Model):
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=255, unique=True)
     image = models.ImageField(blank=False)
@@ -44,14 +78,50 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 
+class SupplyLocation(models.Model):
+    location = models.CharField(max_length=90, default='')
+    branch_office = models.ForeignKey(BranchOffice, default=1, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.location
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Supplies Location'
+        verbose_name_plural = 'Supplies Locations'
+
+
 class Supply(models.Model):
+    DRY_ENVIRONMENT = 'DR'
+    REFRIGERATION = 'RE'
+    FREEZING = 'FR'
+
+    DAYS = 'DA'
+    MONTHS = 'MO'
+    YEARS = 'YE'
+
+    REQUIREMENTS = (
+        (DRY_ENVIRONMENT, 'Ambiente Seco'),
+        (REFRIGERATION, 'Refrigeración'),
+        (FREEZING, 'Congelación'),
+    )
+
+    OPTIMAL_DURATION = (
+        (DAYS, 'Dias'),
+        (MONTHS, 'Meses'),
+        (YEARS, 'Años'),
+    )
+
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
-    category = models.ForeignKey(Category, default=1)
+    category = models.ForeignKey(Category, default=1, on_delete=models.CASCADE)
     barcode = models.PositiveIntegerField(
         help_text='(Código de barras de 13 dígitos)',
         validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
-    provider = models.ForeignKey(Provider, default=1)
-    ideal_durability = models.IntegerField(default=10)
+    provider = models.ForeignKey(Provider, default=1, on_delete=models.CASCADE)
+    requirement = models.CharField(choices=REQUIREMENTS, default=DRY_ENVIRONMENT, max_length=2)
+    optimal_duration = models.IntegerField(default=10)
+    optimal_duration_unit = models.CharField(choices=OPTIMAL_DURATION, max_length=2, default=DAYS)
+    location = models.ForeignKey(SupplyLocation, default=1)
     image = models.ImageField(blank=False)
 
     def __str__(self):
@@ -88,8 +158,8 @@ class Order(models.Model):
 
 
 class OrdersDetails(models.Model):
-    order = models.ForeignKey(Order, default=1)
-    supply = models.ForeignKey(Supply, default=1)
+    order = models.ForeignKey(Order, default=1, on_delete=models.CASCADE)
+    supply = models.ForeignKey(Supply, default=1, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     metric = models.CharField(choices=METRICS, default=BOX, max_length=2)
     cost = models.FloatField(default=1)
@@ -117,14 +187,22 @@ class PackageCartridges(models.Model):
 
 
 class Cartridge(models.Model):
+    FOOD_DISHES = 'FD'
+    DRINKS = 'DR'
+
+    CATEGORIES = (
+        (FOOD_DISHES, 'Platillos'),
+        (DRINKS, 'Bebidas'),
+    )
+
     name = models.CharField(max_length=128, default='')
-    category = models.ForeignKey(Category, default=1, max_length=1)
-    packageCartridges = models.ManyToManyField(PackageCartridges)
+    category = models.CharField(choices=CATEGORIES, default=FOOD_DISHES, max_length=2)
+    packageCartridges = models.ManyToManyField(PackageCartridges, blank=True)
     created_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
     price = models.FloatField(default=1)
 
     def __str__(self):
-        return '%s' % self.id
+        return self.name
 
     class Meta:
         ordering = ('id',)
@@ -132,7 +210,7 @@ class Cartridge(models.Model):
         verbose_name_plural = 'Cartridges'
 
 
-class StockChain(models.Model):
+class Warehouse(models.Model):
     PROVIDER = 'PR'
     STOCK = 'ST'
     ASSEMBLED = 'AS'
@@ -144,60 +222,26 @@ class StockChain(models.Model):
         (SOLD, 'Sold'),
     )
 
-    supply = models.ForeignKey(Supply, default=1)
+    supply = models.ForeignKey(Supply, default=1, on_delete=models.CASCADE)
     registered_at = models.DateField(editable=False, auto_now_add=True)
     expiry_date = models.DateField(editable=True, auto_now_add=True)
     status = models.CharField(choices=STATUS, default=PROVIDER, max_length=15)
     metric = models.CharField(choices=METRICS, default=GRAM, max_length=10)
-    cartridge_id = models.ForeignKey(Cartridge, blank=True, null=True)
+    cartridge_id = models.ForeignKey(Cartridge, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s' % self.id
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Stock Chain'
-        verbose_name_plural = 'Stocks Chain'
-
-
-class BranchOffice(models.Model):
-    name = models.CharField(max_length=90, default='')
-    addres = models.CharField(max_length=255, default='')
-    manager = models.CharField(max_length=200, default='')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Branch Office'
-        verbose_name_plural = 'Branch Offices'
-
-
-class CashRegister(models.Model):
-    ACTIVE = 'AC'
-    OFF = 'OF'
-    STATUS = (
-        (ACTIVE, 'On'),
-        (OFF, 'Off'),
-    )
-    status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
-    branch_office = models.ForeignKey(BranchOffice, default=1)
-    code = models.CharField(max_length=5, default='Cash_')
-
-    def __str__(self):
-        return '%s' % self.id
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Cash Register'
-        verbose_name_plural = 'Cash Registers'
+        verbose_name = 'Warehouse'
+        verbose_name_plural = 'Warehouse'
 
 
 class Ticket(models.Model):
     price = models.FloatField(default=0)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
-    cash_register = models.ForeignKey(CashRegister)
+    cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s' % self.id
@@ -209,9 +253,9 @@ class Ticket(models.Model):
 
 
 class TicketDetails(models.Model):
-    ticket = models.ForeignKey(Ticket)
-    cartridge = models.ForeignKey(Cartridge, default=1)
-    package_cartridges = models.ForeignKey(PackageCartridges)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    cartridge = models.ForeignKey(Cartridge, default=1, on_delete=models.CASCADE)
+    package_cartridges = models.ForeignKey(PackageCartridges, on_delete=models.CASCADE)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
 
     def __str__(self):
