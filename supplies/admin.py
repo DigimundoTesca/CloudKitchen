@@ -1,11 +1,12 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from .models import Supply, Category, Provider, StockChain, PackageCartridges, Cartridge, Order, OrdersDetails, BranchOffice, CashRegister
+from .models import *
+
 
 @admin.register(BranchOffice)
 class AdminBranchOffice(admin.ModelAdmin):
-    list_display = ('name', 'addres')
+    list_display = ('name', 'address')
 
 
 @admin.register(Cartridge)
@@ -20,12 +21,12 @@ class AdminCategory(admin.ModelAdmin):
 
 @admin.register(CashRegister)
 class AdminCashRegister(admin.ModelAdmin):
-    list_display = ('id', 'code', 'status', 'branch_office')
+    list_display = ('code', 'status', 'branch_office')
 
 
 @admin.register(Order)
 class AdminOrder(admin.ModelAdmin):
-    list_display = ('id', 'status', 'created_at', 'expiry_date')
+    list_display = ('id', 'status', 'created_at')
 
 
 @admin.register(OrdersDetails)
@@ -43,13 +44,16 @@ class AdminProvider(admin.ModelAdmin):
     list_display = ('name', 'image')
 
 
-@admin.register(StockChain)
-class AdminStockChain(admin.ModelAdmin):
-    list_display = ('id', 'registered_at', 'expiry_date', 'supply', 'status', 'metric')
+@admin.register(Warehouse)
+class AdminWarehouse(admin.ModelAdmin):
+    list_display = ('id', 'supply', 'expiry_date', 'created_at', 'status')
 
 
 @admin.register(Supply)
 class AdminSupply(admin.ModelAdmin):
-    list_display = ('name', 'category', 'barcode', 'provider', 'ideal_durability', 'image')
+    list_display = ('name', 'category', 'barcode', 'provider', 'optimal_duration', 'optimal_duration_unit', 'location')
 
 
+@admin.register(SupplyLocation)
+class AdminSupply(admin.ModelAdmin):
+    list_display = ('location', 'branch_office')
