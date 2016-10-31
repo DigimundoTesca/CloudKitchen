@@ -3,7 +3,7 @@
 {% block content %}
 	<div class="row">
 		{% for ctg in category %}
-			<div class="col s12 m6 l4">
+			<div class="col s12 m4 l3">
 				<div class="card medium hoverable">
 					<div class="card-image  waves-effect waves-light">
 					<a href="{% url 'views.categories_supplies' ctg.name %}" title="{{ ctg.name }}">

@@ -21,12 +21,12 @@ class AdminCategory(admin.ModelAdmin):
 
 @admin.register(CashRegister)
 class AdminCashRegister(admin.ModelAdmin):
-    list_display = ('id', 'code', 'status', 'branch_office')
+    list_display = ('code', 'status', 'branch_office')
 
 
 @admin.register(Order)
 class AdminOrder(admin.ModelAdmin):
-    list_display = ('id', 'status', 'created_at', 'expiry_date')
+    list_display = ('id', 'status', 'created_at')
 
 
 @admin.register(OrdersDetails)
@@ -46,7 +46,7 @@ class AdminProvider(admin.ModelAdmin):
 
 @admin.register(Warehouse)
 class AdminWarehouse(admin.ModelAdmin):
-    list_display = ('id', 'registered_at', 'expiry_date', 'supply', 'status', 'metric')
+    list_display = ('id', 'supply', 'expiry_date', 'created_at', 'status')
 
 
 @admin.register(Supply)
