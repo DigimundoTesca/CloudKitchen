@@ -137,6 +137,7 @@ ENV/
 
 Cashflow/__pycache__/
 supplies/__pycache__/
+supplies/migrations/
 .idea/
 media/*
 
