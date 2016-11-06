@@ -44,8 +44,7 @@ sdist/
 var/
 *.egg-info/
 .installed.cfg
-*.egg
-*.pyc
+*.
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -114,7 +113,6 @@ ENV/
 Cashflow/__pycache__/
 supplies/__pycache__/
 supplies/migrations/
-.idea/
 media/*
 
 #Database
