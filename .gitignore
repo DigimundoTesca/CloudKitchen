@@ -4,3 +4,6 @@
 # IntelliJ project files
 .idea
 *.iml
+
+#django framework
+supplies/migrations
