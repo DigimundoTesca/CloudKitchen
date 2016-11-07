@@ -1,3 +1,44 @@
+/* Sticky footer styles
+-------------------------------------------------- */
 body {
-    font-family: 'Arimo', sans-serif;
+  display: flex;
+  font-family: 'Arimo', sans-serif;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+ flex: 1;
+}
+
+.footer {
+  background-color: #151515;
+  height: 5rem;
+  line-height: 5rem; /* Vertically center the text there */
+}
+
+.container-signin {
+  display: flex;
+  background: url("../media/images/wallpaper.jpg") bottom;
+  background-size: auto;
+  min-height: calc(100vh - 5rem);
+  padding-top: 3rem;
+  width: 100%;
+}
+.container-signin .card-login{
+  background-color: white;
+  margin-top: 1rem;
+}
+.container-signin .card-login .container-dabbawala-logo {
+  text-align: center;
+}
+.container-signin .card-login .container-dabbawala-logo .dabbawala-logo {
+  height: 128px;
+}
+.container-signin .card-login .card-login-nav {
+  margin: 1rem 2rem;
+}
+.container-signin .card-login .tab-content .form-login,
+.container-signin .card-login .tab-content .form-register{
+  margin: 2rem;
 }

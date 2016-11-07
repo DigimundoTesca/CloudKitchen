@@ -9,9 +9,9 @@ from .models import Provider, Category, Supply, Cartridge
 
 
 def login(request):
-    template = loader.get_template('auth/login.html')
+    template = loader.get_template('index.html')
     page_title = 'DabbaNet'
-    title = 'Iniciar Sesión'
+    title = 'Bienvenido'
     context = {
         'page_title': page_title,
         'title': title
