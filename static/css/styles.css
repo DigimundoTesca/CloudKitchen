@@ -3,12 +3,17 @@
 body {
   display: flex;
   font-family: 'Arimo', sans-serif;
+  font-size: 20px;
   flex-direction: column;
   min-height: 100vh;
 }
 
 main {
  flex: 1;
+}
+
+small {
+  font-size: 75%;
 }
 
 .footer {
