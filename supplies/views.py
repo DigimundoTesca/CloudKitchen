@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.template import loader
 
 from .forms import SupplyForm, CategoryForm, CartridgeForm
@@ -9,23 +9,10 @@ from .models import Provider, Category, Supply, Cartridge
 
 
 def login(request):
-    template = loader.get_template('index.html')
+    template = loader.get_template('auth/login.html')
     page_title = 'DabbaNet'
-    title = 'Bienvenido'
     context = {
         'page_title': page_title,
-        'title': title
-    }
-    return HttpResponse(template.render(context, request))
-
-
-def index(request):
-    template = loader.get_template('index.html')
-    page_title = 'Cashflow'
-    title = 'Bienvenido'
-    context = {
-        'page_title': page_title,
-        'title': title
     }
     return HttpResponse(template.render(context, request))
 
@@ -58,7 +45,7 @@ def providers(request):
 
 def supplies(request):
     supply = Supply.objects.order_by('id')
-    template = loader.get_template('supplies/supplies.html')
+    template = 'supplies/supplies.html'
     page_title = 'Cashflow'
     title = 'Insumos'
     context = {
@@ -66,7 +53,7 @@ def supplies(request):
         'title': title,
         'page_title': page_title
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
 def new_supply(request):

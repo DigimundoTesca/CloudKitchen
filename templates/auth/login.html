@@ -1,42 +1,79 @@
 {% extends "base_no_nav.html" %}
 
-{% block content %}
 {% load static %}
-<div class="container">
-        <div class="row">
-            <div id="card_login" class="card col s12 m10 l8 offset-m1 offset-l2">
-                <div class="center">
-                    <h4 class="primary-text-dark">Iniciar sesión</h4>
-                    <figure id="avatar_login">
-                        <img id="avatar_login_img" src="{% static 'media/images/img_boy.png' %}"/>
-                    </figure>
-                </div> 
-                <div class="row">
-                    <form class="col s10 offset-s1" action="{% url 'views.categories' %}">
-                        <div class="row"> 
-                            <div class="input-field col s12 ">
-                                <i class="material-icons prefix">email</i>
-                                <input id="email" type="email" class="validate" required>
-                                <label for="email" data-error="Email inválido">Email</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">lock</i>
-                                <input id="password" type="password" class="validate" required>
-                                <label for="password">Password</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <button class="btn waves-effect waves-light accent right large" type="submit" name="action">
-                                    Submit
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>
-                            <div class="input-field col s12">
-                                <a class="right" href="">Olvidé mi contraseña</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+
+{% block page_title %}
+  {{ page_title }}
+{% endblock page_title %}
+
+{% block content %}
+  <div class="container container-signin">
+    <div class="col-lg-8 col-xl-6 push-lg-2 push-xl-3">
+      <div class="card card-login">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs card-login-nav" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#login" role="tab">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#register" role="tab">Registro</a>
+          </li>
+        </ul>
+        <figure class="container-dabbawala-logo">
+          <img src="{% static 'media/images/dabbawala.jpg' %}" alt="dabbawala_logo" class="dabbawala-logo">
+        </figure>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane active" id="login" role="tabpanel">
+            <!-- Form Login -->
+            <form class="form-login">
+              <h2>Inicia sesión</h2>
+              <div class="form-group">
+                <label for="inputEmail" class="sr-only">Email</label>
+                <small id="emailHelp" class="form-text text-muted">Ingresa el email con el que te registraste.</small>
+                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email" required autofocus>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="inputEmail" placeholder="Contraseña" required>
+              </div>
+              <div class="form-group text-xs-right">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </div>
+            </form>
+          </div>
+          <!-- Form Register -->
+          <div class="tab-pane" id="register" role="tabpanel">
+            <form class="form-register">
+              <h2>Ingresa tus datos</h2>
+              <div class="form-group">
+                <label for="inputName" class="sr-only">Nombre</label>
+                <input type="text" class="form-control" id="inputName" aria-describedby="emailHelp" placeholder="Nombre" required autofocus>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email" required>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <small id="passwordHelp" class="form-text text-muted">Utiliza una contraseña defirente a las que usas en otras páginas web.</small>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" required>
+              </div>
+              <div class="form-group text-xs-right">
+                <div class="form-group">
+                <label for="inputPassword2" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="inputPassword2" placeholder="Repite tu contraseña" required>
+              </div>
+              <div class="form-group text-xs-right">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
+
+      </div>
     </div>
-{% endblock content %}
+  </div> <!-- /container -->
+{% endblock %}
+
+
