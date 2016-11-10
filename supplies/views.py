@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import get_object_or_404, render, redirect
-from django.template import loader
 
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
@@ -96,11 +95,11 @@ def new_supply(request):
     template = 'supplies/new_supply.html'
     page_title = 'Cash Flow'
     title = 'Nuevo insumo'
-    categories = Category.objects.order_by('name')
-    providers = Provider.objects.order_by('name')
+    categories_list = Category.objects.order_by('name')
+    providers_list = Provider.objects.order_by('name')
     context = {
-        'categories': categories,
-        'providers': providers,
+        'categories': categories_list,
+        'providers': providers_list,
         'form': form,
         'title': title,
         'page_title': page_title

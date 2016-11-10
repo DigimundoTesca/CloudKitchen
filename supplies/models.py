@@ -18,7 +18,7 @@ METRICS = (
 class BranchOffice(models.Model):
     name = models.CharField(max_length=90, default='')
     address = models.CharField(max_length=255, default='')
-    manager = models.CharField(max_length=200, default='')
+    manager = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -36,9 +36,9 @@ class CashRegister(models.Model):
         (ACTIVE, 'On'),
         (OFF, 'Off'),
     )
+    code = models.CharField(max_length=9, default='Cash_')
     status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
     branch_office = models.ForeignKey(BranchOffice, default=1, on_delete=models.CASCADE)
-    code = models.CharField(max_length=9, default='Cash_')
 
     def __str__(self):
         return '%s' % self.id
@@ -89,30 +89,30 @@ class SupplyLocation(models.Model):
 
 
 class Supply(models.Model):
+    # storage requirement
     DRY_ENVIRONMENT = 'DR'
     REFRIGERATION = 'RE'
     FREEZING = 'FR'
-
-    DAYS = 'DA'
-    MONTHS = 'MO'
-    YEARS = 'YE'
-
-    PACKAGE = 'PA'
-    BOX = 'BO'
-    PIECE = 'PI'
-
     STORAGE_REQUIREMENTS = (
         (DRY_ENVIRONMENT, 'Ambiente Seco'),
         (REFRIGERATION, 'Refrigeración'),
         (FREEZING, 'Congelación'),
     )
 
+    # optimal duration
+    DAYS = 'DA'
+    MONTHS = 'MO'
+    YEARS = 'YE'
     OPTIMAL_DURATION = (
         (DAYS, 'Dias'),
         (MONTHS, 'Meses'),
         (YEARS, 'Años'),
     )
 
+    # presentation unit
+    PACKAGE = 'PA'
+    BOX = 'BO'
+    PIECE = 'PI'
     PRESENTATION_UNIT = (
         (PACKAGE, 'Paquete'),
         (BOX, 'Caja'),
@@ -126,12 +126,12 @@ class Supply(models.Model):
         validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
     provider = models.ForeignKey(Provider, default=1, on_delete=models.CASCADE)
     storage_required = models.CharField(choices=STORAGE_REQUIREMENTS, default=DRY_ENVIRONMENT, max_length=2)
-    pesentation_unit = models.CharField(max_length=10, choices=PRESENTATION_UNIT, default=PACKAGE)
-    measurement_cost = models.FloatField(default=0)
+    presentation_unit = models.CharField(max_length=10, choices=PRESENTATION_UNIT, default=PACKAGE)
     measurement_unit = models.CharField(max_length=10, choices=METRICS, default=PACKAGE)
+    measurement_cost = models.FloatField(default=0)
     optimal_duration = models.IntegerField(default=10)
     optimal_duration_unit = models.CharField(choices=OPTIMAL_DURATION, max_length=2, default=DAYS)
-    location = models.ForeignKey(SupplyLocation, default=1)
+    location = models.ForeignKey(SupplyLocation, default=1, on_delete=models.CASCADE)
     created_at = models.DateTimeField(editable=False, auto_now=True)
     image = models.ImageField(blank=False)
 
@@ -154,9 +154,9 @@ class Order(models.Model):
         (CANCELED, 'Cancelado'),
     )
 
-    status = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
-    user_charge = models.ForeignKey(User, default=1)
+    status = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
+    user_charge = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s' % self.id
@@ -167,12 +167,12 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
 
-class OrdersDetails(models.Model):
+class OrderDetail(models.Model):
     order = models.ForeignKey(Order, default=1, on_delete=models.CASCADE)
     supply = models.ForeignKey(Supply, default=1, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     cost = models.FloatField(default=1)
-    provider = models.ForeignKey(Provider, default=1)
+    provider = models.ForeignKey(Provider, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s %s %s' % (self.id, self.supply, self.quantity)
@@ -193,21 +193,10 @@ class Cartridge(models.Model):
         (DRINKS, 'Bebidas'),
     )
 
-    # Status
-    ASSEMBLIED = 'AS'
-    SELLED = 'SE'
-
-    STATUS = (
-        (ASSEMBLIED, 'Ensamblado'),
-        (SELLED, 'Vendido')
-    )
-
     name = models.CharField(max_length=128, default='')
+    price = models.FloatField()
     category = models.CharField(choices=CATEGORIES, default=FOOD_DISHES, max_length=2)
-    created_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
-    price = models.FloatField(default=1)
-    supplies = models.ManyToManyField(Supply, blank=True)
-
+    created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -218,10 +207,24 @@ class Cartridge(models.Model):
         verbose_name_plural = 'Cartridges'
 
 
-class PackageCartridges(models.Model):
+class CartridgeRecipe(models.Model):
+    cartridge = models.ForeignKey(Cartridge, default=1, on_delete=models.CASCADE)
+    supply = models.ForeignKey(Supply, default=1, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.cartridge
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Cartridge Recipe'
+        verbose_name_plural = 'Cartridges Recipes'
+
+
+class PackageCartridge(models.Model):
     name = models.CharField(max_length=90)
     price = models.DecimalField(default=0, max_digits=6, decimal_places=2)
-    cartridges = models.ManyToManyField(Cartridge, blank=True)
+    package_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -230,6 +233,45 @@ class PackageCartridges(models.Model):
         ordering = ('name',)
         verbose_name = 'Package Cartridges'
         verbose_name_plural = 'Packages Cartridges'
+
+
+class PackageCartridgeRecipe(models.Model):
+    package_cartridge = models.ForeignKey(PackageCartridge, default=1, on_delete=models.CASCADE)
+    cartridge = models.ForeignKey(Cartridge, default=1, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.package_cartridge
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Package Cartridge'
+        verbose_name_plural = 'Package Cartridges'
+
+
+class ProcessedCartridge(models.Model):
+    # Status
+    ASSEMBLED = 'AS'
+    SOLD = 'SE'
+
+    STATUS = (
+        (ASSEMBLED, 'Ensamblado'),
+        (SOLD, 'Vendido')
+    )
+    name = models.CharField(Supply, max_length=125)
+    created_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+    status = models.CharField(max_length=10, choices=STATUS, default=ASSEMBLED)
+    supplies = models.ManyToManyField(Supply, blank=True)
+    cartridge_parent = models.ForeignKey(Cartridge, default=1, on_delete=models.CASCADE)
+    package_cartridge_parent = models.ForeignKey(PackageCartridge, default=1, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'ProcessedCartridge'
+        verbose_name_plural = 'ProcessedCartridges'
 
 
 class Warehouse(models.Model):
@@ -251,8 +293,7 @@ class Warehouse(models.Model):
     quantity = models.FloatField(default=0)
     waste = models.FloatField(default=0)
     cost = models.FloatField(default=0)
-    cartridge_id = models.ForeignKey(Cartridge, blank=True, null=True, on_delete=models.CASCADE, default=1)
-    parent_order = models.ForeignKey(Order, default=1)
+    processed_cartridge = models.ForeignKey(ProcessedCartridge, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return '%s' % self.id
@@ -265,6 +306,7 @@ class Warehouse(models.Model):
 
 class Ticket(models.Model):
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    seller = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -278,8 +320,8 @@ class Ticket(models.Model):
 
 class TicketDetails(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    cartridge = models.ForeignKey(Cartridge, default=1, on_delete=models.CASCADE)
-    package_cartridges = models.ForeignKey(PackageCartridges, on_delete=models.CASCADE)
+    cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
+    package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
     quantity = models.FloatField(default=0)
     price = models.FloatField(default=0)
@@ -291,3 +333,44 @@ class TicketDetails(models.Model):
         ordering = ('id',)
         verbose_name = 'Ticket Details'
         verbose_name_plural = 'Tickets Details'
+
+
+class ClientOrder(models.Model):
+    IN_PROCESS = 'PR'
+    SOLD = 'SE'
+    CANCELLED = 'CA'
+
+    STATUS = (
+        (IN_PROCESS, 'En proceso',),
+        (SOLD, 'Vendido'),
+        (CANCELLED, 'Cancelado'),
+    )
+
+    created_at = models.DateTimeField(auto_created=True)
+    status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
+
+    def __str__(self):
+        return self.id
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Client Order'
+        verbose_name_plural = 'Clients Orders'
+
+
+class ClientOrderDetails(models.Model):
+    IN_PROCESS = 'PR'
+    SOLD = 'SE'
+    CANCELLED = 'CA'
+
+    STATUS = (
+        (IN_PROCESS, 'En proceso',),
+        (SOLD, 'Vendido'),
+        (CANCELLED, 'Cancelado'),
+    )
+
+    order = models.ForeignKey(ClientOrder, default=1, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_created=True)
+    cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
+    package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
+    quantity = models.IntegerField()
