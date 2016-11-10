@@ -2,19 +2,16 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import MaxValueValidator, MinLengthValidator
+from django.contrib.auth.models import User
 
 GRAM = 'GR'
 LITER = 'LI'
 PIECE = 'PI'
-PACKAGE = 'PA'
-BOX = 'BO'
 
 METRICS = (
     (GRAM, 'gramo'),
     (LITER, 'litro'),
     (PIECE, 'pieza'),
-    (PACKAGE, 'paquete'),
-    (BOX, 'caja')
 )
 
 
@@ -100,7 +97,11 @@ class Supply(models.Model):
     MONTHS = 'MO'
     YEARS = 'YE'
 
-    REQUIREMENTS = (
+    PACKAGE = 'PA'
+    BOX = 'BO'
+    PIECE = 'PI'
+
+    STORAGE_REQUIREMENTS = (
         (DRY_ENVIRONMENT, 'Ambiente Seco'),
         (REFRIGERATION, 'Refrigeración'),
         (FREEZING, 'Congelación'),
@@ -112,14 +113,22 @@ class Supply(models.Model):
         (YEARS, 'Años'),
     )
 
+    PRESENTATION_UNIT = (
+        (PACKAGE, 'Paquete'),
+        (BOX, 'Caja'),
+        (PIECE, 'Pieza')
+    )
+
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
     category = models.ForeignKey(Category, default=1, on_delete=models.CASCADE)
     barcode = models.PositiveIntegerField(
         help_text='(Código de barras de 13 dígitos)',
         validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
     provider = models.ForeignKey(Provider, default=1, on_delete=models.CASCADE)
-    requirement = models.CharField(choices=REQUIREMENTS, default=DRY_ENVIRONMENT, max_length=2)
-    base_cost = models.FloatField(default=0)
+    storage_required = models.CharField(choices=STORAGE_REQUIREMENTS, default=DRY_ENVIRONMENT, max_length=2)
+    pesentation_unit = models.CharField(max_length=10, choices=PRESENTATION_UNIT, default=PACKAGE)
+    measurement_cost = models.FloatField(default=0)
+    measurement_unit = models.CharField(max_length=10, choices=METRICS, default=PACKAGE)
     optimal_duration = models.IntegerField(default=10)
     optimal_duration_unit = models.CharField(choices=OPTIMAL_DURATION, max_length=2, default=DAYS)
     location = models.ForeignKey(SupplyLocation, default=1)
@@ -147,6 +156,7 @@ class Order(models.Model):
 
     status = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    user_charge = models.ForeignKey(User, default=1)
 
     def __str__(self):
         return '%s' % self.id
@@ -161,8 +171,8 @@ class OrdersDetails(models.Model):
     order = models.ForeignKey(Order, default=1, on_delete=models.CASCADE)
     supply = models.ForeignKey(Supply, default=1, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    metric = models.CharField(choices=METRICS, default=BOX, max_length=2)
     cost = models.FloatField(default=1)
+    provider = models.ForeignKey(Provider, default=1)
 
     def __str__(self):
         return '%s %s %s' % (self.id, self.supply, self.quantity)
@@ -174,6 +184,7 @@ class OrdersDetails(models.Model):
 
 
 class Cartridge(models.Model):
+    # Categories
     FOOD_DISHES = 'FD'
     DRINKS = 'DR'
 
@@ -182,11 +193,21 @@ class Cartridge(models.Model):
         (DRINKS, 'Bebidas'),
     )
 
+    # Status
+    ASSEMBLIED = 'AS'
+    SELLED = 'SE'
+
+    STATUS = (
+        (ASSEMBLIED, 'Ensamblado'),
+        (SELLED, 'Vendido')
+    )
+
     name = models.CharField(max_length=128, default='')
     category = models.CharField(choices=CATEGORIES, default=FOOD_DISHES, max_length=2)
     created_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
     price = models.FloatField(default=1)
     supplies = models.ManyToManyField(Supply, blank=True)
+
 
     def __str__(self):
         return self.name

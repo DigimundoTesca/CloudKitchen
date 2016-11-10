@@ -31,7 +31,7 @@ class AdminOrder(admin.ModelAdmin):
 
 @admin.register(OrdersDetails)
 class AdminOrdersDetails(admin.ModelAdmin):
-    list_display = ('supply', 'order', 'metric', 'quantity', 'cost')
+    list_display = ('supply', 'order', 'quantity', 'cost')
 
 
 @admin.register(PackageCartridges)

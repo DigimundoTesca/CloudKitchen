@@ -4,6 +4,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 urlpatterns = [
-  url(r'^admin/', admin.site.urls),
+  url(r'^tesca-admin/', admin.site.urls),
   url(r'^', include('supplies.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
