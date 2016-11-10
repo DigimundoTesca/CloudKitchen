@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'supplies'
+
 urlpatterns = [
     url(r'^$', views.login, name='index'),
     # Supplies
