@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.template import loader
-from django.shortcuts import render, get_object_or_404
 
 from .forms import SupplyForm, CategoryForm, CartridgeForm
 from .models import Provider, Category, Supply, Cartridge
@@ -26,6 +26,16 @@ def index(request):
     context = {
         'page_title': page_title,
         'title': title
+    }
+    return HttpResponse(template.render(context, request))
+
+
+# -------------------------------------  Sales -------------------------------------
+def sales(request):
+    template = loader.get_template('sales/sales.html')
+    page_title = ' cashflow - sales'
+    context = {
+        'page_title': page_title,
     }
     return HttpResponse(template.render(context, request))
 
