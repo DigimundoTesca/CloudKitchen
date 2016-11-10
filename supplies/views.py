@@ -1,36 +1,62 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.template import loader
+
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as login_django
+from django.contrib.auth import logout as logout_django
+from django.contrib.auth.decorators import login_required
 
 from .forms import SupplyForm, CategoryForm, CartridgeForm
 from .models import Provider, Category, Supply, Cartridge
 
 
 def login(request):
-    template = loader.get_template('auth/login.html')
+    if request.user.is_authenticated():
+        return redirect('supplies:sales')
+
+    message = None
+    template = 'auth/login.html'
+    if request.method == 'POST':
+        username_post = request.POST.get('username_login')
+        password_post = request.POST.get('password_login')
+        user = authenticate(username=username_post, password=password_post)
+        if user is not None:
+            login_django(request, user)
+            return redirect('supplies:sales')
+        else:
+            message = 'Usuario o contraseña incorrecto'
     page_title = 'DabbaNet'
     context = {
         'page_title': page_title,
+        'message': message
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
+
+
+@login_required(login_url='supplies:login')
+def logout(request):
+    logout_django(request)
+    return redirect('supplies:login')
 
 
 # -------------------------------------  Sales -------------------------------------
+@login_required(login_url='supplies:login')
 def sales(request):
-    template = loader.get_template('sales/sales.html')
+    template = 'sales/sales.html'
     page_title = ' cashflow - sales'
     context = {
         'page_title': page_title,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
 # -------------------------------------  Providers -------------------------------------
+@login_required(login_url='supplies:login')
 def providers(request):
     provider = Provider.objects.order_by('id')
-    template = loader.get_template('providers/providers.html')
+    template = 'providers/providers.html'
     page_title = 'Cashflow'
     title = 'Proveedores'
     context = {
@@ -38,11 +64,11 @@ def providers(request):
         'title': title,
         'page_title': page_title
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
-# -------------------------------------  Supplies ------------------------------------- 
-
+# -------------------------------------  Supplies -------------------------------------
+@login_required(login_url='supplies:login')
 def supplies(request):
     supply = Supply.objects.order_by('id')
     template = 'supplies/supplies.html'
@@ -56,17 +82,18 @@ def supplies(request):
     return render(request, template, context)
 
 
+@login_required(login_url='supplies:login')
 def new_supply(request):
     if request.method == 'POST':
         form = SupplyForm(request.POST, request.FILES)
         if form.is_valid():
             supply = form.save(commit=False)
             supply.save()
-            return HttpResponseRedirect('/supplies/')
+            return redirect('/supplies/')
     else:
         form = SupplyForm()
 
-    template = loader.get_template('supplies/new_supply.html')
+    template = 'supplies/new_supply.html'
     page_title = 'Cash Flow'
     title = 'Nuevo insumo'
     categories = Category.objects.order_by('name')
@@ -78,26 +105,26 @@ def new_supply(request):
         'title': title,
         'page_title': page_title
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
+@login_required(login_url='supplies:login')
 def supply_detail(request, pk):
     supply = get_object_or_404(Supply, pk=pk)
-    template = loader.get_template('supplies/supply_detail.html')
+    template = 'supplies/supply_detail.html'
     title = 'Detalles del insumo'
     context = {
         'supply': supply,
         'title': title
     }
-
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
 # ------------------------------------- Categories ------------------------------------- 
-
+@login_required(login_url='supplies:login')
 def categories(request):
     category = Category.objects.order_by('id')
-    template = loader.get_template('categories/categories.html')
+    template = 'categories/categories.html'
     page_title = 'Cashflow'
     title = 'Categorias'
     context = {
@@ -105,20 +132,21 @@ def categories(request):
         'title': title,
         'page_title': page_title
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
+@login_required(login_url='supplies:login')
 def new_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             category = form.save(commit=False)
             category.save()
-            return HttpResponseRedirect('/categories')
+            return redirect('/categories')
     else:
         form = CategoryForm()
 
-    template = loader.get_template('categories/new_category.html')
+    template = 'categories/new_category.html'
     page_title = 'Cash Flow'
     title = 'Nueva Categoria'
     context = {
@@ -126,13 +154,14 @@ def new_category(request):
         'title': title,
         'page_title': page_title
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
+@login_required(login_url='supplies:login')
 def categories_supplies(request, categ):
     category = Category.objects.filter(name=categ)
     supply = Supply.objects.filter(category=category)
-    template = loader.get_template('supplies/supplies.html')
+    template = 'supplies/supplies.html'
     page_title = 'Cashflow'
     title = categ
     context = {
@@ -140,13 +169,14 @@ def categories_supplies(request, categ):
         'title': title,
         'page_title': page_title
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
 # -------------------------------------  Cartridges ------------------------------------- 
+@login_required(login_url='supplies:login')
 def cartridges(request):
     cartridge = Cartridge.objects.order_by('id')
-    template = loader.get_template('cartridges/cartridges.html')
+    template = 'cartridges/cartridges.html'
     page_title = 'Cashflow'
     title = 'Cartuchos'
     context = {
@@ -154,20 +184,21 @@ def cartridges(request):
         'title': title,
         'page_title': page_title
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)
 
 
+@login_required(login_url='supplies:login')
 def new_cartridge(request):
     if request.method == 'POST':
         form = CartridgeForm(request.POST, request.FILES)
         if form.is_valid():
             cartridge = form.save(commit=False)
             cartridge.save()
-            return HttpResponseRedirect('/cartridges')
+            return redirect('/cartridges')
     else:
         form = CartridgeForm()
 
-    template = loader.get_template('cartridges/new_cartridge.html')
+    template = 'cartridges/new_cartridge.html'
     page_title = 'Cash Flow'
     title = 'Nuevo Cartucho'
     context = {
@@ -175,4 +206,4 @@ def new_cartridge(request):
         'title': title,
         'page_title': page_title
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, template, context)

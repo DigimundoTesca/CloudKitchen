@@ -5,8 +5,9 @@ from . import views
 app_name = 'supplies'
 
 urlpatterns = [
-    # login
+    # auth
     url(r'^$', views.login, name='login'),
+    url(r'^logout/$', views.logout, name='logout'),
 
     # sales
     url(r'^sales/$', views.sales, name='sales'),
