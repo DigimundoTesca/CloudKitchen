@@ -372,6 +372,7 @@ class CustomerOrder(models.Model):
     status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
+    price = models.FloatField(default=0)
 
     def __str__(self):
         return '%s' % self.id
