@@ -12,20 +12,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.PositiveIntegerField()
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
-
-
 class BranchOffice(models.Model):
     name = models.CharField(max_length=90, default='')
     address = models.CharField(max_length=255, default='')
@@ -359,7 +345,7 @@ class TicketDetails(models.Model):
 
 class CustomerOrder(models.Model):
     IN_PROCESS = 'PR'
-    SOLD = 'SE'
+    SOLD = 'SO'
     CANCELLED = 'CA'
 
     STATUS = (
@@ -367,12 +353,13 @@ class CustomerOrder(models.Model):
         (SOLD, 'Vendido'),
         (CANCELLED, 'Cancelado'),
     )
-
+    customer = models.ForeignKey(User, default=1)
     created_at = models.DateTimeField(auto_created=True)
     status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     price = models.FloatField(default=0)
+    delivery_date = models.DateTimeField(auto_created=True, default=datetime.now(), editable=True)
 
     def __str__(self):
         return '%s' % self.id
@@ -393,10 +380,8 @@ class CustomerOrderDetail(models.Model):
         (SOLD, 'Vendido'),
         (CANCELLED, 'Cancelado'),
     )
-
     customer_order = models.ForeignKey(CustomerOrder, default=1, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_created=True, editable=False)
-    delivery_time = models.DateTimeField(auto_created=True, default=datetime.now(), editable=True)
     cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
     package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField()

@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
 
     # profile
-    url(r'^profiles/$', views.ProfileVIew, name='profiles'),
+    # url(r'^profiles/$', views.ProfileVIew, name='profiles'),
 
     # sales
     url(r'^sales/$', views.sales, name='sales'),

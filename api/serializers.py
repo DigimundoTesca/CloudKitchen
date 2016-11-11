@@ -6,4 +6,4 @@ class PlaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomerOrder
-        fields = ('id', 'latitude', 'longitude', 'price')
+        fields = ('id', 'created_at', 'delivery_date', 'customer', 'status', 'price', 'latitude', 'longitude',)

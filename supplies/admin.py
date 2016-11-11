@@ -4,11 +4,6 @@ from django.contrib import admin
 from .models import *
 
 
-@admin.register(Profile)
-class AdminProfile(admin.ModelAdmin):
-    list_display = ('user', 'phone_number',)
-
-
 @admin.register(BranchOffice)
 class AdminBranchOffice(admin.ModelAdmin):
     list_display = ('name', 'manager', 'address',)

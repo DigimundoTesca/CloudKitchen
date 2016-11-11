@@ -13,10 +13,7 @@ urlpatterns = [
 
 urlpatterns += [
     #   API Endpoints
-    url(r'^api/v1/', include('restapp.urls', namespace='restapp')),
+    url(r'^api/v1/', include('api.urls', namespace='api')),
     url(r'^admin/', admin.site.urls),
 ]
 
-urlpatterns += [
-    url(r'^api/v1/auth/', include('rest_framework.urls', namespace='rest_framework')),
-]

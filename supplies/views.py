@@ -13,6 +13,7 @@ from .forms import *
 from .models import *
 
 
+# -------------------------------------  Auth -------------------------------------
 def login(request):
     if request.user.is_authenticated():
         return redirect('supplies:sales')
@@ -43,24 +44,6 @@ def logout(request):
 
 
 # -------------------------------------  Profile -------------------------------------
-class ProfileVIew(View):
-    def get(self, request):
-        template = 'profiles/profile.html'
-        user_form = UserForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.profile)
-        context = {
-            'user_form': user_form,
-            'profile_form': profile_form
-        }
-        return render(request, template, context)
-
-    def post(self, request):
-        user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            return redirect('settings:profile')
 
 
 # -------------------------------------  Sales -------------------------------------
