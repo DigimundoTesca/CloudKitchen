@@ -4,6 +4,12 @@ from django.contrib import admin
 from .models import *
 
 
+class UserProfileAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(UserProfile, UserProfileAdmin)
+
+
 @admin.register(BranchOffice)
 class AdminBranchOffice(admin.ModelAdmin):
     list_display = ('name', 'manager', 'address',)

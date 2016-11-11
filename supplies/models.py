@@ -3,10 +3,22 @@ from __future__ import unicode_literals
 from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.template.backends import django
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, primary_key=True)
+    phone_number = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
 
 
 class BranchOffice(models.Model):
@@ -228,7 +240,7 @@ class CartridgeRecipe(models.Model):
 
 class PackageCartridge(models.Model):
     name = models.CharField(max_length=90)
-    price = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+    price = models.DecimalField(default=0, max_digits=9, decimal_places=2)
     package_active = models.BooleanField(default=False)
 
     def __str__(self):
@@ -246,12 +258,12 @@ class PackageCartridgeRecipe(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return self.package_cartridge
+        return '%s' % self.package_cartridge
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Package Cartridge'
-        verbose_name_plural = 'Package Cartridges'
+        verbose_name = 'Package Cartridge Recipe'
+        verbose_name_plural = 'Package Cartridges Recipes'
 
 
 class ProcessedCartridge(models.Model):
@@ -275,8 +287,8 @@ class ProcessedCartridge(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'ProcessedCartridge'
-        verbose_name_plural = 'ProcessedCartridges'
+        verbose_name = 'Processed Cartridge'
+        verbose_name_plural = 'Processed Cartridges'
 
 
 class Warehouse(models.Model):
@@ -356,7 +368,7 @@ class CustomerOrder(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     price = models.FloatField(default=0)
-    delivery_date = models.DateTimeField(auto_created=True, default=django.utils.timezone.now, editable=True)
+    delivery_date = models.DateTimeField(auto_created=True, default=timezone.now(), editable=True)
 
     def __str__(self):
         return '%s' % self.id
@@ -378,7 +390,7 @@ class CustomerOrderDetail(models.Model):
         (CANCELLED, 'Cancelado'),
     )
     customer_order = models.ForeignKey(CustomerOrder, default=1, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_created=True, editable=False)
+    created_at = models.DateTimeField(auto_now=True, editable=False)
     cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
     package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField()

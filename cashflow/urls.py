@@ -3,8 +3,6 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from rest_framework.authtoken import views
-
 urlpatterns = [
   url(r'^dabba-admin/', admin.site.urls),
   url(r'^', include('supplies.urls')),
@@ -13,7 +11,7 @@ urlpatterns = [
 
 urlpatterns += [
     #   API Endpoints
-    url(r'^api/v1/', include('api.urls', namespace='api')),
+    url(r'^api/', include('api.urls', namespace='api')),
     url(r'^admin/', admin.site.urls),
 ]
 

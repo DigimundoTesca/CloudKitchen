@@ -62,7 +62,7 @@ def sales(request):
 def providers(request):
     provider = Provider.objects.order_by('id')
     template = 'providers/providers.html'
-    page_title = 'Cashflow'
+    page_title = 'cashflow'
     title = 'Proveedores'
     context = {
         'provider': provider,
@@ -77,7 +77,7 @@ def providers(request):
 def supplies(request):
     supply = Supply.objects.order_by('id')
     template = 'supplies/supplies.html'
-    page_title = 'Cashflow'
+    page_title = 'cashflow'
     title = 'Insumos'
     context = {
         'supply': supply,
@@ -130,7 +130,7 @@ def supply_detail(request, pk):
 def categories(request):
     category = Category.objects.order_by('id')
     template = 'categories/categories.html'
-    page_title = 'Cashflow'
+    page_title = 'cashflow'
     title = 'Categorias'
     context = {
         'category': category,
@@ -167,7 +167,7 @@ def categories_supplies(request, categ):
     category = Category.objects.filter(name=categ)
     supply = Supply.objects.filter(category=category)
     template = 'supplies/supplies.html'
-    page_title = 'Cashflow'
+    page_title = 'cashflow'
     title = categ
     context = {
         'supply': supply,
@@ -182,7 +182,7 @@ def categories_supplies(request, categ):
 def cartridges(request):
     cartridge = Cartridge.objects.order_by('id')
     template = 'cartridges/cartridges.html'
-    page_title = 'Cashflow'
+    page_title = 'cashflow'
     title = 'Cartuchos'
     context = {
         'cartridge': cartridge,
