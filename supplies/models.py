@@ -4,12 +4,9 @@ from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
-from datetime import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.template.backends import django
 
 
 class BranchOffice(models.Model):
@@ -359,7 +356,7 @@ class CustomerOrder(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     price = models.FloatField(default=0)
-    delivery_date = models.DateTimeField(auto_created=True, default=datetime.now(), editable=True)
+    delivery_date = models.DateTimeField(auto_created=True, default=django.utils.timezone.now, editable=True)
 
     def __str__(self):
         return '%s' % self.id
