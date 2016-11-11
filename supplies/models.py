@@ -1,18 +1,29 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
-from django.db import models
 from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
-GRAM = 'GR'
-LITER = 'LI'
-PIECE = 'PI'
+from datetime import datetime
 
-METRICS = (
-    (GRAM, 'gramo'),
-    (LITER, 'litro'),
-    (PIECE, 'pieza'),
-)
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_number = models.PositiveIntegerField()
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
 
 class BranchOffice(models.Model):
@@ -117,6 +128,17 @@ class Supply(models.Model):
         (PACKAGE, 'Paquete'),
         (BOX, 'Caja'),
         (PIECE, 'Pieza')
+    )
+
+    # metrics
+    GRAM = 'GR'
+    LITER = 'LI'
+    PIECE = 'PI'
+
+    METRICS = (
+        (GRAM, 'gramo'),
+        (LITER, 'litro'),
+        (PIECE, 'pieza'),
     )
 
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
@@ -335,7 +357,7 @@ class TicketDetails(models.Model):
         verbose_name_plural = 'Tickets Details'
 
 
-class ClientOrder(models.Model):
+class CustomerOrder(models.Model):
     IN_PROCESS = 'PR'
     SOLD = 'SE'
     CANCELLED = 'CA'
@@ -348,17 +370,19 @@ class ClientOrder(models.Model):
 
     created_at = models.DateTimeField(auto_created=True)
     status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
+    latitude = models.FloatField(default=0)
+    longitude = models.FloatField(default=0)
 
     def __str__(self):
-        return self.id
+        return '%s' % self.id
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Client Order'
-        verbose_name_plural = 'Clients Orders'
+        verbose_name = 'Customer Order'
+        verbose_name_plural = 'Customer Orders'
 
 
-class ClientOrderDetails(models.Model):
+class CustomerOrderDetail(models.Model):
     IN_PROCESS = 'PR'
     SOLD = 'SE'
     CANCELLED = 'CA'
@@ -369,8 +393,17 @@ class ClientOrderDetails(models.Model):
         (CANCELLED, 'Cancelado'),
     )
 
-    order = models.ForeignKey(ClientOrder, default=1, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_created=True)
+    customer_order = models.ForeignKey(CustomerOrder, default=1, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_created=True, editable=False)
+    delivery_time = models.DateTimeField(auto_created=True, default=datetime.now(), editable=True)
     cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
     package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField()
+
+    def __str__(self):
+        return '%s' % self.created_at
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Customer Order Detail'
+        verbose_name_plural = 'Customer Order Details'

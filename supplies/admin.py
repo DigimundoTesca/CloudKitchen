@@ -4,6 +4,11 @@ from django.contrib import admin
 from .models import *
 
 
+@admin.register(Profile)
+class AdminProfile(admin.ModelAdmin):
+    list_display = ('user', 'phone_number',)
+
+
 @admin.register(BranchOffice)
 class AdminBranchOffice(admin.ModelAdmin):
     list_display = ('name', 'manager', 'address',)
@@ -84,11 +89,11 @@ class AdminTicketDetails(admin.ModelAdmin):
     list_display = ('ticket', 'cartridge', 'package_cartridge', 'quantity', 'price')
 
 
-@admin.register(ClientOrder)
-class AdminClientOrder(admin.ModelAdmin):
+@admin.register(CustomerOrder)
+class AdminCustomerOrder(admin.ModelAdmin):
     list_display = ('created_at', 'status',)
 
 
-@admin.register(ClientOrderDetails)
-class AdminClientOrderDetails(admin.ModelAdmin):
-    list_display = ('cartridge', 'package_cartridge', 'quantity',)
+@admin.register(CustomerOrderDetail)
+class AdminCustomerOrderDetails(admin.ModelAdmin):
+    list_display = ('customer_order', 'cartridge', 'package_cartridge', 'quantity',)
