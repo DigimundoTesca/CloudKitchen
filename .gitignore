@@ -110,7 +110,7 @@ ENV/
 # Rope project settings
 .ropeproject
 
-Cashflow/__pycache__/
+cashflow/__pycache__/
 supplies/__pycache__/
 supplies/migrations/
 media/*
