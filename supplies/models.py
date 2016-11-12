@@ -1,9 +1,12 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
+
+import datetime
+from django.utils.timezone import utc
+
 from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
-from django.utils import timezone
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -24,7 +27,7 @@ class UserProfile(models.Model):
 class BranchOffice(models.Model):
     name = models.CharField(max_length=90, default='')
     address = models.CharField(max_length=255, default='')
-    manager = models.ForeignKey(User, on_delete=models.CASCADE)
+    manager = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -173,7 +176,7 @@ class Order(models.Model):
 
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
     status = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
-    user_charge = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
+    user_charge = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s' % self.id
@@ -323,7 +326,7 @@ class Warehouse(models.Model):
 
 class Ticket(models.Model):
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
-    seller = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
+    seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -362,13 +365,13 @@ class CustomerOrder(models.Model):
         (SOLD, 'Vendido'),
         (CANCELLED, 'Cancelado'),
     )
-    customer = models.ForeignKey(User, default=1)
+    customer_user = models.ForeignKey(UserProfile, default=1)
     created_at = models.DateTimeField(auto_created=True)
     status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     price = models.FloatField(default=0)
-    delivery_date = models.DateTimeField(auto_created=True, default=timezone.now(), editable=True)
+    delivery_date = models.DateTimeField(auto_created=True, default=datetime.datetime.now(), editable=True)
 
     def __str__(self):
         return '%s' % self.id
@@ -390,13 +393,12 @@ class CustomerOrderDetail(models.Model):
         (CANCELLED, 'Cancelado'),
     )
     customer_order = models.ForeignKey(CustomerOrder, default=1, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True, editable=False)
     cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
     package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField()
 
     def __str__(self):
-        return '%s' % self.created_at
+        return '%s' % self.id
 
     class Meta:
         ordering = ('id',)
