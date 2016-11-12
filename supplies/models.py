@@ -2,14 +2,10 @@
 from __future__ import unicode_literals
 
 import datetime
-from django.utils.timezone import utc
 
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinLengthValidator
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
-
 from django.db import models
-from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
@@ -233,7 +229,7 @@ class CartridgeRecipe(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return self.cartridge
+        return '%s' % self.cartridge
 
     class Meta:
         ordering = ('id',)
@@ -334,11 +330,11 @@ class Ticket(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Ticket Details'
-        verbose_name_plural = 'Tickets Details'
+        verbose_name = 'Ticket '
+        verbose_name_plural = 'Tickets'
 
 
-class TicketDetails(models.Model):
+class TicketDetail(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
     package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)

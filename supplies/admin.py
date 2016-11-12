@@ -39,35 +39,38 @@ class AdminSupplLocation(admin.ModelAdmin):
 class AdminSupply(admin.ModelAdmin):
     list_display = ('name', 'category', 'provider', 'presentation_unit', 'measurement_unit', 'measurement_cost',)
 
+    
+class OrderDetailInline(admin.TabularInline):
+    model = OrderDetail
+    extra = 1
+
 
 @admin.register(Order)
 class AdminOrder(admin.ModelAdmin):
     list_display = ('created_at', 'status', 'user_charge',)
+    inlines = [OrderDetailInline, ]
 
 
-@admin.register(OrderDetail)
-class AdminOderDetail(admin.ModelAdmin):
-    list_display = ('order', 'supply', 'quantity', 'cost',)
-
+class CartridgeRecipeInline(admin.TabularInline):
+    model = CartridgeRecipe
+    extra = 1
+    
 
 @admin.register(Cartridge)
 class AdminCashRegister(admin.ModelAdmin):
     list_display = ('name', 'price', 'category', 'created_at')
+    inlines = [CartridgeRecipeInline, ]
 
 
-@admin.register(CartridgeRecipe)
-class AdminCartridgeRecipe(admin.ModelAdmin):
-    list_display = ('cartridge', 'supply', 'quantity',)
+class PackageCartridgeRecipeInline(admin.TabularInline):
+    model = PackageCartridgeRecipe
+    extra = 1
 
 
 @admin.register(PackageCartridge)
-class AdminPackageActive(admin.ModelAdmin):
+class AdminPackageCartridge(admin.ModelAdmin):
     list_display = ('name', 'price', 'package_active',)
-
-
-@admin.register(PackageCartridgeRecipe)
-class AdminPackageCartridgeRecipe(admin.ModelAdmin):
-    list_display = ('package_cartridge', 'cartridge', 'quantity',)
+    inlines = [PackageCartridgeRecipeInline]
 
 
 @admin.register(ProcessedCartridge)
@@ -80,21 +83,23 @@ class AdminWarehouse(admin.ModelAdmin):
     list_display = ('supply', 'status', 'quantity', 'waste', 'cost')
 
 
+class TicketDetailInline(admin.TabularInline):
+    model = TicketDetail
+    extra = 1
+
+
+class CustomerOrderDetailInline(admin.TabularInline):
+    model = CustomerOrderDetail
+    extra = 1
+    
+
 @admin.register(Ticket)
 class AdminTicket(admin.ModelAdmin):
     list_display = ('created_at', 'seller', 'cash_register',)
-
-
-@admin.register(TicketDetails)
-class AdminTicketDetails(admin.ModelAdmin):
-    list_display = ('ticket', 'cartridge', 'package_cartridge', 'quantity', 'price')
+    inlines = [TicketDetailInline, ]
 
 
 @admin.register(CustomerOrder)
 class AdminCustomerOrder(admin.ModelAdmin):
     list_display = ('created_at', 'status',)
-
-
-@admin.register(CustomerOrderDetail)
-class AdminCustomerOrderDetails(admin.ModelAdmin):
-    list_display = ('customer_order', 'cartridge', 'package_cartridge', 'quantity',)
+    inlines = [CustomerOrderDetailInline, ]
