@@ -21,10 +21,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class CartridgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cartridge
-        fields = ('id', 'name', 'price', 'category',)
+        fields = ('id', 'name', 'price', 'category', 'image')
 
 
 class PackageCartridgeRecipeSerializer(serializers.ModelSerializer):
+    cartridge = CartridgeSerializer(read_only=True)
+    
     class Meta:
         model = PackageCartridgeRecipe
         fields = ('id', 'cartridge', 'quantity',)
@@ -36,7 +38,7 @@ class PackageCartridgeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = PackageCartridge
-        fields = ('id', 'name', 'price', 'package_cartridge_recipe')
+        fields = ('id', 'name', 'price', 'package_cartridge_recipe', 'image')
 
 
 class CustomerOrderDetailSerializer(serializers.ModelSerializer):

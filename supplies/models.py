@@ -213,6 +213,7 @@ class Cartridge(models.Model):
     price = models.FloatField()
     category = models.CharField(choices=CATEGORIES, default=FOOD_DISHES, max_length=2)
     created_at = models.DateTimeField(auto_now=True)
+    image = models.ImageField(blank=True)
 
     def __str__(self):
         return self.name
@@ -241,7 +242,8 @@ class PackageCartridge(models.Model):
     name = models.CharField(max_length=90)
     price = models.DecimalField(default=0, max_digits=9, decimal_places=2)
     package_active = models.BooleanField(default=False)
-
+    image = models.ImageField(blank=True)
+    
     def __str__(self):
         return self.name
 

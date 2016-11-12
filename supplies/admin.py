@@ -86,11 +86,6 @@ class AdminWarehouse(admin.ModelAdmin):
 class TicketDetailInline(admin.TabularInline):
     model = TicketDetail
     extra = 1
-
-
-class CustomerOrderDetailInline(admin.TabularInline):
-    model = CustomerOrderDetail
-    extra = 1
     
 
 @admin.register(Ticket)
@@ -99,7 +94,12 @@ class AdminTicket(admin.ModelAdmin):
     inlines = [TicketDetailInline, ]
 
 
+class CustomerOrderDetailInline(admin.TabularInline):
+    model = CustomerOrderDetail
+    extra = 1
+    
+
 @admin.register(CustomerOrder)
 class AdminCustomerOrder(admin.ModelAdmin):
-    list_display = ('created_at', 'status',)
+    list_display = ('id', 'created_at', 'status', )
     inlines = [CustomerOrderDetailInline, ]
