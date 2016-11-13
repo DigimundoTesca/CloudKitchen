@@ -10,14 +10,15 @@ class UserProfileAdmin(admin.ModelAdmin):
 admin.site.register(UserProfile, UserProfileAdmin)
 
 
+class CashRegisterInline(admin.StackedInline):
+    model = CashRegister
+    extra = 2
+
+
 @admin.register(BranchOffice)
 class AdminBranchOffice(admin.ModelAdmin):
     list_display = ('name', 'manager', 'address',)
-
-
-@admin.register(CashRegister)
-class AdminCashRegister(admin.ModelAdmin):
-    list_display = ('code', 'status', 'branch_office',)
+    inlines = [CashRegisterInline, ]
 
 
 @admin.register(Provider)
@@ -25,8 +26,8 @@ class AdminProvider(admin.ModelAdmin):
     list_display = ('name', 'image',)
 
 
-@admin.register(Category)
-class AdminCategory(admin.ModelAdmin):
+@admin.register(SuppliesCategory)
+class AdminCSuppliesCategory(admin.ModelAdmin):
     list_display = ('name', 'image',)
 
 

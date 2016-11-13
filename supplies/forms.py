@@ -10,9 +10,9 @@ class SupplyForm(forms.ModelForm):
         fields = '__all__'
 
 
-class CategoryForm(forms.ModelForm):
+class SuppliesCategoryForm(forms.ModelForm):
     class Meta:
-        model = Category
+        model = SuppliesCategory
         fields = '__all__'
 
 

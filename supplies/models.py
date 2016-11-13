@@ -67,7 +67,7 @@ class Provider(models.Model):
         verbose_name_plural = 'Providers'
 
 
-class Category(models.Model):
+class SuppliesCategory(models.Model):
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
     image = models.ImageField(blank=False)
 
@@ -136,7 +136,7 @@ class Supply(models.Model):
     )
 
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
-    category = models.ForeignKey(Category, default=1, on_delete=models.CASCADE)
+    category = models.ForeignKey(SuppliesCategory, default=1, on_delete=models.CASCADE)
     barcode = models.PositiveIntegerField(
         help_text='(Código de barras de 13 dígitos)',
         validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
