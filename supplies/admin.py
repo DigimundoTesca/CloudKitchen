@@ -32,7 +32,7 @@ class AdminCSuppliesCategory(admin.ModelAdmin):
 
 
 @admin.register(SupplyLocation)
-class AdminSupplLocation(admin.ModelAdmin):
+class AdminSupplyLocation(admin.ModelAdmin):
     list_display = ('location', 'branch_office',)
 
 
