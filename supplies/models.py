@@ -8,9 +8,21 @@ from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.db import models
 
 
+class UserRol(models.Model):
+    rol = models.CharField(max_length=90, default='')
+    
+    def __str__(self):
+        return self.rol
+    
+    class Meta:
+        verbose_name = 'User Rol'
+        verbose_name_plural = 'User Roles'
+    
+
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, primary_key=True)
+    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     phone_number = models.PositiveIntegerField(default=0)
+    user_rol = models.ForeignKey(UserRol, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username

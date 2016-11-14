@@ -7,7 +7,12 @@ from .models import *
 class UserProfileAdmin(admin.ModelAdmin):
     pass
 
+
+class UserRolAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(UserRol, UserRolAdmin)
 
 
 class CashRegisterInline(admin.StackedInline):
