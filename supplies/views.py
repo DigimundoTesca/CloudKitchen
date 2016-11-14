@@ -7,10 +7,11 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth import logout as logout_django
 from django.contrib.auth.decorators import login_required
-from django.views.generic import View
 
 from .forms import *
 from .models import *
+
+PAGE_TITLE = 'DabbaNet'
 
 
 # -------------------------------------  Auth -------------------------------------
@@ -20,18 +21,21 @@ def login(request):
 
     message = None
     template = 'auth/login.html'
+    
     if request.method == 'POST':
         username_post = request.POST.get('username_login')
         password_post = request.POST.get('password_login')
         user = authenticate(username=username_post, password=password_post)
+        
         if user is not None:
             login_django(request, user)
             return redirect('supplies:sales')
+        
         else:
             message = 'Usuario o contraseña incorrecto'
-    page_title = 'DabbaNet'
+            
     context = {
-        'page_title': page_title,
+        'page_title': PAGE_TITLE,
         'message': message
     }
     return render(request, template, context)
@@ -50,9 +54,25 @@ def logout(request):
 @login_required(login_url='supplies:login')
 def sales(request):
     template = 'sales/sales.html'
-    page_title = ' cashflow - sales'
+    title = 'Ventas'
     context = {
-        'page_title': page_title,
+        'page_title': PAGE_TITLE,
+        'title': title
+    }
+    return render(request, template, context)
+
+
+@login_required(login_url='supplies:login')
+def new_sale(request):
+    cartridges_list = Cartridge.objects.all()
+    package_cartridges = PackageCartridge.objects.all()
+    template = 'sales/new_sale.html'
+    title = 'Nueva venta'
+    context = {
+        'page_title': PAGE_TITLE,
+        'title': title,
+        'cartridges': cartridges_list,
+        'package_cartridges': package_cartridges
     }
     return render(request, template, context)
 
@@ -62,12 +82,11 @@ def sales(request):
 def providers(request):
     suppliers = Supplier.objects.order_by('id')
     template = 'providers/providers.html'
-    page_title = 'cashflow'
     title = 'Proveedores'
     context = {
         'suppliers': suppliers,
         'title': title,
-        'page_title': page_title
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)
 
@@ -77,12 +96,11 @@ def providers(request):
 def supplies(request):
     supply = Supply.objects.order_by('id')
     template = 'supplies/supplies.html'
-    page_title = 'cashflow'
     title = 'Insumos'
     context = {
         'supply': supply,
         'title': title,
-        'page_title': page_title
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)
 
@@ -99,8 +117,7 @@ def new_supply(request):
         form = SupplyForm()
 
     template = 'supplies/new_supply.html'
-    page_title = 'Cash Flow'
-    title = 'Nuevo insumo'
+    title = 'DabbaNet - Nuevo insumo'
     categories_list = SuppliesCategory.objects.order_by('name')
     suppliers_list = Supplier.objects.order_by('name')
     context = {
@@ -108,7 +125,7 @@ def new_supply(request):
         'suppliers': suppliers_list,
         'form': form,
         'title': title,
-        'page_title': page_title
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)
 
@@ -117,8 +134,9 @@ def new_supply(request):
 def supply_detail(request, pk):
     supply = get_object_or_404(Supply, pk=pk)
     template = 'supplies/supply_detail.html'
-    title = 'Detalles del insumo'
+    title = 'DabbaNet - Detalles del insumo'
     context = {
+        'page_title': PAGE_TITLE,
         'supply': supply,
         'title': title
     }
@@ -130,12 +148,11 @@ def supply_detail(request, pk):
 def categories(request):
     supplies_categories = SuppliesCategory.objects.order_by('id')
     template = 'categories/categories.html'
-    page_title = 'cashflow'
     title = 'Categorias'
     context = {
         'supplies_categories': supplies_categories,
         'title': title,
-        'page_title': page_title
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)
 
@@ -152,12 +169,11 @@ def new_category(request):
         form = SuppliesCategoryForm()
 
     template = 'categories/new_category.html'
-    page_title = 'Cash Flow'
     title = 'Nueva Categoria'
     context = {
         'form': form,
         'title': title,
-        'page_title': page_title
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)
 
@@ -167,12 +183,11 @@ def categories_supplies(request, categ):
     supplies_categories = SuppliesCategoryForm.objects.filter(name=categ)
     supply = Supply.objects.filter(category=supplies_categories)
     template = 'supplies/supplies.html'
-    page_title = 'cashflow'
     title = categ
     context = {
         'supply': supply,
         'title': title,
-        'page_title': page_title
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)
 
@@ -180,14 +195,13 @@ def categories_supplies(request, categ):
 # -------------------------------------  Cartridges ------------------------------------- 
 @login_required(login_url='supplies:login')
 def cartridges(request):
-    cartridges = Cartridge.objects.order_by('id')
+    cartridges_list = Cartridge.objects.order_by('id')
     template = 'cartridges/cartridges.html'
-    page_title = 'cashflow'
     title = 'Cartuchos'
     context = {
-        'cartridges': cartridges,
+        'cartridges': cartridges_list,
         'title': title,
-        'page_title': page_title
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)
 
@@ -204,11 +218,10 @@ def new_cartridge(request):
         form = CartridgeForm()
 
     template = 'cartridges/new_cartridge.html'
-    page_title = 'Cash Flow'
     title = 'Nuevo Cartucho'
     context = {
         'form': form,
         'title': title,
-        'page_title': page_title
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)

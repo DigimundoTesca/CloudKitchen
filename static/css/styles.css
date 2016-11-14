@@ -6,6 +6,21 @@ body {
   font-size: 18px;
   flex-direction: column;
   min-height: 100vh;
+
+
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background-color: rgba(255, 151, 76, 0.5);
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 114, 49, 0.3);
+  border-radius: 5px;
 }
 
 main {
@@ -16,12 +31,12 @@ small {
   font-size: 75%;
 }
 .footer {
-  background: #373a3c;
+  background: #131313;
   height: 5rem;
   line-height: 5rem; /* Vertically center the text there */
 }
 .footer .container .text-muted {
-  color: #efefef !important;
+  color: #ebebeb !important;
   font-weight: 300;
   opacity: .8;
 }
@@ -29,6 +44,21 @@ small {
 ------------------------------------------------------- */
 .container-main {
   padding-top: 0rem;
+}
+
+.container-sales{
+  margin: 0 2rem;
+}
+.container-sales .group-sales {
+  min-height: calc(100vh - 12rem);
+}
+.container-sales .group-sales .card-scroll {
+  overflow-y: scroll;
+  min-height: calc(100vh - 11rem);
+  max-height: calc(100vh - 11rem);
+}
+.container-sales .group-sales .card-block img  {
+  height: 200px;
 }
 .container-signin {
   display: flex;

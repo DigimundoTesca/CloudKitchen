@@ -14,6 +14,7 @@ urlpatterns = [
 
     # sales
     url(r'^sales/$', views.sales, name='sales'),
+    url(r'^sales/new/$', views.new_sale, name='new_sale'),
 
     # Supplies
     url(r'^supplies/$', views.supplies, name='supplies'),

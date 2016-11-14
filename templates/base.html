@@ -2,9 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>
-    {% block page_title %}{% endblock %}
-  </title>
+  <title>{{ title }}</title>
   <!-- Required meta tags always come first -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0sudo, user-scalable=no, shrink-to-fit=no">
@@ -20,7 +18,7 @@
 </head>
 <body>
 <nav class="navbar navbar-full navbar-dark navbar-base">
-  <a class="navbar-brand" href="{% url 'supplies:login' %}"><h3>Dabbawala</h3></a>
+  <a class="navbar-brand" href="{% url 'supplies:login' %}"><h3>{{ page_title }}</h3></a>
 </nav>
 <main>
   {% block content %}
