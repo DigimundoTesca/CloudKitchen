@@ -60,12 +60,12 @@ def sales(request):
 # -------------------------------------  Providers -------------------------------------
 @login_required(login_url='supplies:login')
 def providers(request):
-    provider = Provider.objects.order_by('id')
+    suppliers = Supplier.objects.order_by('id')
     template = 'providers/providers.html'
     page_title = 'cashflow'
     title = 'Proveedores'
     context = {
-        'provider': provider,
+        'suppliers': suppliers,
         'title': title,
         'page_title': page_title
     }
@@ -101,11 +101,11 @@ def new_supply(request):
     template = 'supplies/new_supply.html'
     page_title = 'Cash Flow'
     title = 'Nuevo insumo'
-    categories_list = Category.objects.order_by('name')
-    providers_list = Provider.objects.order_by('name')
+    categories_list = SuppliesCategory.objects.order_by('name')
+    suppliers_list = Supplier.objects.order_by('name')
     context = {
         'categories': categories_list,
-        'providers': providers_list,
+        'suppliers': suppliers_list,
         'form': form,
         'title': title,
         'page_title': page_title
@@ -128,12 +128,12 @@ def supply_detail(request, pk):
 # ------------------------------------- Categories ------------------------------------- 
 @login_required(login_url='supplies:login')
 def categories(request):
-    category = Category.objects.order_by('id')
+    supplies_categories = SuppliesCategory.objects.order_by('id')
     template = 'categories/categories.html'
     page_title = 'cashflow'
     title = 'Categorias'
     context = {
-        'category': category,
+        'supplies_categories': supplies_categories,
         'title': title,
         'page_title': page_title
     }
@@ -143,13 +143,13 @@ def categories(request):
 @login_required(login_url='supplies:login')
 def new_category(request):
     if request.method == 'POST':
-        form = CategoryForm(request.POST, request.FILES)
+        form = SuppliesCategoryForm(request.POST, request.FILES)
         if form.is_valid():
             category = form.save(commit=False)
             category.save()
             return redirect('/categories')
     else:
-        form = CategoryForm()
+        form = SuppliesCategoryForm()
 
     template = 'categories/new_category.html'
     page_title = 'Cash Flow'
@@ -164,8 +164,8 @@ def new_category(request):
 
 @login_required(login_url='supplies:login')
 def categories_supplies(request, categ):
-    category = Category.objects.filter(name=categ)
-    supply = Supply.objects.filter(category=category)
+    supplies_categories = SuppliesCategoryForm.objects.filter(name=categ)
+    supply = Supply.objects.filter(category=supplies_categories)
     template = 'supplies/supplies.html'
     page_title = 'cashflow'
     title = categ
@@ -180,12 +180,12 @@ def categories_supplies(request, categ):
 # -------------------------------------  Cartridges ------------------------------------- 
 @login_required(login_url='supplies:login')
 def cartridges(request):
-    cartridge = Cartridge.objects.order_by('id')
+    cartridges = Cartridge.objects.order_by('id')
     template = 'cartridges/cartridges.html'
     page_title = 'cashflow'
     title = 'Cartuchos'
     context = {
-        'cartridge': cartridge,
+        'cartridges': cartridges,
         'title': title,
         'page_title': page_title
     }

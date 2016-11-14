@@ -66,7 +66,7 @@ class CashRegister(models.Model):
         verbose_name_plural = 'Cash Registers'
 
 
-class Provider(models.Model):
+class Supplier(models.Model):
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=255, unique=True)
     image = models.ImageField(blank=False)
 
@@ -75,8 +75,8 @@ class Provider(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Provider'
-        verbose_name_plural = 'Providers'
+        verbose_name = 'Supplier'
+        verbose_name_plural = 'Suppliers'
 
 
 class SuppliesCategory(models.Model):
@@ -152,7 +152,7 @@ class Supply(models.Model):
     barcode = models.PositiveIntegerField(
         help_text='(Código de barras de 13 dígitos)',
         validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
-    provider = models.ForeignKey(Provider, default=1, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, default=1, on_delete=models.CASCADE)
     storage_required = models.CharField(choices=STORAGE_REQUIREMENTS, default=DRY_ENVIRONMENT, max_length=2)
     presentation_unit = models.CharField(max_length=10, choices=PRESENTATION_UNIT, default=PACKAGE)
     measurement_unit = models.CharField(max_length=10, choices=METRICS, default=PACKAGE)
@@ -172,7 +172,7 @@ class Supply(models.Model):
         verbose_name_plural = 'Supplies'
 
 
-class Order(models.Model):
+class SupplierOrder(models.Model):
     CANCELED = 'CA'
     IN_PROCESS = 'IP'
     RECEIVED = 'RE'
@@ -195,20 +195,20 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
 
-class OrderDetail(models.Model):
-    order = models.ForeignKey(Order, default=1, on_delete=models.CASCADE)
+class SupplierOrderDetail(models.Model):
+    order = models.ForeignKey(SupplierOrder, default=1, on_delete=models.CASCADE)
     supply = models.ForeignKey(Supply, default=1, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     cost = models.FloatField(default=1)
-    provider = models.ForeignKey(Provider, default=1, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s %s %s' % (self.id, self.supply, self.quantity)
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Order Details'
-        verbose_name_plural = 'Orders Details'
+        verbose_name = 'Supplier Order Details'
+        verbose_name_plural = 'Supplier Orders Details'
 
 
 class Cartridge(models.Model):

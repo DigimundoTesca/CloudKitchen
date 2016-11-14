@@ -26,7 +26,7 @@ class AdminBranchOffice(admin.ModelAdmin):
     inlines = [CashRegisterInline, ]
 
 
-@admin.register(Provider)
+@admin.register(Supplier)
 class AdminProvider(admin.ModelAdmin):
     list_display = ('name', 'image',)
 
@@ -43,15 +43,15 @@ class AdminSupplyLocation(admin.ModelAdmin):
 
 @admin.register(Supply)
 class AdminSupply(admin.ModelAdmin):
-    list_display = ('name', 'category', 'provider', 'presentation_unit', 'measurement_unit', 'measurement_cost',)
+    list_display = ('name', 'category', 'supplier', 'presentation_unit', 'measurement_unit', 'measurement_cost',)
 
     
 class OrderDetailInline(admin.TabularInline):
-    model = OrderDetail
+    model = SupplierOrderDetail
     extra = 1
 
 
-@admin.register(Order)
+@admin.register(SupplierOrder)
 class AdminOrder(admin.ModelAdmin):
     list_display = ('created_at', 'status', 'user_charge',)
     inlines = [OrderDetailInline, ]
