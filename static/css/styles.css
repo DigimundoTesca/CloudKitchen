@@ -6,46 +6,34 @@ body {
   font-size: 18px;
   flex-direction: column;
   min-height: 100vh;
-
-
 }
 
-
+/* Scroll configuration - For webkit browsers
+--------------------------------------------------- */
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background-color: rgba(255, 151, 76, 0.5);
-  border-radius: 0px;
+  border-radius: 0;
 }
 ::-webkit-scrollbar-thumb {
   background-color: rgba(255, 114, 49, 0.3);
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
+/* DabbaNet styles
+-------------------------------------------------------- */
 main {
   flex: 1;
 }
-
 small {
   font-size: 75%;
 }
-.footer {
-  background: #131313;
-  height: 5rem;
-  line-height: 5rem; /* Vertically center the text there */
-}
-.footer .container .text-muted {
-  color: #ebebeb !important;
-  font-weight: 300;
-  opacity: .8;
-}
-/* Normal Configuration
-------------------------------------------------------- */
 .container-main {
-  padding-top: 0rem;
+  padding-top: 0;
 }
-
 .container-sales{
   margin: 0 2rem;
 }
@@ -57,8 +45,57 @@ small {
   min-height: calc(100vh - 11rem);
   max-height: calc(100vh - 11rem);
 }
+.container-sales .group-sales .card-scroll-orders {
+  overflow-y: scroll;
+  min-height: calc(100vh - 20rem);
+  max-height: calc(100vh - 20rem);
+  padding: 0;
+}
+.container-sales .group-sales .card-scroll-orders .list-group {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+.container-sales .group-sales .card-scroll-orders .list-group li {
+  padding: 0.2rem;
+}
+
+.container-sales .group-sales .card-scroll-orders .list-group  span{
+  padding: 0;
+  display: inline-block;
+  text-align: right;
+}
+.container-sales .group-sales .card-scroll-orders .list-group  span.name-li {
+  min-width: 8rem;
+  max-width: 8rem;
+  text-align: left;
+}
+.container-sales .group-sales .card-scroll-orders .list-group  span.cost-u-li {
+  min-width: 2.5rem;
+  max-width: 2.5rem;
+}
+.container-sales .group-sales .card-scroll-orders .list-group  span.cant-li {
+  min-width: 2rem;
+  max-width: 2rem;
+}
+.container-sales .group-sales .card-scroll-orders .list-group  span.total-li {
+  min-width: 2.5rem;
+  max-width: 2.5rem;
+}
 .container-sales .group-sales .card-block img  {
   height: 200px;
+  border-radius: 3px;
+}
+.container-sales .group-sales .info-sale  {
+  margin-top: 1rem;
+}
+.container-sales .group-sales .info-sale .text-total {
+  font-size: 1.2rem;
+}
+.container-sales .group-sales .info-sale .text-cost {
+  font-size: 3rem;
+}
+.container-sales .group-sales .info-sale .text-cost-decimal{
+  font-size: 1.5rem;
+  margin-bottom: 3rem;
 }
 .container-signin {
   display: flex;
@@ -84,6 +121,16 @@ small {
 .container-signin .card-login .tab-content .form-login,
 .container-signin .card-login .tab-content .form-register{
   margin: 2rem;
+}
+.footer {
+  background: #131313;
+  height: 5rem;
+  line-height: 5rem;
+}
+.footer .container .text-muted {
+  color: #ebebeb !important;
+  font-weight: 300;
+  opacity: .8;
 }
 .navbar-base {
   background-color: #d47b00;

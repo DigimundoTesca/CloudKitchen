@@ -8,53 +8,211 @@
 {% block content %}
   <div class="container-fluid container-sales">
     <div class="row">
-      <div class="card-group group-sales">
-        <div class="card col-xs-12 col-lg-2 .card-orders">
-          <div class="col-sm-12">
-            <div class="col-sm-12"></div>
-            <h5>Total:</h5>
-            <strong><h1>$ 67.00</h1></strong>
+      <div class="col-xs-12 col-lg-2 group-sales">
+        <div class="card col-sm-12 card-outline-info">
+          <div class="info-sale">
+            <span class="text-total left">Total: </span>
+            <p class="text-xs-center">
+              <span class="text-cost align-top">$ 150</span>
+              <span class="text-cost-decimal">00</span>
+            </p>
           </div>
-          <h3>Pedido</h3>
         </div>
-        <div class="col-xs-12 col-lg-10">
-          <div class="row">
-            <div class="card col-xs-12 col-lg-4 card-scroll">
-              <div class="card-block">
-                <h4>Bebidas</h4>
-                {% for cartridge in cartridges %}
-                  {% if cartridge.category == 'DR' %}
-                    <div class="card-block">
-                      <h6>{{ cartridge.name }}</h6>
-                      <img src="{{ cartridge.image.url }}" alt="Nombre de la bebida">
-                    </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-            <div class="card col-xs-12 col-lg-4 card-scroll">
-              <div class="card-block">
-                <h4>Platillos</h4>
-                {% for cartridge in cartridges %}
-                  {% if cartridge.category == 'FD' %}
-                    <div class="card-block">
-                      <h6>{{ cartridge.name }}</h6>
-                      <img src="{{ cartridge.image.url }}" alt="Nombre de la bebida">
-                    </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-            <div class="card col-xs-12 col-lg-4 card-scroll">
-              <div class="card-block card-block">
-                <h4>Promos</h4>
-                {% for package in package_cartridges %}
+        <div class="card col-sm-12 card-scroll-orders">
+          <div class="card-block">
+            <h4>Pedidos</h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+            <li class="list-group-item">
+              <span class="name-li">CAF AME</span>
+              <span class="cost-u-li">4.50</span>
+              <span class="cant-li">2</span>
+              <span class="total-li"><strong>9.00</strong></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="group-sales col-lg-10">
+        <div class="row">
+          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning">
+            <div class="card-block">
+              <h4>Bebidas</h4>
+              {% for cartridge in cartridges %}
+                {% if cartridge.category == 'DR' %}
                   <div class="card-block">
-                    <h6>{{ package.name }}</h6>
-                    <img src="{{ package.image.url }}"alt=" Nombre del platillo">
+                    <h6>{{ cartridge.name }}</h6>
+                    <img src="{{ cartridge.image.url }}" alt="Nombre de la bebida">
                   </div>
-                {% endfor %}
-              </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning">
+            <div class="card-block">
+              <h4>Platillos</h4>
+              {% for cartridge in cartridges %}
+                {% if cartridge.category == 'FD' %}
+                  <div class="card-block">
+                    <h6>{{ cartridge.name }}</h6>
+                    <img src="{{ cartridge.image.url }}" alt="Nombre de la bebida">
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning">
+            <div class="card-block card-block">
+              <h4>Promos</h4>
+              {% for package in package_cartridges %}
+                <div class="card-block">
+                  <h6>{{ package.name }}</h6>
+                  <img src="{{ package.image.url }}"alt=" Nombre del platillo">
+                </div>
+              {% endfor %}
             </div>
           </div>
         </div>
