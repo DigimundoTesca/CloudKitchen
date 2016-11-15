@@ -7,7 +7,6 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-
 /* Scroll configuration - For webkit browsers
 --------------------------------------------------- */
 ::-webkit-scrollbar {
@@ -51,34 +50,39 @@ small {
   max-height: calc(100vh - 20rem);
   padding: 0;
 }
-.container-sales .group-sales .card-scroll-orders .list-group {
+.container-sales .group-sales .card-scroll-orders ul.list-group {
   font-family: 'Open Sans Condensed', sans-serif;
 }
-.container-sales .group-sales .card-scroll-orders .list-group li {
-  padding: 0.2rem;
-}
-
-.container-sales .group-sales .card-scroll-orders .list-group  span{
+.container-sales .group-sales .card-scroll-orders ul.list-group li {
+  font-size: 1px;
+  letter-spacing: -1px;
+  width: 100%;/
+  margin: auto;
   padding: 0;
-  display: inline-block;
-  text-align: right;
 }
-.container-sales .group-sales .card-scroll-orders .list-group  span.name-li {
-  min-width: 8rem;
-  max-width: 8rem;
+.container-sales .group-sales .card-scroll-orders ul.list-group  span{
+  display: inline-block;
+  word-spacing: normal;
+  font-size: 1rem;/*u otra unidad para IE8 y -*/
+  letter-spacing: normal;
+  white-space: normal;
+}
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.name-li {
+  min-width: 50%;
+  max-width: 50%;
   text-align: left;
 }
-.container-sales .group-sales .card-scroll-orders .list-group  span.cost-u-li {
-  min-width: 2.5rem;
-  max-width: 2.5rem;
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.cost-u-li {
+  min-width: 20%;
+  max-width: 20%;
 }
-.container-sales .group-sales .card-scroll-orders .list-group  span.cant-li {
-  min-width: 2rem;
-  max-width: 2rem;
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.cant-li {
+  min-width: 10%;
+  max-width: 10%;
 }
-.container-sales .group-sales .card-scroll-orders .list-group  span.total-li {
-  min-width: 2.5rem;
-  max-width: 2.5rem;
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.total-li {
+  min-width: 20%;
+  max-width: 20%;
 }
 .container-sales .group-sales .card-block img  {
   height: 200px;
