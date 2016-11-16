@@ -2,11 +2,11 @@
 {% block content %}
 	<div class="container">
 		<div class="row">
-			{% for c in cartridge %}
+			{% for c in cartridges %}
 				<div class="col s12 m6 l4">
 					<div class="card small hoverable">
 						<div class="card-image  waves-effect waves-light">
-							<a href="{% url 'views.cartridges' %}" title="{{ c.name }}">
+							<a href="{% url 'supplies:cartridges' %}" title="{{ c.name }}">
 								<img src="{{ c.image.url }}">
 							</a>
 						</div>
@@ -28,14 +28,5 @@
 			{% endfor %}
 		</div>
 	</ul>
-	<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-		<a class="btn-floating btn-large waves-effect waves-light accent" href="{% url 'views.new_category' %}">
-			<i class="large material-icons">restaurant</i>
-		</a>
-		<ul>
-			<li><a class="btn-floating green" href="{% url 'views.new_supply' %}"><i class="material-icons">add</i></a></li>
-			<li><a class="btn-floating blue" href="{% url 'views.new_supply' %}"><i class="material-icons">add</i></a></li>
-		</ul>
-	</div>
 </div>
 {% endblock content %}

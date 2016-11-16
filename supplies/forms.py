@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 from django import forms
-from .models import Supply, Category, Provider, Cartridge
+from .models import *
 
 
 class SupplyForm(forms.ModelForm):
@@ -10,9 +10,9 @@ class SupplyForm(forms.ModelForm):
         fields = '__all__'
 
 
-class CategoryForm(forms.ModelForm):
+class SuppliesCategoryForm(forms.ModelForm):
     class Meta:
-        model = Category
+        model = SuppliesCategory
         fields = '__all__'
 
 
@@ -20,3 +20,9 @@ class CartridgeForm(forms.ModelForm):
     class Meta:
         model = Cartridge
         fields = '__all__'
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')

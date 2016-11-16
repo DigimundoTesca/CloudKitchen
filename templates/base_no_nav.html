@@ -2,16 +2,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{{ title }}</title>
+  <title>
+    {% block page_title %}{% endblock %}
+  </title>
   <!-- Required meta tags always come first -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0sudo, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <!-- Font style -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -19,10 +19,6 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-<nav class="navbar navbar-full navbar-dark navbar-base">
-  <a class="navbar-brand" href="{% url 'supplies:login' %}"><h3>{{ page_title }}</h3></a>
-</nav>
-
 <main>
   {% block content %}
 
