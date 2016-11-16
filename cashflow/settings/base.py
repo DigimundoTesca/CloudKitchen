@@ -1,9 +1,7 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = '2lx(34sh*3o64*d#%p@+(-0fp*xz=z5qbl(!@*&(i-x)&(&77g'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.getenv('DABBANET_SECRET_KEY')
 
 # Application definition
 INSTALLED_APPS = [
@@ -41,7 +39,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, '../../templates'),
+            os.path.join(BASE_DIR, '../templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -60,8 +58,12 @@ WSGI_APPLICATION = 'cashflow.wsgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DABBANET_DB_NAME'),
+        'USER': os.getenv('DABBANET_DB_USER'),
+        'PASSWORD': os.getenv('DABBANET_DB_PASSWORD'),
+        'HOST': os.getenv('DABBANET_DB_HOST'),
+        'PORT': os.getenv('DABBANET_DB_PORT'),
     }
 }
 
@@ -89,11 +91,10 @@ USE_L10N = True
 USE_TZ = True
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '../../static')
+    os.path.join(BASE_DIR, '../static')
 ]
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
-STATIC_URL = '/static/'
-MEDIA_ROOT = 'media'
+MEDIA_ROOT = '../media'
 MEDIA_URL = '/media/'
