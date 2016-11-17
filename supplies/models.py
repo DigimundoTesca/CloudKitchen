@@ -81,7 +81,7 @@ class Supplier(models.Model):
 
 class SuppliesCategory(models.Model):
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
-    image = models.ImageField(blank=False, upload_to='media/supplies-categories/')
+    image = models.ImageField(blank=False, upload_to='media/supplies-categories')
 
     def __str__(self):
         return self.name

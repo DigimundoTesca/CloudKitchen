@@ -115,6 +115,6 @@ cashflow/__pycache__/
 supplies/__pycache__/
 supplies/migrations/
 media/*
-
+staticfiles/
 #Database
 db.sqlite3
