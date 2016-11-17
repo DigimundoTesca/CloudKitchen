@@ -2,7 +2,7 @@ from cashflow.settings.base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dabbanet.tecacorporation.com']
 
 STATIC_ROOT = 'staticfiles'
 
