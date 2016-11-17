@@ -225,7 +225,7 @@ class Cartridge(models.Model):
     price = models.FloatField()
     category = models.CharField(choices=CATEGORIES, default=FOOD_DISHES, max_length=2)
     created_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(blank=True)
+    image = models.ImageField(blank=False)
 
     def __str__(self):
         return self.name
