@@ -97,5 +97,5 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
-MEDIA_ROOT = '../media'
 MEDIA_URL = '/media/'
+MEDIA_ROOT = ''
