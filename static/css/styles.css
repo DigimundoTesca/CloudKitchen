@@ -81,9 +81,14 @@ small {
   max-width: 10%;
   text-align: right;
 }
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.s-li {
+  min-width: 8%;
+  max-width: 8%;
+  text-align: right;
+}
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.total-li {
-  min-width: 30%;
-  max-width: 30%;
+  min-width: 22%;
+  max-width: 22%;
   text-align: right;
 }
 .container-sales .group-sales .card-block>.card-block{
@@ -95,10 +100,13 @@ small {
   cursor: pointer;
   max-width: 100%;
 }
-.container-sales .group-sales .card-block .product-cost {
-  display: block;
+.container-sales .group-sales .card-block span {
+  display: inline-block;
   font-size: 1.2rem;
   margin-top: 0.5rem;
+}
+.container-sales .group-sales .card-block span.product-cost {
+  margin-left: 0.5rem;
 }
 .container-sales .group-sales .info-sale  {
   margin-top: 1rem;

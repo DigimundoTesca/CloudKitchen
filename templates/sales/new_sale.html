@@ -24,11 +24,6 @@
             <h4>Pedidos</h4>
           </div>
           <ul class="list-group list-group-flush" id="sales-list">
-            <li class="list-group-item">
-              <span class="name-li text-uppercase">Cafe americano compa!</span>
-              <span class="cant-li">2</span>
-              <span class="total-li"><strong>9.00</strong></span>
-            </li>
           </ul>
         </div>
       </div>
@@ -43,7 +38,7 @@
                     <h6 class="product-name">{{ cartridge.name }}</h6>
                     <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
                     <div class="text-xs-right content-price">
-                      <span class="product-cost font-weight-bold">$ {{ cartridge.price }}</span>
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
                     </div>
                   </div>
                 {% endif %}
@@ -59,7 +54,7 @@
                     <h6 class="product-name">{{ cartridge.name }}</h6>
                     <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
                     <div class="text-xs-right content-price">
-                      <span class="product-cost font-weight-bold">$ {{ cartridge.price }}</span>
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
                     </div>
                   </div>
                 {% endif %}
@@ -74,7 +69,7 @@
                   <h6 class="product-name">{{ package.name }}</h6>
                   <img src="{{ package.image.url }}" id="package-img-{{ package.pk }}" class="product-img" alt="Nombre del platillo">
                   <div class="text-xs-right content-price">
-                    <span class="product-cost font-weight-bold">$ {{ package.price }}</span>
+                    <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> {{ package.price }}</span>
                   </div>
                 </div>
               {% endfor %}
