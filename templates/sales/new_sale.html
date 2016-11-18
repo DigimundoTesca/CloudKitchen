@@ -14,8 +14,9 @@
           <div class="info-sale">
             <span class="text-total left">Total: </span>
             <p class="text-xs-center">
-              <span class="text-price align-top">$ 150</span>
-              <span class="text-price-decimal">00</span>
+              <span class="text-price align-top" id="s-total-price">$ </span>
+              <span class="text-price align-top" id="int-total-price">0</span>
+              <span class="text-price-decimal" id="dec-total-price">00</span>
             </p>
           </div>
         </div>
@@ -29,7 +30,7 @@
       </div>
       <div class="group-sales col-lg-10">
         <div class="row">
-          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning">
+          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning" id="group-drinks">
             <div class="card-block products-block">
               <h4>Bebidas</h4>
               {% for cartridge in cartridges %}
@@ -45,7 +46,7 @@
               {% endfor %}
             </div>
           </div>
-          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning">
+          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning" id="group-dishes">
             <div class="card-block products-block">
               <h4>Platillos</h4>
               {% for cartridge in cartridges %}
@@ -61,18 +62,25 @@
               {% endfor %}
             </div>
           </div>
-          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning">
-            <div class="card-block card-block">
-              <h4>Promos</h4>
-              {% for package in package_cartridges %}
-                <div class="card-block" id="package-{{ package.pk }}">
-                  <h6 class="product-name">{{ package.name }}</h6>
-                  <img src="{{ package.image.url }}" id="package-img-{{ package.pk }}" class="product-img" alt="Nombre del platillo">
-                  <div class="text-xs-right content-price">
-                    <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> {{ package.price }}</span>
-                  </div>
+          <div class="col-xs-12 col-lg-4">
+            <div class="row">
+              <div class="card col-xs-12 card-scroll card-outline-warning" id="group-promos">
+                <div class="card-block card-block">
+                  <h4>Promos</h4>
+                  {% for package in package_cartridges %}
+                    <div class="card-block" id="package-{{ package.pk }}">
+                      <h6 class="product-name">{{ package.name }}</h6>
+                      <img src="{{ package.image.url }}" id="package-img-{{ package.pk }}" class="product-img" alt="Nombre del platillo">
+                      <div class="text-xs-right content-price">
+                        <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> {{ package.price }}</span>
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
-              {% endfor %}
+              </div>
+              <div class=" col-xs-12">
+                <button type="button" id="btn-order" class="btn btn-success col-xs-12">Success</button>
+              </div>
             </div>
           </div>
         </div>

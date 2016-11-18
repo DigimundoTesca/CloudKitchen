@@ -34,15 +34,19 @@ small {
   padding-top: 0;
 }
 .container-sales{
-  margin: 0 1rem 0 0;
+  margin: 0 0.5rem 0 0;
 }
-.container-sales .group-sales {
-  min-height: calc(100vh - 12rem);
+.container-sales .group-sales button#btn-order{
+  height: 4rem;
 }
 .container-sales .group-sales .card-scroll {
   overflow-y: scroll;
   min-height: calc(100vh - 11rem);
   max-height: calc(100vh - 11rem);
+}
+.container-sales .group-sales .card-scroll#group-promos {
+  min-height: calc(100vh - 16rem);
+  max-height: calc(100vh - 16rem);
 }
 .container-sales .group-sales .card-scroll-orders {
   overflow-y: scroll;

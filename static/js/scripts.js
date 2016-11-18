@@ -3,7 +3,7 @@ $(document).ready(function () {
     // document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
 
     $(".product-img").click(function () {
-        name = $(this).siblings('.product-name').text()
+        name = $(this).siblings('.product-name').text();
         cost = parseFloat($(this).siblings('.content-price').children('.product-cost').text());
         id = $(this).parent().attr('id');
         li_id = ('li-' + id).toString();
@@ -16,17 +16,17 @@ $(document).ready(function () {
 
             new_cost = cost * cant;
             if (new_cost % 2 != 0)
-                cost.toFixed(2)
+                cost.toFixed(2);
 
-            new_cost += '.00'
+            new_cost += '.00';
 
             $('ul#sales-list').find('#' + li_id + ' .total-li').text(new_cost);
 
         } else {
             if (cost % 2 != 0)
-                cost.toFixed(2)
+                cost.toFixed(2);
+
             cost += '.00';
-            console.log(typeof (cost))
 
             $nuevo_li = $("" +
                 "<li id='" + li_id + "' class='list-group-item'>" +
