@@ -5,17 +5,16 @@ $(document).ready(function () {
     $(".product-img").click(function () {
         name = $(this).siblings('.product-name').text()
         cost = $(this).siblings('.content-price').children('.product-cost').text();
-        cont = $('#sales-list').children('li').length;
         id = $(this).parent().attr('id');
         li_id = ('li-' + id).toString();
 
-        if ($('#' + li_id + '').length == 0) {
+        if ( $('#' + li_id + '').length == 0) {
             $nuevo_li = $("" +
                 "<li id='" + li_id + "' class='list-group-item'>" +
                 "<span class='name-li text-uppercase'>"
                 + name +
                 "</span> " +
-                "<span class='cant-li'>2</span>" +
+                "<span class='cant-li'>1</span>" +
                 "<span class='total-li'>" +
                 "<strong>"
                 + cost +
@@ -23,6 +22,15 @@ $(document).ready(function () {
                 "</span> " +
                 "</li>");
             $nuevo_li.appendTo('#sales-list').fadeTo('fast', 1);
+        } else {
+            new_cant = $( 'ul#sales-list' ).find('#'+ li_id +' .cant-li').text();
+            new_cant++;
+
+            $( 'ul#sales-list' ).find('#'+ li_id +' .cant-li').text(new_cant);
+
+
+
+
         }
     });
 });
