@@ -7,23 +7,22 @@ $(document).ready(function () {
         cost = $(this).siblings('.content-price').children('.product-cost').text();
         cont = $('#sales-list').children('li').length;
         id = $(this).parent().attr('id');
-        console.log(id);
+        li_id = ('li-' + id).toString();
 
-        for (var i=0; i < cont; i++){
-
-        }
-        $nuevo_li = $("" +
-            "<li id='li-'"+ name +" class='list-group-item'>" +
-            "<span class='name-li text-uppercase'>"
+        if ($('#' + li_id + '').length == 0) {
+            $nuevo_li = $("" +
+                "<li id='" + li_id + "' class='list-group-item'>" +
+                "<span class='name-li text-uppercase'>"
                 + name +
-            "</span> " +
-            "<span class='cant-li'>2</span>" +
-            "<span class='total-li'>" +
-            "<strong>"
+                "</span> " +
+                "<span class='cant-li'>2</span>" +
+                "<span class='total-li'>" +
+                "<strong>"
                 + cost +
-            "</strong>" +
-            "</span> " +
-            "</li>");
-        $nuevo_li.appendTo('#sales-list').fadeTo('fast', 1)
+                "</strong>" +
+                "</span> " +
+                "</li>");
+            $nuevo_li.appendTo('#sales-list').fadeTo('fast', 1);
+        }
     });
 });
