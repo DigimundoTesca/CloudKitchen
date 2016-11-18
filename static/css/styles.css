@@ -126,6 +126,18 @@ small {
 .container-signin .card-login .tab-content .form-register{
   margin: 2rem;
 }
+.container-error {
+  background: #e8e8e8;
+  padding-top: 5rem;
+  height: calc(100vh - 5rem);
+  width: 100%;
+}
+.container-error h1 {
+  margin-bottom: 2rem;
+}
+.container-error .alert {
+  margin-top: 2rem;
+}
 .footer {
   background: #131313;
   height: 5rem;

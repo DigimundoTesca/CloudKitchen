@@ -14,6 +14,11 @@ from .models import *
 PAGE_TITLE = 'DabbaNet'
 
 
+def test(request):
+    template = '500.html'
+    return render(request, template, {})
+    
+
 # -------------------------------------  Auth -------------------------------------
 def login(request):
     if request.user.is_authenticated():
