@@ -129,7 +129,7 @@ small {
 .container-error {
   background: #e8e8e8;
   padding-top: 5rem;
-  height: calc(100vh - 5rem);
+  min-height: calc(100vh - 5rem);
   width: 100%;
 }
 .container-error h1 {
