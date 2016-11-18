@@ -8,7 +8,6 @@ $(document).ready(function () {
         id = $(this).parent().attr('id');
         li_id = ('li-' + id).toString();
 
-
         if ($('#' + li_id + '').length != 0) {
             cant = $('ul#sales-list').find('#' + li_id + ' .cant-li').text();
             cant++;
@@ -37,5 +36,22 @@ $(document).ready(function () {
                 "</li>");
             $nuevo_li.appendTo('#sales-list').fadeTo('fast', 1);
         }
+
+        // Modificacion del total general
+
+        var total = 0
+
+        $('ul li').find('.total-li').each(function(){
+            re = $(this).text()
+            total += parseFloat(re)
+        });
+        var arreglo = total.toFixed(2).split('.')
+        console.log(arreglo)
+
+        $('#total-price').html("" +
+            "<span class='text-price align-top' id='int-total-price'>"+ arreglo[0] +"</span> " +
+            "<span class='point-total-price'>.</span> " +
+            "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
+        );
     });
 });

@@ -38,6 +38,7 @@ small {
 }
 .container-sales .group-sales button#btn-order{
   height: 4rem;
+  margin-bottom: 1rem;
 }
 .container-sales .group-sales .card-scroll {
   overflow-y: scroll;
@@ -118,10 +119,13 @@ small {
 .container-sales .group-sales .info-sale .text-total {
   font-size: 1.2rem;
 }
-.container-sales .group-sales .info-sale .text-price {
+.container-sales .group-sales .info-sale p .point-total-price {
+  display: none;
+}
+.container-sales .group-sales .info-sale p .text-price {
   font-size: 3rem;
 }
-.container-sales .group-sales .info-sale .text-price-decimal{
+.container-sales .group-sales .info-sale p .text-price-decimal{
   font-size: 1.5rem;
   margin-bottom: 3rem;
 }

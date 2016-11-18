@@ -15,8 +15,11 @@
             <span class="text-total left">Total: </span>
             <p class="text-xs-center">
               <span class="text-price align-top" id="s-total-price">$ </span>
-              <span class="text-price align-top" id="int-total-price">0</span>
-              <span class="text-price-decimal" id="dec-total-price">00</span>
+              <span id="total-price">
+                <span class="text-price align-top" id="int-total-price">0</span>
+                <span class="point-total-price">.</span>
+                <span class="text-price-decimal" id="dec-total-price">00</span>
+              </span>
             </p>
           </div>
         </div>
@@ -64,6 +67,9 @@
           </div>
           <div class="col-xs-12 col-lg-4">
             <div class="row">
+              <div class=" col-xs-12">
+                <button type="button" id="btn-order" class="btn btn-success col-xs-12">Success</button>
+              </div>
               <div class="card col-xs-12 card-scroll card-outline-warning" id="group-promos">
                 <div class="card-block card-block">
                   <h4>Promos</h4>
@@ -77,9 +83,6 @@
                     </div>
                   {% endfor %}
                 </div>
-              </div>
-              <div class=" col-xs-12">
-                <button type="button" id="btn-order" class="btn btn-success col-xs-12">Success</button>
               </div>
             </div>
           </div>
