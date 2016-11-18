@@ -59,6 +59,7 @@ small {
   width: 100%;
   margin: auto;
   padding: 0;
+  opacity: 0;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group li span{
   display: inline-block;

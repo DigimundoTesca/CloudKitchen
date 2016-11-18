@@ -7,14 +7,14 @@ $(document).ready(function () {
 
         $nuevo_li = $("" +
             "<li class='list-group-item'>" +
-                "<span class='name-li text-uppercase'>"
-                    + $name +
-                "</span> " +
-                "<span class='cant-li'>2</span>" +
-                "<span class='total-li'>" +
-                    "<strong>9.00</strong>" +
-                "</span> " +
+            "<span class='name-li text-uppercase'>"
+            + $name +
+            "</span> " +
+            "<span class='cant-li'>2</span>" +
+            "<span class='total-li'>" +
+            "<strong>9.00</strong>" +
+            "</span> " +
             "</li>");
-        $nuevo_li.appendTo('#sales-list');
+        $nuevo_li.appendTo('#sales-list').fadeTo('fast', 1)
     });
 });
