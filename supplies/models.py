@@ -199,7 +199,7 @@ class SupplierOrderDetail(models.Model):
     order = models.ForeignKey(SupplierOrder, default=1, on_delete=models.CASCADE)
     supply = models.ForeignKey(Supply, default=1, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    cost = models.FloatField(default=1)
+    cost = models.DecimalField(default=0, max_digits=12, decimal_places=2)
     supplier = models.ForeignKey(Supplier, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -222,7 +222,7 @@ class Cartridge(models.Model):
     )
 
     name = models.CharField(max_length=128, default='')
-    price = models.FloatField()
+    price = models.DecimalField(decimal_places=2, default=0, max_digits=12)
     category = models.CharField(choices=CATEGORIES, default=FOOD_DISHES, max_length=2)
     created_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=False, upload_to='media/cartridges')
@@ -252,7 +252,7 @@ class CartridgeRecipe(models.Model):
 
 class PackageCartridge(models.Model):
     name = models.CharField(max_length=90)
-    price = models.DecimalField(default=0, max_digits=9, decimal_places=2)
+    price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
     package_active = models.BooleanField(default=False)
     image = models.ImageField(blank=True, upload_to='media/package-cartridges')
     
@@ -354,7 +354,7 @@ class TicketDetail(models.Model):
     package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
     quantity = models.FloatField(default=0)
-    price = models.FloatField(default=0)
+    price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
 
     def __str__(self):
         return '%s' % self.id
@@ -380,7 +380,7 @@ class CustomerOrder(models.Model):
     status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
-    price = models.FloatField(default=0)
+    price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
     delivery_date = models.DateTimeField(auto_created=True, default=datetime.datetime.now(), editable=True)
 
     def __str__(self):
