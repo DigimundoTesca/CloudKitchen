@@ -177,7 +177,15 @@ small {
   bottom: 3rem;
   right: 6rem;
 }
-
+.modal#modal-order .modal-dialog .modal-content{
+  margin-top: 12rem;
+  max-height: 30rem;
+  min-height: 30rem;
+}
+.modal#modal-order .modal-dialog .modal-content .modal-body{
+  max-height: 21.5rem;
+  min-height: 21.5rem;
+}
 .popout .FAB {
   display: inline-block;
   position: relative;

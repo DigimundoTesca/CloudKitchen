@@ -8,68 +8,69 @@
 
 {% block content %}
   <div class="container-fluid container-sales">
-    <div class="row">
-      <div class="col-xs-12 col-lg-2 group-sales">
-        <div class="card col-sm-12 card-outline-info">
-          <div class="info-sale">
-            <span class="text-total left">Total: </span>
-            <p class="text-xs-center">
-              <span class="text-price align-top" id="s-total-price">$ </span>
-              <span id="total-price">
+  <div class="row">
+    <div class="col-xs-12 col-lg-2 group-sales">
+      <div class="card col-sm-12 card-outline-info">
+        <div class="info-sale">
+          <span class="text-total left">Total: </span>
+          <p class="text-xs-center">
+            <span class="text-price align-top" id="s-total-price">$ </span>
+            <span id="total-price">
                 <span class="text-price align-top" id="int-total-price">0</span>
                 <span class="point-total-price">.</span>
                 <span class="text-price-decimal" id="dec-total-price">00</span>
               </span>
-            </p>
-          </div>
-        </div>
-        <div class="card col-sm-12 card-scroll-orders card-outline-warning">
-          <div class="card-block products-block">
-            <h4>Pedidos</h4>
-          </div>
-          <ul class="list-group list-group-flush" id="sales-list">
-          </ul>
+          </p>
         </div>
       </div>
-      <div class="group-sales col-lg-10">
-        <div class="row">
-          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning" id="group-drinks">
-            <div class="card-block products-block">
-              <h4>Bebidas</h4>
-              {% for cartridge in cartridges %}
-                {% if cartridge.category == 'DR' %}
-                  <div class="card-block" id="cartridge-{{ cartridge.pk }}">
-                    <h6 class="product-name">{{ cartridge.name }}</h6>
-                    <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
-                    <div class="text-xs-right content-price">
-                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
-                    </div>
+      <div class="card col-sm-12 card-scroll-orders card-outline-warning">
+        <div class="card-block products-block">
+          <h4>Pedidos</h4>
+        </div>
+        <ul class="list-group list-group-flush" id="sales-list">
+        </ul>
+      </div>
+    </div>
+    <div class="group-sales col-lg-10">
+      <div class="row">
+        <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning" id="group-drinks">
+          <div class="card-block products-block">
+            <h4>Bebidas</h4>
+            {% for cartridge in cartridges %}
+              {% if cartridge.category == 'DR' %}
+                <div class="card-block" id="cartridge-{{ cartridge.pk }}">
+                  <h6 class="product-name">{{ cartridge.name }}</h6>
+                  <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
+                  <div class="text-xs-right content-price">
+                    <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
                   </div>
-                {% endif %}
-              {% endfor %}
-            </div>
+                </div>
+              {% endif %}
+            {% endfor %}
           </div>
-          <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning" id="group-dishes">
-            <div class="card-block products-block">
-              <h4>Platillos</h4>
-              {% for cartridge in cartridges %}
-                {% if cartridge.category == 'FD' %}
-                  <div class="card-block" id="cartridge-{{ cartridge.pk }}">
-                    <h6 class="product-name">{{ cartridge.name }}</h6>
-                    <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
-                    <div class="text-xs-right content-price">
-                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
-                    </div>
+        </div>
+        <div class="card col-xs-12 col-lg-4 card-scroll card-outline-warning" id="group-dishes">
+          <div class="card-block products-block">
+            <h4>Platillos</h4>
+            {% for cartridge in cartridges %}
+              {% if cartridge.category == 'FD' %}
+                <div class="card-block" id="cartridge-{{ cartridge.pk }}">
+                  <h6 class="product-name">{{ cartridge.name }}</h6>
+                  <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
+                  <div class="text-xs-right content-price">
+                    <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
                   </div>
-                {% endif %}
-              {% endfor %}
-            </div>
+                </div>
+              {% endif %}
+            {% endfor %}
           </div>
-          <div class="col-xs-12 col-lg-4">
-            <div class="row">
-              <div class=" col-xs-12">
-                <button type="button" id="btn-order" class="btn btn-success col-xs-12">Success</button>
-              </div>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+          <div class="row">
+            <div class=" col-xs-12">
+              <button type="button" id="btn-order" class="btn btn-primary col-xs-12 btn-lg" data-toggle="modal" data-target="#modal-order">
+                Realizar venta
+              </button>
               <div class="card col-xs-12 card-scroll card-outline-warning" id="group-promos">
                 <div class="card-block card-block">
                   <h4>Promos</h4>
@@ -83,6 +84,31 @@
                     </div>
                   {% endfor %}
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <div class="container">
+              <div class="row">
+                <button type="button" class="btn btn-primary col-xs-4 push-xs-3">Pago con tarjeta</button>
+                <button type="button" class="btn btn-success col-xs-4 push-xs-4">Pago con efectivo</button>
               </div>
             </div>
           </div>
