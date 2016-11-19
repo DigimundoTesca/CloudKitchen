@@ -34,7 +34,7 @@ $(document).ready(function () {
                 "<span class='font-weight-bold s-li'>$ </span>" +
                 "<span class='total-li font-weight-bold'>" + cost + "</span> " +
                 "</li>");
-            $nuevo_li.appendTo('#sales-list').fadeTo('fast', 1);
+            $nuevo_li.appendTo('#sales-list').fadeTo('slow', 1);
         }
 
         // Modificacion del total general

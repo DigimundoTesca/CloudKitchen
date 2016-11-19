@@ -68,7 +68,7 @@ small {
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group li span{
   display: inline-block;
-  font-size: 1rem;
+  font-size: 1.2rem;
   overflow: hidden;
   letter-spacing: normal;
   padding: 0 0.2rem;
@@ -100,7 +100,7 @@ small {
   border-bottom: #ffeac4 solid 1px;
 }
 .container-sales .group-sales .card-block img  {
-  height: auto;
+  height: 300px;
   border-radius: 3px;
   cursor: pointer;
   max-width: 100%;
@@ -165,6 +165,61 @@ small {
 }
 .container-error .alert {
   margin-top: 2rem;
+}
+.popout {
+  position: absolute;
+  bottom: 3rem;
+  right: 6rem;
+}
+
+.popout .FAB {
+  display: inline-block;
+  position: relative;
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  width: 5rem;
+  height: 5rem;
+  line-height: 7rem;
+  text-align: center;
+  z-index: 999;
+  background: #eb7926;
+  /* background: #ff5722;*/
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0,0,0,0.15);
+  transition:0.2s opacity ease-in-out;
+  -webkit-transition:0.2s opacity ease-in-out;
+}
+.popout .FAB i {
+  font-size: 3rem !important;
+  color: #fff;
+}
+.popout .FAB.active {
+  visibility: hidden;
+  opacity: 0;
+}
+.popout .FAB:after {
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  top: 0;
+  content: "";
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  background: #eb7926;
+  z-index: -100;
+  -webkit-transition: -webkit-transform 0.2s, opacity 0.2s;
+  -moz-transition: -moz-transform 0.2s, opacity 0.2s;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.popout .FAB:active:after {
+  -webkit-transform: scale(1.3);
+  -moz-transform: scale(1.3);
+  -ms-transform: scale(1.3);
+  transform: scale(1.3);
+  opacity: 0;
 }
 .footer {
   background: #131313;
