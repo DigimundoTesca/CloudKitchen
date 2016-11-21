@@ -60,6 +60,7 @@ small {
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group li {
   align-items: center;
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -67,16 +68,15 @@ small {
   margin: 0;
   opacity: 0;
   padding: 0;
-  width: 100%;
-  cursor: pointer;
+  user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;
+  width: 100%;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group li span{
-  display: inline-block;
-  font-size: 2rem;
+  flex: 1;
+  font-size: 1.8rem;
   letter-spacing: normal;
   overflow: hidden;
   padding: 0 0.2rem;
@@ -92,7 +92,7 @@ small {
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.cant-li {
   min-width: 10%;
   max-width: 10%;
-  text-align: right;
+  text-align: center;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.s-li {
   min-width: 8%;
@@ -109,13 +109,12 @@ small {
   min-width: 10%;
   max-width: 10%;
   cursor: pointer;
-  text-align: center;
-  vertical-align: inherit;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li i,
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li i{
   display: flex;
   font-size: 1em;
+  font-weight: 800;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li i{
   color: #d9534f;

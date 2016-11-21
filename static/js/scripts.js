@@ -30,11 +30,11 @@ $(document).ready(function () {
             $nuevo_li = $("" +
                 "<li id='" + li_id + "' class='list-group-item'>" +
                     "<span class='name-li text-uppercase'>" + name + "</span> " +
+                    "<span class='remove-icon-li'><i class='material-icons'>remove</i></span>" +
                     "<span class='cant-li'>1</span>"+
+                    "<span class='add-icon-li'><i class='material-icons'>add</i></span>" +
                     "<span class='font-weight-bold s-li'>$ </span>" +
                     "<span class='total-li font-weight-bold'>" + cost + "</span> " +
-                    "<span class='remove-icon-li'><i class='material-icons'>remove_circle</i></span>" +
-                    "<span class='add-icon-li'><i class='material-icons'>add_circle</i></span>" +
                 "</li>");
             $nuevo_li.appendTo('#sales-list').fadeTo('slow', 1);
         }
