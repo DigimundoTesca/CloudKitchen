@@ -42,12 +42,11 @@ small {
 }
 .container-sales .group-sales .card-scroll {
   overflow-y: scroll;
-  min-height: calc(100vh - 11rem);
-  max-height: calc(100vh - 11rem);
-}
-.container-sales .group-sales .card-scroll#group-promos {
   min-height: calc(100vh - 16rem);
   max-height: calc(100vh - 16rem);
+}
+.container-sales .group-sales .card-block.card-product-title {
+  height: 5rem;
 }
 .container-sales .group-sales .card-scroll-orders {
   overflow-y: scroll;
