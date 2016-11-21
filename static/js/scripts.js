@@ -29,12 +29,12 @@ $(document).ready(function () {
 
             $nuevo_li = $("" +
                 "<li id='" + li_id + "' class='list-group-item'>" +
-                    "<span class='name-li text-uppercase'>" + name + "</span> " +
-                    "<span class='remove-icon-li'><i class='material-icons'>remove</i></span>" +
-                    "<span class='cant-li'>1</span>"+
-                    "<span class='add-icon-li'><i class='material-icons'>add</i></span>" +
-                    "<span class='font-weight-bold s-li'>$ </span>" +
-                    "<span class='total-li font-weight-bold'>" + cost + "</span> " +
+                "<span class='name-li text-uppercase'>" + name + "</span> " +
+                "<span class='remove-icon-li'><i class='material-icons'>remove</i></span>" +
+                "<span class='cant-li'>1</span>"+
+                "<span class='add-icon-li'><i class='material-icons'>add</i></span>" +
+                "<span class='font-weight-bold s-li'>$ </span>" +
+                "<span class='total-li font-weight-bold'>" + cost + "</span> " +
                 "</li>");
             $nuevo_li.appendTo('#sales-list').fadeTo('slow', 1);
         }
@@ -48,7 +48,6 @@ $(document).ready(function () {
             total += parseFloat(re)
         });
         var arreglo = total.toFixed(2).split('.')
-        console.log(arreglo)
 
         $('#total-price').html("" +
             "<span class='text-price align-top' id='int-total-price'>"+ arreglo[0] +"</span> " +
@@ -56,8 +55,19 @@ $(document).ready(function () {
             "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
         );
     });
+    //Boton remover
+    $('remove-icon-li').click(function () {
+        console.log('Btn remover');
+    });
+
+    //Boton agregar
+    $('ul li span.add-icon-li>i').click(function () {
+        console.log('Btn agregar');
+    });
 
     // Boton de venta
     $(".product-img").click(function () {
     });
+
+
 });

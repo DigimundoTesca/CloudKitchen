@@ -37,6 +37,7 @@ small {
   margin: 0 0.5rem 0 0;
 }
 .container-sales .group-sales button#btn-order{
+  font-size: 1.5em;
   height: 4rem;
   margin-bottom: 1rem;
 }
@@ -46,12 +47,12 @@ small {
   max-height: calc(100vh - 16rem);
 }
 .container-sales .group-sales .card-block.card-product-title {
-  height: 5rem;
+  height: 4rem;
 }
 .container-sales .group-sales .card-scroll-orders {
   overflow-y: scroll;
-  min-height: calc(100vh - 20rem);
-  max-height: calc(100vh - 20rem);
+  min-height: calc(100vh - 20.5rem);
+  max-height: calc(100vh - 20.5rem);
   padding: 0;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group {
@@ -66,7 +67,7 @@ small {
   justify-content: center;
   margin: 0;
   opacity: 0;
-  padding: 0;
+  padding: 0.5rem 0;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -75,7 +76,7 @@ small {
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group li span{
   flex: 1;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   letter-spacing: normal;
   overflow: hidden;
   padding: 0 0.2rem;
