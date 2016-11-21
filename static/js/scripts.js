@@ -29,10 +29,12 @@ $(document).ready(function () {
 
             $nuevo_li = $("" +
                 "<li id='" + li_id + "' class='list-group-item'>" +
-                "<span class='name-li text-uppercase'>" + name + "</span> " +
-                "<span class='cant-li'>1</span>"+
-                "<span class='font-weight-bold s-li'>$ </span>" +
-                "<span class='total-li font-weight-bold'>" + cost + "</span> " +
+                    "<span class='name-li text-uppercase'>" + name + "</span> " +
+                    "<span class='cant-li'>1</span>"+
+                    "<span class='font-weight-bold s-li'>$ </span>" +
+                    "<span class='total-li font-weight-bold'>" + cost + "</span> " +
+                    "<span class='remove-icon-li'><i class='material-icons'>remove_circle</i></span>" +
+                    "<span class='add-icon-li'><i class='material-icons'>add_circle</i></span>" +
                 "</li>");
             $nuevo_li.appendTo('#sales-list').fadeTo('slow', 1);
         }
@@ -53,5 +55,9 @@ $(document).ready(function () {
             "<span class='point-total-price'>.</span> " +
             "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
         );
+    });
+
+    // Boton de venta
+    $(".product-img").click(function () {
     });
 });

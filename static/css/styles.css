@@ -59,26 +59,34 @@ small {
   font-family: 'Open Sans Condensed', sans-serif;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group li {
-  font-size: 1px;
-  letter-spacing: -1px;
-  width: 100%;
-  margin: auto;
-  padding: 0;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin: 0;
   opacity: 0;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group li span{
   display: inline-block;
-  font-size: 1.2rem;
-  overflow: hidden;
+  font-size: 2rem;
   letter-spacing: normal;
+  overflow: hidden;
   padding: 0 0.2rem;
   text-overflow: ellipsis;
   white-space: nowrap;
   word-spacing: normal;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.name-li {
-  min-width: 60%;
-  max-width: 60%;
+  min-width: 40%;
+  max-width: 40%;
   text-align: left;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.cant-li {
@@ -96,11 +104,36 @@ small {
   max-width: 22%;
   text-align: right;
 }
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li,
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li {
+  min-width: 10%;
+  max-width: 10%;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: inherit;
+}
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li i,
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li i{
+  display: flex;
+  font-size: 1em;
+}
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li i{
+  color: #d9534f;
+}
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li i:active {
+  color: #c9302c;
+}
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li i{
+  color: #5cb85c;
+}
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li i:active {
+  color: #419641;
+}
 .container-sales .group-sales .card-block>.card-block{
   border-bottom: #ffeac4 solid 1px;
 }
 .container-sales .group-sales .card-block img  {
-  height: 300px;
+  max-height: 300px;
   border-radius: 3px;
   cursor: pointer;
   max-width: 100%;
@@ -178,7 +211,7 @@ small {
   right: 6rem;
 }
 .modal#modal-order .modal-dialog .modal-content{
-  margin-top: 12rem;
+  margin-top: 10rem;
   max-height: 30rem;
   min-height: 30rem;
 }
