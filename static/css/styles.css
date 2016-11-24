@@ -89,6 +89,10 @@ small {
   max-width: 40%;
   text-align: left;
 }
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.cost-base-li {
+  text-align: center;
+  display: none;
+}
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.cant-li {
   min-width: 10%;
   max-width: 10%;
@@ -117,16 +121,16 @@ small {
   font-weight: 800;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li i{
-  color: #d9534f;
-}
-.container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li i:active {
-  color: #c9302c;
-}
-.container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li i{
   color: #5cb85c;
 }
-.container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li i:active {
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.add-icon-li i:active {
   color: #419641;
+}
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li i{
+  color: #d9534f;
+}
+.container-sales .group-sales .card-scroll-orders ul.list-group  span.remove-icon-li i:active {
+  color: #c9302c;
 }
 .container-sales .group-sales .card-block>.card-block{
   border-bottom: #ffeac4 solid 1px;

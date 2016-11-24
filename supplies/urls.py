@@ -34,4 +34,6 @@ urlpatterns = [
 
     # Providers
     url(r'^providers/$', views.providers, name='providers'),
+    
+    
 ]

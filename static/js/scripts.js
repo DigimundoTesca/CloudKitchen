@@ -3,33 +3,42 @@ $(document).ready(function () {
     // document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
 
     $(".product-img").click(function () {
-        name = $(this).siblings('.product-name').text();
-        cost = parseFloat($(this).siblings('.content-price').children('.product-cost').text());
-        id = $(this).parent().attr('id');
-        li_id = ('li-' + id).toString();
+        let name = $(this).siblings('.product-name').text();
+        let cost_base = parseFloat($(this).siblings('.content-price').children('.product-cost').text());
+        let cost = cost_base;
+        let id = $(this).parent().attr('id');
+        let li_id = ('li-' + id).toString();
+        let cant = $('ul#sales-list').find('#' + li_id + ' .cant-li').text();
+        let total = 0;
+
 
         if ($('#' + li_id + '').length != 0) {
-            cant = $('ul#sales-list').find('#' + li_id + ' .cant-li').text();
             cant++;
+            let new_cost = cost * cant;
+            console.log(new_cost)
+            if (new_cost % 2 != 0) {
+                new_cost = new_cost.toFixed(2);
+            }
+            else
+                new_cost += '.00';
+
             $('ul#sales-list').find('#' + li_id + ' .cant-li').text(cant);
-
-            new_cost = cost * cant;
-            if (new_cost % 2 != 0)
-                cost.toFixed(2);
-
-            new_cost += '.00';
-
             $('ul#sales-list').find('#' + li_id + ' .total-li').text(new_cost);
-
-        } else {
+        }
+        else {
             if (cost % 2 != 0)
-                cost.toFixed(2);
+                cost = cost.toFixed(2);
+            else
+                cost += '.00';
+            if (cost_base % 2 != 0)
+                cost_base = cost_base.toFixed(2);
+            else
+                cost_base += '.00';
 
-            cost += '.00';
-
-            $nuevo_li = $("" +
+            $nuevo_li= $("" +
                 "<li id='" + li_id + "' class='list-group-item'>" +
                 "<span class='name-li text-uppercase'>" + name + "</span> " +
+                "<span class='cost-base-li'>" + cost_base + "</span>"+
                 "<span class='remove-icon-li'><i class='material-icons'>remove</i></span>" +
                 "<span class='cant-li'>1</span>"+
                 "<span class='add-icon-li'><i class='material-icons'>add</i></span>" +
@@ -40,9 +49,6 @@ $(document).ready(function () {
         }
 
         // Modificacion del total general
-
-        var total = 0
-
         $('ul li').find('.total-li').each(function(){
             re = $(this).text()
             total += parseFloat(re)
@@ -55,18 +61,20 @@ $(document).ready(function () {
             "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
         );
     });
-    //Boton remover
-    $('remove-icon-li').click(function () {
-        console.log('Btn remover');
+
+//Boton remover
+    $(this).on('click', '.remove-icon-li', function () {
+        console.log('btn remover');
     });
 
-    //Boton agregar
-    $('ul li span.add-icon-li>i').click(function () {
+//Boton agregar
+    $(this).on('click', '.add-icon-li', function () {
         console.log('Btn agregar');
     });
 
-    // Boton de venta
-    $(".product-img").click(function () {
+// Boton de venta
+    $("#btn-order").click(function () {
+        
     });
 
 
