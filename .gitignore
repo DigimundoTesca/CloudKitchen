@@ -117,4 +117,4 @@ supplies/migrations/
 media/*
 staticfiles/
 #Database
-db.sqlite3
+##db.sqlite3

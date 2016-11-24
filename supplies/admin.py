@@ -43,7 +43,8 @@ class AdminSupplyLocation(admin.ModelAdmin):
 
 @admin.register(Supply)
 class AdminSupply(admin.ModelAdmin):
-    list_display = ('name', 'category', 'supplier', 'presentation_unit', 'measurement_unit', 'measurement_cost',)
+    list_display = ('name', 'category', 'supplier', 'presentation_unit',  'presentation_cost', 'measurement_unit',
+                    'measurement_quantity', )
 
     
 class OrderDetailInline(admin.TabularInline):
