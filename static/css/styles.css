@@ -30,6 +30,9 @@ main {
 small {
   font-size: 75%;
 }
+.card-scroll {
+  overflow-y: scroll;
+}
 .container-main {
   padding-top: 0;
 }
@@ -42,7 +45,6 @@ small {
   margin-bottom: 1rem;
 }
 .container-sales .group-sales .card-scroll {
-  overflow-y: scroll;
   min-height: calc(100vh - 16rem);
   max-height: calc(100vh - 16rem);
 }
@@ -50,7 +52,6 @@ small {
   height: 4rem;
 }
 .container-sales .group-sales .card-scroll-orders {
-  overflow-y: scroll;
   min-height: calc(100vh - 20.5rem);
   max-height: calc(100vh - 20.5rem);
   padding: 0;
@@ -214,13 +215,37 @@ small {
   right: 6rem;
 }
 .modal#modal-order .modal-dialog .modal-content{
-  margin-top: 10rem;
+  margin-top: calc(50vh - 15rem);
   max-height: 30rem;
   min-height: 30rem;
+}
+.modal#modal-order .modal-dialog .modal-content .card-scroll {
+  display: flex;
+  height: 300px;
 }
 .modal#modal-order .modal-dialog .modal-content .modal-body{
   max-height: 21.5rem;
   min-height: 21.5rem;
+}
+.modal#modal-order .modal-dialog .modal-content .modal-body  #printer-container {
+  flex-direction: row;
+  justify-content: center;
+  font-size: 3mm;
+}
+.modal#modal-order .modal-dialog .modal-content .modal-body  #printer-container #printer {
+  min-width: 58mm;
+  max-width: 58mm;
+}
+.modal#modal-order .modal-dialog .modal-content .modal-body #printer-container #printer figure {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.modal#modal-order .modal-dialog .modal-content .modal-body #printer-container #printer figure img {
+  height: 10mm;
+}
+.modal#modal-order .modal-dialog .modal-content .modal-body .card #ticket-description {
+  width: 100%;
 }
 .popout .FAB {
   display: inline-block;
