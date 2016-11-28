@@ -44,47 +44,96 @@ $(document).ready(function(){
       $nuevo_li.appendTo('#sales-list').fadeTo('slow', 1);
     }
 
-        // Modificacion del total general
-        $('ul li').find('.total-li').each(function(){
-          re = $(this).text()
-          total += parseFloat(re)
-        });
-        var arreglo = total.toFixed(2).split('.')
+    // Modificacion del total general
+    $('ul li').find('.total-li').each(function(){
+      re = $(this).text()
+      total += parseFloat(re)
+    });
+    var arreglo = total.toFixed(2).split('.')
 
-        $('#total-price').html("" +
-          "<span class='text-price align-top' id='int-total-price'>"+ arreglo[0] +"</span> " +
-          "<span class='point-total-price'>.</span> " +
-          "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
-          );
+    $('#total-price').html("" +
+      "<span class='text-price align-top' id='int-total-price'>" + arreglo[0] +"</span>" +
+      "<span class='point-total-price'>.</span>" +
+      "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
+      );
+  });
+
+  //Boton remover unidad
+  $(this).on('click', '.remove-icon-li', function () {
+    console.log('btn remover');
+  });
+
+  //Boton agregar unidad
+  $(this).on('click', '.add-icon-li', function () {
+    console.log('Btn agregar');
+  });
+
+  // Boton para realizar venta
+  $("#btn-order").click(function() {
+    $('#sales-list-modal').empty();
+    $nuevo_li= $("" +
+      "<li>" +
+      "<span class='name-li-title-modal'>Nombre</span> " +
+      "<span class='cost-li-title-modal'>Cost</span>"+
+      "<span class='cant-li-title-modal'>Cant</span>"+
+      "<span class='total-li-title-modal'>Total</span> " +
+      "</li>");
+
+    $nuevo_li.appendTo('#sales-list-modal').fadeTo('slow', 1);
+
+    $('#sales-list li').each(function() {
+      let name = $(this).find('.name-li').text();
+      let cost_base = $(this).find('.cost-base-li').text();
+      let cant = $(this).find('.cant-li').text();
+      let total = $(this).find('.total-li').text();
+      let id = $(this).attr('id');
+      let li_id = (id + '-modal').toString();
+
+      // Acorta el nombre
+      name = name.split(' ');
+      $.each(name, function(index, item) {
+        name[index] = item.substring(0,3);
+
       });
+      name = name.toString().replace(',', ' ').replace(',', ' ');
 
-//Boton remover
-$(this).on('click', '.remove-icon-li', function () {
-  console.log('btn remover');
-});
 
-//Boton agregar
-$(this).on('click', '.add-icon-li', function () {
-  console.log('Btn agregar');
-});
+      $nuevo_li= $("" +
+        "<li id='" + li_id + "' class='list-group-item'>" +
+        "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
+        "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>"+
+        "<span class='cant-li-modal'>" + cant + "</span>"+
+        "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
+        "</li>");
 
-// Boton de venta
+      $nuevo_li.appendTo('#sales-list-modal').fadeTo('slow', 1);
+    });
 
-$(this).on('click', '.btn-printer', function () {
-        //  ---------   | ---------  | ---------------------- | -----------
-        //  @mode       | [string]   | (iframe),popup         | printable window is either iframe or browser popup
-        //  @popHt      | [number]   | (500)                  | popup window height
-        //  @popWd      | [number]   | (400)                  | popup window width
-        //  @popX       | [number]   | (500)                  | popup window screen X position
-        //  @popY       | [number]   | (500)                  | popup window screen Y position
-        //  @popTitle   | [string]   | ('')                   | popup window title element
-        //  @popClose   | [boolean]  | (false),true           | popup window close after printing
-        //  @extraCss   | [string]   | ('')                   | comma separated list of extra css to include
-        //  @retainAttr | [string[]] | ["id","class","style"] | string array of attributes to retain for the containment area. (ie: id, style, class)
-        //  @standard   | [string]   | strict, loose, (html5) | Only for popup. For html 4.01, strict or loose document standard, or html 5 standard
-        //  @extraHead  | [string]   | ('')                   | comma separated list of extra elements to be appended to the head tag
+    let total_ticket = $('#total-price').text();
 
-        let options = { mode: 'popup', popClose: true, popHt: 600, popWd: 400,};
-        $("#printer").printArea(options);
-      });
+    $nuevo_li= $("" +
+      "<li class='total-ticket-container'>" +
+      "<span id='total-ticket'>" + "$ " + total_ticket + "</span> " +
+      "</li>");
+
+    $nuevo_li.appendTo('#sales-list-modal').fadeTo('slow', 1);
+  });
+
+  $(this).on('click', '.btn-printer', function () {
+    //  ---------   | ---------  | ---------------------- | -----------
+    //  @mode       | [string]   | (iframe),popup         | printable window is either iframe or browser popup
+    //  @popHt      | [number]   | (500)                  | popup window height
+    //  @popWd      | [number]   | (400)                  | popup window width
+    //  @popX       | [number]   | (500)                  | popup window screen X position
+    //  @popY       | [number]   | (500)                  | popup window screen Y position
+    //  @popTitle   | [string]   | ('')                   | popup window title element
+    //  @popClose   | [boolean]  | (false),true           | popup window close after printing
+    //  @extraCss   | [string]   | ('')                   | comma separated list of extra css to include
+    //  @retainAttr | [string[]] | ["id","class","style"] | string array of attributes to retain for the containment area. (ie: id, style, class)
+    //  @standard   | [string]   | strict, loose, (html5) | Only for popup. For html 4.01, strict or loose document standard, or html 5 standard
+    //  @extraHead  | [string]   | ('')                   | comma separated list of extra elements to be appended to the head tag
+
+    let options = { mode: 'iframe', popClose: true,};
+    $("#printer").printArea(options);
+  });
 });
