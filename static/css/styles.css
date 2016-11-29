@@ -385,6 +385,7 @@ small {
   justify-content: flex-end;  
 }
 #printer ul li span#total-ticket {
+  margin-top: 0.2rem;
   font-size: 0.9rem;
   text-align: right;
   font-family: 'Dosis-SemiBold';

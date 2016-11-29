@@ -353,7 +353,6 @@ class TicketDetail(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
     package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
-    created_at = models.DateTimeField(editable=False, auto_now_add=True)
     quantity = models.FloatField(default=0)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
 

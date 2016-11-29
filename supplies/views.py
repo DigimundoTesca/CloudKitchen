@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
 from django.contrib.auth import authenticate
@@ -69,16 +70,24 @@ def sales(request):
 
 @login_required(login_url='supplies:login')
 def new_sale(request):
-    cartridges_list = Cartridge.objects.all()
-    package_cartridges = PackageCartridge.objects.all()
-    template = 'sales/new_sale.html'
-    title = 'Nueva venta'
-    context = {
-        'page_title': PAGE_TITLE,
-        'title': title,
-        'cartridges': cartridges_list,
-        'package_cartridges': package_cartridges
-    }
+    if request.method == 'POST':
+        mivar = request.POST.get('mivar')
+        data = {
+            'hola': 'holaaa'
+        }
+        return JsonResponse(data)
+
+    else:
+        cartridges_list = Cartridge.objects.all()
+        package_cartridges = PackageCartridge.objects.all()
+        template = 'sales/new_sale.html'
+        title = 'Nueva venta'
+        context = {
+            'page_title': PAGE_TITLE,
+            'title': title,
+            'cartridges': cartridges_list,
+            'package_cartridges': package_cartridges
+        }
     return render(request, template, context)
 
 
