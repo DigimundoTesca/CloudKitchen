@@ -145,11 +145,8 @@
 <script type="text/javascript">
   $(document).ready(function(){
     let Ticket = {
-      cartuchos: [
-      ],
-      combos: {
-        lista: {},
-      },
+      cartuchos: [],
+      paquetes: [],
     }
 
     $(".product-img").click(function() {
@@ -162,10 +159,10 @@
           id = id.replace('cartridge-', '');
 
           // Itera la lista de cartuchos
-          function findId(cartuchos) { 
+          function findIdCartucho(cartuchos) { 
             return cartuchos.id == id;
           }
-          if (!Ticket.cartuchos.find(findId)) { // Si no existe
+          if (!Ticket.cartuchos.find(findIdCartucho)) { // Si no existe
             nuevo_cartucho = []
             nuevo_cartucho.id = id;
             nuevo_cartucho.cant = cant;
@@ -174,7 +171,7 @@
 
           } 
           else { 
-            mi_cartucho  = Ticket.cartuchos.find(findId);
+            mi_cartucho  = Ticket.cartuchos.find(findIdCartucho);
             mi_cartucho.cant = cant;
             mi_cartucho.cost = cost;            
           }
@@ -182,9 +179,27 @@
         }
 
         else {
+          id = id.replace('package-', '');
 
+          // Itera la lista de paquetes
+          function findIdPaquete(paquetes) { 
+            return paquetes.id == id;
+          }
+          if (!Ticket.paquetes.find(findIdPaquete)) { // Si no existe
+            nuevo_paquete = []
+            nuevo_paquete.id = id;
+            nuevo_paquete.cant = cant;
+            nuevo_paquete.cost = cost;
+            Ticket.paquetes.push(nuevo_paquete);
+
+          } 
+          else { 
+            mi_paquete  = Ticket.paquetes.find(findIdPaquete);
+            mi_paquete.cant = cant;
+            mi_paquete.cost = cost;            
+          }
+          console.log(Ticket)
         }
-
       }
 
       function agregarProductoTicket () {
@@ -244,9 +259,7 @@
           "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
           );
 
-        if ( product_type.indexOf('cartridge') > -1 ) {
           agregarProducto(id, cant, cost);
-        }
       }
 
       agregarProductoTicket();
