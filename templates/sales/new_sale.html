@@ -157,25 +157,28 @@
       var product_type = $(this).attr('id');
       var element = $(this)
 
-      function agregarProducto(id, cant, new_cost) {
+      function agregarProducto(id, cant, cost) {
         if( id.indexOf('cartridge') >= 0 ){
-            id = id.replace('cartridge-', '');
+          id = id.replace('cartridge-', '');
 
           // Itera la lista de cartuchos
           function findId(cartuchos) { 
             return cartuchos.id == id;
           }
           if (!Ticket.cartuchos.find(findId)) { // Si no existe
-            console.log('no existe')
             nuevo_cartucho = []
             nuevo_cartucho.id = id;
+            nuevo_cartucho.cant = cant;
+            nuevo_cartucho.cost = cost;
             Ticket.cartuchos.push(nuevo_cartucho);
+
           } 
           else { 
-            console.log('existe')
-            console.log(Ticket)
+            mi_cartucho  = Ticket.cartuchos.find(findId);
+            mi_cartucho.cant = cant;
+            mi_cartucho.cost = cost;            
           }
-
+          console.log(Ticket)
         }
 
         else {
@@ -192,19 +195,18 @@
         let li_id = ('li-' + id).toString();
         let cant = $('ul#sales-list').find('#' + li_id + ' .cant-li').text();
         let total = 0;
-        let new_cost = 0;
 
         if ($('#' + li_id + '').length != 0) {
           cant++;
 
-          new_cost = cost * cant;
-          if (new_cost % 2 != 0) {
-            new_cost = new_cost.toFixed(2);
+          cost = cost * cant;
+          if (cost % 2 != 0) {
+            cost = cost.toFixed(2);
           }
           else
-            new_cost += '.00';
+            cost += '.00';
           $('ul#sales-list').find('#' + li_id + ' .cant-li').text(cant);
-          $('ul#sales-list').find('#' + li_id + ' .total-li').text(new_cost);
+          $('ul#sales-list').find('#' + li_id + ' .total-li').text(cost);
         }
         else {
           cant = 1;
@@ -243,7 +245,7 @@
           );
 
         if ( product_type.indexOf('cartridge') > -1 ) {
-          agregarProducto(id, cant, new_cost);
+          agregarProducto(id, cant, cost);
         }
       }
 
