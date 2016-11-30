@@ -145,40 +145,46 @@
 <script type="text/javascript">
   $(document).ready(function(){
     let Ticket = {
-      cartuchos: {
-        list: [],
-      },
+      cartuchos: [
+      ],
       combos: {
-        list: [],
+        lista: {},
       },
     }
-
-
 
     $(".product-img").click(function() {
 
       var product_type = $(this).attr('id');
       var element = $(this)
 
-      function agregarCartucho () {
+      function agregarProducto(id, cant, new_cost) {
+        if( id.indexOf('cartridge') >= 0 ){
+            id = id.replace('cartridge-', '');
 
-      }
+          // Itera la lista de cartuchos
+          function findId(cartuchos) { 
+            return cartuchos.id == id;
+          }
+          if (!Ticket.cartuchos.find(findId)) { // Si no existe
+            console.log('no existe')
+            nuevo_cartucho = []
+            nuevo_cartucho.id = id;
+            Ticket.cartuchos.push(nuevo_cartucho);
+          } 
+          else { 
+            console.log('existe')
+            console.log(Ticket)
+          }
 
-      function agregarPaquete () {
+        }
+
+        else {
+
+        }
+
       }
 
       function agregarProductoTicket () {
-
-        if ( product_type.indexOf('cartridge') > -1 ) {
-          agregarCartucho();
-        }  else {
-          agregarPaquete();
-        }
-
-        let nuevo_cartucho = {
-          name : element.siblings('.product-name').text(),
-        }
-
         let name = element.siblings('.product-name').text();
         let cost_base = parseFloat(element.siblings('.content-price').children('.product-cost').text());
         let cost = cost_base;
@@ -186,11 +192,12 @@
         let li_id = ('li-' + id).toString();
         let cant = $('ul#sales-list').find('#' + li_id + ' .cant-li').text();
         let total = 0;
+        let new_cost = 0;
 
         if ($('#' + li_id + '').length != 0) {
           cant++;
 
-          let new_cost = cost * cant;
+          new_cost = cost * cant;
           if (new_cost % 2 != 0) {
             new_cost = new_cost.toFixed(2);
           }
@@ -200,6 +207,7 @@
           $('ul#sales-list').find('#' + li_id + ' .total-li').text(new_cost);
         }
         else {
+          cant = 1;
           if (cost % 2 != 0)
             cost = cost.toFixed(2);
           else
@@ -213,7 +221,7 @@
             "<span class='name-li text-uppercase'>" + name + "</span> " +
             "<span class='cost-base-li'>" + cost_base + "</span>"+
             "<span class='remove-icon-li'><i class='material-icons'>remove</i></span>" +
-            "<span class='cant-li'>1</span>"+
+            "<span class='cant-li'>" + cant + "</span>"+
             "<span class='add-icon-li'><i class='material-icons'>add</i></span>" +
             "<span class='font-weight-bold s-li'>$ </span>" +
             "<span class='total-li font-weight-bold'>" + cost + "</span> " +
@@ -233,6 +241,10 @@
           "<span class='point-total-price'>.</span>" +
           "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
           );
+
+        if ( product_type.indexOf('cartridge') > -1 ) {
+          agregarProducto(id, cant, new_cost);
+        }
       }
 
       agregarProductoTicket();
