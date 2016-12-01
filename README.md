@@ -11,7 +11,7 @@ cashflow was made with python 3.4
 
     $ source .venv/bin/activate
 
-    (venv)$ pip install -r requirements/base.txt
+    (venv)$ pip install -r requirements/dev.txt
 
 
 **Windows commands**
@@ -20,7 +20,7 @@ cashflow was made with python 3.4
 
 	$ .venv/Scripts/activate
 
-	(venv)$ pip install -r requirements/base.txt
+	(venv)$ pip install -r requirements/dev.txt
 
 
 
