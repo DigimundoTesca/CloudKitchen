@@ -26,3 +26,8 @@ cashflow was made with python 3.4
 
 ###Do you have questions about installing?
 1. [Quick installation of a project django with virtualenv](https://tutorial.djangogirls.org/es/django_installation/)
+
+or.. contact us
+
+    support@tescacorporation.com
+    
