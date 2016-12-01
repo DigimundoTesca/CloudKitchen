@@ -1,21 +1,26 @@
-# cashflow project
+# CashFlow project
 
 ##Instructions
-To run cashflow, you must create a virtualenv with the following packages
+To install CashFlow, you must to install virtualenv
+cashflow was made with python 3.4
 
-#### base.txt
-* Django==1.10
-* djangorestframework==3.5.3
-* Pillow==3.4.2
-* psycopg2==2.6.2
-* sqlparse==0.1.18
-* wheel==0.24.0
 
-#### dev.txt
-django-debug-toolbar==1.4
+**Unix commands**
 
-#### prod.txt 
-* gunicorn==19.6.0
+    $ pip install -p python3 venv
+
+    $ source .venv/bin/activate
+
+    (venv)$ pip install -r requirements/base.txt
+
+
+**Windows commands**
+
+	$ pip install venv
+
+	$ .venv/Scripts/activate
+
+	(venv)$ pip install -r requirements/base.txt
 
 
 
