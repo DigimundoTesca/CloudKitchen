@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.utils import timezone
+
 from supplies.models import CustomerOrder, CustomerOrderDetail, Cartridge, PackageCartridge, PackageCartridgeRecipe, \
     User, UserProfile
 
@@ -50,10 +52,20 @@ class CustomerOrderDetailSerializer(serializers.ModelSerializer):
         fields = ('id', 'cartridge', 'package_cartridge', 'quantity',)
 
 
+class DateTimeFieldWihTZ(serializers.DateTimeField):
+
+    def to_representation(self, value):
+        value = timezone.localtime(value)
+        print(value)
+        return super(DateTimeFieldWihTZ, self).to_representation(value)
+
+
 class CustomerOrderSerializer(serializers.ModelSerializer):
     customer_order_details = CustomerOrderDetailSerializer(many=True, read_only=True, source='customerorderdetail_set')
     customer_user = UserProfileSerializer(read_only=True,)
     customer_user_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=UserProfile.objects.all(), source='customer_user')
+    delivery_date = DateTimeFieldWihTZ()
+    created_at = DateTimeFieldWihTZ()
 
     class Meta:
         model = CustomerOrder

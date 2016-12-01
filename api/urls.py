@@ -4,7 +4,10 @@ from . import views
 
 customer_orders = views.CustomerOrderViewSet.as_view({
     'get': 'list',
-    'post': 'create'
+    'post': 'create',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
 })
 
 customer_order_detail = views.CustomerOrderViewSet.as_view({

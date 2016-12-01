@@ -342,21 +342,23 @@
         traditional: true,
         datatype: 'jsonp',
         success: function(result){
-
           swal({
             title: "Éxito",
             text: "Venta realizada",
             type: "success",
-            timer: 5000,
+            timer: 1000,
             showConfirmButton: false
-          });
-          
+          });  
+        }
+      });
+      function rel(){
+        location.reload();          
+      }
 
-    }
-  });
+      setTimeout(rel, 1500);
+    });
       /*let options = { mode: 'iframe', popClose: true,};
       $("#printer").printArea(options);*/
     });
-});
 </script>
 {% endblock javascript %}

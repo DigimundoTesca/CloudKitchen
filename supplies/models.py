@@ -376,12 +376,12 @@ class CustomerOrder(models.Model):
         (CANCELLED, 'Cancelado'),
     )
     customer_user = models.ForeignKey(UserProfile, default=1)
-    created_at = models.DateTimeField(auto_created=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now(), editable=False)
+    delivery_date = models.DateTimeField(auto_created=True, editable=True)
     status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
-    delivery_date = models.DateTimeField(auto_created=True, default=datetime.datetime.now(), editable=True)
 
     def __str__(self):
         return '%s' % self.id
