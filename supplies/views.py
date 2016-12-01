@@ -71,7 +71,8 @@ def sales(request):
 @login_required(login_url='supplies:login')
 def new_sale(request):
     if request.method == 'POST':
-        mivar = request.POST.get('mivar')
+        mivar = request.POST.get('ticket')
+        print(mivar)
         data = {
             'hola': 'holaaa'
         }

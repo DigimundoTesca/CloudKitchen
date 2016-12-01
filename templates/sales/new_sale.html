@@ -124,8 +124,8 @@
           <div class="modal-footer">
             <div class="container">
               <div class="row">
-                <button type="submit" id="" class="btn btn-primary col-xs-4 push-xs-3 btn-printer">Pago con tarjeta</button>
-                <button type="submit" id="" class="btn btn-success col-xs-4 push-xs-4 btn-printer">Pago con efectivo</button>
+                <button type="submit" id="btn-pago-tarjeta" class="btn btn-primary col-xs-4 push-xs-3 btn-printer">Pago con tarjeta</button>
+                <button type="submit" id="btn-pago-efectivo" class="btn btn-success col-xs-4 push-xs-4 btn-printer">Pago con efectivo</button>
               </div>
             </div>
           </div>
@@ -163,7 +163,7 @@
             return cartuchos.id == id;
           }
           if (!Ticket.cartuchos.find(findIdCartucho)) { // Si no existe
-            nuevo_cartucho = []
+            nuevo_cartucho = {}
             nuevo_cartucho.id = id;
             nuevo_cartucho.cant = cant;
             nuevo_cartucho.cost = cost;
@@ -175,7 +175,6 @@
             mi_cartucho.cant = cant;
             mi_cartucho.cost = cost;            
           }
-          console.log(Ticket)
         }
 
         else {
@@ -186,7 +185,7 @@
             return paquetes.id == id;
           }
           if (!Ticket.paquetes.find(findIdPaquete)) { // Si no existe
-            nuevo_paquete = []
+            nuevo_paquete = {}
             nuevo_paquete.id = id;
             nuevo_paquete.cant = cant;
             nuevo_paquete.cost = cost;
@@ -198,7 +197,6 @@
             mi_paquete.cant = cant;
             mi_paquete.cost = cost;            
           }
-          console.log(Ticket)
         }
       }
 
@@ -259,75 +257,91 @@
           "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
           );
 
-          agregarProducto(id, cant, cost);
+        agregarProducto(id, cant, cost);
       }
 
       agregarProductoTicket();
     });
-  //Boton remover unidad
-  $(this).on('click', '.remove-icon-li', function () {
-  });
-  //Boton agregar unidad
-  $(this).on('click', '.add-icon-li', function () {
-    console.log('xd');
-  });
-  // Boton para realizar venta
-  $("#btn-order").click(function() {
-    $('#sales-list-modal').empty();
-    $nuevo_li= $("" +
-      "<li>" +
-      "<span class='name-li-title-modal'>Nombre</span> " +
-      "<span class='cost-li-title-modal'>Cost</span>"+
-      "<span class='cant-li-title-modal'>Cant</span>"+
-      "<span class='total-li-title-modal'>Total</span> " +
-      "</li>");
-    $nuevo_li.appendTo('#sales-list-modal').fadeTo('slow', 1);
-    $('#sales-list li').each(function() {
-      let name = $(this).find('.name-li').text();
-      let cost_base = $(this).find('.cost-base-li').text();
-      let cant = $(this).find('.cant-li').text();
-      let total = $(this).find('.total-li').text();
-      let id = $(this).attr('id');
-      let li_id = (id + '-modal').toString();
-      // Acorta el nombre
-      name = name.split(' ');
-      $.each(name, function(index, item) {
-        name[index] = item.substring(0,3);
-      });
-      name = name.toString().replace(',', ' ').replace(',', ' ');
+
+    $(this).on('click', '.remove-icon-li', function () {
+    });
+
+    $(this).on('click', '.add-icon-li', function () {
+    });
+
+    $("#btn-order").click(function() {
+
+      $('#sales-list-modal').empty();
+
       $nuevo_li= $("" +
-        "<li id='" + li_id + "' class='list-group-item'>" +
-        "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
-        "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>"+
-        "<span class='cant-li-modal'>" + cant + "</span>"+
-        "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
+        "<li>" +
+        "<span class='name-li-title-modal'>Nombre</span> " +
+        "<span class='cost-li-title-modal'>Cost</span>"+
+        "<span class='cant-li-title-modal'>Cant</span>"+
+        "<span class='total-li-title-modal'>Total</span> " +
         "</li>");
-      $nuevo_li.appendTo('#sales-list-modal').fadeTo('slow', 1);
+
+      $nuevo_li.appendTo('#sales-list-modal');
+
+      $('#sales-list li').each(function() {
+        let name = $(this).find('.name-li').text();
+        let cost_base = $(this).find('.cost-base-li').text();
+        let cant = $(this).find('.cant-li').text();
+        let total = $(this).find('.total-li').text();
+        let id = $(this).attr('id');
+        let li_id = (id + '-modal').toString();
+
+        /* Acorta el nombre */
+        name = name.split(' ');
+        $.each(name, function(index, item) {
+          name[index] = item.substring(0,3);
+        });
+
+        name = name.toString().replace(',', ' ').replace(',', ' ');
+
+        $nuevo_li= $("" +
+          "<li id='" + li_id + "' class='list-group-item'>" +
+          "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
+          "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>"+
+          "<span class='cant-li-modal'>" + cant + "</span>"+
+          "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
+          "</li>");
+
+        $nuevo_li.appendTo('#sales-list-modal');
+      });
+
+      let total_ticket = $('#total-price').text();
+
+      $nuevo_li= $("" +
+        "<li class='total-ticket-container'>" +
+        "<span id='total-ticket'>" + "$ " + total_ticket + "</span> " +
+        "</li>");
+
+      $nuevo_li.appendTo('#sales-list-modal');
+
     });
-    let total_ticket = $('#total-price').text();
-    $nuevo_li= $("" +
-      "<li class='total-ticket-container'>" +
-      "<span id='total-ticket'>" + "$ " + total_ticket + "</span> " +
-      "</li>");
-    $nuevo_li.appendTo('#sales-list-modal').fadeTo('slow', 1);
-  });
-  // Realizaa la venta  e imprimir el ticket
-  $(this).on('click', '.btn-printer', function () {
-    var mivar = $(this).val();
-    console.log('varible recibida');
-    $.ajax({
-      url: '/sales/new/',
-      data: {
-        'mivar': mivar
-      },
-      dataType: 'json',
-      success: function (data) {
-        console.log('excelente');
-      }
+
+    /*Realizar la venta e imprimir ticket */
+    $(this).on('click', '.btn-printer', function () {
+      Ticket = JSON.stringify(Ticket);
+      console.log(Ticket)
+
+      $.ajax({
+        url: '/sales/new/',
+        type: 'POST',
+        data: {
+          'ticket': Ticket,
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+        traditional: true,
+        datatype: 'jsonp',
+        success: function(result){
+          console.log(result);
+        }
+      });
+      /*let options = { mode: 'iframe', popClose: true,};
+      $("#printer").printArea(options);*/
     });
-    let options = { mode: 'iframe', popClose: true,};
-    $("#printer").printArea(options);
   });
-});
 </script>
 {% endblock javascript %}
