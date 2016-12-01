@@ -3,6 +3,11 @@
 {% block page_title %}
 {{ page_title }}
 {% endblock %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/sweetalert.css' %}">
+{% endblock link %}
+
 {% block content %}
 <div class="container-fluid container-sales">
   <div class="row">
@@ -142,6 +147,7 @@
 {% endblock content %}
 
 {% block javascript %}
+<script src="{% static 'js/sweetalert.min.js' %}"></script>
 <script type="text/javascript">
   $(document).ready(function(){
     let Ticket = {
@@ -336,12 +342,21 @@
         traditional: true,
         datatype: 'jsonp',
         success: function(result){
-          console.log(result);
-        }
-      });
+
+          swal({
+            title: "Éxito",
+            text: "Venta realizada",
+            type: "success",
+            timer: 5000,
+            showConfirmButton: false
+          });
+          
+
+    }
+  });
       /*let options = { mode: 'iframe', popClose: true,};
       $("#printer").printArea(options);*/
     });
-  });
+});
 </script>
 {% endblock javascript %}
