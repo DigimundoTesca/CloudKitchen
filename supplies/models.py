@@ -336,7 +336,7 @@ class Warehouse(models.Model):
 
 
 class Ticket(models.Model):
-    created_at = models.DateTimeField(default=datetime.datetime.now())
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
     seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
 
@@ -376,7 +376,7 @@ class CustomerOrder(models.Model):
         (CANCELLED, 'Cancelado'),
     )
     customer_user = models.ForeignKey(UserProfile, default=1)
-    created_at = models.DateTimeField(default=datetime.datetime.now(), editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
     delivery_date = models.DateTimeField(auto_created=True, editable=True)
     status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
     latitude = models.FloatField(default=0)

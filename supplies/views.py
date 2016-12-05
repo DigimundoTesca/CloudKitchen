@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
+
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -73,12 +75,17 @@ def new_sale(request):
     if request.method == 'POST':
         username = request.user
         user = User.objects.filter(username=username)
-        print('USER PROFILE: ')
         user_profile = UserProfile.objects.get(user=user)
         cash_register = CashRegister.objects.first()
-        ticket_detail_list = request.POST.get('ticket')
-        new_ticket = Ticket( cash_register=cash_register, seller=user_profile,)
+        new_ticket = Ticket(cash_register=cash_register, seller=user_profile,)
         new_ticket.save()
+        ticket_detail_json_object = json.loads(request.POST.get('ticket'))
+        for ticket_detail in ticket_detail_json_object['cartuchos']:
+            cartridge = Cartridge.objects.get(id=ticket_detail['id'])
+            quantity = ticket_detail['cant']
+            price = ticket_detail['price']
+            new_ticket_detail = TicketDetail(ticket=new_ticket, cartridge=cartridge, quantity=quantity, price=price)
+            new_ticket_detail.save()
         data = {
             'status': 'listo'
         }

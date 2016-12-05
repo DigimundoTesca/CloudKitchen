@@ -160,7 +160,7 @@
       var product_type = $(this).attr('id');
       var element = $(this)
 
-      function agregarProducto(id, cant, cost) {
+      function agregarProducto(id, cant, price) {
         if( id.indexOf('cartridge') >= 0 ){
           id = id.replace('cartridge-', '');
 
@@ -172,14 +172,14 @@
             nuevo_cartucho = {}
             nuevo_cartucho.id = id;
             nuevo_cartucho.cant = cant;
-            nuevo_cartucho.cost = cost;
+            nuevo_cartucho.price = price;
             Ticket.cartuchos.push(nuevo_cartucho);
 
           } 
           else { 
             mi_cartucho  = Ticket.cartuchos.find(findIdCartucho);
             mi_cartucho.cant = cant;
-            mi_cartucho.cost = cost;            
+            mi_cartucho.price = price;            
           }
         }
 
@@ -194,14 +194,14 @@
             nuevo_paquete = {}
             nuevo_paquete.id = id;
             nuevo_paquete.cant = cant;
-            nuevo_paquete.cost = cost;
+            nuevo_paquete.price = price;
             Ticket.paquetes.push(nuevo_paquete);
 
           } 
           else { 
             mi_paquete  = Ticket.paquetes.find(findIdPaquete);
             mi_paquete.cant = cant;
-            mi_paquete.cost = cost;            
+            mi_paquete.price = price;            
           }
         }
       }
@@ -348,9 +348,9 @@
             type: "success",
             timer: 1000,
             showConfirmButton: false
-          });
-          $('#btn-pago-efectivo').attr("disabled", true);
-          $('#btn-pago-tarjeta').attr("disabled", true);
+          });  
+          $('#btn-pago-efectivo').attr('disabled', 'true');
+          $('#btn-pago-tarjeta').attr('disabled', 'true');
         }
       });
       function rel(){
