@@ -71,10 +71,16 @@ def sales(request):
 @login_required(login_url='supplies:login')
 def new_sale(request):
     if request.method == 'POST':
-        mivar = request.POST.get('ticket')
-        print(mivar)
+        username = request.user
+        user = User.objects.filter(username=username)
+        print('USER PROFILE: ')
+        user_profile = UserProfile.objects.get(user=user)
+        cash_register = CashRegister.objects.first()
+        ticket_detail_list = request.POST.get('ticket')
+        new_ticket = Ticket( cash_register=cash_register, seller=user_profile,)
+        new_ticket.save()
         data = {
-            'hola': 'holaaa'
+            'status': 'listo'
         }
         return JsonResponse(data)
 

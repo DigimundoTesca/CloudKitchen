@@ -336,9 +336,9 @@ class Warehouse(models.Model):
 
 
 class Ticket(models.Model):
-    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
     seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
-    cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE)
+    cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return '%s' % self.id
