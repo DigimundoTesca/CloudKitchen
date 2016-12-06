@@ -1,5 +1,16 @@
-{% include 'base/base_nav_footer.html' %}
+{% extends 'base/base_nav_footer.html' %}
+
+{% load static %}
+
+{% block page_title %}
+{{ page_title }}
+{% endblock %}
+
 
 {% block content %}
-	
+<div class="container">
+	<h3>Ganancias Totales:</h3>
+	<h5>{{ ganancias }}</h5>
+</div>
 {% endblock content %}
+
