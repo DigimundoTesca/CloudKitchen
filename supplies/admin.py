@@ -46,7 +46,7 @@ class AdminSupply(admin.ModelAdmin):
     list_display = ('name', 'category', 'supplier', 'presentation_unit',  'presentation_cost', 'measurement_unit',
                     'measurement_quantity', )
 
-    
+
 class OrderDetailInline(admin.TabularInline):
     model = SupplierOrderDetail
     extra = 1

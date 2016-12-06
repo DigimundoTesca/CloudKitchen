@@ -80,12 +80,23 @@ def new_sale(request):
         new_ticket = Ticket(cash_register=cash_register, seller=user_profile,)
         new_ticket.save()
         ticket_detail_json_object = json.loads(request.POST.get('ticket'))
+
+        # save the tickets details for cartridges
         for ticket_detail in ticket_detail_json_object['cartuchos']:
             cartridge = Cartridge.objects.get(id=ticket_detail['id'])
             quantity = ticket_detail['cant']
             price = ticket_detail['price']
             new_ticket_detail = TicketDetail(ticket=new_ticket, cartridge=cartridge, quantity=quantity, price=price)
             new_ticket_detail.save()
+
+        # save the tickets details for package cartridges
+        for ticket_detail in ticket_detail_json_object['paquetes']:
+            package_cartridge = PackageCartridge.objects.get(id=ticket_detail['id'])
+            quantity = ticket_detail['cant']
+            price = ticket_detail['price']
+            new_ticket_detail = TicketDetail(ticket=new_ticket, package_cartridge=package_cartridge, quantity=quantity, price=price)
+            new_ticket_detail.save()
+
         data = {
             'status': 'listo'
         }
