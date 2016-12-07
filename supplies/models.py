@@ -143,7 +143,7 @@ class Supply(models.Model):
 
     METRICS = (
         (GRAM, 'gramo'),
-        (LITER, 'litro'),
+        (LITER, 'mililitro'),
         (PIECE, 'pieza'),
     )
 
