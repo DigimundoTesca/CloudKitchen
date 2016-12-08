@@ -21,7 +21,9 @@ class UserRol(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-    phone_number = models.PositiveIntegerField(default=0)
+    phone_number = models.PositiveIntegerField(
+        help_text='(Número telefónico a 10 dígitos)',
+        validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
     user_rol = models.ForeignKey(UserRol, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -156,9 +158,9 @@ class Supply(models.Model):
     storage_required = models.CharField(choices=STORAGE_REQUIREMENTS, default=DRY_ENVIRONMENT, max_length=2)
     presentation_unit = models.CharField(max_length=10, choices=PRESENTATION_UNIT, default=PACKAGE)
     presentation_cost = models.FloatField(default=0)
-    measurement_unit = models.CharField(max_length=10, choices=METRICS, default=PACKAGE)
     measurement_quantity = models.FloatField(default=0)
-    optimal_duration = models.IntegerField(default=10)
+    measurement_unit = models.CharField(max_length=10, choices=METRICS, default=PACKAGE)
+    optimal_duration = models.IntegerField(default=0)
     optimal_duration_unit = models.CharField(choices=OPTIMAL_DURATION, max_length=2, default=DAYS)
     location = models.ForeignKey(SupplyLocation, default=1, on_delete=models.CASCADE)
     created_at = models.DateTimeField(editable=False, auto_now=True)
