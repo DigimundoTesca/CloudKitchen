@@ -14,7 +14,12 @@ INSTALLED_APPS = [
     'supplies.apps.SuppliesConfig',
     'api.apps.ApiConfig',
     'rest_framework',
+    'fcm',
 ]
+
+
+FCM_APIKEY = os.getenv('FCM_SERVER_KEY')
+
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -26,12 +31,6 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-REST_FRAMEWORK = {
-    #'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser','rest_framework.permissions.IsAuthenticated','rest_framework.permissions.AllowAny',),
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
-    'PAGE_SIZE': 10
-}
 
 ROOT_URLCONF = 'cashflow.urls'
 

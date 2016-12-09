@@ -11,7 +11,10 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
-    #   API Endpoints
+    # API Endpoints
     url(r'^api/', include('api.urls', namespace='api')),
-]
 
+    # FCM url
+    url(r'fcm/', include('fcm.urls')),
+
+]
