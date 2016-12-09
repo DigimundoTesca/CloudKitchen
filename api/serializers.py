@@ -72,3 +72,9 @@ class CustomerOrderSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'created_at', 'delivery_date', 'customer_user', 'customer_user_id', 'customer_order_details', 'status', 'price',
             'latitude', 'longitude',)
+
+
+class CustomerOrderStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerOrder
+        fields = ('status', )
