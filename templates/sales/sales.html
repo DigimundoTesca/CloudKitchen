@@ -8,9 +8,102 @@
 
 
 {% block content %}
-<div class="container">
-	<h3>Ganancias Totales:</h3>
-	<h5>{{ ganancias }}</h5>
+<div class="container-fluid container-sales">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>Ganancias Totales: </h3>
+            <h5>{{ ganancias }}</h5>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            
+            <div class="canvas-holder">
+                <canvas id="canvas-week-sales"></canvas>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="canvas-holder">
+                <canvas id="canvas-day-sales"></canvas>
+            </div>
+        </div>
+    </div>
+    
 </div>
 {% endblock content %}
 
+{% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+<script type="text/javascript">
+    var ctx_week = document.getElementById("canvas-week-sales");
+    var ctx_day = document.getElementById("canvas-day-sales");
+    var myChart = new Chart(ctx_week, {
+        type: 'bar',
+        data: {
+            labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+            datasets: [{
+                label: 'Ventas del día',
+                data: [5243, 1923, 2343, 5112, 2324, 1232, 3000],
+                backgroundColor: [
+                'rgba(241,196,15,0.7)',
+                'rgba(230,126,34,0.7)',
+                'rgba(231,76,60,0.7)',
+                'rgba(26,188,156,0.7)',
+                'rgba(46,204,113,0.7)',
+                'rgba(52,152,219,0.7)',
+                'rgba(52,73,94,0.7)',
+                ],
+                borderColor: [
+                'rgba(241,196,15,0.9)',
+                'rgba(230,126,34,0.9)',
+                'rgba(231,76,60,0.9)',
+                'rgba(26,188,156,0.9)',
+                'rgba(46,204,113,0.9)',
+                'rgba(52,152,219,0.9)',
+                'rgba(52,73,94,0.9)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+    var myChart = new Chart(ctx_day, {
+        type: 'horizontalBar',
+        data: {
+            labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+            datasets: [{
+                label: 'Ventas en este horario',
+                data: [5243, 1923, 2343, 5112, 2324, 1232, 3000],
+                backgroundColor: [
+                'rgba(241,196,15,0.7)',
+                'rgba(230,126,34,0.7)',
+                'rgba(231,76,60,0.7)',
+                'rgba(26,188,156,0.7)',
+                'rgba(46,204,113,0.7)',
+                'rgba(52,152,219,0.7)',
+                'rgba(52,73,94,0.7)',
+                ],
+
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+{% endblock javascript %}
