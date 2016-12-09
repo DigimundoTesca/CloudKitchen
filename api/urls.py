@@ -11,7 +11,6 @@ customer_orders = views.CustomerOrderViewSet.as_view({
 
 customer_order_detail = views.CustomerOrderViewSet.as_view({
     'get': 'retrieve',
-    'put': 'update',
     'patch': 'partial_update',
     'delete': 'destroy'
 })
