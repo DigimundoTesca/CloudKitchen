@@ -64,7 +64,6 @@ def logout(request):
 def sales(request, total_earnings=0):
 
     def calc_day():
-        import datetime
         datetime_now = datetime.datetime.now()
 
         days_list = {
@@ -76,11 +75,8 @@ def sales(request, total_earnings=0):
             'SATURDAY': 'Sabado',
             'SUNDAY': 'Domingo'
         }
-        year = datetime_now.year
-        month = datetime_now.month
-        day = datetime_now.day
 
-        name_day = datetime.date(year, month, day)
+        name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
         return days_list[name_day.strftime('%A').upper()]
 
     ticket_details = TicketDetail.objects.all()
@@ -166,7 +162,7 @@ def supplies(request):
     template = 'supplies/supplies.html'
     title = 'Insumos'
     context = {
-        'supply': supply,
+        'supplies': supply,
         'title': title,
         'page_title': PAGE_TITLE
     }
