@@ -2,14 +2,14 @@
 	<div class="container-fluid">
 		<a class="navbar-brand" href="{% url 'supplies:login' %}"><h3>{{ page_title }}</h3></a>
 		<ul class="nav navbar-nav float-xs-right">
-			<li class="nav-item active">
+			<li class="nav-item" id="link-sales">
 				<a class="nav-link" href="{% url 'supplies:sales' %}">Ventas <span class="sr-only">(current)</span></a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{% url 'supplies:supplies' %}">Insumos</a>
-			</li>
-			<li class="nav-item">
+			<li class="nav-item" id="link-new-sale">
 				<a class="nav-link" href="{% url 'supplies:new_sale'  %}">Nueva venta</a>
+			</li>
+			<li class="nav-item" id="link-supplies">
+				<a class="nav-link" href="{% url 'supplies:supplies' %}">Insumos</a>
 			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuario</a>
