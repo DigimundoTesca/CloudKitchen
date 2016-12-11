@@ -149,7 +149,7 @@ class Supply(models.Model):
         (PIECE, 'pieza'),
     )
 
-    name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
+    name = models.CharField(validators=[MinLengthValidator(2)], max_length=125, unique=True)
     category = models.ForeignKey(SuppliesCategory, default=1, on_delete=models.CASCADE)
     barcode = models.PositiveIntegerField(
         help_text='(Código de barras de 13 dígitos)',

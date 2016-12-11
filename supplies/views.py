@@ -143,12 +143,12 @@ def new_sale(request):
 
 # -------------------------------------  Providers -------------------------------------
 @login_required(login_url='supplies:login')
-def providers(request):
-    suppliers = Supplier.objects.order_by('id')
-    template = 'providers/providers.html'
+def suppliers(request):
+    suppliers_list = Supplier.objects.order_by('id')
+    template = 'suppliers/suppliers.html'
     title = 'Proveedores'
     context = {
-        'suppliers': suppliers,
+        'suppliers': suppliers_list,
         'title': title,
         'page_title': PAGE_TITLE
     }
