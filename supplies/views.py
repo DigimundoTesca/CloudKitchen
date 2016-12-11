@@ -60,17 +60,17 @@ def logout(request):
 
 # -------------------------------------  Sales -------------------------------------
 @login_required(login_url='supplies:login')
-def sales(request, ganancias_totales=0):
+def sales(request, total_earnings=0):
     ticket_details = TicketDetail.objects.all()
     for ticket in ticket_details:
-        ganancias_totales += ticket.price
+        total_earnings += ticket.price
 
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
         'page_title': PAGE_TITLE,
         'title': title,
-        'ganancias': ganancias_totales
+        'earnings': total_earnings
     }
     return render(request, template, context)
 
