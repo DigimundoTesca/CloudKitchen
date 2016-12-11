@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'^supplies/new/$', views.new_supply, name='new_supply'),
     url(r'^supplies/(?P<pk>[0-9]+)/$', views.supply_detail, name='supply_detail'),
 
+    # Suppliers
+    url(r'^suppliers/$', views.suppliers, name='suppliers'),
+
     # Categories
     url(r'^categories/$', views.categories, name='categories'),
     url(r'^categories/new/$', views.new_category, name='new_category'),
@@ -31,9 +34,4 @@ urlpatterns = [
     # Cartridges
     url(r'^cartridges/$', views.cartridges, name='cartridges'),
     url(r'^cartridges/new/$', views.new_cartridge, name='new_cartridge'),
-
-    # Providers
-    url(r'^providers/$', views.providers, name='providers'),
-    
-    
 ]

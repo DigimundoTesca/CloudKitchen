@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import json
+import datetime
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
@@ -20,7 +21,7 @@ PAGE_TITLE = 'DabbaNet'
 def test(request):
     template = '500.html'
     return render(request, template, {})
-    
+
 
 # -------------------------------------  Auth -------------------------------------
 def login(request):
@@ -29,19 +30,19 @@ def login(request):
 
     message = None
     template = 'auth/login.html'
-    
+
     if request.method == 'POST':
         username_post = request.POST.get('username_login')
         password_post = request.POST.get('password_login')
         user = authenticate(username=username_post, password=password_post)
-        
+
         if user is not None:
             login_django(request, user)
             return redirect('supplies:sales')
-        
+
         else:
             message = 'Usuario o contraseña incorrecto'
-            
+
     context = {
         'page_title': PAGE_TITLE,
         'message': message
@@ -60,17 +61,35 @@ def logout(request):
 
 # -------------------------------------  Sales -------------------------------------
 @login_required(login_url='supplies:login')
-def sales(request, ganancias_totales=0):
+def sales(request, total_earnings=0):
+
+    def calc_day():
+        datetime_now = datetime.datetime.now()
+
+        days_list = {
+            'MONDAY': 'Lunes',
+            'TUESDAY': 'Martes',
+            'WEDNESDAY': 'Miercoles',
+            'THURSDAY': 'Jueves',
+            'FRIDAY': 'Viernes',
+            'SATURDAY': 'Sabado',
+            'SUNDAY': 'Domingo'
+        }
+
+        name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
+        return days_list[name_day.strftime('%A').upper()]
+
     ticket_details = TicketDetail.objects.all()
     for ticket in ticket_details:
-        ganancias_totales += ticket.price
+        total_earnings += ticket.price
 
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
         'page_title': PAGE_TITLE,
         'title': title,
-        'ganancias': ganancias_totales
+        'earnings': total_earnings,
+        'day': calc_day(),
     }
     return render(request, template, context)
 
@@ -82,7 +101,7 @@ def new_sale(request):
         user = User.objects.filter(username=username)
         user_profile = UserProfile.objects.get(user=user)
         cash_register = CashRegister.objects.first()
-        new_ticket = Ticket(cash_register=cash_register, seller=user_profile,)
+        new_ticket = Ticket(cash_register=cash_register, seller=user_profile, )
         new_ticket.save()
         ticket_detail_json_object = json.loads(request.POST.get('ticket'))
 
@@ -99,7 +118,8 @@ def new_sale(request):
             package_cartridge = PackageCartridge.objects.get(id=ticket_detail['id'])
             quantity = ticket_detail['cant']
             price = ticket_detail['price']
-            new_ticket_detail = TicketDetail(ticket=new_ticket, package_cartridge=package_cartridge, quantity=quantity, price=price)
+            new_ticket_detail = TicketDetail(ticket=new_ticket, package_cartridge=package_cartridge, quantity=quantity,
+                                             price=price)
             new_ticket_detail.save()
 
         data = {
@@ -123,12 +143,12 @@ def new_sale(request):
 
 # -------------------------------------  Providers -------------------------------------
 @login_required(login_url='supplies:login')
-def providers(request):
-    suppliers = Supplier.objects.order_by('id')
-    template = 'providers/providers.html'
+def suppliers(request):
+    suppliers_list = Supplier.objects.order_by('id')
+    template = 'suppliers/suppliers.html'
     title = 'Proveedores'
     context = {
-        'suppliers': suppliers,
+        'suppliers': suppliers_list,
         'title': title,
         'page_title': PAGE_TITLE
     }
@@ -142,7 +162,7 @@ def supplies(request):
     template = 'supplies/supplies.html'
     title = 'Insumos'
     context = {
-        'supply': supply,
+        'supplies': supply,
         'title': title,
         'page_title': PAGE_TITLE
     }

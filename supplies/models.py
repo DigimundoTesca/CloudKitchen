@@ -149,7 +149,7 @@ class Supply(models.Model):
         (PIECE, 'pieza'),
     )
 
-    name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
+    name = models.CharField(validators=[MinLengthValidator(2)], max_length=125, unique=True)
     category = models.ForeignKey(SuppliesCategory, default=1, on_delete=models.CASCADE)
     barcode = models.PositiveIntegerField(
         help_text='(Código de barras de 13 dígitos)',
@@ -338,7 +338,7 @@ class Warehouse(models.Model):
 
 
 class Ticket(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    created_at = models.DateTimeField()
     seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
 
@@ -346,7 +346,7 @@ class Ticket(models.Model):
         return '%s' % self.id
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('-created_at', )
         verbose_name = 'Ticket '
         verbose_name_plural = 'Tickets'
 
