@@ -10,11 +10,13 @@
 {% block content %}
 <div class="container-fluid container-sales">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-6">
             <p class="flex-items-xs-center">Ganancias totales: <span>{{ earnings }}</span></p>
         </div>
+      <div class="col-xs-6">
+        <p>Hoy es: <strong>{{ day }}</strong></p>
+      </div>
         <div class="col-xs-12 col-md-6">
-
             <div class="canvas-holder">
                 <canvas id="canvas-week-sales"></canvas>
             </div>
