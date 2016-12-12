@@ -320,6 +320,14 @@ small {
   color: #efefef;
   margin-bottom: 1rem;
 }
+.popout #fab-add-cartridge,
+.popout #fab-add-supply {
+  background: #5cb85c !important;
+}
+.popout #fab-add-cartridge:after,
+.popout #fab-add-supply:after {
+  background: #419641 !important;
+}
 #printer { 
   color: #000000;
   font-size: 0.8rem;

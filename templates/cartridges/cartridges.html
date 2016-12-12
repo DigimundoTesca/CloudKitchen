@@ -18,4 +18,20 @@
     {% endfor %}
   </div>
 </div>
+
+<div class="popout">
+  <div class="FAB" id="fab-add-cartridge">
+    <i class="material-icons">add</i>
+  </div>
+</div>
 {% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript">
+  $(function() {
+    $('#fab-add-cartridge').click(function(event) {
+      location.href = '/cartridges/new/';
+    });
+  });
+</script>
+{% endblock javascript %}

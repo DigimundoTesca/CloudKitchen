@@ -23,7 +23,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     phone_number = models.PositiveIntegerField(
         help_text='(Número telefónico a 10 dígitos)',
-        validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
+        validators=[MaxValueValidator(9999999999)], blank=True, null=True)
     user_rol = models.ForeignKey(UserRol, default=1, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -63,9 +63,8 @@ def logout(request):
 @login_required(login_url='supplies:login')
 def sales(request, total_earnings=0):
 
-    def calc_day():
+    def calc_name_day():
         datetime_now = datetime.datetime.now()
-
         days_list = {
             'MONDAY': 'Lunes',
             'TUESDAY': 'Martes',
@@ -79,7 +78,11 @@ def sales(request, total_earnings=0):
         name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
         return days_list[name_day.strftime('%A').upper()]
 
+    def cal_week():
+        return datetime.date.today().isocalendar()[1]
+
     ticket_details = TicketDetail.objects.all()
+
     for ticket in ticket_details:
         total_earnings += ticket.price
 
@@ -89,7 +92,8 @@ def sales(request, total_earnings=0):
         'page_title': PAGE_TITLE,
         'title': title,
         'earnings': total_earnings,
-        'day': calc_day(),
+        'day': calc_name_day(),
+        'week': cal_week(),
     }
     return render(request, template, context)
 
