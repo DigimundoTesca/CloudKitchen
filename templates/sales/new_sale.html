@@ -351,13 +351,24 @@
           });  
           $('#btn-pago-efectivo').attr('disabled', 'true');
           $('#btn-pago-tarjeta').attr('disabled', 'true');
-        }
+          setTimeout(rel, 1500);
+        },
+        error: function(result, XMLHttpRequest, textStatus, errorThrown){
+          swal({
+            title: "Venta no realizada!",
+            text: 'Contacte a soporte!\n ' + 'Codigo de errores: ' + XMLHttpRequest + ', ' + textStatus + ', ' + errorThrown,
+            type: "error",
+            timer: 5000,
+            showConfirmButton: false
+          });  
+          setTimeout(rel, 5000);
+        },
       });
+
       function rel(){
         location.reload();          
       }
 
-      setTimeout(rel, 1500);
     });
       /*let options = { mode: 'iframe', popClose: true,};
       $("#printer").printArea(options);*/
