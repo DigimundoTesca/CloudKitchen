@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 import json
-import datetime
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
@@ -68,10 +67,10 @@ def sales(request, total_earnings=0):
         days_list = {
             'MONDAY': 'Lunes',
             'TUESDAY': 'Martes',
-            'WEDNESDAY': 'Miercoles',
+            'WEDNESDAY': 'Miércoles',
             'THURSDAY': 'Jueves',
             'FRIDAY': 'Viernes',
-            'SATURDAY': 'Sabado',
+            'SATURDAY': 'Sábado',
             'SUNDAY': 'Domingo'
         }
 
@@ -80,6 +79,19 @@ def sales(request, total_earnings=0):
 
     def cal_week():
         return datetime.date.today().isocalendar()[1]
+
+    def get_sales_week(day):
+        days = {
+            'Lunes': '1',
+            'Martes': '2',
+            'Miércoles': '3',
+            'Jueves': '4',
+            'Viernes': '5',
+            'Sábado': '6',
+            'Domingo': '7',
+        }
+
+        return days[day]
 
     start_date = "2016-12-08"
     end_date = "2016-12-10"
@@ -214,7 +226,7 @@ def supply_detail(request, pk):
     return render(request, template, context)
 
 
-# ------------------------------------- Categories ------------------------------------- 
+# ------------------------------------- Categories -------------------------------------
 @login_required(login_url='supplies:login')
 def categories(request):
     supplies_categories = SuppliesCategory.objects.order_by('id')
@@ -263,7 +275,7 @@ def categories_supplies(request, categ):
     return render(request, template, context)
 
 
-# -------------------------------------  Cartridges ------------------------------------- 
+# -------------------------------------  Cartridges -------------------------------------
 @login_required(login_url='supplies:login')
 def cartridges(request):
     cartridges_list = Cartridge.objects.order_by('id')
