@@ -353,12 +353,12 @@
           $('#btn-pago-tarjeta').attr('disabled', 'true');
           setTimeout(rel, 1500);
         },
-        error: function(result, XMLHttpRequest, textStatus, errorThrown){
+        error: function(result, jqXHR , textStatus, errorThrown){
           swal({
             title: "Venta no realizada!",
-            text: 'Contacte a soporte!\n ' + 'Codigo de errores: ' + XMLHttpRequest + ', ' + textStatus + ', ' + errorThrown,
+            text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
             type: "error",
-            timer: 5000,
+            timer: 4500,
             showConfirmButton: false
           });  
           setTimeout(rel, 5000);
