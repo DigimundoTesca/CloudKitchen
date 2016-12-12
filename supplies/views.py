@@ -81,7 +81,10 @@ def sales(request, total_earnings=0):
     def cal_week():
         return datetime.date.today().isocalendar()[1]
 
-    ticket_details = TicketDetail.objects.all()
+    start_date = "2016-12-08"
+    end_date = "2016-12-10"
+    tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
+    ticket_details = TicketDetail.objects.filter(ticket=tickets)
 
     for ticket in ticket_details:
         total_earnings += ticket.price
