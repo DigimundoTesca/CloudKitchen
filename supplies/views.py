@@ -62,7 +62,7 @@ def logout(request):
 @login_required(login_url='supplies:login')
 def sales(request, total_earnings=0):
 
-    def calc_name_day():
+    def get_name_day():
         datetime_now = datetime.datetime.now()
         days_list = {
             'MONDAY': 'Lunes',
@@ -73,26 +73,22 @@ def sales(request, total_earnings=0):
             'SATURDAY': 'Sábado',
             'SUNDAY': 'Domingo'
         }
-
         name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
         return days_list[name_day.strftime('%A').upper()]
 
-    def cal_week():
-        return datetime.date.today().isocalendar()[1]
-
-    def get_sales_week(day):
+    def get_number_day(day):
         days = {
-            'Lunes': '1',
-            'Martes': '2',
-            'Miércoles': '3',
-            'Jueves': '4',
-            'Viernes': '5',
-            'Sábado': '6',
-            'Domingo': '7',
+            'Lunes': '1', 'Martes': '2', 'Miércoles': '3', 'Jueves': '4', 'Viernes': '5', 'Sábado': '6', 'Domingo': '7',
         }
-
         return days[day]
 
+    def get_week_number():
+        return datetime.date.today().isocalendar()[1]
+
+    def get_sales_week():
+        sales = []
+        number_day = get_number_day(get_name_day())
+        return []
     start_date = "2016-12-08"
     end_date = "2016-12-10"
     tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
@@ -107,8 +103,8 @@ def sales(request, total_earnings=0):
         'page_title': PAGE_TITLE,
         'title': title,
         'earnings': total_earnings,
-        'day': calc_name_day(),
-        'week': cal_week(),
+        'day': get_name_day(),
+        'week': get_week_number(),
     }
     return render(request, template, context)
 
