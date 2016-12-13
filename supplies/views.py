@@ -2,6 +2,9 @@
 from __future__ import unicode_literals
 
 import json
+import datetime
+
+from datetime import date, timedelta
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
@@ -60,8 +63,7 @@ def logout(request):
 
 # -------------------------------------  Sales -------------------------------------
 @login_required(login_url='supplies:login')
-def sales(request, total_earnings=0):
-
+def sales(request):
     def get_name_day():
         datetime_now = datetime.datetime.now()
         days_list = {
@@ -76,36 +78,53 @@ def sales(request, total_earnings=0):
         name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
         return days_list[name_day.strftime('%A').upper()]
 
-    def get_number_day(day):
+    def get_number_day():
         days = {
-            'Lunes': '1', 'Martes': '2', 'Miércoles': '3', 'Jueves': '4', 'Viernes': '5', 'Sábado': '6', 'Domingo': '7',
+            'Lunes': 1, 'Martes': 2, 'Miércoles': 3, 'Jueves': 4, 'Viernes': 5, 'Sábado': 6, 'Domingo': 7,
         }
-        return days[day]
+        return days[get_name_day()]
 
     def get_week_number():
         return datetime.date.today().isocalendar()[1]
 
     def get_sales_week():
-        sales = []
-        number_day = get_number_day(get_name_day())
-        return []
-    start_date = "2016-12-08"
-    end_date = "2016-12-10"
-    tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
-    ticket_details = TicketDetail.objects.filter(ticket=tickets)
+        total_earnings = 0
+        week_sales_list = [0, 0, 0, 0, 0, 0, 0]
+        difference = get_number_day() - 1
+        limit = difference
+        start_date_number = 0
 
-    for ticket in ticket_details:
-        total_earnings += ticket.price
+        while start_date_number <= limit:
+            start_date = date.today() - timedelta(days=difference)
+            end_date = start_date + timedelta(days=1)
+
+            tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
+
+            for ticket in tickets:
+                ticket_details = TicketDetail.objects.filter(ticket=ticket)
+
+                for ticket_detail in ticket_details:
+                    total_earnings += ticket_detail.price
+
+            week_sales_list[start_date_number] = total_earnings
+
+            # restarting counters
+            difference -= 1
+            total_earnings = 0
+            start_date_number += 1
+
+        return week_sales_list
 
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
         'page_title': PAGE_TITLE,
         'title': title,
-        'earnings': total_earnings,
+        'earnings': get_sales_week(),
         'day': get_name_day(),
         'week': get_week_number(),
     }
+
     return render(request, template, context)
 
 
