@@ -89,15 +89,14 @@ def sales(request):
 
     def get_sales_week():
         total_earnings = 0
-        week_sales_list = [0, 0, 0, 0, 0, 0, 0]
-        difference = get_number_day() - 1
-        limit = difference
+        week_sales_list = {0: '0', 1: '0', 2: '0', 3: '0', 4: '0', 5: '0', 6: '0'}
+        days_to_count = get_number_day() - 1
+        day_limit = days_to_count
         start_date_number = 0
 
-        while start_date_number <= limit:
-            start_date = date.today() - timedelta(days=difference)
+        while start_date_number <= day_limit:
+            start_date = date.today() - timedelta(days=days_to_count)
             end_date = start_date + timedelta(days=1)
-
             tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
 
             for ticket in tickets:
@@ -106,14 +105,14 @@ def sales(request):
                 for ticket_detail in ticket_details:
                     total_earnings += ticket_detail.price
 
-            week_sales_list[start_date_number] = total_earnings
+            week_sales_list[start_date_number] = str(total_earnings)
 
             # restarting counters
-            difference -= 1
+            days_to_count -= 1
             total_earnings = 0
             start_date_number += 1
 
-        return week_sales_list
+        return json.dumps(week_sales_list)
 
     template = 'sales/sales.html'
     title = 'Ventas'
