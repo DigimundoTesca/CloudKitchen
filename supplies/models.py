@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinLengthValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator, MinValueValidator
 from django.db import models
 
 
@@ -384,6 +384,9 @@ class CustomerOrder(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
+    score = models.PositiveIntegerField(
+        validators=[MaxValueValidator(5), MinValueValidator(1)],
+        null=False, blank=False, default=1)
 
     def __str__(self):
         return '%s' % self.id
