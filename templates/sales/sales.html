@@ -12,7 +12,7 @@
   <div class="row">
     <div class="col-xs-6">
       <div class="text-xs-center">
-        <p>Ganancias totales: <span class="font-weight-bold">$ {{ earnings }}</span></p>
+        <p>Ganancias totales: <span id="total-earnings-text" class="font-weight-bold">$ </span></p>
       </div>
     </div>
     <div class="col-xs-6">
@@ -44,17 +44,18 @@
 
 {% block javascript %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
-
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
   var ctx_week = document.getElementById("canvas-week-sales");
   var ctx_day = document.getElementById("canvas-day-sales");
+  var earnings = JSON.parse('{{ earnings|safe }}');
+
   var earnings_for_the_week = new Chart(ctx_week, {
     type: 'bar',
     data: {
       labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
       datasets: [{
         label: 'Ventas del día',
-        data: [5243, 1923, 2343, 5112, 2324, 1232, 3000],
+        data: earnings,
         backgroundColor: [
         'rgba(241,196,15,0.7)',
         'rgba(230,126,34,0.7)',
@@ -96,7 +97,7 @@
       ],
       datasets: [{
         label: 'Ventas en este horario',
-        data: [0, 0, 0, 100, 0, 5, 0, 0],
+        data: [90, 60, 20, 100, 20, 5, 055, 40],
         backgroundColor: [
         'rgba(242,38,19,0.7)',
         'rgba(246,36,89,0.7)',
@@ -121,5 +122,21 @@
       }
     }
   });
+
+  /** Calcula el total de ganancias de la semana y lo imprime */
+  function set_total_earnings() {
+    var total_earnings = 0;
+
+    for (var i = 0; i < earnings.length; i++ ){
+      total_earnings += earnings[i];
+    }
+
+    total_earnings = total_earnings.toFixed(2);
+
+    $('#total-earnings-text').append(total_earnings)
+
+  }
+
+set_total_earnings();
 </script>
 {% endblock javascript %}

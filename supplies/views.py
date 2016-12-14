@@ -89,7 +89,7 @@ def sales(request):
 
     def get_sales_week():
         total_earnings = 0
-        week_sales_list = {0: '0', 1: '0', 2: '0', 3: '0', 4: '0', 5: '0', 6: '0'}
+        week_sales_list = [0, 0, 0, 0, 0, 0, 0]
         days_to_count = get_number_day() - 1
         day_limit = days_to_count
         start_date_number = 0
@@ -105,13 +105,12 @@ def sales(request):
                 for ticket_detail in ticket_details:
                     total_earnings += ticket_detail.price
 
-            week_sales_list[start_date_number] = str(total_earnings)
+            week_sales_list[start_date_number] = float(total_earnings)
 
             # restarting counters
             days_to_count -= 1
             total_earnings = 0
             start_date_number += 1
-
         return json.dumps(week_sales_list)
 
     template = 'sales/sales.html'

@@ -148,7 +148,8 @@
 
 {% block javascript %}
 <script src="{% static 'js/sweetalert.min.js' %}"></script>
-<script type="text/javascript">
+
+<script type="text/javascript" charset="utf-8">
   $(document).ready(function(){
     let Ticket = {
       cartuchos: [],
@@ -368,10 +369,11 @@
       function rel(){
         location.reload();          
       }
-
-    });
-      /*let options = { mode: 'iframe', popClose: true,};
+      /* let options = { mode: 'iframe', popClose: true,};
       $("#printer").printArea(options);*/
     });
+
+
+  });
 </script>
 {% endblock javascript %}
