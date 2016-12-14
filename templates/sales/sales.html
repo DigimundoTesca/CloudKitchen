@@ -123,6 +123,25 @@
     }
   });
 
+  /** Funciona para darle formato de moneda a un numero */
+  function set_number_format(amount, decimals) {
+    amount += ''; 
+    amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); 
+    decimals = decimals || 0;
+
+    if (isNaN(amount) || amount === 0) 
+      return parseFloat(0).toFixed(decimals);
+
+    amount = '' + amount.toFixed(decimals);
+    var amount_parts = amount.split('.'),
+    regexp = /(\d+)(\d{3})/;
+
+    while (regexp.test(amount_parts[0]))
+      amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ' ' + '$2');
+
+    return amount_parts.join('.');
+  }
+
   /** Calcula el total de ganancias de la semana y lo imprime */
   function set_total_earnings() {
     var total_earnings = 0;
@@ -131,12 +150,14 @@
       total_earnings += earnings[i];
     }
 
-    total_earnings = total_earnings.toFixed(2);
+    total_earnings = set_number_format(total_earnings, 2)
 
     $('#total-earnings-text').append(total_earnings)
 
   }
 
-set_total_earnings();
+
+
+  set_total_earnings();
 </script>
 {% endblock javascript %}
