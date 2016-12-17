@@ -6,6 +6,7 @@ import datetime
 
 from datetime import date, timedelta
 
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -113,17 +114,28 @@ def sales(request):
             start_date_number += 1
         return json.dumps(week_sales_list)
 
+    def get_sales_day():
+        days = get_number_day()
+        print(days)
+        return days
+
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
         'page_title': PAGE_TITLE,
         'title': title,
-        'earnings': get_sales_week(),
+        'week_earnings': get_sales_week(),
+        'day_earnings': get_sales_day(),
         'day': get_name_day(),
         'week': get_week_number(),
     }
 
     return render(request, template, context)
+
+
+@login_required(login_url='supplies:login')
+def get_day_sale(request):
+    return HttpResponse('hola')
 
 
 @login_required(login_url='supplies:login')
