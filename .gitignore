@@ -114,6 +114,7 @@ ENV/
 cashflow/__pycache__/
 supplies/__pycache__/
 supplies/migrations/
+users/migrations/
 media/*
 staticfiles/
 #Database
