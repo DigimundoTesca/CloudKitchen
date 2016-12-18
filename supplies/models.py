@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
+import datetime
 from django.core.validators import MaxValueValidator, MinLengthValidator, MinValueValidator
 from django.db import models
 
@@ -264,7 +265,7 @@ class Warehouse(models.Model):
 
 
 class Ticket(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
     seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
 

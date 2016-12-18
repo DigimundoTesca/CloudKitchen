@@ -82,7 +82,6 @@ def sales(request):
 
     def get_sales_day():
         days = get_number_day()
-        print(days)
         return days
 
     template = 'sales/sales.html'
@@ -100,8 +99,10 @@ def sales(request):
 
 
 @login_required(login_url='users:login')
-def get_day_sale(request):
-    return HttpResponse('hola')
+def get_sales_day_view(request):
+    json_object = json.loads(request.POST.get('day'))
+    print(json_object)
+    return JsonResponse({'day': json_object})
 
 
 @login_required(login_url='users:login')
