@@ -36,7 +36,7 @@ def login(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def logout(request):
     logout_django(request)
     return redirect('supplies:login')

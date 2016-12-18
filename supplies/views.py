@@ -29,7 +29,7 @@ def test(request):
 
 
 # -------------------------------------  Sales -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def sales(request):
     def get_name_day():
         datetime_now = datetime.datetime.now()
@@ -99,12 +99,12 @@ def sales(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def get_day_sale(request):
     return HttpResponse('hola')
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_sale(request):
     if request.method == 'POST':
         username = request.user
@@ -152,7 +152,7 @@ def new_sale(request):
 
 
 # -------------------------------------  Providers -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def suppliers(request):
     suppliers_list = Supplier.objects.order_by('id')
     template = 'suppliers/suppliers.html'
@@ -166,7 +166,7 @@ def suppliers(request):
 
 
 # -------------------------------------  Supplies -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def supplies(request):
     supply = Supply.objects.order_by('id')
     template = 'supplies/supplies.html'
@@ -179,7 +179,7 @@ def supplies(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_supply(request):
     if request.method == 'POST':
         form = SupplyForm(request.POST, request.FILES)
@@ -204,7 +204,7 @@ def new_supply(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def supply_detail(request, pk):
     supply = get_object_or_404(Supply, pk=pk)
     template = 'supplies/supply_detail.html'
@@ -218,7 +218,7 @@ def supply_detail(request, pk):
 
 
 # ------------------------------------- Categories -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def categories(request):
     supplies_categories = SuppliesCategory.objects.order_by('id')
     template = 'categories/categories.html'
@@ -231,7 +231,7 @@ def categories(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_category(request):
     if request.method == 'POST':
         form = SuppliesCategoryForm(request.POST, request.FILES)
@@ -252,7 +252,7 @@ def new_category(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def categories_supplies(request, categ):
     supplies_categories = SuppliesCategoryForm.objects.filter(name=categ)
     supply = Supply.objects.filter(category=supplies_categories)
@@ -267,7 +267,7 @@ def categories_supplies(request, categ):
 
 
 # -------------------------------------  Cartridges -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def cartridges(request):
     cartridges_list = Cartridge.objects.order_by('id')
     template = 'cartridges/cartridges.html'
@@ -280,7 +280,7 @@ def cartridges(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_cartridge(request):
     if request.method == 'POST':
         form = CartridgeForm(request.POST, request.FILES)
