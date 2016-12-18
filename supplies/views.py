@@ -6,6 +6,7 @@ import datetime
 
 from datetime import date, timedelta
 
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
@@ -15,8 +16,9 @@ from django.contrib.auth import login as login_django
 from django.contrib.auth import logout as logout_django
 from django.contrib.auth.decorators import login_required
 
-from .forms import *
-from .models import *
+from supplies.forms import SupplyForm, SuppliesCategory, Supply, SuppliesCategoryForm, CartridgeForm
+from supplies.models import Ticket, TicketDetail, Cartridge, PackageCartridge
+from users.models import UserProfile, CashRegister, Supplier
 
 PAGE_TITLE = 'DabbaNet'
 

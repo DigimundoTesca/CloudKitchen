@@ -1,38 +1,14 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from .models import *
 
-
-class UserProfileAdmin(admin.ModelAdmin):
-    pass
-
-
-class UserRolAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(UserRol, UserRolAdmin)
-
-
-class CashRegisterInline(admin.StackedInline):
-    model = CashRegister
-    extra = 2
-
-
-@admin.register(BranchOffice)
-class AdminBranchOffice(admin.ModelAdmin):
-    list_display = ('name', 'manager', 'address',)
-    inlines = [CashRegisterInline, ]
-
-
-@admin.register(Supplier)
-class AdminProvider(admin.ModelAdmin):
-    list_display = ('name', 'image',)
+from supplies.models import SuppliesCategory, SupplyLocation, Supply, SupplierOrderDetail, SupplierOrder, \
+    CartridgeRecipe, Cartridge, PackageCartridgeRecipe, ProcessedCartridge, PackageCartridge, Warehouse, TicketDetail, \
+    Ticket, CustomerOrderDetail, CustomerOrder
 
 
 @admin.register(SuppliesCategory)
-class AdminCSuppliesCategory(admin.ModelAdmin):
+class AdminSuppliesCategory(admin.ModelAdmin):
     list_display = ('name', 'image',)
 
 
