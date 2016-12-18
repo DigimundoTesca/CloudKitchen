@@ -6,13 +6,6 @@ app_name = 'supplies'
 
 urlpatterns = [
     url(r'^test/$', views.test, name='test'),
-    
-    # auth
-    url(r'^$', views.login, name='login'),
-    url(r'^logout/$', views.logout, name='logout'),
-
-    # profile
-    # url(r'^profiles/$', views.ProfileVIew, name='profiles'),
 
     # sales
     url(r'^sales/$', views.sales, name='sales'),

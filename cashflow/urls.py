@@ -4,8 +4,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 urlpatterns = [
-  url(r'^dabba-admin/', admin.site.urls),
-  url(r'^', include('supplies.urls')),
+    url(r'^dabba-admin/', admin.site.urls),
+    url(r'^', include('supplies.urls')),
+    url(r'^', include('users.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

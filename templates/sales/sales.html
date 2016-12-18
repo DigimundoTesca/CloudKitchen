@@ -12,7 +12,7 @@
   <div class="row">
     <div class="col-xs-6">
       <div class="text-xs-center">
-        <p>Ganancias totales: <span id="total-earnings-text" class="font-weight-bold">$ </span></p>
+        <p>Ventas de la semana: <span id="total-earnings-text" class="font-weight-bold">$ </span></p>
       </div>
     </div>
     <div class="col-xs-6">
@@ -47,7 +47,7 @@
 <script type="text/javascript" charset="utf-8">
   var ctx_week = document.getElementById("canvas-week-sales");
   var ctx_day = document.getElementById("canvas-day-sales");
-  var earnings = JSON.parse('{{ earnings|safe }}');
+  var earnings = JSON.parse('{{ week_earnings|safe }}');
 
   var earnings_for_the_week = new Chart(ctx_week, {
     type: 'bar',
@@ -74,11 +74,18 @@
         'rgba(52,152,219,0.9)',
         'rgba(52,73,94,0.9)',
         ],
-        borderWidth: 1
       }]
     },
     options: {
       responsive: true,
+      onClick: function(event, legendItem) {
+        try {
+          console.log(legendItem[0]._index);
+        }
+        catch(error) {
+          console.log(error.message);
+        }
+      },
       scales: {
         yAxes: [{
           ticks: {
@@ -90,15 +97,16 @@
   });
 
   var earnings_for_the_day = new Chart(ctx_day, {
-    type: 'bar',
+    type: 'horizontalBar',
     data: {
       labels: [
-      "05:00 - 05:30","06:00 - 07:00","07:00 - 08:00","08:00 - 09:00","09:00 - 10:00","10:00 - 11:00","11:00 - 12:00","12:00 - 13:00",
-      "05:00 - 06:00","06:00 - 07:00","07:00 - 08:00","08:00 - 09:00","09:00 - 10:00","10:00 - 11:00","11:00 - 12:00","12:00 - 13:00",
+      "12:30 - 13:00","12:00 - 12:30","11:30 - 12:00","11:00 - 11:30","10:30 - 11:00","10:00 - 10:30","09:30 - 10:00","09:00 - 09:30",
+      "08:30 - 09:00","08:00 - 08:30","07:30 - 08:00","07:00 - 07:30","06:30 - 07:00","06:00 - 06:30","05:30 - 06:00","05:00 - 05:30",
+      
       ],
       datasets: [{
         label: 'Ventas en este horario',
-        data: [90, 60, 20, 100, 20, 5, 055, 40,90, 60, 20, 100, 20, 5, 055, 40],
+        data: [90, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0],
         backgroundColor: [
         'rgba(242,38,19,0.7)',
         'rgba(246,36,89,0.7)',
@@ -107,7 +115,8 @@
         'rgba(54,215,183,0.7)',
         'rgba(46,204,113,0.7)',
         'rgba(247,202,24,0.7)',
-        'rgba(249,105,14,0.7)','rgba(242,38,19,0.7)',
+        'rgba(249,105,14,0.7)',
+        'rgba(242,38,19,0.7)',
         'rgba(246,36,89,0.7)',
         'rgba(103,65,114,0.7)',
         'rgba(65,131,215,0.7)',
@@ -121,6 +130,9 @@
     },
     options: {
       responsive: true,
+      onClick: function(event, legendItem) {
+        console.log(legendItem[0]._index);
+      },
       scales: {
         yAxes: [{
           ticks: {
@@ -133,11 +145,11 @@
 
   /** Funciona para darle formato de moneda a un numero */
   function set_number_format(amount, decimals) {
-    amount += ''; 
-    amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); 
+    amount += '';
+    amount = parseFloat(amount.replace(/[^0-9\.]/g, ''));
     decimals = decimals || 0;
 
-    if (isNaN(amount) || amount === 0) 
+    if (isNaN(amount) || amount === 0)
       return parseFloat(0).toFixed(decimals);
 
     amount = '' + amount.toFixed(decimals);

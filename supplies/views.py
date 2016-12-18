@@ -6,16 +6,16 @@ import datetime
 
 from datetime import date, timedelta
 
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
-from django.contrib.auth import authenticate
-from django.contrib.auth import login as login_django
-from django.contrib.auth import logout as logout_django
 from django.contrib.auth.decorators import login_required
 
-from .forms import *
-from .models import *
+from supplies.forms import SupplyForm, SuppliesCategory, Supply, SuppliesCategoryForm, CartridgeForm
+from supplies.models import Ticket, TicketDetail, Cartridge, PackageCartridge
+from users.models import UserProfile, CashRegister, Supplier
 
 PAGE_TITLE = 'DabbaNet'
 
@@ -25,44 +25,11 @@ def test(request):
     return render(request, template, {})
 
 
-# -------------------------------------  Auth -------------------------------------
-def login(request):
-    if request.user.is_authenticated():
-        return redirect('supplies:sales')
-
-    message = None
-    template = 'auth/login.html'
-
-    if request.method == 'POST':
-        username_post = request.POST.get('username_login')
-        password_post = request.POST.get('password_login')
-        user = authenticate(username=username_post, password=password_post)
-
-        if user is not None:
-            login_django(request, user)
-            return redirect('supplies:sales')
-
-        else:
-            message = 'Usuario o contraseña incorrecto'
-
-    context = {
-        'page_title': PAGE_TITLE,
-        'message': message
-    }
-    return render(request, template, context)
-
-
-@login_required(login_url='supplies:login')
-def logout(request):
-    logout_django(request)
-    return redirect('supplies:login')
-
-
 # -------------------------------------  Profile -------------------------------------
 
 
 # -------------------------------------  Sales -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def sales(request):
     def get_name_day():
         datetime_now = datetime.datetime.now()
@@ -113,12 +80,18 @@ def sales(request):
             start_date_number += 1
         return json.dumps(week_sales_list)
 
+    def get_sales_day():
+        days = get_number_day()
+        print(days)
+        return days
+
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
         'page_title': PAGE_TITLE,
         'title': title,
-        'earnings': get_sales_week(),
+        'week_earnings': get_sales_week(),
+        'day_earnings': get_sales_day(),
         'day': get_name_day(),
         'week': get_week_number(),
     }
@@ -126,7 +99,12 @@ def sales(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
+def get_day_sale(request):
+    return HttpResponse('hola')
+
+
+@login_required(login_url='users:login')
 def new_sale(request):
     if request.method == 'POST':
         username = request.user
@@ -174,7 +152,7 @@ def new_sale(request):
 
 
 # -------------------------------------  Providers -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def suppliers(request):
     suppliers_list = Supplier.objects.order_by('id')
     template = 'suppliers/suppliers.html'
@@ -188,7 +166,7 @@ def suppliers(request):
 
 
 # -------------------------------------  Supplies -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def supplies(request):
     supply = Supply.objects.order_by('id')
     template = 'supplies/supplies.html'
@@ -201,7 +179,7 @@ def supplies(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_supply(request):
     if request.method == 'POST':
         form = SupplyForm(request.POST, request.FILES)
@@ -226,7 +204,7 @@ def new_supply(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def supply_detail(request, pk):
     supply = get_object_or_404(Supply, pk=pk)
     template = 'supplies/supply_detail.html'
@@ -240,7 +218,7 @@ def supply_detail(request, pk):
 
 
 # ------------------------------------- Categories -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def categories(request):
     supplies_categories = SuppliesCategory.objects.order_by('id')
     template = 'categories/categories.html'
@@ -253,7 +231,7 @@ def categories(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_category(request):
     if request.method == 'POST':
         form = SuppliesCategoryForm(request.POST, request.FILES)
@@ -274,7 +252,7 @@ def new_category(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def categories_supplies(request, categ):
     supplies_categories = SuppliesCategoryForm.objects.filter(name=categ)
     supply = Supply.objects.filter(category=supplies_categories)
@@ -289,7 +267,7 @@ def categories_supplies(request, categ):
 
 
 # -------------------------------------  Cartridges -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def cartridges(request):
     cartridges_list = Cartridge.objects.order_by('id')
     template = 'cartridges/cartridges.html'
@@ -302,7 +280,7 @@ def cartridges(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_cartridge(request):
     if request.method == 'POST':
         form = CartridgeForm(request.POST, request.FILES)
