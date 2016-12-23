@@ -100,9 +100,36 @@ def sales(request):
 
 @login_required(login_url='users:login')
 def get_sales_day_view(request):
-    json_object = json.loads(request.POST.get('day'))
-    print(json_object)
-    return JsonResponse({'day': json_object})
+    number_day = json.loads(request.POST.get('day'))
+
+    def get_name_day():
+        datetime_now = datetime.datetime.now()
+        days_list = {
+            'MONDAY': 'Lunes',
+            'TUESDAY': 'Martes',
+            'WEDNESDAY': 'Miércoles',
+            'THURSDAY': 'Jueves',
+            'FRIDAY': 'Viernes',
+            'SATURDAY': 'Sábado',
+            'SUNDAY': 'Domingo'
+        }
+        name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
+        return days_list[name_day.strftime('%A').upper()]
+
+    def get_sales_day(filter_date):
+        start_date = date.today() - timedelta(days=4)
+        end_date = start_date + timedelta(days=1)
+        tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
+        for valor in tickets:
+            print('VALOR:', valor)
+
+    def get_datetime_day(number_day):
+
+        pass
+
+    get_sales_day(datetime.datetime.now())
+
+    return JsonResponse({'day': get_name_day(number_day)})
 
 
 @login_required(login_url='users:login')
