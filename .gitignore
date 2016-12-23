@@ -113,8 +113,10 @@ ENV/
 
 cashflow/__pycache__/
 supplies/__pycache__/
-supplies/migrations/
-users/migrations/
+supplies/migrations/*
+!supplies/migrations/__init__.py
+users/migrations/*
+!users/migrations/__init__.py
 media/*
 staticfiles/
 #Database
