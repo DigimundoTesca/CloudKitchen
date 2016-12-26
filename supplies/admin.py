@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from supplies.models import SuppliesCategory, SupplyLocation, Supply, SupplierOrderDetail, SupplierOrder, \
     CartridgeRecipe, Cartridge, PackageCartridgeRecipe, ProcessedCartridge, PackageCartridge, Warehouse, TicketDetail, \
-    Ticket, CustomerOrderDetail, CustomerOrder
+    Ticket
 
 
 @admin.register(SuppliesCategory)
@@ -75,14 +75,3 @@ class TicketDetailInline(admin.TabularInline):
 class AdminTicket(admin.ModelAdmin):
     list_display = ('created_at', 'seller', 'cash_register',)
     inlines = [TicketDetailInline, ]
-
-
-class CustomerOrderDetailInline(admin.TabularInline):
-    model = CustomerOrderDetail
-    extra = 1
-    
-
-@admin.register(CustomerOrder)
-class AdminCustomerOrder(admin.ModelAdmin):
-    list_display = ('id', 'created_at', 'status', )
-    inlines = [CustomerOrderDetailInline, ]

@@ -21,4 +21,3 @@ class CartridgeForm(forms.ModelForm):
     class Meta:
         model = Cartridge
         fields = '__all__'
-

@@ -13,15 +13,14 @@ from django.shortcuts import get_object_or_404, render, redirect
 
 from django.contrib.auth.decorators import login_required
 
+from cashflow.settings.base import PAGE_TITLE
 from supplies.forms import SupplyForm, SuppliesCategory, Supply, SuppliesCategoryForm, CartridgeForm
 from supplies.models import Ticket, TicketDetail, Cartridge, PackageCartridge
 from users.models import UserProfile, CashRegister, Supplier
 
-PAGE_TITLE = 'DabbaNet'
-
 
 def test(request):
-    template = '500.html'
+    template = 'customers/orders/new_order.html'
     return render(request, template, {})
 
 
@@ -196,11 +195,11 @@ def suppliers(request):
 # -------------------------------------  Supplies -------------------------------------
 @login_required(login_url='users:login')
 def supplies(request):
-    supply = Supply.objects.order_by('id')
+    supplies_objects = Supply.objects.order_by('id')
     template = 'supplies/supplies.html'
     title = 'Insumos'
     context = {
-        'supplies': supply,
+        'supplies': supplies_objects,
         'title': title,
         'page_title': PAGE_TITLE
     }

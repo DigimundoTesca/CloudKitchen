@@ -5,7 +5,7 @@ from rest_framework.decorators import detail_route
 
 from api.serializers import CustomerOrderSerializer, CustomerOrderDetailSerializer, CustomerOrderStatusSerializer, \
     CustomerOrderScoreSerializer
-from supplies.models import CustomerOrder, CustomerOrderDetail
+from customers.models import CustomerOrder, CustomerOrderDetail
 
 
 class CustomerOrderViewSet(viewsets.ModelViewSet):

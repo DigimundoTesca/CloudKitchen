@@ -5,6 +5,7 @@ from . import views
 app_name = 'supplies'
 
 urlpatterns = [
+    # test
     url(r'^test/$', views.test, name='test'),
 
     # sales

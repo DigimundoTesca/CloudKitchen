@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils import timezone
 
-from supplies.models import Cartridge, PackageCartridgeRecipe, PackageCartridge, CustomerOrderDetail, CustomerOrder
+from customers.models import CustomerOrderDetail, CustomerOrder
+from supplies.models import Cartridge, PackageCartridgeRecipe, PackageCartridge
 from users.models import UserProfile
 
 
