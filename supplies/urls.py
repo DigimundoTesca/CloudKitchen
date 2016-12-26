@@ -28,4 +28,8 @@ urlpatterns = [
     # Cartridges
     url(r'^cartridges/$', views.cartridges, name='cartridges'),
     url(r'^cartridges/new/$', views.new_cartridge, name='new_cartridge'),
+
+    # Customer orders
+    url(r'^customers/orders/$', views.customer_orders, name='new_customer_order'),
+    url(r'^customers/orders/new/$', views.new_customer_order, name='new_customer_order'),
 ]

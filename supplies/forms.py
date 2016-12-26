@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django import forms
 
-from supplies.models import Supply, SuppliesCategory, Cartridge
+from supplies.models import Supply, SuppliesCategory, Cartridge, CustomerOrder, CustomerOrderDetail
 
 
 class SupplyForm(forms.ModelForm):
@@ -22,3 +22,14 @@ class CartridgeForm(forms.ModelForm):
         model = Cartridge
         fields = '__all__'
 
+
+class CustomerOrderForm(forms.ModelForm):
+    class Meta:
+        model = CustomerOrder
+        fields = '__all__'
+
+
+class CustomerOrderDetailForm(forms.ModelForm):
+    class Meta:
+        model = CustomerOrderDetail
+        fields = '__all__'

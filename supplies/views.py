@@ -13,15 +13,15 @@ from django.shortcuts import get_object_or_404, render, redirect
 
 from django.contrib.auth.decorators import login_required
 
-from supplies.forms import SupplyForm, SuppliesCategory, Supply, SuppliesCategoryForm, CartridgeForm
-from supplies.models import Ticket, TicketDetail, Cartridge, PackageCartridge
+from supplies.forms import SupplyForm, SuppliesCategory, Supply, SuppliesCategoryForm, CartridgeForm, CustomerOrderForm
+from supplies.models import Ticket, TicketDetail, Cartridge, PackageCartridge, CustomerOrder
 from users.models import UserProfile, CashRegister, Supplier
 
 PAGE_TITLE = 'DabbaNet'
 
 
 def test(request):
-    template = '500.html'
+    template = 'customers/orders/new_order.html'
     return render(request, template, {})
 
 
@@ -196,11 +196,11 @@ def suppliers(request):
 # -------------------------------------  Supplies -------------------------------------
 @login_required(login_url='users:login')
 def supplies(request):
-    supply = Supply.objects.order_by('id')
+    supplies_objects = Supply.objects.order_by('id')
     template = 'supplies/supplies.html'
     title = 'Insumos'
     context = {
-        'supplies': supply,
+        'supplies': supplies_objects,
         'title': title,
         'page_title': PAGE_TITLE
     }
@@ -327,3 +327,38 @@ def new_cartridge(request):
         'page_title': PAGE_TITLE
     }
     return render(request, template, context)
+
+
+# -------------------------------------  Customers -------------------------------------
+def customer_orders(request):
+    customer_orders_objects = CustomerOrder.objects.all()
+    template = 'customers/orders/orders.html'
+    title = 'Realizar pedido'
+    context = {
+        'title': title,
+        'customer_orders': customer_orders_objects,
+        'page_title': PAGE_TITLE,
+    }
+    return render(request, template, context)
+
+
+def new_customer_order(request):
+    if request.method == 'POST':
+        form = CustomerOrderForm(request.POST, request.FILES)
+        if form.is_valid():
+            customer_order = form.save(commit=False)
+            customer_order.save()
+            return redirect('/orders/')
+    else:
+        form = CustomerOrderForm()
+
+    template = 'customers/orders/new_order.html'
+    title = 'DabbaNet - Nueva orden'
+    context = {
+        'form': form,
+        'title': title,
+        'page_title': PAGE_TITLE
+    }
+    return render(request, template, context)
+
+
