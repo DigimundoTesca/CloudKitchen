@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'supplies.apps.SuppliesConfig',
     'users.apps.UsersConfig',
+    'customers.apps.CustomersConfig',
     'api.apps.ApiConfig',
     'rest_framework',
     'fcm',
@@ -93,3 +94,5 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = ''
+
+PAGE_TITLE = 'DabbaNet'

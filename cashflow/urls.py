@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^dabba-admin/', admin.site.urls),
     url(r'^', include('supplies.urls')),
     url(r'^', include('users.urls')),
+    url(r'^', include('customers.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

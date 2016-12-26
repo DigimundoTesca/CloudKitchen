@@ -1,3 +1,14 @@
 from django.contrib import admin
 
-# Register your models here.
+from customers.models import CustomerOrder, CustomerOrderDetail
+
+
+class CustomerOrderDetailInline(admin.TabularInline):
+    model = CustomerOrderDetail
+    extra = 1
+
+
+@admin.register(CustomerOrder)
+class AdminCustomerOrder(admin.ModelAdmin):
+    list_display = ('id', 'created_at', 'status', )
+    inlines = [CustomerOrderDetailInline, ]

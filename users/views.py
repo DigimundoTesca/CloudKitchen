@@ -5,10 +5,10 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth import logout as logout_django
 
-from supplies.views import PAGE_TITLE
-
 
 # -------------------------------------  Auth -------------------------------------
+from cashflow.settings.base import PAGE_TITLE
+
 
 def login(request):
     if request.user.is_authenticated():
@@ -31,7 +31,7 @@ def login(request):
 
     context = {
         'page_title': PAGE_TITLE,
-        'message': message
+        'message': message,
     }
     return render(request, template, context)
 
