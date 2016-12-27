@@ -7,16 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link rel="icon" href="{% static 'media/images/temporal-ico.ico' %}">
-    {% block link %}
-    {% endblock link %}
     <!-- Font style -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans+Condensed:300|Open+Sans:300,400" rel="stylesheet">
+
+    {% block link %}
+    {% endblock link %}
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-flex.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
 </head>
 <body>
     {% block nav %}

@@ -24,7 +24,7 @@ def new_customer_order(request):
         if form.is_valid():
             customer_order = form.save(commit=False)
             customer_order.save()
-            return redirect('/orders/')
+            return redirect('/customers/orders/')
     else:
         form = CustomerOrderForm()
 
