@@ -5,6 +5,15 @@ from customers.forms import CustomerOrderForm
 from customers.models import CustomerOrder
 
 
+# -------------------------------------  Customers -------------------------------------
+def new_customer(request):
+    template = 'customers/register/new_customer.html'
+    context = {
+        'page_title': PAGE_TITLE
+    }
+    return render(request, template, context)
+
+
 # -------------------------------------  Customer Orders -------------------------------------
 def customer_orders(request):
     customer_orders_objects = CustomerOrder.objects.all()
