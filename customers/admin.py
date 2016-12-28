@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from customers.models import CustomerOrder, CustomerOrderDetail
+from customers.models import CustomerOrder, CustomerOrderDetail, CustomerProfile
+
+
+@admin.register(CustomerProfile)
+class CustomerProfile(admin.ModelAdmin):
+    list_display = ('id', 'name')
 
 
 class CustomerOrderDetailInline(admin.TabularInline):

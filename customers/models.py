@@ -13,8 +13,8 @@ class CustomerProfile(models.Model):
     last_name = models.CharField(default='', max_length=30, blank=False)
     email = models.EmailField(max_length=255, blank=False)
     phone_number = models.CharField(blank=False, null=True, max_length=10)
-    longitud = models.DecimalField(blank=False, max_digits=10, decimal_places=10, default=1.0)
-    latitud = models.DecimalField(blank=False, max_digits=10, decimal_places=10, default=1.0)
+    longitude = models.DecimalField(default=0.0, max_digits=15, decimal_places=12)
+    latitude = models.DecimalField(default=0.0, max_digits=15, decimal_places=12)
 
     def __str__(self):
         return self.name
