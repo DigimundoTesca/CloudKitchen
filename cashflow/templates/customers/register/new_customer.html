@@ -1,0 +1,76 @@
+{% extends 'base/base_nav_simple_footer.html' %}
+
+{% block content %}
+<div class="container">
+	<h1 class="text-xs-center">Bienvenido a Dabbawala</h1>
+	<img src="" alt="logo de dabbawala aquí" width="350" height="350">
+	<div class="col-xs-12">
+		<h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
+		<form action="" method="post">
+			{% csrf_token %}
+		</form>
+		{{ form.as_p }}
+
+		{# <input type="text" maxlength="100" id="address" placeholder="Dirección" /> #}
+		{# <input type="button" id="search" value="Buscar" /></div><br/> #}
+
+		<!-- Google maps -->
+		<div id="map"></div>
+		<br>
+
+	</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+	var map = null;
+	var infoWindow = null;
+
+	function openInfoWindow(marker) {
+		var markerLatLng = marker.getPosition();
+		infoWindow.setContent([
+			'<strong>La posicion del marcador es:</strong><br/>',
+			markerLatLng.lat(),
+			', ',
+			markerLatLng.lng(),
+			'<br/>Arrástrame para elegir tu ubicación.'
+			].join(''));
+		infoWindow.open(map, marker);
+	}
+
+	function initialize() {
+		var myLatlng = new google.maps.LatLng(19.5228008,-99.2291418);
+		var myOptions = {
+			zoom: 15,
+			center: myLatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
+
+		map = new google.maps.Map($("#map").get(0), myOptions);
+
+		infoWindow = new google.maps.InfoWindow();
+
+		var marker = new google.maps.Marker({
+			position: myLatlng,
+			draggable: true,
+			map: map,
+			title:"Elige tu ubicación"
+		});
+		google.maps.event.addListener(marker, 'dragend', function(){ openInfoWindow(marker); });
+		google.maps.event.addListener(marker, 'click', function(){ openInfoWindow(marker); });
+	}
+
+
+
+	$(function() {
+		initialize();
+	});
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrITfQswCPmOPEBRM1Ufeiogh22FxQV5k&callback=initMap" async defer></script>
+
+
+{% endblock %}

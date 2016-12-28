@@ -1,8 +1,10 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils import timezone
 
-from supplies.models import CustomerOrder, CustomerOrderDetail, Cartridge, PackageCartridge, PackageCartridgeRecipe, \
-    User, UserProfile
+from customers.models import CustomerOrderDetail, CustomerOrder
+from supplies.models import Cartridge, PackageCartridgeRecipe, PackageCartridge
+from users.models import UserProfile
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -71,10 +73,17 @@ class CustomerOrderSerializer(serializers.ModelSerializer):
         model = CustomerOrder
         fields = (
             'id', 'created_at', 'delivery_date', 'customer_user', 'customer_user_id', 'customer_order_details', 'status', 'price',
-            'latitude', 'longitude',)
+            'latitude', 'longitude', 'score')
 
 
 class CustomerOrderStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerOrder
         fields = ('status', )
+
+
+class CustomerOrderScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerOrder
+        fields = ('score',)
+

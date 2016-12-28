@@ -4,97 +4,134 @@ from __future__ import unicode_literals
 import json
 import datetime
 
+from datetime import date, timedelta
+
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
-from django.contrib.auth import authenticate
-from django.contrib.auth import login as login_django
-from django.contrib.auth import logout as logout_django
 from django.contrib.auth.decorators import login_required
 
-from .forms import *
-from .models import *
-
-PAGE_TITLE = 'DabbaNet'
+from cashflow.settings.base import PAGE_TITLE
+from supplies.forms import SupplyForm, SuppliesCategory, Supply, SuppliesCategoryForm, CartridgeForm
+from supplies.models import Ticket, TicketDetail, Cartridge, PackageCartridge
+from users.models import UserProfile, CashRegister, Supplier
 
 
 def test(request):
-    template = '500.html'
+    template = 'customers/orders/new_order.html'
     return render(request, template, {})
-
-
-# -------------------------------------  Auth -------------------------------------
-def login(request):
-    if request.user.is_authenticated():
-        return redirect('supplies:sales')
-
-    message = None
-    template = 'auth/login.html'
-
-    if request.method == 'POST':
-        username_post = request.POST.get('username_login')
-        password_post = request.POST.get('password_login')
-        user = authenticate(username=username_post, password=password_post)
-
-        if user is not None:
-            login_django(request, user)
-            return redirect('supplies:sales')
-
-        else:
-            message = 'Usuario o contraseña incorrecto'
-
-    context = {
-        'page_title': PAGE_TITLE,
-        'message': message
-    }
-    return render(request, template, context)
-
-
-@login_required(login_url='supplies:login')
-def logout(request):
-    logout_django(request)
-    return redirect('supplies:login')
 
 
 # -------------------------------------  Profile -------------------------------------
 
 
 # -------------------------------------  Sales -------------------------------------
-@login_required(login_url='supplies:login')
-def sales(request, total_earnings=0):
-
-    def calc_day():
+@login_required(login_url='users:login')
+def sales(request):
+    def get_name_day():
         datetime_now = datetime.datetime.now()
-
         days_list = {
             'MONDAY': 'Lunes',
             'TUESDAY': 'Martes',
-            'WEDNESDAY': 'Miercoles',
+            'WEDNESDAY': 'Miércoles',
             'THURSDAY': 'Jueves',
             'FRIDAY': 'Viernes',
-            'SATURDAY': 'Sabado',
+            'SATURDAY': 'Sábado',
             'SUNDAY': 'Domingo'
         }
-
         name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
         return days_list[name_day.strftime('%A').upper()]
 
-    ticket_details = TicketDetail.objects.all()
-    for ticket in ticket_details:
-        total_earnings += ticket.price
+    def get_number_day():
+        days = {
+            'Lunes': 1, 'Martes': 2, 'Miércoles': 3, 'Jueves': 4, 'Viernes': 5, 'Sábado': 6, 'Domingo': 7,
+        }
+        return days[get_name_day()]
+
+    def get_week_number():
+        return datetime.date.today().isocalendar()[1]
+
+    def get_sales_week():
+        total_earnings = 0
+        week_sales_list = [0, 0, 0, 0, 0, 0, 0]
+        days_to_count = get_number_day() - 1
+        day_limit = days_to_count
+        start_date_number = 0
+
+        while start_date_number <= day_limit:
+            start_date = date.today() - timedelta(days=days_to_count)
+            end_date = start_date + timedelta(days=1)
+            tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
+
+            for ticket in tickets:
+                ticket_details = TicketDetail.objects.filter(ticket=ticket)
+
+                for ticket_detail in ticket_details:
+                    total_earnings += ticket_detail.price
+
+            week_sales_list[start_date_number] = float(total_earnings)
+
+            # restarting counters
+            days_to_count -= 1
+            total_earnings = 0
+            start_date_number += 1
+        return json.dumps(week_sales_list)
+
+    def get_sales_day():
+        days = get_number_day()
+        return days
 
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
         'page_title': PAGE_TITLE,
         'title': title,
-        'earnings': total_earnings,
-        'day': calc_day(),
+        'week_earnings': get_sales_week(),
+        'day_earnings': get_sales_day(),
+        'day': get_name_day(),
+        'week': get_week_number(),
     }
+
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
+def get_sales_day_view(request):
+    number_day = json.loads(request.POST.get('day'))
+
+    def get_name_day():
+        datetime_now = datetime.datetime.now()
+        days_list = {
+            'MONDAY': 'Lunes',
+            'TUESDAY': 'Martes',
+            'WEDNESDAY': 'Miércoles',
+            'THURSDAY': 'Jueves',
+            'FRIDAY': 'Viernes',
+            'SATURDAY': 'Sábado',
+            'SUNDAY': 'Domingo'
+        }
+        name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
+        return days_list[name_day.strftime('%A').upper()]
+
+    def get_sales_day(filter_date):
+        start_date = date.today() - timedelta(days=4)
+        end_date = start_date + timedelta(days=1)
+        tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
+        for valor in tickets:
+            print('VALOR:', valor)
+
+    def get_datetime_day(number_day):
+
+        pass
+
+    get_sales_day(datetime.datetime.now())
+
+    return JsonResponse({'day': get_name_day(number_day)})
+
+
+@login_required(login_url='users:login')
 def new_sale(request):
     if request.method == 'POST':
         username = request.user
@@ -142,7 +179,7 @@ def new_sale(request):
 
 
 # -------------------------------------  Providers -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def suppliers(request):
     suppliers_list = Supplier.objects.order_by('id')
     template = 'suppliers/suppliers.html'
@@ -156,20 +193,20 @@ def suppliers(request):
 
 
 # -------------------------------------  Supplies -------------------------------------
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def supplies(request):
-    supply = Supply.objects.order_by('id')
+    supplies_objects = Supply.objects.order_by('id')
     template = 'supplies/supplies.html'
     title = 'Insumos'
     context = {
-        'supplies': supply,
+        'supplies': supplies_objects,
         'title': title,
         'page_title': PAGE_TITLE
     }
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_supply(request):
     if request.method == 'POST':
         form = SupplyForm(request.POST, request.FILES)
@@ -194,7 +231,7 @@ def new_supply(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def supply_detail(request, pk):
     supply = get_object_or_404(Supply, pk=pk)
     template = 'supplies/supply_detail.html'
@@ -207,8 +244,8 @@ def supply_detail(request, pk):
     return render(request, template, context)
 
 
-# ------------------------------------- Categories ------------------------------------- 
-@login_required(login_url='supplies:login')
+# ------------------------------------- Categories -------------------------------------
+@login_required(login_url='users:login')
 def categories(request):
     supplies_categories = SuppliesCategory.objects.order_by('id')
     template = 'categories/categories.html'
@@ -221,7 +258,7 @@ def categories(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_category(request):
     if request.method == 'POST':
         form = SuppliesCategoryForm(request.POST, request.FILES)
@@ -242,7 +279,7 @@ def new_category(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def categories_supplies(request, categ):
     supplies_categories = SuppliesCategoryForm.objects.filter(name=categ)
     supply = Supply.objects.filter(category=supplies_categories)
@@ -256,8 +293,8 @@ def categories_supplies(request, categ):
     return render(request, template, context)
 
 
-# -------------------------------------  Cartridges ------------------------------------- 
-@login_required(login_url='supplies:login')
+# -------------------------------------  Cartridges -------------------------------------
+@login_required(login_url='users:login')
 def cartridges(request):
     cartridges_list = Cartridge.objects.order_by('id')
     template = 'cartridges/cartridges.html'
@@ -270,7 +307,7 @@ def cartridges(request):
     return render(request, template, context)
 
 
-@login_required(login_url='supplies:login')
+@login_required(login_url='users:login')
 def new_cartridge(request):
     if request.method == 'POST':
         form = CartridgeForm(request.POST, request.FILES)
