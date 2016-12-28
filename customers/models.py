@@ -1,13 +1,23 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
-import datetime
-
 from django.db import models
-from django.core.validators import MaxValueValidator, MinLengthValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 
-from users.models import  UserProfile
-from supplies.models import  Cartridge, PackageCartridge
+from users.models import UserProfile
+from supplies.models import Cartridge, PackageCartridge
+
+
+class CustomerProfile(models.Model):
+    name = models.CharField(default='', max_length=30, blank=False)
+    last_name = models.CharField(default='', max_length=30, blank=False)
+    email = models.EmailField(max_length=255, blank=False)
+    phone_number = models.CharField(blank=False, null=True, max_length=10)
+    longitud = models.DecimalField(blank=False, max_digits=10, decimal_places=10, default=1.0)
+    latitud = models.DecimalField(blank=False, max_digits=10, decimal_places=10, default=1.0)
+
+    def __str__(self):
+        return self.name
 
 
 class CustomerOrder(models.Model):

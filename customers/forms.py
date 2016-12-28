@@ -1,11 +1,9 @@
 from django import forms
 from django.contrib.admin import widgets
 
-from customers.models import CustomerOrder, CustomerOrderDetail
+from customers.models import CustomerOrder, CustomerOrderDetail, CustomerProfile
 
 from functools import partial
-
-DateInput = partial(forms.DateInput, {'class': 'datepicker'})
 
 
 class CustomerOrderForm(forms.ModelForm):
@@ -22,3 +20,9 @@ class CustomerOrderDetailForm(forms.ModelForm):
     class Meta:
         model = CustomerOrderDetail
         fields = '__all__'
+
+
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model= CustomerProfile
+        fields= '__all__'

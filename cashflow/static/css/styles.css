@@ -328,6 +328,10 @@ small {
 .popout #fab-add-supply:after {
   background: #419641 !important;
 }
+#map {
+  height: 350px;
+  width: 100%;
+}
 #printer { 
   color: #000000;
   font-size: 0.8rem;

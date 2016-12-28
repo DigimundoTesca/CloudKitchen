@@ -1,16 +1,30 @@
 from django.shortcuts import render, redirect
 
 from cashflow.settings.base import PAGE_TITLE
-from customers.forms import CustomerOrderForm
-from customers.models import CustomerOrder
+from customers.forms import CustomerOrderForm, CustomerProfileForm
+from customers.models import CustomerOrder, CustomerProfile
 
 
 # -------------------------------------  Customers -------------------------------------
 def new_customer(request):
+    if request.method == 'POST':
+        form = CustomerProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.save()
+            return redirect('/register')
+    else:
+        form = CustomerProfileForm()
+
     template = 'customers/register/new_customer.html'
+    title = 'Dabbawala - Regitro de clientes'
+
     context = {
+        'form': form,
+        'title': title,
         'page_title': PAGE_TITLE
     }
+
     return render(request, template, context)
 
 
