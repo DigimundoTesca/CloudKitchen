@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 
 from api.serializers import CustomerOrderSerializer, CustomerOrderDetailSerializer, CustomerOrderStatusSerializer, \
-    CustomerOrderScoreSerializer
+    CustomerOrderScoreSerializer, CustomerOrderPinSerializer
 from customers.models import CustomerOrder, CustomerOrderDetail
 
 
@@ -21,3 +21,8 @@ class CustomerOrderStatusViewSet(viewsets.ModelViewSet):
 class CustomerOrderScoreViewSet(viewsets.ModelViewSet):
     queryset = CustomerOrder.objects.all()
     serializer_class = CustomerOrderScoreSerializer
+
+
+class CustomerOrderPinViewSet(viewsets.ModelViewSet):
+    queryset = CustomerOrder.objects.all()
+    serializer_class = CustomerOrderPinSerializer
