@@ -87,3 +87,9 @@ class CustomerOrderScoreSerializer(serializers.ModelSerializer):
         model = CustomerOrder
         fields = ('score',)
 
+
+class CustomerOrderPinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerOrder
+        fields = ('pin',)
+
