@@ -73,7 +73,7 @@ class CustomerOrderSerializer(serializers.ModelSerializer):
         model = CustomerOrder
         fields = (
             'id', 'created_at', 'delivery_date', 'customer_user', 'customer_user_id', 'customer_order_details', 'status', 'price',
-            'latitude', 'longitude', 'score')
+            'latitude', 'longitude', 'score', 'pin')
 
 
 class CustomerOrderStatusSerializer(serializers.ModelSerializer):
