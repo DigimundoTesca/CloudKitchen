@@ -10,7 +10,6 @@ from supplies.models import Cartridge, PackageCartridge
 
 class CustomerProfile(models.Model):
     name = models.CharField(default='', max_length=30, blank=False)
-    last_name = models.CharField(default='', max_length=30, blank=False)
     email = models.EmailField(max_length=255, blank=False)
     phone_number = models.CharField(blank=False, null=True, max_length=10)
     longitude = models.DecimalField(default=0.0, max_digits=15, decimal_places=12)
@@ -40,6 +39,7 @@ class CustomerOrder(models.Model):
     score = models.PositiveIntegerField(
         validators=[MaxValueValidator(5), MinValueValidator(1)],
         null=False, blank=False, default=1)
+    pin = models.CharField(default='1234', max_length=254, blank=False)
 
     def __str__(self):
         return '%s' % self.id
