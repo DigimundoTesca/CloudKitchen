@@ -17,7 +17,7 @@ def new_customer(request):
         form = CustomerProfileForm()
 
     template = 'customers/register/new_customer.html'
-    title = 'Dabbawala - Regitro de clientes'
+    title = 'Dabbawala - Registro de clientes'
 
     context = {
         'form': form,

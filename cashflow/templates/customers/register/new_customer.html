@@ -1,24 +1,62 @@
 {% extends 'base/base_nav_simple_footer.html' %}
 
+{% load static %}
+
 {% block content %}
 <div class="container">
-	<h1 class="text-xs-center">Bienvenido a Dabbawala</h1>
-	<img src="" alt="logo de dabbawala aquí" width="350" height="350">
-	<div class="col-xs-12">
-		<h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
-		<form action="" method="post">
-			{% csrf_token %}
-		</form>
-		{{ form.as_p }}
+  <h1 class="text-xs-center">Bienvenido a Dabbawala</h1>
+  <figure>
+    <figure class="container-dabbawala-logo">
+      <img src="{% static 'media/images/LogoDabba_naranja.png' %}" alt="dabbawala_logo" class="dabbawala-logo-register">
+    </figure>
+  </figure>
+  <div class="col-xs-12">
+    <h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
+    <form action="" method="post" class="form-register-customer">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_name" class="sr-only">Nombre</label>
+        <small id="id_name_help" class="form-text text-muted">Ingresa tu nombre (Campo obligatorio)</small>
+        <input type="text" class="form-control" id="id_name" name="name" placeholder="Nombre" maxlength="30" required autofocus>
+      </div>
+      <div class="form-group">
+        <label for="id_email" class="sr-only">Correo</label>
+        <small id="id_email_help" class="form-text text-muted">Ingresa tu Correo (Campo obligatorio)</small>
+        <input type="text" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" required>
+      </div>
+      <div class="form-group">
+        <label for="id_phone_number" class="sr-only">Teléfono celular</label>
+        <small id="id_phone_number_help" class="form-text text-muted">Ingresa tu número de teléfono (De preferencia whatsapp)</small>
+        <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Teléfono celular" maxlength="10" required>
+      </div>
+      <div class="form-group container-hidden">
+        <input type="number" class="form-control text-hide" id="id_longitude" name="longitude" placeholder="Longitud" step="1e-12" tyrequired>
+      </div>
+      <div class="form-group container-hidden">
+        <input type="number" class="form-control text-hide" id="id_latitude" name="latitude" placeholder="Latitud" step="1e-12" tyrequired>
+      </div>
+      <div class="form-group row">
+        <label for="id_location" class="sr-only">Ubicación</label>            
+        <div class="col-xs-10">
+          <small id="id_location_help" class="form-text text-muted">Ingresa tu ubicación</small>
+        </div>
+        <div class="col-xs-10">
+          <input type="text" class="form-control" id="id_location" name="address" placeholder="Busca tu dirección">  
+        </div>
+        <div class="col-xs-2">
+        <button class="btn btn-primary col-xs-12">Buscar</button>
+        </div>
+      </div>
+    </form>
 
-		{# <input type="text" maxlength="100" id="address" placeholder="Dirección" /> #}
-		{# <input type="button" id="search" value="Buscar" /></div><br/> #}
+    {# <input type="text" maxlength="100" id="address" placeholder="Dirección" /> #}
+    {# <input type="button" id="search" value="Buscar" /></div><br/> #}
 
-		<!-- Google maps -->
-		<div id="map"></div>
-		<br>
+    <!-- Google maps -->
+    <div id="map"></div>
+    <br>
 
-	</div>
+  </div>
 </div>
 {% endblock %}
 
@@ -27,48 +65,48 @@
 
 <script>
 
-	var map = null;
-	var infoWindow = null;
+  var map = null;
+  var infoWindow = null;
 
-	function openInfoWindow(marker) {
-		var markerLatLng = marker.getPosition();
-		infoWindow.setContent([
-			'<strong>La posicion del marcador es:</strong><br/>',
-			markerLatLng.lat(),
-			', ',
-			markerLatLng.lng(),
-			'<br/>Arrástrame para elegir tu ubicación.'
-			].join(''));
-		infoWindow.open(map, marker);
-	}
+  function openInfoWindow(marker) {
+    var markerLatLng = marker.getPosition();
+    infoWindow.setContent([
+      '<strong>La posicion del marcador es:</strong><br/>',
+      markerLatLng.lat(),
+      ', ',
+      markerLatLng.lng(),
+      '<br/>Arrástrame para elegir tu ubicación.'
+      ].join(''));
+    infoWindow.open(map, marker);
+  }
 
-	function initialize() {
-		var myLatlng = new google.maps.LatLng(19.5228008,-99.2291418);
-		var myOptions = {
-			zoom: 15,
-			center: myLatlng,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		}
+  function initialize() {
+    var myLatlng = new google.maps.LatLng(19.5228008,-99.2291418);
+    var myOptions = {
+      zoom: 15,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
 
-		map = new google.maps.Map($("#map").get(0), myOptions);
+    map = new google.maps.Map($("#map").get(0), myOptions);
 
-		infoWindow = new google.maps.InfoWindow();
+    infoWindow = new google.maps.InfoWindow();
 
-		var marker = new google.maps.Marker({
-			position: myLatlng,
-			draggable: true,
-			map: map,
-			title:"Elige tu ubicación"
-		});
-		google.maps.event.addListener(marker, 'dragend', function(){ openInfoWindow(marker); });
-		google.maps.event.addListener(marker, 'click', function(){ openInfoWindow(marker); });
-	}
+    var marker = new google.maps.Marker({
+      position: myLatlng,
+      draggable: true,
+      map: map,
+      title:"Elige tu ubicación"
+    });
+    google.maps.event.addListener(marker, 'dragend', function(){ openInfoWindow(marker); });
+    google.maps.event.addListener(marker, 'click', function(){ openInfoWindow(marker); });
+  }
 
 
 
-	$(function() {
-		initialize();
-	});
+  $(function() {
+    initialize();
+  });
 
 </script>
 
