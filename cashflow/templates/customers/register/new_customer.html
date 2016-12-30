@@ -10,52 +10,61 @@
       <img src="{% static 'media/images/LogoDabba_naranja.png' %}" alt="dabbawala_logo" class="dabbawala-logo-register">
     </figure>
   </figure>
-  <div class="col-xs-12">
-    <h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
-    <form action="" method="post" class="form-register-customer">
-      {% csrf_token %}
-      <div class="form-group">
-        <label for="id_name" class="sr-only">Nombre</label>
-        <small id="id_name_help" class="form-text text-muted">Ingresa tu nombre (Campo obligatorio)</small>
-        <input type="text" class="form-control" id="id_name" name="name" placeholder="Nombre" maxlength="30" required autofocus>
-      </div>
-      <div class="form-group">
-        <label for="id_email" class="sr-only">Correo</label>
-        <small id="id_email_help" class="form-text text-muted">Ingresa tu Correo (Campo obligatorio)</small>
-        <input type="text" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" required>
-      </div>
-      <div class="form-group">
-        <label for="id_phone_number" class="sr-only">Teléfono celular</label>
-        <small id="id_phone_number_help" class="form-text text-muted">Ingresa tu número de teléfono (De preferencia whatsapp)</small>
-        <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Teléfono celular" maxlength="10" required>
-      </div>
-      <div class="form-group container-hidden">
-        <input type="number" class="form-control text-hide" id="id_longitude" name="longitude" placeholder="Longitud" step="1e-12" tyrequired>
-      </div>
-      <div class="form-group container-hidden">
-        <input type="number" class="form-control text-hide" id="id_latitude" name="latitude" placeholder="Latitud" step="1e-12" tyrequired>
-      </div>
-      <div class="form-group row">
-        <label for="id_location" class="sr-only">Ubicación</label>            
-        <div class="col-xs-10">
-          <small id="id_location_help" class="form-text text-muted">Ingresa tu ubicación</small>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
+      <div class="row">
+        <div class="col-xs-12 col-md-6">
+          <form action="" method="post" class="form-register-customer">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="id_name" class="sr-only">Nombre</label>
+              <small id="id_name_help" class="form-text text-muted">Ingresa tu nombre (Campo obligatorio)</small>
+              <input type="text" class="form-control" id="id_name" name="name" placeholder="Nombre" maxlength="30" required autofocus>
+            </div>
+            <div class="form-group">
+              <label for="id_email" class="sr-only">Correo</label>
+              <small id="id_email_help" class="form-text text-muted">Ingresa tu Correo (Campo obligatorio)</small>
+              <input type="text" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" required>
+            </div>
+            <div class="form-group">
+              <label for="id_phone_number" class="sr-only">Teléfono celular</label>
+              <small id="id_phone_number_help" class="form-text text-muted">Ingresa tu número de teléfono (De preferencia whatsapp)</small>
+              <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Teléfono celular" maxlength="10" required>
+            </div>
+            <div class="form-group container-hidden">
+              <input type="number" class="form-control text-hide" id="id_longitude" name="longitude" placeholder="Longitud" step="1e-12" tyrequired>
+            </div>
+            <div class="form-group container-hidden">
+              <input type="number" class="form-control text-hide" id="id_latitude" name="latitude" placeholder="Latitud" step="1e-12" tyrequired>
+            </div>
+            <div class="form-group row" style="backdround:red">
+              <label for="id_location" class="sr-only">Ubicación</label>            
+              <div class="col-xs-12">
+                <small id="id_location_help" class="form-text text-muted">Ingresa tu ubicación</small>
+              </div>
+              <div class="col-xs-12 col-lg-9">
+                <input type="text" class="form-control" id="id_location" name="address" placeholder="Busca tu dirección">  
+              </div>
+              <div class="col-xs-12 col-lg-3">
+                <p><button class="btn btn-primary col-xs-12">Buscar</button></p>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="col-xs-10">
-          <input type="text" class="form-control" id="id_location" name="address" placeholder="Busca tu dirección">  
-        </div>
-        <div class="col-xs-2">
-        <button class="btn btn-primary col-xs-12">Buscar</button>
+        <div class="col-xs-12 col-md-6">
+          <!-- Google maps -->
+          <div id="map" class=""></div>  
         </div>
       </div>
-    </form>
-
-    {# <input type="text" maxlength="100" id="address" placeholder="Dirección" /> #}
-    {# <input type="button" id="search" value="Buscar" /></div><br/> #}
-
-    <!-- Google maps -->
-    <div id="map"></div>
-    <br>
-
+      <br>
+      <div class="row">
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-success btn-block">Registrate</button>
+          <br>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
