@@ -13,9 +13,9 @@
   <div class="row">
     <div class="col-xs-12">
       <h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
-      <div class="row">
-        <div class="col-xs-12 col-md-6">
-          <form action="" method="post" class="form-register-customer">
+      <form action="" method="post" class="form-register-customer">
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
             {% csrf_token %}
             <div class="form-group">
               <label for="id_name" class="sr-only">Nombre</label>
@@ -38,32 +38,35 @@
             <div class="form-group container-hidden">
               <input type="number" class="form-control text-hide" id="id_latitude" name="latitude" placeholder="Latitud" step="1e-12" tyrequired>
             </div>
-            <div class="form-group row" style="backdround:red">
+            <div class="form-group row">
               <label for="id_location" class="sr-only">Ubicación</label>            
               <div class="col-xs-12">
                 <small id="id_location_help" class="form-text text-muted">Ingresa tu ubicación</small>
               </div>
-              <div class="col-xs-12 col-lg-9">
-                <input type="text" class="form-control" id="id_location" name="address" placeholder="Busca tu dirección">  
-              </div>
-              <div class="col-xs-12 col-lg-3">
-                <p><button class="btn btn-primary col-xs-12">Buscar</button></p>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="id_location" name="address" placeholder="Busca tu dirección">  
+                  <span class="input-group-btn" id="icon-search">
+                    <button class="btn btn-secondary" type="button" id="search"><i class="material-icons">search</i></button>
+                  </span>
+                </div>
+
               </div>
             </div>
-          </form>
+            <div class="row">
+              <div class="col-xs-12">
+                <button type="submit" class="btn btn-success btn-block">Registrate</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <!-- Google maps -->
+            <div id="map" class=""></div>  
+          </div>
         </div>
-        <div class="col-xs-12 col-md-6">
-          <!-- Google maps -->
-          <div id="map" class=""></div>  
-        </div>
-      </div>
-      <br>
-      <div class="row">
-        <div class="col-xs-12">
-          <button type="submit" class="btn btn-success btn-block">Registrate</button>
-          <br>
-        </div>
-      </div>
+        <br>
+      </form>
+
     </div>
   </div>
 </div>
@@ -111,13 +114,44 @@
     google.maps.event.addListener(marker, 'click', function(){ openInfoWindow(marker); });
   }
 
-
-
   $(function() {
     initialize();
+
   });
 
-</script>
+  $('#search').on('click', function() {
+    // Obtenemos la dirección y la asignamos a una variable
+    var address = $('#id_location').val();
+    // Creamos el Objeto Geocoder
+    var geocoder = new google.maps.Geocoder();
+    // Hacemos la petición indicando la dirección e invocamos la función
+    // geocodeResult enviando todo el resultado obtenido
+    geocoder.geocode({ 'address': address}, geocodeResult);
+  });
+
+  function geocodeResult(results, status) {
+    // Verificamos el estatus
+    if (status == 'OK') {
+        // Si hay resultados encontrados, centramos y repintamos el mapa
+        // esto para eliminar cualquier pin antes puesto
+        var mapOptions = {
+          center: results[0].geometry.location,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map($("#map").get(0), mapOptions);
+        // fitBounds acercará el mapa con el zoom adecuado de acuerdo a lo buscado
+        map.fitBounds(results[0].geometry.viewport);
+        // Dibujamos un marcador con la ubicación del primer resultado obtenido
+        var markerOptions = { position: results[0].geometry.location }
+        var marker = new google.maps.Marker(markerOptions);
+        marker.setMap(map);
+      } else {
+        // En caso de no haber resultados o que haya ocurrido un error
+        // lanzamos un mensaje con el error
+        alert("Geocoding no tuvo éxito debido a: " + status);
+      }
+    }
+  </script>
 
 
-{% endblock %}
+  {% endblock %}
