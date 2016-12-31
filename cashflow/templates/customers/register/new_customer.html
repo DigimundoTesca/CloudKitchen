@@ -2,6 +2,11 @@
 
 {% load static %}
 
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/sweetalert.css' %}">
+{% endblock link %}
+
 {% block content %}
 <div class="container">
   <h1 class="text-xs-center">Bienvenido a Dabbawala</h1>
@@ -18,36 +23,56 @@
           <div class="col-xs-12 col-md-6">
             {% csrf_token %}
             <div class="form-group">
-              <label for="id_name" class="sr-only">Nombre</label>
-              <small id="id_name_help" class="form-text text-muted">Campo Obligatorio</small>
-              <input type="text" class="form-control" id="id_name" name="name" placeholder="Nombre" maxlength="30" required autofocus>
+              <label for="id_name" class="sr-only">Nombre de usuario.</label>
+              <small id="id_name_help" class="form-text text-muted">Nombre con el que te identificaremos. Campo Obligatorio.</small>
+              <input type="text" class="form-control" id="id_name" name="username" placeholder="Nombre de usuario (Nickname)" maxlength="30" value="{{ form.username.value }}" required autofocus onkeypress="return pulsar(event)" >
+              {%  if form.username.errors %}
+              <div class="has-danger">
+                {%  for error in form.username.errors %}
+                <small class="form-control-feedback">
+                  {{ error|escape }}
+                </small>
+                {% endfor %}
+              </div>
+              {% endif %}
             </div>
             <div class="form-group">
               <label for="id_email" class="sr-only">Correo</label>
               <small id="id_email_help" class="form-text text-muted">Campo Obligatorio</small>
-              <input type="text" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" required>
+              <input type="email" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" value="{{ form.email.value }}" required onkeypress="return pulsar(event)" >
+              {%  if form.email.errors %}
+              <div class="has-danger">
+                {%  for error in form.email.errors %}
+                <small class="form-control-feedback">{{ error|escape }}
+                </small>
+                {% endfor %}
+              </div>
+              {% endif %}
             </div>
             <div class="form-group">
               <label for="id_phone_number" class="sr-only">Teléfono celular</label>
               <small id="id_phone_number_help" class="form-text text-muted">Campo Obligatorio</small>
-              <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Número con Whatsapp" maxlength="10" required>
+              <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Número con Whatsapp" maxlength="10" value="{{ form.phone_number.value }}" required onkeypress="return pulsar(event)" >
+              {%  if form.phone_number.errors %}
+              <div class="has-danger">
+                {%  for error in form.phone_number.errors %}
+                <small class="form-control-feedback">{{ error|escape }}
+                </small>
+                {% endfor %}
+              </div>
+              {% endif %}
             </div>
-            <div class="form-group container-hidden">
-              <input type="number" class="form-control " id="id_longitude" name="longitude" placeholder="Longitud" tyrequired value="0.0">
-            </div>
-            <div class="form-group container-hidden">
-              <input type="number" class="form-control" id="id_latitude" name="latitude" placeholder="Latitud" tyrequired value="0.0">
-            </div>
+            <input type="hidden" class="form-control " id="id_longitude" name="longitude" value="{{ form.longitude.value }}">
+            <input type="hidden" class="form-control" id="id_latitude" name="latitude" value="{{ form.latitude.value }}">
             <div class="form-group row">
-              <label for="id_address" class="sr-only">Ubicación</label>            
               <div class="col-xs-12">
                 <small id="id_address_help" class="form-text text-muted"></small>
               </div>
               <div class="col-xs-12">
                 <div class="input-group">
-                  <input type="text" class="form-control" id="id_address" name="address" placeholder="Busca tu dirección">  
+                  <input type="text" class="form-control" id="id_address" name="address" placeholder="Busca tu dirección" maxlength="255" onkeypress="return search(event)" >  
                   <span class="input-group-btn" id="icon-search">
-                    <button class="btn btn-secondary" type="button" id="btn-search"><i class="material-icons">search</i></button>
+                    <button class="btn btn-primary" type="button" id="btn-search"><i class="material-icons">search</i></button>
                   </span>
                 </div>
               </div>
@@ -77,7 +102,9 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrITfQswCPmOPEBRM1Ufeiogh22FxQV5k" defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrITfQswCPmOPEBRM1Ufeiogh22FxQV5k" defer charset="utf-8"></script>
+
+<script src="{% static 'js/sweetalert.min.js' %}" charset="utf-8"></script>
 
 <script type="text/javascript">
 
@@ -89,17 +116,27 @@
     map = new google.maps.Map($("#map").get(0), options);
   }
 
+  function setAddressValue (address) {
+    $('#id_address').val(address);
+  }
+
+  function setLatLng(lat, lng){
+    $('#id_latitude').val(lat);
+    $('#id_longitude').val(lng); 
+  }
+
   function openInfoWindow(marker) {
     var markerLatLng = marker.getPosition();
     infoWindow.setContent([
-      'Arrástrame para elegir tu ubicación.'
+      'Aquí enviaremos tu Dabba.'
       ].join(''));
     
     infoWindow.open(map, marker);
+
     var latitude = markerLatLng.lat();
     var longitude = markerLatLng.lng();
-    $('#id_latitude').val(latitude);
-    $('#id_longitude').val(longitude);
+
+    setLatLng(latitude, longitude);
   }
 
   function addMarkerLsteners (marker) {
@@ -123,32 +160,43 @@
 
     drawMap(optionsMap);
 
-
     marker = new google.maps.Marker({
       animation: google.maps.Animation.DROP,
       draggable: true,
       map: map,
       position: LatLng,
-      title:"Elige tu ubicación",
     });
 
     addMarkerLsteners(marker);
-
+    openInfoWindow(marker);
   }
 
   $('#btn-search').on('click', function() {
-    // Obtenemos la dirección y la asignamos a una variable
     var address = $('#id_address').val();
-    // Creamos el Objeto Geocoder
     var geocoder = new google.maps.Geocoder();
-    // Hacemos la petición indicando la dirección e invocamos la función
-    // geocodeResult enviando todo el resultado obtenido
     geocoder.geocode({'address': address}, geocodeResult);
   });
+  
+  function pulsar(e) {
+    tecla = (document.all) ? e.keyCode :e.which;
+    return (tecla!=13);
+  }
+
+  function search(e) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if(code == 13) { 
+      var address = $('#id_address').val();
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({'address': address}, geocodeResult);
+    }
+
+    return (code!=13);
+  }
 
   function geocodeResult(results, status) {
     if (status == 'OK') {
-      console.log(results[0].geometry);
+      var address = results[0].formatted_address;
+      setAddressValue(address);
 
       var optionsMap = {
         zoom: 15,
@@ -162,11 +210,16 @@
         position: results[0].geometry.location,
         draggable: true, 
         animation: google.maps.Animation.DROP,
-        title: "Elige tu ubicación"
       }
 
       marker = new google.maps.Marker(markerOptions);
       marker.setMap(map);
+
+      var latitude = marker.position.lat();
+      var longitude = marker.position.lng();
+
+      setLatLng(latitude, longitude);
+
 
       addMarkerLsteners(marker);
 
@@ -179,11 +232,8 @@
       },6000);
     }
   }
-
   $(function() {
     initialize();
   });
 </script>
-
-
 {% endblock %}

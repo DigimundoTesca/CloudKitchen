@@ -1,8 +1,6 @@
 from django import forms
 from customers.models import CustomerOrder, CustomerOrderDetail, CustomerProfile
 
-from functools import partial
-
 
 class CustomerOrderForm(forms.ModelForm):
     class Meta:
@@ -24,8 +22,3 @@ class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = CustomerProfile
         fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super(CustomerProfileForm, self).__init__(*args, **kwargs)
-        self.fields['longitude'].widget.attrs.update({'class': 'text-hide'})
-        self.fields['latitude'].widget.attrs.update({'class': 'text-hide'})
