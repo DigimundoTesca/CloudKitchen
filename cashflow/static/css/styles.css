@@ -331,6 +331,7 @@ small {
   background-color: #D44027;
   color: #efefef;
   margin-bottom: 1rem;
+  min-height: 4rem;
 }
 .popout #fab-add-cartridge,
 .popout #fab-add-supply {

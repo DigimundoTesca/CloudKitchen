@@ -22,7 +22,6 @@ def new_customer(request):
     context = {
         'form': form,
         'title': title,
-        'page_title': '.',
     }
 
     return render(request, template, context)
@@ -44,7 +43,6 @@ def thanks(request):
     context = {
         'form': form,
         'title': title,
-        'page_title': '.',
     }
 
     return render(request, template, context)

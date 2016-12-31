@@ -165,7 +165,6 @@
       draggable: true,
       map: map,
       position: LatLng,
-      title:"Elige tu ubicación",
     });
 
     addMarkerLsteners(marker);
@@ -177,9 +176,13 @@
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, geocodeResult);
   });
+  
+  function pulsar(e) {
+    tecla = (document.all) ? e.keyCode :e.which;
+    return (tecla!=13);
+  }
 
   function search(e) {
-
     var code = (e.keyCode ? e.keyCode : e.which);
     if(code == 13) { 
       var address = $('#id_address').val();
@@ -207,7 +210,6 @@
         position: results[0].geometry.location,
         draggable: true, 
         animation: google.maps.Animation.DROP,
-        title: "Elige tu ubicación"
       }
 
       marker = new google.maps.Marker(markerOptions);
@@ -230,19 +232,8 @@
       },6000);
     }
   }
-
   $(function() {
     initialize();
   });
 </script>
-
-<script type="text/javascript">
-  function pulsar(e) {
-    tecla = (document.all) ? e.keyCode :e.which;
-    return (tecla!=13);
-  }
-
-</script>
-
-
 {% endblock %}
