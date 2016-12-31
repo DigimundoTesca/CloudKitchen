@@ -10,8 +10,8 @@ from supplies.models import Cartridge, PackageCartridge
 
 class CustomerProfile(models.Model):
     username = models.CharField(default='', max_length=30, blank=False, unique=True)
-    email = models.EmailField(max_length=255, blank=False)
-    phone_number = models.CharField(blank=False, null=True, max_length=10)
+    email = models.EmailField(max_length=255, blank=False, default='', unique=True)
+    phone_number = models.CharField(blank=False, null=True, max_length=10, default='', unique=True)
     longitude = models.CharField(default='0.0', max_length=30, blank=True)
     latitude = models.CharField(default=0.0, max_length=30, blank=True)
     address = models.CharField(default='', max_length=255, blank=True)
