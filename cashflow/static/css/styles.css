@@ -249,6 +249,9 @@ small {
 .form-register-customer {
   margin: 2rem 0;
 }
+.map-container {
+  margin-top: 2rem;
+}
 .modal#modal-order .modal-content{
   margin-top: calc(50vh - 15rem);
   max-height: 30rem;
