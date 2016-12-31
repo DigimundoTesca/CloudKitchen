@@ -12,7 +12,7 @@ def new_customer(request):
         if form.is_valid():
             customer = form.save(commit=False)
             customer.save()
-            return redirect('/register')
+            return redirect('customers:thanks')
     else:
         form = CustomerProfileForm()
 
@@ -22,7 +22,29 @@ def new_customer(request):
     context = {
         'form': form,
         'title': title,
-        'page_title': PAGE_TITLE
+        'page_title': '.',
+    }
+
+    return render(request, template, context)
+
+
+def thanks(request):
+    if request.method == 'POST':
+        form = CustomerProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.save()
+            return redirect('customers:new_customer')
+    else:
+        form = CustomerProfileForm()
+
+    template = 'customers/register/thanks.html'
+    title = 'Dabbawala - Registro de clientes'
+
+    context = {
+        'form': form,
+        'title': title,
+        'page_title': '.',
     }
 
     return render(request, template, context)
@@ -47,7 +69,7 @@ def new_customer_order(request):
         if form.is_valid():
             customer_order = form.save(commit=False)
             customer_order.save()
-            return redirect('/customers/orders/')
+            return redirect('customers:new_customer_order')
     else:
         form = CustomerOrderForm()
 

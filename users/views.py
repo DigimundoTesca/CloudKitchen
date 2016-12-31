@@ -16,7 +16,8 @@ def index(request):
     context = {
         'page_title': PAGE_TITLE,
     }
-    return render(request, template, context)
+    # return render(request, template, context)
+    return redirect('customers:new_customer')
 
 
 # -------------------------------------  Auth -------------------------------------
