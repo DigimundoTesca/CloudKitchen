@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-xs-12">
       <h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
-      <form action="" method="post" class="form-register-customer">
+      <form action="" method="POST" class="form-register-customer">
         <div class="row">
           <div class="col-xs-12 col-md-6">
             {% csrf_token %}
@@ -33,19 +33,19 @@
               <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Teléfono celular" maxlength="10" required>
             </div>
             <div class="form-group container-hidden">
-              <input type="number" class="form-control text-hide" id="id_longitude" name="longitude" placeholder="Longitud" step="1e-12" tyrequired>
+              <input type="number" class="form-control " id="id_longitude" name="longitude" placeholder="Longitud" tyrequired value="0.0">
             </div>
             <div class="form-group container-hidden">
-              <input type="number" class="form-control text-hide" id="id_latitude" name="latitude" placeholder="Latitud" step="1e-12" tyrequired>
+              <input type="number" class="form-control" id="id_latitude" name="latitude" placeholder="Latitud" tyrequired value="0.0">
             </div>
             <div class="form-group row">
-              <label for="id_location" class="sr-only">Ubicación</label>            
+              <label for="id_address" class="sr-only">Ubicación</label>            
               <div class="col-xs-12">
-                <small id="id_location_help" class="form-text text-muted">Ingresa tu ubicación</small>
+                <small id="id_address_help" class="form-text text-muted">Ingresa tu ubicación</small>
               </div>
               <div class="col-xs-12">
                 <div class="input-group">
-                  <input type="text" class="form-control" id="id_location" name="address" placeholder="Busca tu dirección">  
+                  <input type="text" class="form-control" id="id_address" name="address" placeholder="Busca tu dirección">  
                   <span class="input-group-btn" id="icon-search">
                     <button class="btn btn-secondary" type="button" id="search"><i class="material-icons">search</i></button>
                   </span>
@@ -79,17 +79,20 @@
 
   var map = null;
   var infoWindow = null;
+  var latitude;
+  var longitude;
 
   function openInfoWindow(marker) {
     var markerLatLng = marker.getPosition();
     infoWindow.setContent([
-      '<strong>La posicion del marcador es:</strong><br/>',
-      markerLatLng.lat(),
-      ', ',
-      markerLatLng.lng(),
-      '<br/>Arrástrame para elegir tu ubicación.'
+      'Arrástrame para elegir tu ubicación.'
       ].join(''));
+    
     infoWindow.open(map, marker);
+    latitude = markerLatLng.lat();
+    longitude = markerLatLng.lng();
+    $('#id_latitude').val(latitude);
+    $('#id_longitude').val(longitude);
   }
 
   function initialize() {
@@ -121,7 +124,7 @@
 
   $('#search').on('click', function() {
     // Obtenemos la dirección y la asignamos a una variable
-    var address = $('#id_location').val();
+    var address = $('#id_address').val();
     // Creamos el Objeto Geocoder
     var geocoder = new google.maps.Geocoder();
     // Hacemos la petición indicando la dirección e invocamos la función
@@ -134,6 +137,7 @@
     if (status == 'OK') {
         // Si hay resultados encontrados, centramos y repintamos el mapa
         // esto para eliminar cualquier pin antes puesto
+        console.log(results[0].geometry.location);
         var mapOptions = {
           center: results[0].geometry.location,
           mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -148,7 +152,7 @@
       } else {
         // En caso de no haber resultados o que haya ocurrido un error
         // lanzamos un mensaje con el error
-        alert("Geocoding no tuvo éxito debido a: " + status);
+        alert("No encontramos tu dirección :(\n " + status);
       }
     }
   </script>
