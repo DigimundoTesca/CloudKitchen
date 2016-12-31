@@ -7,7 +7,6 @@ import datetime
 from datetime import date, timedelta
 
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 

@@ -64,6 +64,18 @@ small {
 .card-scroll {
   overflow-y: scroll;
 }
+.container-hidden {
+  display: none;
+}
+.container-dabbawala-logo {
+  text-align: center;
+}
+.container-dabbawala-logo .dabbawala-logo {
+  max-height: 256px;
+}
+.container-dabbawala-logo .dabbawala-logo-register {
+  max-height: 196px;
+}
 .container-main {
   padding-top: 0;
 }
@@ -215,12 +227,6 @@ small {
   background-color: white;
   margin-top: 1rem;
 }
-.container-signin .card-login .container-dabbawala-logo {
-  text-align: center;
-}
-.container-signin .card-login .container-dabbawala-logo .dabbawala-logo {
-  height: 128px;
-}
 .container-signin .card-login .card-login-nav {
   margin: 1rem 2rem;
 }
@@ -238,6 +244,12 @@ small {
   margin-bottom: 2rem;
 }
 .container-error .alert {
+  margin-top: 2rem;
+}
+.form-register-customer {
+  margin: 2rem 0;
+}
+.map-container {
   margin-top: 2rem;
 }
 .modal#modal-order .modal-content{
@@ -327,6 +339,9 @@ small {
 .popout #fab-add-cartridge:after,
 .popout #fab-add-supply:after {
   background: #419641 !important;
+}
+#icon-search {
+  width: 3rem;
 }
 #map {
   height: 350px;

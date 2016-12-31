@@ -257,7 +257,6 @@
           total += parseFloat(re)
         });
         var arreglo = total.toFixed(2).split('.')
-        // console.log(arreglo)
         $('#total-price').html("" +
           "<span class='text-price align-top' id='int-total-price'>" + arreglo[0] +"</span>" +
           "<span class='point-total-price'>.</span>" +
@@ -331,7 +330,6 @@
     /*Realizar la venta e imprimir ticket */
     $(this).on('click', '.btn-printer', function () {
       Ticket = JSON.stringify(Ticket);
-      console.log(Ticket)
 
       $.ajax({
         url: '/sales/new/',

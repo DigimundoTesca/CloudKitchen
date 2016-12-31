@@ -10,14 +10,16 @@ def new_customer(request):
     if request.method == 'POST':
         form = CustomerProfileForm(request.POST, request.FILES)
         if form.is_valid():
+            print('IS VALID')
             customer = form.save(commit=False)
             customer.save()
             return redirect('/register')
     else:
+        print('IS NOT VALID')
         form = CustomerProfileForm()
 
     template = 'customers/register/new_customer.html'
-    title = 'Dabbawala - Regitro de clientes'
+    title = 'Dabbawala - Registro de clientes'
 
     context = {
         'form': form,

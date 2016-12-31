@@ -1,75 +1,188 @@
 {% extends 'base/base_nav_simple_footer.html' %}
 
+{% load static %}
+
 {% block content %}
 <div class="container">
-	<h1 class="text-xs-center">Bienvenido a Dabbawala</h1>
-	<img src="" alt="logo de dabbawala aquí" width="350" height="350">
-	<div class="col-xs-12">
-		<h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
-		<form action="" method="post">
-			{% csrf_token %}
-		</form>
-		{{ form.as_p }}
+  <h1 class="text-xs-center">Bienvenido a Dabbawala</h1>
+  <figure>
+    <figure class="container-dabbawala-logo">
+      <img src="{% static 'media/images/LogoDabba_naranja.png' %}" alt="dabbawala_logo" class="dabbawala-logo-register">
+    </figure>
+  </figure>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3 class="text-xs-center">Registrate y obtén un desayuno gratis</h3>
+      <form action="" method="POST" class="form-register-customer">
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="id_name" class="sr-only">Nombre</label>
+              <small id="id_name_help" class="form-text text-muted">Campo Obligatorio</small>
+              <input type="text" class="form-control" id="id_name" name="name" placeholder="Nombre" maxlength="30" required autofocus>
+            </div>
+            <div class="form-group">
+              <label for="id_email" class="sr-only">Correo</label>
+              <small id="id_email_help" class="form-text text-muted">Campo Obligatorio</small>
+              <input type="text" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" required>
+            </div>
+            <div class="form-group">
+              <label for="id_phone_number" class="sr-only">Teléfono celular</label>
+              <small id="id_phone_number_help" class="form-text text-muted">Campo Obligatorio</small>
+              <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Número con Whatsapp" maxlength="10" required>
+            </div>
+            <div class="form-group container-hidden">
+              <input type="number" class="form-control " id="id_longitude" name="longitude" placeholder="Longitud" tyrequired value="0.0">
+            </div>
+            <div class="form-group container-hidden">
+              <input type="number" class="form-control" id="id_latitude" name="latitude" placeholder="Latitud" tyrequired value="0.0">
+            </div>
+            <div class="form-group row">
+              <label for="id_address" class="sr-only">Ubicación</label>            
+              <div class="col-xs-12">
+                <small id="id_address_help" class="form-text text-muted"></small>
+              </div>
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="id_address" name="address" placeholder="Busca tu dirección">  
+                  <span class="input-group-btn" id="icon-search">
+                    <button class="btn btn-secondary" type="button" id="btn-search"><i class="material-icons">search</i></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div id="container-msj-alert" class="form-group container-hidden">
+              <div class="alert alert-warning" role="alert">
+                <strong>Oops! </strong><span id="msj-alert">mensaje</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button type="submit" class="btn btn-success btn-block">Registrate</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6 map-container">
+            <!-- Google maps -->
+            <div id="map" class=""></div>  
+          </div>
+        </div>
+        <br>
+      </form>
 
-		{# <input type="text" maxlength="100" id="address" placeholder="Dirección" /> #}
-		{# <input type="button" id="search" value="Buscar" /></div><br/> #}
-
-		<!-- Google maps -->
-		<div id="map"></div>
-		<br>
-
-	</div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
 {% block javascript %}
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrITfQswCPmOPEBRM1Ufeiogh22FxQV5k" defer></script>
 
-<script>
+<script type="text/javascript">
 
-	var map = null;
-	var infoWindow = null;
+  var map = null;
+  var infoWindow = null;
+  var marker = null;
 
-	function openInfoWindow(marker) {
-		var markerLatLng = marker.getPosition();
-		infoWindow.setContent([
-			'<strong>La posicion del marcador es:</strong><br/>',
-			markerLatLng.lat(),
-			', ',
-			markerLatLng.lng(),
-			'<br/>Arrástrame para elegir tu ubicación.'
-			].join(''));
-		infoWindow.open(map, marker);
-	}
+  function drawMap (options) {
+    map = new google.maps.Map($("#map").get(0), options);
+  }
 
-	function initialize() {
-		var myLatlng = new google.maps.LatLng(19.5228008,-99.2291418);
-		var myOptions = {
-			zoom: 15,
-			center: myLatlng,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		}
+  function openInfoWindow(marker) {
+    var markerLatLng = marker.getPosition();
+    infoWindow.setContent([
+      'Arrástrame para elegir tu ubicación.'
+      ].join(''));
+    
+    infoWindow.open(map, marker);
+    var latitude = markerLatLng.lat();
+    var longitude = markerLatLng.lng();
+    $('#id_latitude').val(latitude);
+    $('#id_longitude').val(longitude);
+  }
 
-		map = new google.maps.Map($("#map").get(0), myOptions);
+  function addMarkerLsteners (marker) {
+    google.maps.event.addListener(marker, 'dragend', function(){ 
+      openInfoWindow(marker); 
+    });
+    google.maps.event.addListener(marker, 'click', function(){ 
+      openInfoWindow(marker); 
+    });
+  }
 
-		infoWindow = new google.maps.InfoWindow();
+  function initialize() {
+    var LatLng = new google.maps.LatLng(19.5228008,-99.2291418);
+    var optionsMap = {
+      zoom: 15,
+      center: LatLng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+    }
 
-		var marker = new google.maps.Marker({
-			position: myLatlng,
-			draggable: true,
-			map: map,
-			title:"Elige tu ubicación"
-		});
-		google.maps.event.addListener(marker, 'dragend', function(){ openInfoWindow(marker); });
-		google.maps.event.addListener(marker, 'click', function(){ openInfoWindow(marker); });
-	}
+    infoWindow = new google.maps.InfoWindow();
+
+    drawMap(optionsMap);
 
 
+    marker = new google.maps.Marker({
+      animation: google.maps.Animation.DROP,
+      draggable: true,
+      map: map,
+      position: LatLng,
+      title:"Elige tu ubicación",
+    });
 
-	$(function() {
-		initialize();
-	});
+    addMarkerLsteners(marker);
 
+  }
+
+  $('#btn-search').on('click', function() {
+    // Obtenemos la dirección y la asignamos a una variable
+    var address = $('#id_address').val();
+    // Creamos el Objeto Geocoder
+    var geocoder = new google.maps.Geocoder();
+    // Hacemos la petición indicando la dirección e invocamos la función
+    // geocodeResult enviando todo el resultado obtenido
+    geocoder.geocode({'address': address}, geocodeResult);
+  });
+
+  function geocodeResult(results, status) {
+    if (status == 'OK') {
+      console.log(results[0].geometry);
+
+      var optionsMap = {
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+      }
+
+      drawMap(optionsMap);
+      map.fitBounds(results[0].geometry.viewport);
+
+      var markerOptions = { 
+        position: results[0].geometry.location,
+        draggable: true, 
+        animation: google.maps.Animation.DROP,
+        title: "Elige tu ubicación"
+      }
+
+      marker = new google.maps.Marker(markerOptions);
+      marker.setMap(map);
+
+      addMarkerLsteners(marker);
+
+    } else {
+      /** If there's not results */
+      $("#msj-alert").text('No encontramos tu dirección');
+      $("#container-msj-alert").fadeIn(1500);
+      setTimeout(function() {
+        $("#container-msj-alert").fadeOut(1500);
+      },6000);
+    }
+  }
+
+  $(function() {
+    initialize();
+  });
 </script>
 
 

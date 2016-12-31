@@ -12,8 +12,9 @@ class CustomerProfile(models.Model):
     name = models.CharField(default='', max_length=30, blank=False)
     email = models.EmailField(max_length=255, blank=False)
     phone_number = models.CharField(blank=False, null=True, max_length=10)
-    longitude = models.DecimalField(default=0.0, max_digits=15, decimal_places=12)
-    latitude = models.DecimalField(default=0.0, max_digits=15, decimal_places=12)
+    longitude = models.CharField(default='0.0', max_length=30)
+    latitude = models.CharField(default=0.0, max_length=30)
+    address = models.CharField(default='', max_length=255, blank=True)
 
     def __str__(self):
         return self.name

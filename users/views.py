@@ -10,6 +10,16 @@ from django.contrib.auth import logout as logout_django
 from cashflow.settings.base import PAGE_TITLE
 
 
+# -------------------------------------  Index -------------------------------------
+def index(request):
+    template = 'index.html'
+    context = {
+        'page_title': PAGE_TITLE,
+    }
+    return render(request, template, context)
+
+
+# -------------------------------------  Auth -------------------------------------
 def login(request):
     if request.user.is_authenticated():
         return redirect('supplies:sales')
