@@ -45,13 +45,23 @@ body {
 }
 footer.footer {
   background: #131313;
-  height: 5rem;
-  line-height: 5rem;
 }
-footer.footer .container .text-muted {
+footer.footer .text-muted {
   color: #ebebeb !important;
   font-weight: 300;
   opacity: .8;
+
+}
+footer .footer-address {
+  color: #ababab;
+  background: rgba(0,0,0,0.6);
+  font-size: 0.8rem;
+  padding: 1rem 2rem;
+}
+footer .footer-header {
+  height: 5rem;
+  line-height: 5rem;
+  padding: 0 2rem;
 }
 /* DabbaNet styles
 -------------------------------------------------------- */
