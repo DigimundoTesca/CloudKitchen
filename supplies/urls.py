@@ -5,18 +5,13 @@ from . import views
 app_name = 'supplies'
 
 urlpatterns = [
+    # test
     url(r'^test/$', views.test, name='test'),
-    
-    # auth
-    url(r'^$', views.login, name='login'),
-    url(r'^logout/$', views.logout, name='logout'),
-
-    # profile
-    # url(r'^profiles/$', views.ProfileVIew, name='profiles'),
 
     # sales
     url(r'^sales/$', views.sales, name='sales'),
     url(r'^sales/new/$', views.new_sale, name='new_sale'),
+    url(r'^sales/sales-day/$', views.get_sales_day_view, name='get_sales_day'),
 
     # Supplies
     url(r'^supplies/$', views.supplies, name='supplies'),

@@ -11,12 +11,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'supplies.apps.SuppliesConfig',
+    'users.apps.UsersConfig',
+    'customers.apps.CustomersConfig',
     'api.apps.ApiConfig',
     'rest_framework',
     'fcm',
 ]
 
+SITE_ID = 1
 
 FCM_APIKEY = os.getenv('FCM_SERVER_KEY')
 
@@ -32,13 +36,17 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+HOST_MIDDLEWARE_URLCONF_MAP = {
+    # Control Panel
+}
+
 ROOT_URLCONF = 'cashflow.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, '../templates'),
+            os.path.join(BASE_DIR, 'templates/'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -78,7 +86,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '../static')
+    os.path.join(BASE_DIR, 'static/')
 ]
 
 STATIC_URL = '/static/'
@@ -86,3 +94,5 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = ''
+
+PAGE_TITLE = 'DabbaNet'

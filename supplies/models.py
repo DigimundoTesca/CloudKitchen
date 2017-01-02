@@ -2,83 +2,10 @@
 from __future__ import unicode_literals
 
 import datetime
-
-from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinLengthValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator, MinValueValidator
 from django.db import models
 
-
-class UserRol(models.Model):
-    rol = models.CharField(max_length=90, default='')
-    
-    def __str__(self):
-        return self.rol
-    
-    class Meta:
-        verbose_name = 'User Rol'
-        verbose_name_plural = 'User Roles'
-    
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-    phone_number = models.PositiveIntegerField(
-        help_text='(Número telefónico a 10 dígitos)',
-        validators=[MaxValueValidator(9999999999999)], blank=True, null=True)
-    user_rol = models.ForeignKey(UserRol, default=1, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.user.username
-
-    class Meta:
-        verbose_name = 'User Profile'
-        verbose_name_plural = 'User Profiles'
-
-
-class BranchOffice(models.Model):
-    name = models.CharField(max_length=90, default='')
-    address = models.CharField(max_length=255, default='')
-    manager = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Branch Office'
-        verbose_name_plural = 'Branch Offices'
-
-
-class CashRegister(models.Model):
-    ACTIVE = 'AC'
-    OFF = 'OF'
-    STATUS = (
-        (ACTIVE, 'On'),
-        (OFF, 'Off'),
-    )
-    code = models.CharField(max_length=9, default='Cash_')
-    status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
-    branch_office = models.ForeignKey(BranchOffice, default=1, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '%s' % self.id
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Cash Register'
-        verbose_name_plural = 'Cash Registers'
-
-
-class Supplier(models.Model):
-    name = models.CharField(validators=[MinLengthValidator(4)], max_length=255, unique=True)
-    image = models.ImageField(blank=False, upload_to='media/suppliers')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Supplier'
-        verbose_name_plural = 'Suppliers'
+from users.models import Supplier, BranchOffice, UserProfile, CashRegister
 
 
 class SuppliesCategory(models.Model):
@@ -338,7 +265,7 @@ class Warehouse(models.Model):
 
 
 class Ticket(models.Model):
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(default=datetime.datetime.now())
     seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
 
@@ -365,54 +292,3 @@ class TicketDetail(models.Model):
         ordering = ('id',)
         verbose_name = 'Ticket Details'
         verbose_name_plural = 'Tickets Details'
-
-
-class CustomerOrder(models.Model):
-    IN_PROCESS = 'PR'
-    SOLD = 'SO'
-    CANCELLED = 'CA'
-
-    STATUS = (
-        (IN_PROCESS, 'En proceso',),
-        (SOLD, 'Vendido'),
-        (CANCELLED, 'Cancelado'),
-    )
-    customer_user = models.ForeignKey(UserProfile, default=1)
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    delivery_date = models.DateTimeField(auto_created=True, editable=True)
-    status = models.CharField(max_length=10, choices=STATUS, default=IN_PROCESS)
-    latitude = models.FloatField(default=0)
-    longitude = models.FloatField(default=0)
-    price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
-
-    def __str__(self):
-        return '%s' % self.id
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Customer Order'
-        verbose_name_plural = 'Customer Orders'
-
-
-class CustomerOrderDetail(models.Model):
-    IN_PROCESS = 'PR'
-    SOLD = 'SE'
-    CANCELLED = 'CA'
-
-    STATUS = (
-        (IN_PROCESS, 'En proceso',),
-        (SOLD, 'Vendido'),
-        (CANCELLED, 'Cancelado'),
-    )
-    customer_order = models.ForeignKey(CustomerOrder, default=1, on_delete=models.CASCADE)
-    cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
-    package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
-    quantity = models.IntegerField()
-
-    def __str__(self):
-        return '%s' % self.id
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Customer Order Detail'
-        verbose_name_plural = 'Customer Order Details'
