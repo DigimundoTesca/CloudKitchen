@@ -13,6 +13,9 @@ urlpatterns = [
     url(r'^auth/login$', views.login, name='login'),
     url(r'^auth/logout/$', views.logout, name='logout'),
 
+    # branches
+    url(r'branch-offices/$', views.branch_offices, name='branch_offices')
+
     # profile
     # url(r'^profiles/$', views.ProfileVIew, name='profiles'),
 ]
