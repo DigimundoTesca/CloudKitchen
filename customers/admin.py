@@ -5,7 +5,7 @@ from customers.models import CustomerOrder, CustomerOrderDetail, CustomerProfile
 
 @admin.register(CustomerProfile)
 class CustomerProfile(admin.ModelAdmin):
-    list_display = ('id', 'username')
+    list_display = ('username', 'email', 'address', 'latitude', 'longitude')
 
 
 class CustomerOrderDetailInline(admin.TabularInline):
