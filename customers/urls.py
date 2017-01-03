@@ -12,5 +12,4 @@ urlpatterns = [
     # Customer orders
     url(r'^customers/orders/$', views.customer_orders, name='new_customer_order'),
     url(r'^customers/orders/new/$', views.new_customer_order, name='new_customer_order'),
-
 ]
