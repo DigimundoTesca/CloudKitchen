@@ -58,11 +58,13 @@ class Supply(models.Model):
     # presentation unit
     PACKAGE = 'PA'
     BOX = 'BO'
+    BOTTLE = 'BT'
     PIECE = 'PI'
     PRESENTATION_UNIT = (
         (PACKAGE, 'Paquete'),
         (BOX, 'Caja'),
-        (PIECE, 'Pieza')
+        (PIECE, 'Pieza'),
+        (BOTTLE, 'Botella')
     )
 
     # metrics
