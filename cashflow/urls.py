@@ -20,3 +20,6 @@ urlpatterns += [
     url(r'fcm/', include('fcm.urls')),
 
 ]
+
+# Errors
+handler404 = 'cashflow.views.custom_404'
