@@ -20,7 +20,8 @@ from users.models import UserProfile, CashRegister, Supplier
 
 def test(request):
     template = 'customers/orders/new_order.html'
-    return render(request, template, {})
+    context = {}
+    return render(request, template, context)
 
 
 # -------------------------------------  Profile -------------------------------------

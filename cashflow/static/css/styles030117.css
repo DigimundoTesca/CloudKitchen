@@ -227,7 +227,7 @@ small {
 }
 .container-signin {
   display: flex;
-  background: url("../media/images/wallpaper.jpg") bottom;
+  background: url("../images/wallpaper.jpg") bottom;
   background-size: auto;
   min-height: calc(100vh - 5rem);
   padding-top: 3rem;
