@@ -255,7 +255,7 @@ class Warehouse(models.Model):
     quantity = models.FloatField(default=0)
     waste = models.FloatField(default=0)
     cost = models.FloatField(default=0)
-    processed_cartridge = models.ForeignKey(ProcessedCartridge, on_delete=models.CASCADE, default=1)
+    processed_cartridge = models.ForeignKey(ProcessedCartridge, on_delete=models.CASCADE, default=1, blank=True)
 
     def __str__(self):
         return '%s' % self.id

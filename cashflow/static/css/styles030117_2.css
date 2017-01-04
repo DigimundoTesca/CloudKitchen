@@ -373,7 +373,7 @@ small {
   justify-content: center;
 }
 #printer figure img {
-  height: 18mm;
+  height: 30mm;
 }
 #printer ul li {
   padding: 0;
@@ -427,4 +427,8 @@ small {
   font-size: 0.9rem;
   text-align: right;
   font-family: 'Dosis-SemiBold';
+}
+
+#printer .ticket-address p {
+  font-size: 0.7rem;
 }
