@@ -9,8 +9,10 @@ urlpatterns = [
     url(r'^', include('users.urls')),
     url(r'^', include('customers.urls')),
 ]
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    pass
 
 urlpatterns += [
     # API Endpoints

@@ -33,9 +33,9 @@
         </ul>
       </div>
     </div>
-    <div class="group-sales col-lg-9">
+    <div class="group-sales col-xs-12 col-lg-9">
       <div class="row">
-        <div class="col-xs-12 col-lg-4">
+        <div class="col-xs-12 col-md-4 col-lg-4">
           <div class="card card-block card-product-title">
             <h3>Bebidas</h3>
           </div>
@@ -55,7 +55,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-12 col-lg-4">
+        <div class="col-xs-12 col-md-4 col-lg-4">
           <div class="card card-block card-product-title">
             <h3>Platillos</h3>
           </div>
@@ -75,7 +75,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-12 col-lg-4">
+        <div class="col-xs-12 col-md-4 col-lg-4">
           <div class="row">
             <div class=" col-xs-12">
               <button type="button" id="btn-order" class="btn btn-success col-xs-12 btn-lg" data-toggle="modal" data-target="#modal-order">
@@ -115,10 +115,28 @@
               <div class="card card-scroll col-xs-4" id="printer-container">
                 <div id="printer">
                   <figure class="content-img">
-                    <img src="{% static 'images/dabbawala.jpg' %}" alt="logo-dabbawala" >
+                    <img src="{% static 'images/dabbawala_black.jpg' %}" alt="logo-dabbawala" >
                   </figure>
+                  <div class="ticket-address">
+                    <p class="text-xs-center">
+                      20 de Noviembre #32, San Lucas Tepetlacalco, Tlanepantla Edo. De México CP 54055
+                    </p>
+                  </div>
+                  <div class="container ticket-datetime-container">
+                    <div class="row">
+                      <div class="col-xs-6 ticket-datetime">
+                        <span id="ticket-time"></span>
+                      </div>
+                      <div class="col-xs-6 ticket-datetime">
+                        <span id="ticket-date"></span>
+                      </div>
+                    </div>
+                  </div>
                   <ul class="list-group list-group-flush" id="sales-list-modal">
                   </ul>
+                  <div class="ticket-celphone">
+                    Whatsapp: 55 42 46 73 60
+                  </div>
                 </div>
               </div>
               <div class="card card-scroll" id="ticket-description">
@@ -275,7 +293,42 @@
     $(this).on('click', '.add-icon-li', function () {
     });
 
+
+
     $("#btn-order").click(function() {
+
+      function getActualTime() {
+        var datetime = new Date();
+        var hours = datetime.getHours();
+        var minutes = datetime.getMinutes();
+        var seconds = datetime.getMinutes();
+
+        var hours_f = (hours < 10)? '0' + hours : hours;
+        var minutes_f = (minutes < 10)? '0' + minutes : minutes;
+        var seconds_f = (seconds < 10)? '0' + seconds : seconds;
+
+        var actual_time = hours_f + ":" + minutes_f + ":" + seconds_f;
+
+        return actual_time;
+      }
+
+      function getActualDate() {
+        var datetime = new Date();
+        var day = datetime.getDate();
+        var month = datetime.getMonth() + 1;
+        var year = datetime.getFullYear();
+
+        var day_f = (day < 10)? '0' + day : day;
+        var month_f = (month < 10)? '0' + month : month;
+
+        var actual_date = day_f + "/" + month_f + "/" + year;
+
+        return actual_date;
+      }
+
+      $("#ticket-time").text(getActualTime());
+      $("#ticket-date").text(getActualDate());
+
 
       $('#sales-list-modal').empty();
 

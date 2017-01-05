@@ -283,8 +283,14 @@ small {
 .modal#modal-order .modal-content .modal-body .card #ticket-description {
   width: 100%;
 }
+.navbar-base {
+  background-color: #D44027;
+  color: #efefef;
+  margin-bottom: 1rem;
+  min-height: 4rem;
+}
 .popout {
-  position: absolute;
+  position: fixed;
   bottom: 3rem;
   right: 6rem;
 }
@@ -337,12 +343,6 @@ small {
   transform: scale(1.3);
   opacity: 0;
 }
-.navbar-base {
-  background-color: #D44027;
-  color: #efefef;
-  margin-bottom: 1rem;
-  min-height: 4rem;
-}
 .popout #fab-add-cartridge,
 .popout #fab-add-supply {
   background: #5cb85c !important;
@@ -373,7 +373,7 @@ small {
   justify-content: center;
 }
 #printer figure img {
-  height: 18mm;
+  height: 30mm;
 }
 #printer ul li {
   padding: 0;
@@ -427,4 +427,8 @@ small {
   font-size: 0.9rem;
   text-align: right;
   font-family: 'Dosis-SemiBold';
+}
+
+#printer .ticket-address p {
+  font-size: 0.7rem;
 }

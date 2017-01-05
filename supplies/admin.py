@@ -21,6 +21,7 @@ class AdminSupplyLocation(admin.ModelAdmin):
 class AdminSupply(admin.ModelAdmin):
     list_display = ('name', 'category', 'supplier', 'presentation_unit',  'presentation_cost', 'measurement_unit',
                     'measurement_quantity', )
+    ordering = ['name']
 
 
 class OrderDetailInline(admin.TabularInline):

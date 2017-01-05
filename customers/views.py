@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from cashflow.settings.base import PAGE_TITLE
@@ -48,7 +49,23 @@ def thanks(request):
     return render(request, template, context)
 
 
+@login_required(login_url='users:login')
+def customers_list(request):
+    template = 'customers/register/customers_list.html'
+    customers = CustomerProfile.objects.all()
+    title = 'Clientes registrados'
+
+    context = {
+        'title': title,
+        'page_title': PAGE_TITLE,
+        'customers': customers,
+    }
+
+    return render(request, template, context)
+
+
 # -------------------------------------  Customer Orders -------------------------------------
+@login_required(login_url='users:login')
 def customer_orders(request):
     customer_orders_objects = CustomerOrder.objects.all()
     template = 'customers/orders/orders.html'
@@ -61,6 +78,7 @@ def customer_orders(request):
     return render(request, template, context)
 
 
+@login_required(login_url='users:login')
 def new_customer_order(request):
     if request.method == 'POST':
         form = CustomerOrderForm(request.POST, request.FILES)
