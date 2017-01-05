@@ -36,9 +36,9 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-HOST_MIDDLEWARE_URLCONF_MAP = {
+#HOST_MIDDLEWARE_URLCONF_MAP = {
     # Control Panel
-}
+#}
 
 ROOT_URLCONF = 'cashflow.urls'
 

@@ -2,7 +2,7 @@ from cashflow.settings.base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['www.dabbawala.com.mx', 'dabbanet.dabbawala.com.mx', 'dabbawala.com.mx']
+ALLOWED_HOSTS = ['*']
 
 # Database
 DATABASES = {
