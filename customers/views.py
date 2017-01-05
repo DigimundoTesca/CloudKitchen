@@ -48,6 +48,20 @@ def thanks(request):
     return render(request, template, context)
 
 
+def customers_list(request):
+    template = 'customers/register/customers_list.html'
+    customers = CustomerProfile.objects.all()
+    title = 'Clientes registrados'
+
+    context = {
+        'title': title,
+        'page_title': PAGE_TITLE,
+        'customers': customers,
+    }
+
+    return render(request, template, context)
+
+
 # -------------------------------------  Customer Orders -------------------------------------
 def customer_orders(request):
     customer_orders_objects = CustomerOrder.objects.all()
