@@ -4,10 +4,10 @@
 {% block content %}
   <div class="container container-error text-xs-center">
     <div class="col-xs-12 col-md-6 push-md-3">
-      <h1>Houston, tenemos un problema...</h1>
+      <h1>Error de Respuesta :(</h1>
       <img src="{% static 'images/500.gif' %}" alt="">
       <div class="alert alert-info" role="alert">
-        <strong>Error 500: </strong>Pero no te preocupes, nuestros Ingenieros ya se encuentran trabajando para resolverlo</strong>
+        <strong>Error 500: </strong>Pero tranquilo nuestros ingenieros ya se encuentran repanradolo. <strong><a href="{% url 'supplies:login' %}">Regresar al Inicio</a></strong>
       </div>
     </div>
   </div>
