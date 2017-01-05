@@ -11,7 +11,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
+    # 'django.contrib.sites',
     'supplies.apps.SuppliesConfig',
     'users.apps.UsersConfig',
     'customers.apps.CustomersConfig',
@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'fcm',
 ]
 
-SITE_ID = 1
+# SITE_ID = 1
 
 FCM_APIKEY = os.getenv('FCM_SERVER_KEY')
 
