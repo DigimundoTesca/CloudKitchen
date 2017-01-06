@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 
     # auth
-    url(r'^auth/login$', views.login, name='login'),
+    url(r'^auth/login/$', views.login, name='login'),
     url(r'^auth/logout/$', views.logout, name='logout'),
 
     # branches

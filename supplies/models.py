@@ -10,7 +10,7 @@ from users.models import Supplier, BranchOffice, UserProfile, CashRegister
 
 class SuppliesCategory(models.Model):
     name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
-    image = models.ImageField(blank=False, upload_to='media/supplies-categories')
+    image = models.ImageField(blank=False, upload_to='supplies-categories/')
 
     def __str__(self):
         return self.name
@@ -93,7 +93,7 @@ class Supply(models.Model):
     optimal_duration_unit = models.CharField(choices=OPTIMAL_DURATION, max_length=2, default=DAYS)
     location = models.ForeignKey(SupplyLocation, default=1, on_delete=models.CASCADE)
     created_at = models.DateTimeField(editable=False, auto_now=True)
-    image = models.ImageField(blank=False, upload_to='media/supplies')
+    image = models.ImageField(blank=False, upload_to='supplies/')
 
     def __str__(self):
         return self.name
@@ -157,7 +157,7 @@ class Cartridge(models.Model):
     price = models.DecimalField(decimal_places=2, default=0, max_digits=12)
     category = models.CharField(choices=CATEGORIES, default=FOOD_DISHES, max_length=2)
     created_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(blank=False, upload_to='media/cartridges')
+    image = models.ImageField(blank=False, upload_to='cartridges/')
 
     def __str__(self):
         return self.name
@@ -186,7 +186,7 @@ class PackageCartridge(models.Model):
     name = models.CharField(max_length=90)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
     package_active = models.BooleanField(default=False)
-    image = models.ImageField(blank=True, upload_to='media/package-cartridges')
+    image = models.ImageField(blank=True, upload_to='package-cartridges/')
     
     def __str__(self):
         return self.name
