@@ -1,19 +1,8 @@
 from django.contrib import admin
 
-from customers.models import CustomerOrder, CustomerOrderDetail, CustomerProfile
+from customers.models import CustomerProfile
 
 
 @admin.register(CustomerProfile)
-class CustomerProfile(admin.ModelAdmin):
+class CustomerProfileAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'address', 'latitude', 'longitude')
-
-
-class CustomerOrderDetailInline(admin.TabularInline):
-    model = CustomerOrderDetail
-    extra = 1
-
-
-@admin.register(CustomerOrder)
-class AdminCustomerOrder(admin.ModelAdmin):
-    list_display = ('id', 'created_at', 'status', )
-    inlines = [CustomerOrderDetailInline, ]

@@ -1,15 +1,14 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
-import datetime
-from django.core.validators import MaxValueValidator, MinLengthValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.db import models
 
 from users.models import Supplier, BranchOffice, UserProfile, CashRegister
 
 
 class SuppliesCategory(models.Model):
-    name = models.CharField(validators=[MinLengthValidator(4)], max_length=125, unique=True)
+    name = models.CharField(validators=[MinLengthValidator(3)], max_length=125, unique=True)
     image = models.ImageField(blank=False, upload_to='supplies-categories/')
 
     def __str__(self):

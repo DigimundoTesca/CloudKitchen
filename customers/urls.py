@@ -9,8 +9,4 @@ urlpatterns = [
     url(r'^register/$', views.new_customer, name='new_customer'),
     url(r'^thanks/$', views.thanks, name='thanks'),
     url(r'^register/list$', views.customers_list, name='customers_list'),
-
-    # Customer orders
-    url(r'^customers/orders/$', views.customer_orders, name='new_customer_order'),
-    url(r'^customers/orders/new/$', views.new_customer_order, name='new_customer_order'),
 ]
