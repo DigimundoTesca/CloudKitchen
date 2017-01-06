@@ -123,5 +123,5 @@ oders/migrations/*
 !orders/migrations/__init__.py
 staticfiles/
 #Database
-##db.sqlite3
+db.sqlite3
 media/
