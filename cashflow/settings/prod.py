@@ -18,4 +18,4 @@ DATABASES = {
 
 STATIC_ROOT = 'staticfiles'
 
-MEDIA_URL = '/'
+MEDIA_URL = 'media/'
