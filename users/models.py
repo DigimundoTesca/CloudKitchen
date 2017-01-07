@@ -1,4 +1,7 @@
-from django.core.validators import MinLengthValidator, MaxValueValidator
+# -*- encoding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -33,48 +36,13 @@ class Profile(models.Model):
         instance.profile.save()
 
 
-class BranchOffice(models.Model):
-    name = models.CharField(max_length=90, default='')
-    address = models.CharField(max_length=255, default='')
-    manager = models.ForeignKey(Profile, on_delete=models.CASCADE)
+class CustomerProfile(models.Model):
+    username = models.CharField(default='', max_length=30, blank=False, unique=True)
+    email = models.EmailField(max_length=255, blank=False, default='', unique=True)
+    phone_number = models.CharField(blank=False, null=True, max_length=10, default='', unique=True)
+    longitude = models.CharField(default='0.0', max_length=30, blank=True)
+    latitude = models.CharField(default=0.0, max_length=30, blank=True)
+    address = models.CharField(default='', max_length=255, blank=True)
 
     def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Branch Office'
-        verbose_name_plural = 'Branch Offices'
-
-
-class CashRegister(models.Model):
-    ACTIVE = 'AC'
-    OFF = 'OF'
-    STATUS = (
-        (ACTIVE, 'On'),
-        (OFF, 'Off'),
-    )
-    code = models.CharField(max_length=9, default='Cash_')
-    status = models.CharField(choices=STATUS, default=ACTIVE, max_length=10)
-    branch_office = models.ForeignKey(BranchOffice, default=1, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '%s' % self.id
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Cash Register'
-        verbose_name_plural = 'Cash Registers'
-
-
-class Supplier(models.Model):
-    name = models.CharField(validators=[MinLengthValidator(4)], max_length=255, unique=True)
-    image = models.ImageField(blank=False, upload_to='media/suppliers')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Supplier'
-        verbose_name_plural = 'Suppliers'
+        return self.username

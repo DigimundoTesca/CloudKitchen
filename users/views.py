@@ -11,6 +11,10 @@ from cashflow.settings.base import PAGE_TITLE
 
 
 # -------------------------------------  Index -------------------------------------
+from users.forms import CustomerProfileForm
+from users.models import CustomerProfile
+
+
 def index(request):
     template = 'index.html'
     context = {
@@ -51,3 +55,61 @@ def login(request):
 def logout(request):
     logout_django(request)
     return redirect('supplies:login')
+
+
+# -------------------------------------  Customers -------------------------------------
+def new_customer(request):
+    if request.method == 'POST':
+        form = CustomerProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.save()
+            return redirect('users:thanks')
+    else:
+        form = CustomerProfileForm()
+
+    template = 'customers/register/new_customer.html'
+    title = 'Dabbawala - Registro de clientes'
+
+    context = {
+        'form': form,
+        'title': title,
+    }
+
+    return render(request, template, context)
+
+
+def thanks(request):
+    if request.method == 'POST':
+        form = CustomerProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.save()
+            return redirect('customers:new_customer')
+    else:
+        form = CustomerProfileForm()
+
+    template = 'customers/register/thanks.html'
+    title = 'Dabbawala - Registro de clientes'
+
+    context = {
+        'form': form,
+        'title': title,
+    }
+
+    return render(request, template, context)
+
+
+@login_required(login_url='users:login')
+def customers_list(request):
+    template = 'customers/register/customers_list.html'
+    customers = CustomerProfile.objects.all()
+    title = 'Clientes registrados'
+
+    context = {
+        'title': title,
+        'page_title': PAGE_TITLE,
+        'customers': customers,
+    }
+
+    return render(request, template, context)

@@ -37,7 +37,8 @@ THIRD_APPS = [
 ]
 
 USER_APPS = [
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'branchoffices.apps.BranchofficesConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + USER_APPS + THIRD_APPS
