@@ -117,6 +117,8 @@ supplies/migrations/*
 !supplies/migrations/__init__.py
 users/migrations/*
 !users/migrations/__init__.py
+branchoffices/migrations/*
+!branchoffices/migrations/__init__.py
 customers/migrations/*
 !customers/migrations/__init__.py
 oders/migrations/*
