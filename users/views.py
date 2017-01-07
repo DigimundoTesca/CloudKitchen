@@ -26,7 +26,7 @@ def index(request):
 # -------------------------------------  Auth -------------------------------------
 def login(request):
     if request.user.is_authenticated():
-        return redirect('products:sales')
+        return redirect('sales:sales')
 
     message = None
     template = 'auth/login.html'
@@ -38,7 +38,7 @@ def login(request):
 
         if user is not None:
             login_django(request, user)
-            return redirect('products:sales')
+            return redirect('sales:sales')
 
         else:
             message = 'Usuario o contraseña incorrecto'

@@ -13,7 +13,8 @@ from products.models import Cartridge, Supply, SuppliesCategory
 
 
 def test(request):
-    template = 'customers/orders/new_order.html'
+    # template = 'base/base_nav_footer.html'
+    template = 'base/nav_simple.html'
     return render(request, template, {})
 
 

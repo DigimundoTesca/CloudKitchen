@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^', include('users.urls')),
     url(r'^', include('branchoffices.urls')),
     url(r'^', include('products.urls')),
+    url(r'^', include('sales.urls')),
 ]
 
 if settings.DEBUG:

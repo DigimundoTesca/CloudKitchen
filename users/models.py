@@ -20,7 +20,7 @@ class Profile(models.Model):
     phone_number = models.PositiveIntegerField(
         help_text='(Número telefónico a 10 dígitos)',
         validators=[MaxValueValidator(9999999999)], blank=True, null=True)
-    user_rol = models.ForeignKey(Rol, default=1, on_delete=models.CASCADE)
+    user_rol = models.ForeignKey(Rol, blank=True, null=True)
     first_dabba = models.BooleanField(default=False)
 
     def __str__(self):
