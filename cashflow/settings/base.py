@@ -28,17 +28,24 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
-
-USER_APPS = [
-
+    'django.contrib.sites',
 ]
 
 THIRD_APPS = [
+    'rest_framework',
+    'fcm',
+]
 
+USER_APPS = [
+    'users.apps.UsersConfig'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + USER_APPS + THIRD_APPS
+
+SITE_ID = 1
+
+FCM_APIKEY = os.getenv('FCM_SERVER_KEY')
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
