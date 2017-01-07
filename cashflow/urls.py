@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('users.urls')),
     url(r'^', include('branchoffices.urls')),
+    url(r'^', include('products.urls')),
 ]
 
 if settings.DEBUG:

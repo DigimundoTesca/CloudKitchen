@@ -20,14 +20,13 @@ def index(request):
     context = {
         'page_title': PAGE_TITLE,
     }
-    return render(request, template, context)
-    #return redirect('customers:new_customer')
+    return redirect('users:new_customer')
 
 
 # -------------------------------------  Auth -------------------------------------
 def login(request):
     if request.user.is_authenticated():
-        return redirect('supplies:sales')
+        return redirect('products:sales')
 
     message = None
     template = 'auth/login.html'
@@ -39,7 +38,7 @@ def login(request):
 
         if user is not None:
             login_django(request, user)
-            return redirect('supplies:sales')
+            return redirect('products:sales')
 
         else:
             message = 'Usuario o contraseña incorrecto'
@@ -54,7 +53,7 @@ def login(request):
 @login_required(login_url='users:login')
 def logout(request):
     logout_django(request)
-    return redirect('supplies:login')
+    return redirect('products:login')
 
 
 # -------------------------------------  Customers -------------------------------------
@@ -85,7 +84,7 @@ def thanks(request):
         if form.is_valid():
             customer = form.save(commit=False)
             customer.save()
-            return redirect('customers:new_customer')
+            return redirect('users:new_customer')
     else:
         form = CustomerProfileForm()
 
