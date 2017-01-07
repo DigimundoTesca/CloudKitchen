@@ -119,8 +119,8 @@ users/migrations/*
 !users/migrations/__init__.py
 branchoffices/migrations/*
 !branchoffices/migrations/__init__.py
-customers/migrations/*
-!customers/migrations/__init__.py
+sales/migrations/*
+!sales/migrations/__init__.py
 oders/migrations/*
 !orders/migrations/__init__.py
 staticfiles/
