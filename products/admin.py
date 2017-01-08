@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 from django.contrib import admin
 
-from products.models import Warehouse, ProcessedCartridge, PackageCartridge, PackageCartridgeRecipe, SupplierOrder, \
-    CartridgeRecipe, Supply, SupplierOrderDetail, SupplyLocation, SuppliesCategory, Cartridge
+from products.models import Warehouse, ProcessedCartridge, PackageCartridge, PackageCartridgeRecipe, \
+    CartridgeRecipe, Supply, SupplyLocation, SuppliesCategory, Cartridge
 
 
 @admin.register(SuppliesCategory)
@@ -21,17 +21,6 @@ class AdminSupply(admin.ModelAdmin):
     list_display = ('name', 'category', 'supplier', 'presentation_unit', 'presentation_cost', 'measurement_unit',
                     'measurement_quantity',)
     ordering = ['name']
-
-
-class OrderDetailInline(admin.TabularInline):
-    model = SupplierOrderDetail
-    extra = 1
-
-
-@admin.register(SupplierOrder)
-class AdminOrder(admin.ModelAdmin):
-    list_display = ('created_at', 'status', 'user_charge',)
-    inlines = [OrderDetailInline, ]
 
 
 class CartridgeRecipeInline(admin.TabularInline):

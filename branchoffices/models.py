@@ -1,13 +1,13 @@
 from django.core.validators import MinLengthValidator
 from django.db import models
 
-from users.models import Profile
+from users.models import User as UserProfile
 
 
 class BranchOffice(models.Model):
     name = models.CharField(max_length=90, default='')
     address = models.CharField(max_length=255, default='')
-    manager = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    manager = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

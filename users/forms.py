@@ -1,8 +1,9 @@
 from django import forms
-from users.models import CustomerProfile
+
+from users.models import User as UserProfile
 
 
 class CustomerProfileForm(forms.ModelForm):
     class Meta:
-        model = CustomerProfile
-        fields = '__all__'
+        model = UserProfile
+        fields = ['phone_number',]

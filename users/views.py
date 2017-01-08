@@ -5,16 +5,39 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth import logout as logout_django
 
+from users.forms import CustomerProfileForm
 
-# -------------------------------------  Auth -------------------------------------
 from cashflow.settings.base import PAGE_TITLE
 
 
 # -------------------------------------  Index -------------------------------------
-from users.forms import CustomerProfileForm
 from users.models import CustomerProfile
 
 
+def test(request):
+    form = CustomerProfileForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        if form.is_valid():
+            print('IS VALID!!!')
+            customer = form.save(commit=False)
+            customer.save()
+            return redirect('users:thanks')
+        print('IS NOT VALID!!!')
+    else:
+        print('IS NOT POST')
+        form = CustomerProfileForm()
+    template = 'test/test.html'
+    title = 'Dabbawala - Registro de clientes'
+
+    context = {
+        'form': form,
+        'title': title,
+    }
+
+    return render(request, template, context)
+
+
+# -------------------------------------  Index -------------------------------------
 def index(request):
     template = 'index.html'
     context = {
@@ -53,7 +76,7 @@ def login(request):
 @login_required(login_url='users:login')
 def logout(request):
     logout_django(request)
-    return redirect('products:login')
+    return redirect('users:login')
 
 
 # -------------------------------------  Customers -------------------------------------

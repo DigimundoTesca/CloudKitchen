@@ -41,14 +41,16 @@ USER_APPS = [
     'branchoffices.apps.BranchofficesConfig',
     'products.apps.ProductsConfig',
     'sales.apps.SalesConfig',
+    'orders.apps.OrdersConfig',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + USER_APPS + THIRD_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + USER_APPS
 
 SITE_ID = 1
 
-FCM_APIKEY = os.getenv('FCM_SERVER_KEY')
+AUTH_USER_MODEL = 'users.User'
 
+FCM_APIKEY = os.getenv('FCM_SERVER_KEY')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
