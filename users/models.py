@@ -1,14 +1,18 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator, ASCIIUsernameValidator
 from django.db import models
-from django.contrib.auth.models import User as DjangoUser, AbstractUser
 from django.utils import six
-
+from django.contrib.sites.apps import AppConfig
 
 class Rol(models.Model):
     rol = models.CharField(max_length=90, default='')
+
+    class Meta:
+        verbose_name = 'Rol'
+        verbose_name_plural = 'Roles'
 
     def __str__(self):
         return self.rol
@@ -20,10 +24,21 @@ class User(AbstractUser):
 
 
 class CustomerProfile(models.Model):
-    # username_validator = UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
-
-    # user_name = models.CharField(max_length=150, unique=True, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', validators=[username_validator], error_messages={ 'unique': 'Ya existe un usuario con ese nombre', }, )
+    username_validator = UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
+    user_name = models.CharField(
+        max_length=150,
+        unique=True,
+        help_text='Requerido. 150 caracteres o menos. Letras, números y @/./+/-/_ unicamente.',
+        validators=[username_validator],
+        error_messages={
+            'unique': 'Ya existe un usuario con este nickname',
+        },
+    )
     longitude = models.CharField(default='0.0', max_length=30, blank=True)
     latitude = models.CharField(default=0.0, max_length=30, blank=True)
     address = models.CharField(default='', max_length=255)
     first_dabba = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Perfil de Usuario'
+        verbose_name_plural = 'Perfiles de Usuarios'

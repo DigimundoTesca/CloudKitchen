@@ -14,8 +14,8 @@ class BranchOffice(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Branch Office'
-        verbose_name_plural = 'Branch Offices'
+        verbose_name = 'Sucursal'
+        verbose_name_plural = 'Sucursales'
 
 
 class CashRegister(models.Model):
@@ -34,8 +34,8 @@ class CashRegister(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Cash Register'
-        verbose_name_plural = 'Cash Registers'
+        verbose_name = 'Punto de Venta'
+        verbose_name_plural = 'Puntos de Venta'
 
 
 class Supplier(models.Model):
@@ -47,5 +47,5 @@ class Supplier(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Supplier'
-        verbose_name_plural = 'Suppliers'
+        verbose_name = 'Proveedor'
+        verbose_name_plural = 'Proveedores'

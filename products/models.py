@@ -16,8 +16,8 @@ class SuppliesCategory(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = 'Categoría'
+        verbose_name_plural = 'Categorías'
 
 
 class SupplyLocation(models.Model):
@@ -29,8 +29,8 @@ class SupplyLocation(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Supplies Location'
-        verbose_name_plural = 'Supplies Locations'
+        verbose_name = 'Ubicación del Insumo'
+        verbose_name_plural = 'Ubicación de los Insumos'
 
 
 class Supply(models.Model):
@@ -97,8 +97,8 @@ class Supply(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Supply'
-        verbose_name_plural = 'Supplies'
+        verbose_name = 'Insumo'
+        verbose_name_plural = 'Insumos'
 
 
 class Cartridge(models.Model):
@@ -122,8 +122,8 @@ class Cartridge(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Cartridge'
-        verbose_name_plural = 'Cartridges'
+        verbose_name = 'Cartucho'
+        verbose_name_plural = 'Cartuchos'
 
 
 class CartridgeRecipe(models.Model):
@@ -136,8 +136,8 @@ class CartridgeRecipe(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Cartridge Recipe'
-        verbose_name_plural = 'Cartridges Recipes'
+        verbose_name = 'Receta del Cartucho'
+        verbose_name_plural = 'Recetas de Cartuchos'
 
 
 class PackageCartridge(models.Model):
@@ -151,8 +151,8 @@ class PackageCartridge(models.Model):
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'Package Cartridges'
-        verbose_name_plural = 'Packages Cartridges'
+        verbose_name = 'Dabba'
+        verbose_name_plural = 'Dabbas'
 
 
 class PackageCartridgeRecipe(models.Model):
@@ -165,8 +165,8 @@ class PackageCartridgeRecipe(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Package Cartridge Recipe'
-        verbose_name_plural = 'Package Cartridges Recipes'
+        verbose_name = 'Receta del Dabba'
+        verbose_name_plural = 'Recetas de Dabbas'
 
 
 class ProcessedCartridge(models.Model):
@@ -190,8 +190,8 @@ class ProcessedCartridge(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Processed Cartridge'
-        verbose_name_plural = 'Processed Cartridges'
+        verbose_name = 'Cartuchos'
+        verbose_name_plural = 'Cartuchos Procesados'
 
 
 class Warehouse(models.Model):
@@ -220,5 +220,5 @@ class Warehouse(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Warehouse'
-        verbose_name_plural = 'Warehouse'
+        verbose_name = 'Insumo en Almacén'
+        verbose_name_plural = 'Insumos en el Almacén'

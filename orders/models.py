@@ -24,8 +24,8 @@ class SupplierOrder(models.Model):
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Order'
-        verbose_name_plural = 'Orders'
+        verbose_name = 'Órden del Cliente'
+        verbose_name_plural = 'Órdenes de Cientes'
 
 
 class SupplierOrderDetail(models.Model):
