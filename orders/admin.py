@@ -10,7 +10,7 @@ class SupplierOrderDetailInline(admin.TabularInline):
 
 @admin.register(SupplierOrder)
 class SupplierOrderAdmin(admin.ModelAdmin):
-    list_display = ('created_at', 'status', 'user_charge',)
+    list_display = ('created_at', 'status', 'assigned_dealer',)
     inlines = [SupplierOrderDetailInline, ]
 
 
@@ -21,5 +21,5 @@ class CustomerOrderDetailInline(admin.TabularInline):
 
 @admin.register(CustomerOrder)
 class CustomerOrderAdmin(admin.ModelAdmin):
-    list_display = ('created_at', 'status', 'user_charge',)
+    list_display = ('customer_user', 'created_at', 'delivery_date', 'price', 'status')
     inlines = [CustomerOrderDetailInline, ]

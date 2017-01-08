@@ -18,15 +18,15 @@ class SupplierOrder(models.Model):
 
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
     status = models.CharField(choices=STATUS, default=IN_PROCESS, max_length=2)
-    user_charge = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
+    assigned_dealer = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s' % self.id
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Pedido del Proveedor'
-        verbose_name_plural = 'Pedidos de Proveedores'
+        verbose_name = 'Pedido al Proveedor'
+        verbose_name_plural = 'Pedidos a Proveedores'
 
 
 class SupplierOrderDetail(models.Model):

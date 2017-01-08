@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth import logout as logout_django
 
-from users.forms import CustomerProfileForm
+from users.forms import CustomerProfileForm, UserProfileForm
 
 from cashflow.settings.base import PAGE_TITLE
 
@@ -15,27 +15,27 @@ from users.models import CustomerProfile
 
 
 def test(request):
-    form = CustomerProfileForm(request.POST, request.FILES)
+    form_customer = CustomerProfileForm(request.POST, request.FILES)
     if request.method == 'POST':
-        if form.is_valid():
+        if form_customer.is_valid():
             print('IS VALID!!!')
-            customer = form.save(commit=False)
+            customer = form_customer.save(commit=False)
             customer.save()
             return redirect('users:thanks')
         print('IS NOT VALID!!!')
     else:
         print('IS NOT POST')
-        form = CustomerProfileForm()
+        form_customer = CustomerProfileForm()
     template = 'test/test.html'
     title = 'Dabbawala - Registro de clientes'
-
+    form_user = UserProfileForm()
     context = {
-        'form': form,
+        'form_user': form_user,
+        'form_customer': form_customer,
         'title': title,
     }
 
     return render(request, template, context)
-
 
 # -------------------------------------  Index -------------------------------------
 def index(request):
@@ -82,19 +82,20 @@ def logout(request):
 # -------------------------------------  Customers -------------------------------------
 def new_customer(request):
     if request.method == 'POST':
-        form = CustomerProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            customer = form.save(commit=False)
+        form_customer = CustomerProfileForm(request.POST, request.FILES)
+        if form_customer.is_valid():
+            customer = form_customer.save(commit=False)
             customer.save()
             return redirect('users:thanks')
     else:
-        form = CustomerProfileForm()
+        form_customer = CustomerProfileForm()
 
     template = 'customers/register/new_customer.html'
     title = 'Dabbawala - Registro de clientes'
-
+    form_user = UserProfileForm()
     context = {
-        'form': form,
+        'form_user': form_user,
+        'form_customer': form_customer,
         'title': title,
     }
 

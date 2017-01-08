@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator, ASCIIUsernameValidator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import six
 
 
@@ -24,16 +26,7 @@ class User(AbstractUser):
 
 
 class CustomerProfile(models.Model):
-    username_validator = UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
-    user_name = models.CharField(
-        max_length=150,
-        unique=True,
-        help_text='Requerido. 150 caracteres o menos. Letras, números y @/./+/-/_ unicamente.',
-        validators=[username_validator],
-        error_messages={
-            'unique': 'Ya existe un usuario con este nickname',
-        },
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     longitude = models.CharField(default='0.0', max_length=30, blank=True)
     latitude = models.CharField(default=0.0, max_length=30, blank=True)
     address = models.CharField(default='', max_length=255)
@@ -42,3 +35,12 @@ class CustomerProfile(models.Model):
     class Meta:
         verbose_name = 'Perfil de Usuario'
         verbose_name_plural = 'Perfiles de Usuarios'
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            CustomerProfile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.customerprofile.save()
