@@ -1,14 +1,25 @@
 from django.contrib import admin
 
-from orders.models import SupplierOrderDetail, SupplierOrder
+from orders.models import SupplierOrderDetail, SupplierOrder, CustomerOrderDetail, CustomerOrder
 
 
-class OrderDetailInline(admin.TabularInline):
+class SupplierOrderDetailInline(admin.TabularInline):
     model = SupplierOrderDetail
     extra = 1
 
 
 @admin.register(SupplierOrder)
-class AdminOrder(admin.ModelAdmin):
+class SupplierOrderAdmin(admin.ModelAdmin):
     list_display = ('created_at', 'status', 'user_charge',)
-    inlines = [OrderDetailInline, ]
+    inlines = [SupplierOrderDetailInline, ]
+
+
+class CustomerOrderDetailInline(admin.TabularInline):
+    model = CustomerOrderDetail
+    extra = 1
+
+
+@admin.register(CustomerOrder)
+class CustomerOrderAdmin(admin.ModelAdmin):
+    list_display = ('created_at', 'status', 'user_charge',)
+    inlines = [CustomerOrderDetailInline, ]
