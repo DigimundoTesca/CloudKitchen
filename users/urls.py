@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import url
 
 from users import views
@@ -21,5 +22,7 @@ urlpatterns = [
     # url(r'^profiles/$', views.ProfileVIew, name='profiles'),
 
     # test
-    url(r'^customers/test', views.test, name='cutomers_test'),
 ]
+
+if settings.DEBUG:
+    urlpatterns.append(url(r'^customers/test', views.test, name='cutomers_test'))
