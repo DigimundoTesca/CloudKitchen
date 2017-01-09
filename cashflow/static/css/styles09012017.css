@@ -328,6 +328,9 @@ small {
 .container-error .alert {
   margin-top: 2rem;
 }
+.dropdown-menu {
+  margin-right: -6rem !important;
+}
 .form-register-customer {
   margin: 2rem 0;
 }
@@ -504,3 +507,4 @@ small {
 #printer .ticket-address p {
   font-size: 0.7rem;
 }
+
