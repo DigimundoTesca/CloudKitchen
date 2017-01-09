@@ -64,13 +64,16 @@ footer .footer-bottom .icons-container {
   justify-content: center;
   align-items: center;
   display: flex;
+  margin: 0;
+  padding: 0;
 }
 footer .footer-bottom .icons-container a {
   align-items: center;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   height: 50%;
+  justify-content: space-around;
+  margin: 0 0.5rem;
 }
 footer .footer-bottom .icons-container a {
   text-decoration: none;
@@ -86,11 +89,12 @@ footer .footer-bottom .icons-container a:hover {
 }
 footer .footer-bottom .icons-container a span {
   margin: 0 1rem 0 0;
+  font-size: 1.4rem;
+
 }
 footer .footer-bottom .icons-container a span.icon-facebook {
   background: rgb(59,89,152);
   padding: 0.2rem;
-  font-size: 1.2rem;
 
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -102,7 +106,6 @@ footer .footer-bottom .icons-container a span.icon-facebook:hover {
 footer .footer-bottom .icons-container a span.icon-whatsapp {
   background: rgb(77, 194, 71);
   padding: 0.2rem;
-  font-size: 1.2rem;
 
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -113,6 +116,20 @@ footer .footer-header {
   padding: 0.2rem 2rem;
   align-items: center;
   display: flex;
+  min-height: 5rem;
+}
+footer .footer-header .row {
+  width: 100%;
+  align-items: center;
+}
+footer .footer-header .row figure {
+    justify-content: center;
+  align-items: center;
+  display: flex;
+}
+footer .footer-header .row figure .tesca-logo {
+margin: 1rem 0 0 0;
+  height: 40px;
 }
 footer .footer-header .info-container {
   margin: 0.5rem 0;
