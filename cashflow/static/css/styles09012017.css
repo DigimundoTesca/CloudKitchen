@@ -329,7 +329,7 @@ small {
   margin-top: 2rem;
 }
 .dropdown-menu {
-  margin-right: -6rem !important;
+  margin-left: -5rem !important;
 }
 .form-register-customer {
   margin: 2rem 0;

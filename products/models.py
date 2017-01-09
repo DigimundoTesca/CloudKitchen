@@ -104,11 +104,11 @@ class Supply(models.Model):
 class Cartridge(models.Model):
     # Categories
     FOOD_DISHES = 'FD'
-    DRINKS = 'DR'
+    COMPLEMENTS = 'CO'
 
     CATEGORIES = (
         (FOOD_DISHES, 'Platillos'),
-        (DRINKS, 'Bebidas'),
+        (COMPLEMENTS, 'Complementos'),
     )
 
     name = models.CharField(max_length=128, default='')
@@ -144,7 +144,7 @@ class PackageCartridge(models.Model):
     name = models.CharField(max_length=90)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
     package_active = models.BooleanField(default=False)
-    image = models.ImageField(blank=True, upload_to='media/package-cartridges')
+    image = models.ImageField(upload_to='media/package-cartridges')
 
     def __str__(self):
         return self.name
