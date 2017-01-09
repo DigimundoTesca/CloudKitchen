@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth import logout as logout_django
 
-from users.forms import CustomerProfileForm, UserProfileForm
+from users.forms import CustomerProfileForm, UserForm
 
 from cashflow.settings.base import PAGE_TITLE
 
@@ -28,9 +28,8 @@ def test(request):
         form_customer = CustomerProfileForm()
     template = 'test/test.html'
     title = 'Dabbawala - Registro de clientes'
-    form_user = UserProfileForm()
+    form_user = UserForm()
     context = {
-        'form_user': form_user,
         'form_customer': form_customer,
         'title': title,
     }
@@ -52,24 +51,37 @@ def login(request):
     if request.user.is_authenticated():
         return redirect('sales:sales')
 
-    message = None
+    error_message = None
+    success_message = None
     template = 'auth/login.html'
 
+    form_user = UserForm(request.POST or None)
+
     if request.method == 'POST':
-        username_post = request.POST.get('username_login')
-        password_post = request.POST.get('password_login')
-        user = authenticate(username=username_post, password=password_post)
+        if 'form-register' in request.POST:
+            if form_user.is_valid():
+                new_user = form_user.save(commit=False)
+                new_user.save()
+                success_message = 'Usuario creado. Necesita ser activado por un administrador'
 
-        if user is not None:
-            login_django(request, user)
-            return redirect('sales:sales')
+        elif 'form-login' in request.POST:
+            form_user = UserForm(None)
+            username_login = request.POST.get('username_login')
+            password_login = request.POST.get('password_login')
+            user = authenticate(username=username_login, password=password_login)
 
-        else:
-            message = 'Usuario o contraseña incorrecto'
+            if user is not None:
+                login_django(request, user)
+                return redirect('sales:sales')
+
+            else:
+                error_message = 'Usuario o contraseña incorrecto'
 
     context = {
         'page_title': PAGE_TITLE,
-        'message': message,
+        'error_message': error_message,
+        'success_message': success_message,
+        'form_user': form_user,
     }
     return render(request, template, context)
 
@@ -93,7 +105,7 @@ def new_customer(request):
 
     template = 'customers/register/new_customer.html'
     title = 'Dabbawala - Registro de clientes'
-    form_user = UserProfileForm()
+    form_user = UserForm()
     context = {
         'form_user': form_user,
         'form_customer': form_customer,

@@ -21,7 +21,6 @@ class Rol(models.Model):
 
 
 class User(AbstractUser):
-    phone_number = models.CharField(blank=True, null=True, max_length=10, default='', unique=True)
     user_rol = models.ForeignKey(Rol, blank=True, null=True)
 
     class Meta(AbstractUser.Meta):
@@ -30,6 +29,7 @@ class User(AbstractUser):
 
 class CustomerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=13, unique=True)
     longitude = models.CharField(default='0.0', max_length=30, blank=True)
     latitude = models.CharField(default=0.0, max_length=30, blank=True)
     address = models.CharField(default='', max_length=255, blank=True, null=True)
@@ -38,12 +38,3 @@ class CustomerProfile(models.Model):
     class Meta:
         verbose_name = 'Perfil de Usuario'
         verbose_name_plural = 'Perfiles de Usuarios'
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            CustomerProfile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.customerprofile.save()

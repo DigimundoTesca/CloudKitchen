@@ -25,7 +25,7 @@
             <div class="form-group">
               <label for="id_name" class="sr-only">Nombre de usuario.</label>
               <small id="id_name_help" class="form-text text-muted">Nombre con el que te identificaremos. Campo Obligatorio.</small>
-              <input type="text" class="form-control" id="id_name" name="username" placeholder="Nombre de usuario (Nickname)" maxlength="30" value="{{ form.username.value }}" required autofocus onkeypress="return pulsar(event)" >
+              <input type="text" class="form-control" id="id_name" name="username" placeholder="Nombre de usuario (Nickname)" maxlength="30" value="{{ form_user.username.value }}" required autofocus onkeypress="return pulsar(event)" >
               {%  if form.username.errors %}
               <div class="has-danger">
                 {%  for error in form.username.errors %}
@@ -39,7 +39,7 @@
             <div class="form-group">
               <label for="id_email" class="sr-only">Correo</label>
               <small id="id_email_help" class="form-text text-muted">Campo Obligatorio</small>
-              <input type="email" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" value="{{ form.email.value }}" required onkeypress="return pulsar(event)" >
+              <input type="email" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" value="{{ form_user.email.value }}" required onkeypress="return pulsar(event)" >
               {%  if form.email.errors %}
               <div class="has-danger">
                 {%  for error in form.email.errors %}

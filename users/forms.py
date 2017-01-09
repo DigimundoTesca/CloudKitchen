@@ -1,13 +1,12 @@
 from django import forms
-from django.contrib.auth.models import User
 
 from users.models import User as UserProfile, CustomerProfile
 
 
-class UserProfileForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['username', 'password', 'phone_number']
+        fields = ['username', 'email', 'password', 'is_active']
 
 
 class CustomerProfileForm(forms.ModelForm):
