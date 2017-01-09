@@ -44,14 +44,14 @@
                 <input type="password" class="form-control" id="password_login" name="password_login" placeholder="Contraseña" required>
               </div>
               <div class="form-group text-xs-right">
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <input type="submit" class="btn btn-primary" name="form-login" value="Submit">
               </div>
             </form>
           </div>
           <!-- Form Register -->
           <div class="tab-pane" id="register" role="tabpanel">
-            {% csrf_token %}
             <form class="form-register" method="post" action="">
+              {% csrf_token %}
               <h2>Ingresa tus datos</h2>
               <div class="form-group">
                 <label for="username_register" class="sr-only">Nombre</label>
@@ -72,7 +72,7 @@
                   <input type="password" class="form-control" id="password_register_conf" name="password_register_conf" placeholder="Repite tu contraseña" required>
                 </div>
                 <div class="form-group text-xs-right">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <input type="submit" class="btn btn-primary" name="form-register" value="Submit">
                 </div>
               </div>
             </form>

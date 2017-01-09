@@ -9,11 +9,11 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 
     # auth
-    url(r'^auth/login$', views.login, name='login'),
+    url(r'^auth/$', views.login, name='login'),
     url(r'^auth/logout/$', views.logout, name='logout'),
 
     # New Customer
-    url(r'^customers/register/$', views.new_customer, name='new_customer'),
+    url(r'^register/$', views.new_customer, name='new_customer'),
     url(r'^customers/thanks/$', views.thanks, name='thanks'),
     # url(r'^customers/register/list$', views.customers_list, name='customers_list'),
 
