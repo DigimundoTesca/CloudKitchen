@@ -13,7 +13,7 @@ class RolAdmin(admin.ModelAdmin):
 
 @admin.register(CustomerProfile)
 class CustomerProfileAdmin(admin.ModelAdmin):
-    list_display = ('address', 'latitude', 'longitude')
+    list_display = ('user', 'address', 'latitude', 'longitude')
 
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Rol, RolAdmin)

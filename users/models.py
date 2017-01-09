@@ -24,12 +24,15 @@ class User(AbstractUser):
     phone_number = models.CharField(blank=True, null=True, max_length=10, default='', unique=True)
     user_rol = models.ForeignKey(Rol, blank=True, null=True)
 
+    class Meta(AbstractUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
+
 
 class CustomerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     longitude = models.CharField(default='0.0', max_length=30, blank=True)
     latitude = models.CharField(default=0.0, max_length=30, blank=True)
-    address = models.CharField(default='', max_length=255)
+    address = models.CharField(default='', max_length=255, blank=True, null=True)
     first_dabba = models.BooleanField(default=False)
 
     class Meta:

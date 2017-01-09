@@ -4,9 +4,16 @@
 
 
 {% block content %}
-  <h2>form users</h2>
-  {{ form_user.as_p }}
 
-  <h2>form customer</h2>
-  {{ form_customer.as_p }}
+  <form action="" method="post">
+  {% csrf_token %}
+    <h2>form users</h2>
+    {{ form_user.as_p }}
+
+    <h2>form customer</h2>
+    {{ form_customer.as_p }}
+
+
+    <button type="submit">Enviar</button>
+  </form>
 {% endblock %}

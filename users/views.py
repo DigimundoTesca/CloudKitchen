@@ -37,6 +37,7 @@ def test(request):
 
     return render(request, template, context)
 
+
 # -------------------------------------  Index -------------------------------------
 def index(request):
     template = 'index.html'
