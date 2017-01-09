@@ -27,7 +27,14 @@
       </div>
       <div class="card col-sm-12 card-scroll-orders card-scroll card-outline-warning">
         <div class="card-block products-block">
-          <h4>Pedidos</h4>
+          <div class="row">
+            <div class="col-xs-10 col-lg-9 col-xl-10">
+              <h4>Pedidos</h4>
+            </div>
+            <div class="col-xs-2 col-lg-3 col-xl-2">
+              <i id="orders-reset" class="material-icons">replay</i>
+            </div>
+          </div>
         </div>
         <ul class="list-group list-group-flush" id="sales-list">
         </ul>
@@ -119,7 +126,7 @@
       </div>
     </div>
 
-        <!-- Sales Modal -->
+    <!-- Sales Modal -->
     <div class="modal fade" id="modal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -192,7 +199,7 @@
       cartuchos: [],
       paquetes: [],
     }
-
+    /** Agrega un producto al carrito */
     $(".product-img").click(function() {
 
       var product_type = $(this).attr('id');
@@ -202,7 +209,7 @@
         if( id.indexOf('cartridge') >= 0 ){
           id = id.replace('cartridge-', '');
 
-          // Itera la lista de cartuchos
+          /** Itera la lista de cartuchos */
           function findIdCartucho(cartuchos) { 
             return cartuchos.id == id;
           }
@@ -224,7 +231,7 @@
         else {
           id = id.replace('package-', '');
 
-          // Itera la lista de paquetes
+          /** Itera la lista de paquetes */
           function findIdPaquete(paquetes) { 
             return paquetes.id == id;
           }
@@ -288,7 +295,7 @@
           $nuevo_li.appendTo('#sales-list').fadeTo('slow', 1);
         }
 
-        // Modificacion del total general
+        /** Modificacion del total general */
         $('ul li').find('.total-li').each(function(){
           re = $(this).text()
           total += parseFloat(re)
@@ -312,6 +319,20 @@
     $(this).on('click', '.add-icon-li', function () {
     });
 
+    $(this).on('click', '#orders-reset', function () {
+      swal({
+        title: "¿Estás seguro?",   
+        text: "¡Estás a punto de cancelar la venta!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "!Sí, cancelar venta",   
+        closeOnConfirm: false 
+      }, function(){   
+        swal("¡Venta cancelada!", "Puedes seguir eligiendo productos de nuevo.", "success"); 
+        $('#sales-list').empty();
+      });
+    });
 
 
     $("#btn-order").click(function() {
@@ -369,7 +390,7 @@
         let id = $(this).attr('id');
         let li_id = (id + '-modal').toString();
 
-        /* Acorta el nombre */
+        /** Acorta el nombre */
         name = name.split(' ');
         $.each(name, function(index, item) {
           name[index] = item.substring(0,3);
@@ -399,7 +420,7 @@
 
     });
 
-    /*Realizar la venta e imprimir ticket */
+    /** Realizar la venta e imprimir ticket */
     $(this).on('click', '.btn-printer', function () {
       Ticket = JSON.stringify(Ticket);
 

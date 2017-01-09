@@ -173,6 +173,14 @@ small {
   min-height: calc(100vh - 16rem);
   max-height: calc(100vh - 16rem);
 }
+.container-sales .group-sales .products-block i {
+  color: #c9302c;  
+  cursor: pointer;
+  font-size: 2rem;
+}
+.container-sales .group-sales .products-block i:hover {
+  color: #d9534f;
+}
 .container-sales .group-sales .card-block.card-product-title {
   height: 4rem;
 }
