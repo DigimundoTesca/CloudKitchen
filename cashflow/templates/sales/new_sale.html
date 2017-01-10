@@ -50,7 +50,7 @@
             <div class="card-block products-block">
               {% for cartridge in cartridges %}
               {% if cartridge.category == 'CO' %}
-              <div class="card-block" id="cartridge-{{ cartridge.pk }}">
+              <div class="card-block product-container" id="cartridge-{{ cartridge.pk }}">
                 <h6 class="product-name">{{ cartridge.name }}</h6>
                 <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
                 <div class="text-xs-right content-price">
@@ -70,7 +70,7 @@
             <div class="card-block products-block">
               {% for cartridge in cartridges %}
               {% if cartridge.category == 'FD' %}
-              <div class="card-block" id="cartridge-{{ cartridge.pk }}">
+              <div class="card-block product-container" id="cartridge-{{ cartridge.pk }}">
                 <h6 class="product-name">{{ cartridge.name }}</h6>
                 <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida" >
                 <div class="text-xs-right content-price">
@@ -91,15 +91,13 @@
               <div class="card col-xs-12 card-scroll card-outline-warning" id="group-promos">
                 <div class="card-block card-block">
                   <h4>Promos</h4>
-                  {% for package in package_cartridges %}
-                  <div class="card-block" id="package-{{ package.pk }}">
-                    <h6 class="product-name">{{ package.name }}</h6>
-                    <img src="{{ package.image.url }}" id="package-img-{{ package.pk }}" class="product-img" alt="Nombre del platillo"  data-toggle="modal" data-target="#modal-dabba">
+                  <div class="card-block product-container" id="package-container">
+                    <h6 class="product-name">Dabba</h6>
+                      <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba"  data-toggle="modal" data-target="#modal-dabba">
                     <div class="text-xs-right content-price">
-                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> {{ package.price }}</span>
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 30.00</span>
                     </div>
                   </div>
-                  {% endfor %}
                 </div>
               </div>
             </div>
