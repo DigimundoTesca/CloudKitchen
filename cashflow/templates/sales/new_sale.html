@@ -127,9 +127,9 @@
               <div class="card card-scroll col-xs-4 ">
                 {% for cartridge in cartridges %}
                 {% if cartridge.category == 'FD' %}
-                <div class="product-container">
+                <div class="product-container" id="modal-prod-cont-1">
                   <h5> {{ cartridge.name }} </h5>
-                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-1-{{ cartridge.pk }}">
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-1-{{ cartridge.pk }}" class="modal-product-img">
                 </div>
                 {% endif %}
                 {% endfor %}
@@ -137,9 +137,9 @@
               <div class="card card-scroll col-xs-4 ">
                 {% for cartridge in cartridges %}
                 {% if cartridge.category == 'CO' %}
-                <div class="product-container">
+                <div class="product-container" id="modal-prod-cont-2">
                   <h5> {{ cartridge.name }} </h5>
-                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-2-{{ cartridge.pk }}">
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-2-{{ cartridge.pk }}" class="modal-product-img">
                 </div>
                 {% endif %}
                 {% endfor %}
@@ -147,9 +147,9 @@
               <div class="card card-scroll col-xs-4 ">
                 {% for cartridge in cartridges %}
                 {% if cartridge.category == 'CO' %}
-                <div class="product-container">
+                <div class="product-container" id="modal-prod-cont-3">
                   <h5> {{ cartridge.name }} </h5>
-                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-3-{{ cartridge.pk }}">
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-3-{{ cartridge.pk }}" class="modal-product-img">
                 </div>
                 {% endif %}
                 {% endfor %}
@@ -241,7 +241,7 @@
       cartuchos: [],
       paquetes: [],
     }
-    /** Agrega un producto al carrito */
+    /** Agrega un producto al ticket */
     $(".product-img").click(function() {
 
       var product_type = $(this).attr('id');
@@ -355,6 +355,13 @@
       agregarProductoTicket();
     });
 
+    /** Elección de elementos para el dabba */
+    $(this).on('click', '.modal-product-img', function(event) {
+      console.log("FUNCIONA!");
+
+      /* Act on the event */
+    });
+
     $(this).on('click', '.remove-icon-li', function () {
     });
 
@@ -377,7 +384,7 @@
         );
     });
 
-
+    /** Despliega el modal para realizar la venta */
     $("#btn-order").click(function() {
 
       function getActualTime() {
