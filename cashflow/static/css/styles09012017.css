@@ -123,12 +123,12 @@ footer .footer-header .row {
   align-items: center;
 }
 footer .footer-header .row figure {
-    justify-content: center;
+  justify-content: center;
   align-items: center;
   display: flex;
 }
 footer .footer-header .row figure .tesca-logo {
-margin: 1rem 0 0 0;
+  margin: 1rem 0 0 0;
   height: 40px;
 }
 footer .footer-header .info-container {
@@ -163,6 +163,10 @@ small {
 }
 .container-sales{
   margin: 0 0.5rem 0 0;
+}
+.container-sales .group-sales button#btn-orders-reset{
+  height: 4rem;
+  margin-bottom: 1rem;
 }
 .container-sales .group-sales button#btn-order{
   font-size: 1.5em;
