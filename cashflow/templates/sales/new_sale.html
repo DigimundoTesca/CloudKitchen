@@ -95,7 +95,7 @@
                     <h6 class="product-name">Dabba</h6>
                     <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba"  data-toggle="modal" data-target="#modal-dabba">
                     <div class="text-xs-right content-price">
-                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 30.00</span>
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 50.00</span>
                     </div>
                   </div>
                 </div>
@@ -361,6 +361,7 @@
     $(this).on('click', '.add-icon-li', function () {
     });
 
+    /** Cancelar Venta - Resetear ticket s*/
     $("#btn-orders-reset").click(function () {
       swal({
         title: "Venta Cancelada!",
@@ -369,6 +370,11 @@
         showConfirmButton: false
       }); 
       $('#sales-list').empty();
+      $('#total-price').html("" +
+        "<span class='text-price align-top' id='int-total-price'>0</span>" +
+        "<span class='point-total-price'>.</span>" +
+        "<span class='text-price-decimal' id='dec-total-price'>00</span>"
+        );
     });
 
 
