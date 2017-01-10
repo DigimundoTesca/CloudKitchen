@@ -1,7 +1,6 @@
 import json
 from datetime import datetime, date, timedelta
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 
@@ -120,8 +119,7 @@ def get_sales_day_view(request):
 def new_sale(request):
     if request.method == 'POST':
         username = request.user
-        user = User.objects.filter(username=username)
-        user_profile = UserProfile.objects.get(user=user)
+        user_profile = UserProfile.objects.get(username=username)
         cash_register = CashRegister.objects.first()
         new_ticket = Ticket(cash_register=cash_register, seller=user_profile, )
         new_ticket.save()

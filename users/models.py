@@ -29,7 +29,7 @@ class User(AbstractUser):
 
 class CustomerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=13, unique=True)
+    phone_number = models.CharField(max_length=13, unique=True, blank=True, null=True)
     longitude = models.CharField(default='0.0', max_length=30, blank=True)
     latitude = models.CharField(default=0.0, max_length=30, blank=True)
     address = models.CharField(default='', max_length=255, blank=True, null=True)
