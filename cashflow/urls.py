@@ -17,3 +17,7 @@ admin.site.site_header = 'Dabbanet'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [
+    # API Endpoints
+    url(r'^api/', include('api.urls', namespace='api')),
+]

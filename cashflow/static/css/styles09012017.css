@@ -286,9 +286,12 @@ small {
   cursor: pointer;
   max-width: 100%;
   align-self: center;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+.container-sales .group-sales .product-container img:hover  {
+  opacity: 0.8;
 }
 .container-sales .group-sales .card-block img:active {
   opacity: 0.5;
@@ -357,18 +360,60 @@ small {
 .map-container {
   margin-top: 2rem;
 }
-.modal#modal-order .modal-content{
-  margin-top: calc(50vh - 15rem);
-  max-height: 30rem;
-  min-height: 30rem;
+.modal#modal-dabba .modal-content {
+  margin-top: calc(50vh - 16rem);
+  max-height: 31rem;
+  min-height: 31rem;
 }
+.modal#modal-dabba .modal-content h5 {
+  font-size: 1.4rem;
+}
+.modal#modal-dabba .modal-content .card-scroll,
 .modal#modal-order .modal-content .card-scroll {
   display: flex;
   height: 300px;
 }
-.modal#modal-order .modal-content .modal-body{
+.modal#modal-dabba .modal-content .modal-header  {
+  margin: 0;
+}
+.modal#modal-dabba .modal-content .modal-header .card {
+  height: 3rem;
+  margin: 0;
+}
+.modal#modal-dabba .modal-content .modal-body, 
+.modal#modal-order .modal-content .modal-body {
   max-height: 21.5rem;
   min-height: 21.5rem;
+}
+.modal#modal-dabba .modal-content .modal-body .card {
+  display: flex; 
+  flex-direction: column;
+}
+.modal#modal-dabba .modal-content .modal-body .card .product-container  {
+  padding: 0.5rem;
+  border-bottom: #ffea94 solid 1px;  
+}
+.modal#modal-dabba .modal-content .modal-body .card .product-container img {
+  cursor: pointer;
+  width: 100%; 
+  border-radius: 3px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+.modal#modal-dabba .modal-content .modal-body .card .product-container img:hover {
+  opacity: 0.8;
+}
+.modal#modal-dabba .modal-content .modal-body .card .product-container img:active {
+  opacity: 0.5;
+}
+.modal#modal-dabba .modal-content .modal-footer {
+  height: 4rem;
+}
+.modal#modal-order .modal-content {
+  margin-top: calc(50vh - 15rem);
+  max-height: 30rem;
+  min-height: 30rem;
 }
 .modal#modal-order .modal-content .modal-body #printer-container {
   flex-direction: row;

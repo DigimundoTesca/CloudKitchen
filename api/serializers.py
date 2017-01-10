@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils import timezone
 
@@ -7,14 +6,14 @@ from products.models import Cartridge, PackageCartridgeRecipe, PackageCartridge
 from users.models import User as UserProfile
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = UserProfile
         fields = ('id', 'username', 'first_name', 'last_name', 'email',)
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+class CustomerProfileSerializer(serializers.ModelSerializer):
+    user = UserProfileSerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=UserProfile.objects.all(), source='user')
 
     class Meta:

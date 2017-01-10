@@ -93,7 +93,7 @@
                   <h4>Promos</h4>
                   <div class="card-block product-container" id="package-container">
                     <h6 class="product-name">Dabba</h6>
-                      <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba"  data-toggle="modal" data-target="#modal-dabba">
+                    <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba"  data-toggle="modal" data-target="#modal-dabba">
                     <div class="text-xs-right content-price">
                       <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 30.00</span>
                     </div>
@@ -110,14 +110,58 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-
+            <div class="container-fluid">
+              <div class="card col-xs-4">
+                <span id="cart-1"></span>
+              </div>
+              <div class="card col-xs-4">
+                <span id="cart-2"></span>
+              </div>
+              <div class="card col-xs-4">
+                <span id="cart-3"></span>
+              </div>
+            </div>
           </div>
           <div class="modal-body">
             <div class="container-fluid">
+              <div class="card card-scroll col-xs-4 ">
+                {% for cartridge in cartridges %}
+                {% if cartridge.category == 'FD' %}
+                <div class="product-container">
+                  <h5> {{ cartridge.name }} </h5>
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-1-{{ cartridge.pk }}">
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              <div class="card card-scroll col-xs-4 ">
+                {% for cartridge in cartridges %}
+                {% if cartridge.category == 'CO' %}
+                <div class="product-container">
+                  <h5> {{ cartridge.name }} </h5>
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-2-{{ cartridge.pk }}">
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              <div class="card card-scroll col-xs-4 ">
+                {% for cartridge in cartridges %}
+                {% if cartridge.category == 'CO' %}
+                <div class="product-container">
+                  <h5> {{ cartridge.name }} </h5>
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-3-{{ cartridge.pk }}">
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
             </div>
           </div>
           <div class="modal-footer">
             <div class="container">
+              <div class="row">
+                <button type="button" class="btn btn-secondary col-xs-3 push-xs-2" data-dismiss="modal">Close</button>
+                <button id="btn-add-dabba" data-dismiss="modal" type="button" class="btn btn-success col-xs-4 push-xs-3">¡Listo!</button>
+              </div>
             </div>
           </div>
         </div>

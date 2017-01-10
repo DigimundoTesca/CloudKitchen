@@ -42,6 +42,7 @@ USER_APPS = [
     'products.apps.ProductsConfig',
     'sales.apps.SalesConfig',
     'orders.apps.OrdersConfig',
+    'api.apps.ApiConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + USER_APPS
