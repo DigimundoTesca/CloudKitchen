@@ -4,6 +4,8 @@ from users.models import User as UserProfile, CustomerProfile
 
 
 class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
     class Meta:
         model = UserProfile
         fields = ['username', 'email', 'password', 'is_active']

@@ -185,8 +185,8 @@ small {
   height: 4rem;
 }
 .container-sales .group-sales .card-scroll-orders {
-  min-height: calc(100vh - 20.5rem);
-  max-height: calc(100vh - 20.5rem);
+  min-height: calc(100vh - 25rem);
+  max-height: calc(100vh - 25rem);
   padding: 0;
 }
 .container-sales .group-sales .card-scroll-orders ul.list-group {

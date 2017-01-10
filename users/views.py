@@ -61,6 +61,7 @@ def login(request):
         if 'form-register' in request.POST:
             if form_user.is_valid():
                 new_user = form_user.save(commit=False)
+                new_user.set_password(form_user.cleaned_data['password'])
                 new_user.save()
                 success_message = 'Usuario creado. Necesita ser activado por un administrador'
 
