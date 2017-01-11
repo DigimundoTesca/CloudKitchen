@@ -241,6 +241,17 @@
       cartuchos: [],
       paquetes: [],
     }
+
+    function activate_btn_dabba() {
+      header_1 = $('#modal-prod-head-1').is(':empty');
+      header_2 = $('#modal-prod-head-2').is(':empty');
+      header_3 = $('#modal-prod-head-3').is(':empty');
+      if (header_1 == false && header_3 == false && header_3 == false) {
+        $('#btn-add-dabba').attr('disabled', false);
+      } else {
+        $('#btn-add-dabba').attr('disabled', true);
+      }
+    }
     /** Agrega un producto al carrito del ticket */
     $(this).on('click', '.product-img', function(event) {
       var product_type = $(this).attr('id');
@@ -346,6 +357,8 @@
       else if (number_container.indexOf('3') != -1){
         $('#modal-prod-head-3').text(product_name).fadeTo('slow', 1);
       }
+
+      activate_btn_dabba();
     });
 
     $(this).on('click', '.remove-icon-li', function(event) {
@@ -358,6 +371,17 @@
     $(this).on('click', '#btn-close-dabba-modal', function(event) {
       $('.modal-head-prod-name').empty();
     });
+
+    $(this).on('click', '#package-container', function(event) {
+
+      activate_btn_dabba();
+    });
+
+    /** Agrega el dabba manual al carrito del ticket */
+    $(this).on('click', '#btn-add-dabba', function(event) {
+
+    });
+
     /** Despliega el modal para realizar la venta */
     $(this).on('click', '#btn-order', function(event) {
       console.log(Ticket);
