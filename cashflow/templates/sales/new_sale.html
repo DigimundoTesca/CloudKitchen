@@ -480,13 +480,13 @@
     $(this).on('click', '.btn-printer', function(event) {
       let ticket_list = $('#sales-list-modal li');
       if (ticket_list.length > 2) {
-        Ticket = JSON.stringify(Ticket);
+        JSONTicket = JSON.stringify(Ticket);
         
         $.ajax({
           url: '/sales/new/',
           type: 'POST',
           data: {
-            'ticket': Ticket,
+            'ticket': JSONTicket,
             csrfmiddlewaretoken: '{{ csrf_token }}',
           },
           traditional: true,
