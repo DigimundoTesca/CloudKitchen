@@ -29,7 +29,7 @@
         <div class="card-block products-block">
           <div class="row">
             <div class="col-xs-10 col-lg-9 col-xl-10">
-              <h4>Pedidos</h4>
+              <h4>Ticket</h4>
             </div>
           </div>
         </div>
@@ -360,27 +360,29 @@
       let product_name = $(this).children('.modal-prod-name').text();
 
       if (number_container.indexOf('1') != -1) {
-        $('#modal-prod-head-1').text(product_name);
+        $('#modal-prod-head-1').text(product_name).fadeTo('slow', 1);
       }
       else if (number_container.indexOf('2') != -1) {
-        $('#modal-prod-head-2').text(product_name);
+        $('#modal-prod-head-2').text(product_name).fadeTo('slow', 1);
       }
       else if (number_container.indexOf('3') != -1){
-        $('#modal-prod-head-3').text(product_name);
+        $('#modal-prod-head-3').text(product_name).fadeTo('slow', 1);
       }
     });
 
-    $(this).on('click', '.remove-icon-li', function (event) {
+    $(this).on('click', '.remove-icon-li', function(event) {
     });
 
-    $(this).on('click', '.add-icon-li', function (event) {
+    $(this).on('click', '.add-icon-li', function(event) {
     });
-    /** Resetear los titulos del modal para la configuracion del dabba */
-    $(this).on('click', '#btn-close-dabba-modal', function (event) {
+
+    /** Resetear los titulos del modal-dabba */
+    $(this).on('click', '#btn-close-dabba-modal', function(event) {
       $('.modal-head-prod-name').empty();
     });
     /** Despliega el modal para realizar la venta */
-    $(this).on('click', '#btn-order', function (event) {
+    $(this).on('click', '#btn-order', function(event) {
+
       function getActualTime() {
         var datetime = new Date();
         var hours = datetime.getHours();
@@ -412,7 +414,6 @@
 
       $("#ticket-time").text(getActualTime());
       $("#ticket-date").text(getActualDate());
-
 
       $('#sales-list-modal').empty();
 
@@ -461,58 +462,76 @@
         "</li>");
 
       $nuevo_li.appendTo('#sales-list-modal');
+
+      function set_status_button(length) {
+        console.log(length);
+        if (length <= 2) {
+          $('.btn-printer').attr('disabled', true);
+        } else {
+          $('.btn-printer').attr('disabled', false);
+        }
+      }
+
+      var size_tickets = $('#sales-list-modal li').length;
+      set_status_button(size_tickets);
     });
 
     /** Realizar la venta e imprimir ticket */
-    $(this).on('click', '.btn-printer', function (event) {
-      Ticket = JSON.stringify(Ticket);
+    $(this).on('click', '.btn-printer', function(event) {
+      let ticket_list = $('#sales-list-modal li');
+      if (ticket_list.length > 2) {
+        Ticket = JSON.stringify(Ticket);
+        
+        $.ajax({
+          url: '/sales/new/',
+          type: 'POST',
+          data: {
+            'ticket': Ticket,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          traditional: true,
+          datatype: 'jsonp',
+          success: function(result){
+            swal({
+              title: "Éxito",
+              text: "Venta realizada",
+              type: "success",
+              timer: 1000,
+              showConfirmButton: false
+            });  
+            $('#btn-pago-efectivo').attr('disabled', 'true');
+            $('#btn-pago-tarjeta').attr('disabled', 'true');
+            setTimeout(rel, 1500);
+          },
+          error: function(result, jqXHR , textStatus, errorThrown){
+            swal({
+              title: "Venta no realizada!",
+              text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
+              type: "error",
+              timer: 4500,
+              showConfirmButton: false
+            });  
+            setTimeout(rel, 5000);
+          },
+        });
 
-      $.ajax({
-        url: '/sales/new/',
-        type: 'POST',
-        data: {
-          'ticket': Ticket,
-          csrfmiddlewaretoken: '{{ csrf_token }}',
-        },
-        traditional: true,
-        datatype: 'jsonp',
-        success: function(result){
-          swal({
-            title: "Éxito",
-            text: "Venta realizada",
-            type: "success",
-            timer: 1000,
-            showConfirmButton: false
-          });  
-          $('#btn-pago-efectivo').attr('disabled', 'true');
-          $('#btn-pago-tarjeta').attr('disabled', 'true');
-          setTimeout(rel, 1500);
-        },
-        error: function(result, jqXHR , textStatus, errorThrown){
-          swal({
-            title: "Venta no realizada!",
-            text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
-            type: "error",
-            timer: 4500,
-            showConfirmButton: false
-          });  
-          setTimeout(rel, 5000);
-        },
-      });
+        function rel(){
+          location.reload();          
+        }
 
-      function rel(){
-        location.reload();          
-      }
-      let options = { mode: 'iframe', popClose: true,};
-      $("#printer").printArea(options);
+        let options = { mode: 'iframe', popClose: true,};
+
+        $("#printer").printArea(options);
+      };
+
     });
 
     /** Cancelar Venta - Resetear ticket s*/
-    $(this).on('click', '#btn-orders-reset', function (event) {
+    $(this).on('click', '#btn-orders-reset', function(event) {
       swal({
         title: "Venta Cancelada!",
         type: "error",
-        timer: 1000,
+        timer: 700,
         showConfirmButton: false
       }); 
       $('#sales-list').empty();
