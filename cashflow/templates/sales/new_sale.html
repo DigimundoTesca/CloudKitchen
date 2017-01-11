@@ -112,13 +112,13 @@
           <div class="modal-header">
             <div class="container-fluid">
               <div class="card col-xs-4">
-                <span id="cart-1"></span>
+                <span id="modal-prod-head-1"></span>
               </div>
               <div class="card col-xs-4">
-                <span id="cart-2"></span>
+                <span id="modal-prod-head-2"></span>
               </div>
               <div class="card col-xs-4">
-                <span id="cart-3"></span>
+                <span id="modal-prod-head-3"></span>
               </div>
             </div>
           </div>
@@ -127,8 +127,8 @@
               <div class="card card-scroll col-xs-4 ">
                 {% for cartridge in cartridges %}
                 {% if cartridge.category == 'FD' %}
-                <div class="product-container" id="modal-prod-cont-1">
-                  <h5> {{ cartridge.name }} </h5>
+                <div class="modal-prod-container product-container" id="modal-prod-cont-1">
+                  <h5 class="modal-prod-name"> {{ cartridge.name }} </h5>
                   <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-1-{{ cartridge.pk }}" class="modal-product-img">
                 </div>
                 {% endif %}
@@ -137,8 +137,8 @@
               <div class="card card-scroll col-xs-4 ">
                 {% for cartridge in cartridges %}
                 {% if cartridge.category == 'CO' %}
-                <div class="product-container" id="modal-prod-cont-2">
-                  <h5> {{ cartridge.name }} </h5>
+                <div class="modal-prod-container product-container" id="modal-prod-cont-2">
+                  <h5 class="modal-prod-name"> {{ cartridge.name }} </h5>
                   <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-2-{{ cartridge.pk }}" class="modal-product-img">
                 </div>
                 {% endif %}
@@ -147,8 +147,8 @@
               <div class="card card-scroll col-xs-4 ">
                 {% for cartridge in cartridges %}
                 {% if cartridge.category == 'CO' %}
-                <div class="product-container" id="modal-prod-cont-3">
-                  <h5> {{ cartridge.name }} </h5>
+                <div class="modal-prod-container product-container" id="modal-prod-cont-3">
+                  <h5 class="modal-prod-name"> {{ cartridge.name }} </h5>
                   <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-3-{{ cartridge.pk }}" class="modal-product-img">
                 </div>
                 {% endif %}
@@ -355,11 +355,21 @@
       agregarProductoTicket();
     });
 
-    /** Elección de elementos para el dabba */
-    $(this).on('click', '.modal-product-img', function(event) {
-      console.log("FUNCIONA!");
+    /** Elección de elementos para crear el dabba */
+    $(this).on('click', '.modal-prod-container', function(event) {
+      let number_container = $(this).attr('id');
+      let product_name = $(this).children('.modal-prod-name').text();
 
-      /* Act on the event */
+      if (number_container.indexOf('1') != -1) {
+        $('#modal-prod-head-1').text(product_name);
+      }
+      else if (number_container.indexOf('2') != -1) {
+        $('#modal-prod-head-2').text(product_name);
+      }
+      else if (number_container.indexOf('3') != -1){
+        $('#modal-prod-head-3').text(product_name);
+      }
+      
     });
 
     $(this).on('click', '.remove-icon-li', function () {
