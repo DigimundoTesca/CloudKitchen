@@ -112,13 +112,13 @@
           <div class="modal-header">
             <div class="container-fluid">
               <div class="card col-xs-4">
-                <span id="modal-prod-head-1"></span>
+                <span id="modal-prod-head-1" class="modal-head-prod-name"></span>
               </div>
               <div class="card col-xs-4">
-                <span id="modal-prod-head-2"></span>
+                <span id="modal-prod-head-2" class="modal-head-prod-name"></span>
               </div>
               <div class="card col-xs-4">
-                <span id="modal-prod-head-3"></span>
+                <span id="modal-prod-head-3" class="modal-head-prod-name"></span>
               </div>
             </div>
           </div>
@@ -159,7 +159,7 @@
           <div class="modal-footer">
             <div class="container">
               <div class="row">
-                <button type="button" class="btn btn-secondary col-xs-3 push-xs-2" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary col-xs-3 push-xs-2" data-dismiss="modal" id="btn-close-dabba-modal">Close</button>
                 <button id="btn-add-dabba" data-dismiss="modal" type="button" class="btn btn-success col-xs-4 push-xs-3">¡Listo!</button>
               </div>
             </div>
@@ -241,9 +241,8 @@
       cartuchos: [],
       paquetes: [],
     }
-    /** Agrega un producto al ticket */
-    $(".product-img").click(function() {
-
+    /** Agrega un producto al carrito del ticket */
+    $(this).on('click', '.product-img', function(event) {
       var product_type = $(this).attr('id');
       var element = $(this)
 
@@ -369,34 +368,19 @@
       else if (number_container.indexOf('3') != -1){
         $('#modal-prod-head-3').text(product_name);
       }
-      
     });
 
-    $(this).on('click', '.remove-icon-li', function () {
+    $(this).on('click', '.remove-icon-li', function (event) {
     });
 
-    $(this).on('click', '.add-icon-li', function () {
+    $(this).on('click', '.add-icon-li', function (event) {
     });
-
-    /** Cancelar Venta - Resetear ticket s*/
-    $("#btn-orders-reset").click(function () {
-      swal({
-        title: "Venta Cancelada!",
-        type: "error",
-        timer: 1000,
-        showConfirmButton: false
-      }); 
-      $('#sales-list').empty();
-      $('#total-price').html("" +
-        "<span class='text-price align-top' id='int-total-price'>0</span>" +
-        "<span class='point-total-price'>.</span>" +
-        "<span class='text-price-decimal' id='dec-total-price'>00</span>"
-        );
+    /** Resetear los titulos del modal para la configuracion del dabba */
+    $(this).on('click', '#btn-close-dabba-modal', function (event) {
+      $('.modal-head-prod-name').empty();
     });
-
     /** Despliega el modal para realizar la venta */
-    $("#btn-order").click(function() {
-
+    $(this).on('click', '#btn-order', function (event) {
       function getActualTime() {
         var datetime = new Date();
         var hours = datetime.getHours();
@@ -477,11 +461,10 @@
         "</li>");
 
       $nuevo_li.appendTo('#sales-list-modal');
-
     });
 
     /** Realizar la venta e imprimir ticket */
-    $(this).on('click', '.btn-printer', function () {
+    $(this).on('click', '.btn-printer', function (event) {
       Ticket = JSON.stringify(Ticket);
 
       $.ajax({
@@ -524,7 +507,22 @@
       $("#printer").printArea(options);
     });
 
-
+    /** Cancelar Venta - Resetear ticket s*/
+    $(this).on('click', '#btn-orders-reset', function (event) {
+      swal({
+        title: "Venta Cancelada!",
+        type: "error",
+        timer: 1000,
+        showConfirmButton: false
+      }); 
+      $('#sales-list').empty();
+      $('#total-price').html("" +
+        "<span class='text-price align-top' id='int-total-price'>0</span>" +
+        "<span class='point-total-price'>.</span>" +
+        "<span class='text-price-decimal' id='dec-total-price'>00</span>"
+        );
+      $('.modal-head-prod-name').empty();
+    });
   });
 </script>
 {% endblock javascript %}
