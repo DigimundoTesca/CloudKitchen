@@ -242,10 +242,11 @@
       paquetes: [],
     }
 
-    function activate_btn_dabba() {
+    function activateDabbaButton() {
       header_1 = $('#modal-prod-head-1').is(':empty');
       header_2 = $('#modal-prod-head-2').is(':empty');
       header_3 = $('#modal-prod-head-3').is(':empty');
+
       if (header_1 == false && header_3 == false && header_3 == false) {
         $('#btn-add-dabba').attr('disabled', false);
       } else {
@@ -257,7 +258,7 @@
       var product_type = $(this).attr('id');
       var element = $(this)
 
-      function agregarProducto(id, cant, price) {
+      function addObjectProduct(id, cant, price) {
         if( id.indexOf('cartridge') >= 0 ){
           id = id.replace('cartridge-', '');
 
@@ -281,7 +282,7 @@
         }
       }
 
-      function agregarProductoTicket () {
+      function addTicketProduct () {
         let name = element.siblings('.product-name').text();
         let cost_base = parseFloat(element.siblings('.content-price').children('.product-cost').text());
         let cost = cost_base;
@@ -337,10 +338,10 @@
           "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
           );
 
-        agregarProducto(id, cant, cost);
+        addObjectProduct(id, cant, cost);
       }
 
-      agregarProductoTicket();
+      addTicketProduct();
     });
 
     /** Elección de elementos para crear el dabba */
@@ -358,7 +359,7 @@
         $('#modal-prod-head-3').text(product_name).fadeTo('slow', 1);
       }
 
-      activate_btn_dabba();
+      activateDabbaButton();
     });
 
     $(this).on('click', '.remove-icon-li', function(event) {
@@ -373,13 +374,15 @@
     });
 
     $(this).on('click', '#package-container', function(event) {
-
-      activate_btn_dabba();
+      activateDabbaButton();
     });
 
     /** Agrega el dabba manual al carrito del ticket */
     $(this).on('click', '#btn-add-dabba', function(event) {
-
+      header_1 = $('#modal-prod-head-1').text();
+      header_2 = $('#modal-prod-head-2').text();
+      header_3 = $('#modal-prod-head-3').text();
+      console.log(header_1);
     });
 
     /** Despliega el modal para realizar la venta */
@@ -466,7 +469,7 @@
 
       $nuevo_li.appendTo('#sales-list-modal');
 
-      function set_status_button(length) {
+      function setButtonStatus(length) {
         if (length <= 2) {
           $('.btn-printer').attr('disabled', true);
         } else {
@@ -475,7 +478,7 @@
       }
 
       var size_tickets = $('#sales-list-modal li').length;
-      set_status_button(size_tickets);
+      setButtonStatus(size_tickets);
     });
 
     /** Realizar la venta e imprimir ticket */
@@ -529,11 +532,11 @@
 
     /** Cancelar Venta - Resetear ticket s*/
     $(this).on('click', '#btn-orders-reset', function(event) {
-      function reset_ticket_object() {
+      function resetTicketObject() {
         Ticket.cartuchos.length = 0;
       }
 
-      function reset_ticket_list(){
+      function resetTicketList(){
         swal({
           title: "Venta Cancelada!",
           type: "error",
@@ -548,8 +551,8 @@
           );
         $('.modal-head-prod-name').empty();
       }
-      reset_ticket_list();
-      reset_ticket_object();
+      resetTicketList();
+      resetTicketObject();
       
     });
   });
