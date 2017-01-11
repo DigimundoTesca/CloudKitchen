@@ -268,28 +268,6 @@
             mi_cartucho.price = price;            
           }
         }
-
-        else {
-          id = id.replace('package-', '');
-
-          /** Itera la lista de paquetes */
-          function findIdPaquete(paquetes) { 
-            return paquetes.id == id;
-          }
-          if (!Ticket.paquetes.find(findIdPaquete)) { // Si no existe
-            nuevo_paquete = {}
-            nuevo_paquete.id = id;
-            nuevo_paquete.cant = cant;
-            nuevo_paquete.price = price;
-            Ticket.paquetes.push(nuevo_paquete);
-
-          } 
-          else { 
-            mi_paquete  = Ticket.paquetes.find(findIdPaquete);
-            mi_paquete.cant = cant;
-            mi_paquete.price = price;            
-          }
-        }
       }
 
       function agregarProductoTicket () {
@@ -382,6 +360,7 @@
     });
     /** Despliega el modal para realizar la venta */
     $(this).on('click', '#btn-order', function(event) {
+      console.log(Ticket);
 
       function getActualTime() {
         var datetime = new Date();
@@ -464,7 +443,6 @@
       $nuevo_li.appendTo('#sales-list-modal');
 
       function set_status_button(length) {
-        console.log(length);
         if (length <= 2) {
           $('.btn-printer').attr('disabled', true);
         } else {
@@ -523,7 +501,6 @@
 
         $("#printer").printArea(options);
       };
-
     });
 
     /** Cancelar Venta - Resetear ticket s*/
