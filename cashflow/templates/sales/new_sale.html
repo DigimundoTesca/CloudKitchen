@@ -505,19 +505,28 @@
 
     /** Cancelar Venta - Resetear ticket s*/
     $(this).on('click', '#btn-orders-reset', function(event) {
-      swal({
-        title: "Venta Cancelada!",
-        type: "error",
-        timer: 700,
-        showConfirmButton: false
-      }); 
-      $('#sales-list').empty();
-      $('#total-price').html("" +
-        "<span class='text-price align-top' id='int-total-price'>0</span>" +
-        "<span class='point-total-price'>.</span>" +
-        "<span class='text-price-decimal' id='dec-total-price'>00</span>"
-        );
-      $('.modal-head-prod-name').empty();
+      function reset_ticket_object() {
+        Ticket.cartuchos.length = 0;
+      }
+
+      function reset_ticket_list(){
+        swal({
+          title: "Venta Cancelada!",
+          type: "error",
+          timer: 700,
+          showConfirmButton: false
+        }); 
+        $('#sales-list').empty();
+        $('#total-price').html("" +
+          "<span class='text-price align-top' id='int-total-price'>0</span>" +
+          "<span class='point-total-price'>.</span>" +
+          "<span class='text-price-decimal' id='dec-total-price'>00</span>"
+          );
+        $('.modal-head-prod-name').empty();
+      }
+      reset_ticket_list();
+      reset_ticket_object();
+      
     });
   });
 </script>
