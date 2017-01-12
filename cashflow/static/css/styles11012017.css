@@ -534,14 +534,14 @@ small {
   text-transform: uppercase;
 }
 #printer ul li span.name-li-modal {
-  min-width: 35%;
-  max-width: 35%;
+  min-width: 50%;
+  max-width: 50%;
   white-space: nowrap;
   overflow:hidden;
 }
 #printer ul li span.cost-li-modal,
 #printer ul li span.total-li-modal {
- min-width: 25%;
+ min-width: 22.5%;
  max-width: 25%;
  text-align: right;
 } 
@@ -553,8 +553,8 @@ small {
 #printer ul li span.name-li-title-modal {
   /*font-family: 'Dosis-SemiBold';*/
   font-family: 'Dosis-Bold';
-  min-width: 35%;
-  max-width: 35%;
+  min-width: 50%;
+  max-width: 50%;
 }
 #printer ul li span.cost-li-title-modal,
 #printer ul li span.total-li-title-modal {  
@@ -568,8 +568,8 @@ small {
   /*font-family: 'Dosis-SemiBold';*/
   font-family: 'Dosis-Bold';
   text-align: center;
-  min-width: 15%;
-  max-width: 15%;
+  min-width: 12%;
+  max-width: 12%;
 }
 #printer ul li.total-ticket-container{
   justify-content: flex-end;  
