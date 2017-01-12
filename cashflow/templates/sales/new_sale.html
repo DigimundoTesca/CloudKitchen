@@ -203,7 +203,7 @@
                   <ul class="list-group list-group-flush" id="sales-list-modal">
                   </ul>
                   <div class="ticket-celphone">
-                  <br>
+                    <br>
                     Whatsapp: 55 42 46 73 60
                   </div>
                 </div>
@@ -241,6 +241,10 @@
     let Ticket = {
       cartuchos: [],
       paquetes: [],
+    }
+
+    let DabbaProduct = {
+      id: [],
     }
 
     function activateDabbaButton() {
@@ -349,17 +353,20 @@
     $(this).on('click', '.modal-prod-container', function(event) {
       let number_container = $(this).attr('id');
       let product_name = $(this).children('.modal-prod-name').text();
+      let id_product = $(this).find('img').attr('id');
 
       if (number_container.indexOf('1') != -1) {
+        DabbaProduct.id[0] = id_product.substring(12, 13);
         $('#modal-prod-head-1').text(product_name).fadeTo('slow', 1);
       }
       else if (number_container.indexOf('2') != -1) {
+        DabbaProduct.id[1] = id_product.substring(12, 13);
         $('#modal-prod-head-2').text(product_name).fadeTo('slow', 1);
       }
       else if (number_container.indexOf('3') != -1){
+        DabbaProduct.id[2] = id_product.substring(12, 13);
         $('#modal-prod-head-3').text(product_name).fadeTo('slow', 1);
       }
-
       activateDabbaButton();
     });
 
@@ -384,7 +391,21 @@
       var product_type = $(this).attr('id');
       var element = $(this)
 
-      function addProductToJSON (id_list, quantity, price) {
+      function addProductToJSON (id_list, name, quantity, price) {
+
+        new_package = {}
+        new_package.id_list = []
+        new_package.quantity = quantity;
+        new_package.price = price;
+        new_package.name = name;
+        Ticket.paquetes.push(new_package);
+
+        id_list.forEach(function(element) {
+          new_package.id_list.push(element)
+        });
+
+        $('.modal-head-prod-name').empty();
+        DabbaProduct.id.length = 0;
 
       }
 
@@ -409,12 +430,11 @@
 
         dabba_name_list_string = 'Dabba [ ' + dabba_name_list_string + ']';
 
-        let name = element.siblings('.product-name').text();
         let cost_base = 50.00;
         let cost_base_decimal = cost_base.toFixed(2);
         let cost = cost_base.toFixed(2);
         let id = element.parent().attr('id');
-        let li_id = ('li-' + id).toString();
+        let li_id = DabbaProduct.id;
         let cant = 1;
         let total = 0;
 
@@ -444,7 +464,8 @@
           "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
           );
 
-        addProductToJSON(id, cant, cost);
+
+        addProductToJSON(li_id, dabba_name_list_string, cant, cost);
 
       }
 
@@ -595,10 +616,12 @@
       };
     });
 
-    /** Cancelar Venta - Resetear ticket s*/
+    /** Cancelar Venta - Resetear ticket */
     $(this).on('click', '#btn-orders-reset', function(event) {
       function resetTicketObject() {
         Ticket.cartuchos.length = 0;
+        Ticket.paquetes.length = 0;
+        DabbaProduct.id.length = 0;
       }
 
       function resetTicketList(){
