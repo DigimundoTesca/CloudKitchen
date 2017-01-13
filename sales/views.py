@@ -6,7 +6,7 @@ from django.shortcuts import render
 
 from branchoffices.models import CashRegister
 from cashflow.settings.base import PAGE_TITLE
-from products.models import Cartridge, PackageCartridge
+from products.models import Cartridge, PackageCartridge, PackageCartridgeRecipe
 from sales.models import Ticket, TicketDetail
 from users.models import User as UserProfile
 
@@ -119,31 +119,110 @@ def get_sales_day_view(request):
 def new_sale(request):
     if request.method == 'POST':
         username = request.user
-        user_profile = UserProfile.objects.get(username=username)
+        user_profile_object = UserProfile.objects.get(username=username)
         cash_register = CashRegister.objects.first()
-        new_ticket = Ticket(cash_register=cash_register, seller=user_profile, )
-        new_ticket.save()
+        new_ticket_object = Ticket(cash_register=cash_register, seller=user_profile_object, )
+        new_ticket_object.save()
         ticket_detail_json_object = json.loads(request.POST.get('ticket'))
 
-        # save the tickets details for cartridges
+        """
+        Saves the tickets details for cartridges
+        """
         for ticket_detail in ticket_detail_json_object['cartuchos']:
-            cartridge = Cartridge.objects.get(id=ticket_detail['id'])
+            cartridge_object = Cartridge.objects.get(id=ticket_detail['id'])
             quantity = ticket_detail['cant']
             price = ticket_detail['price']
-            new_ticket_detail = TicketDetail(ticket=new_ticket, cartridge=cartridge, quantity=quantity, price=price)
-            new_ticket_detail.save()
+            new_ticket_detail_object = TicketDetail(
+                ticket=new_ticket_object,
+                cartridge=cartridge_object,
+                quantity=quantity,
+                price=price
+            )
+            new_ticket_detail_object.save()
 
-        # save the tickets details for package cartridges
+        """
+        Saves the tickets details for package cartridges
+        """
         for ticket_detail in ticket_detail_json_object['paquetes']:
-            package_cartridge = PackageCartridge.objects.get(id=ticket_detail['id'])
-            quantity = ticket_detail['cant']
+            quantity = ticket_detail['quantity']
             price = ticket_detail['price']
-            new_ticket_detail = TicketDetail(ticket=new_ticket, package_cartridge=package_cartridge, quantity=quantity,
-                                             price=price)
-            new_ticket_detail.save()
+
+            packages_lists = []
+            package_list = []
+            index_packages_lists = 0
+            package_id = None
+            new_package = True
+
+            """
+            Gets the packages that already have the chosen products
+            """
+            for id_cartridge in ticket_detail['id_list']:
+                packages_recipe = PackageCartridgeRecipe.objects.filter(cartridge=id_cartridge)
+                packages_lists.append([])
+
+                for package_recipe in packages_recipe:
+                    packages_lists[index_packages_lists].append(package_recipe.package_cartridge.id)
+
+                index_packages_lists += 1
+
+            for element in packages_lists:
+                package_list += element
+
+            """
+            Validates if it's a new package
+            """
+            print('LISTA', packages_lists)
+            for x in package_list:
+                if package_list.count(x) >= 3:
+                    package_id = x
+                    new_package = False
+                    break
+            print('ES NUEVO? :v :', new_package)
+
+            if new_package:
+                package_name = ticket_detail['name']
+                package_price = ticket_detail['price']
+                new_package_object = PackageCartridge(name=package_name, price=package_price, package_active=True)
+                new_package_object.save()
+
+                """
+                Creates a new package
+                """
+                for id_cartridge in ticket_detail['id_list']:
+                    cartridge_object = Cartridge.objects.get(id=id_cartridge)
+                    new_package_recipe_object = PackageCartridgeRecipe(
+                        package_cartridge=new_package_object,
+                        cartridge=cartridge_object,
+                        quantity=1
+                    )
+                    new_package_recipe_object.save()
+
+                """
+                Creates the ticket detail
+                """
+                new_ticket_detail_object = TicketDetail(
+                    ticket=new_ticket_object,
+                    package_cartridge=new_package_object,
+                    quantity=quantity,
+                    price=price
+                )
+                new_ticket_detail_object.save()
+
+            else:
+                """
+                Uses an existent package
+                """
+                package_object = PackageCartridge.objects.get(id=package_id)
+                new_ticket_detail_object = TicketDetail(
+                    ticket=new_ticket_object,
+                    package_cartridge=package_object,
+                    quantity=quantity,
+                    price=price,
+                )
+                new_ticket_detail_object.save()
 
         data = {
-            'status': 'listo'
+            'status': 'ready'
         }
         return JsonResponse(data)
 

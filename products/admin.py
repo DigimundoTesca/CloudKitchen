@@ -45,6 +45,11 @@ class AdminPackageCartridge(admin.ModelAdmin):
     inlines = [PackageCartridgeRecipeInline]
 
 
+@admin.register(PackageCartridgeRecipe)
+class AdminTicket(admin.ModelAdmin):
+    list_display = ['package_cartridge', 'cartridge', 'quantity']
+
+
 @admin.register(ProcessedCartridge)
 class AdminProcessedCartridge(admin.ModelAdmin):
     list_display = ('name', 'status', 'cartridge_parent', 'package_cartridge_parent', 'created_at')
