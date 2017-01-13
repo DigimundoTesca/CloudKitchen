@@ -412,17 +412,19 @@
       function addProductToTicket () {
         dabba_name_list = [];
         dabba_name_list_string = "";
+        dabba_name_string = "";
 
         header_1 = $('#modal-prod-head-1').text().trim();
         header_2 = $('#modal-prod-head-2').text().trim();
         header_3 = $('#modal-prod-head-3').text().trim();
+
+        dabba_name_string += header_1 + ' ' + header_2 + ' ' + header_3;
 
         dabba_name_list.push(header_1.split(' ', 1));
         dabba_name_list.push(header_2.split(' ', 1));
         dabba_name_list.push(header_3.split(' ', 1));
 
         dabba_name_list.forEach( function(dabba_name) {
-
           dabba_name.forEach( function(word) {
             dabba_name_list_string += word.substring(0, 3) + ' ';
           });
@@ -465,7 +467,7 @@
           );
 
 
-        addProductToJSON(li_id, dabba_name_list_string, cant, cost);
+        addProductToJSON(li_id, dabba_name_string, cant, cost);
 
       }
 
