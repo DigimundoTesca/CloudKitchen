@@ -371,6 +371,49 @@
     });
 
     $(this).on('click', '.remove-icon-li', function(event) {
+      let element = $(this);
+      console.log(element);
+
+      let quantity_product = element.siblings('.cant-li').text();
+      let cost_base_product = element.siblings('.cost-base-li').text();
+      let total_product = element.siblings('.total-li').text();
+      let total_ticket = 0;
+      let id_product = element.parent().attr('id').substring(13);
+      console.log(id_product);
+
+      /** Refresh total ticket. Removes the product from the tiket list*/
+      if (quantity_product == 1) {
+        element.parent().remove();
+
+        /** Modificacion del total general */
+        $('ul li').find('.total-li').each(function(){
+          re = $(this).text()
+          total_ticket += parseFloat(re)
+        });
+
+        var arreglo = total_ticket.toFixed(2).split('.')
+
+        $('#total-price').html("" +
+          "<span class='text-price align-top' id='int-total-price'>" + arreglo[0] +"</span>" +
+          "<span class='point-total-price'>.</span>" +
+          "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
+          );
+      } else {
+
+        $('ul li').find('.total-li').each(function(){
+          re = $(this).text()
+          total_ticket += parseFloat(re)
+        });
+
+        var arreglo = total_ticket.toFixed(2).split('.')
+
+        $('#total-price').html("" +
+          "<span class='text-price align-top' id='int-total-price'>" + arreglo[0] +"</span>" +
+          "<span class='point-total-price'>.</span>" +
+          "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
+          );
+      }
+
     });
 
     $(this).on('click', '.add-icon-li', function(event) {
