@@ -10,16 +10,18 @@
         <th>Coreo</th>
         <th>Teléfono celular</th>
         <th>Dirección</th>
+        <th>Primer Dabba</th>
       </tr>
     </thead>
     <tbody>
       {% for customer in customers  %}        
       <tr>
         <th scope="row">{{ customer.id }}</th>
-        <td>{{ customer.username }}</td>
+        <td>{{ customer.user }}</td>
         <td>{{ customer.email }}</td>
         <td>{{ customer.phone_number }}</td>
         <td>{{ customer.address }}</td>
+        <td>{{ customer.first_dabba }}</td>
       </tr>
       {% endfor %}
     </tbody>
