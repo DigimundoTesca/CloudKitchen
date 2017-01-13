@@ -98,6 +98,7 @@
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 {% block javascript %}
@@ -106,7 +107,6 @@
 <script src="{% static 'js/sweetalert.min.js' %}" charset="utf-8"></script>
 
 <script type="text/javascript">
-
   var map = null;
   var infoWindow = null;
   var marker = null;
@@ -233,6 +233,12 @@
   }
   $(function() {
     initialize();
+    swal({
+      title: "+52 1 55 42 46 73 60",
+      text: "Estamos en Mantenimiento!. Péro aún puedes pedir tu primer dabba gratis en whatsapp",
+      type: "warning",
+      showConfirmButton: true
+    }); 
   });
 </script>
 {% endblock %}
