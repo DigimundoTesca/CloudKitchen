@@ -3,20 +3,21 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
+
 urlpatterns = [
-    url(r'^dabba-admin/', admin.site.urls),
-    url(r'^', include('supplies.urls')),
+    url(r'^admin/', admin.site.urls),
     url(r'^', include('users.urls')),
-    url(r'^', include('customers.urls')),
+    url(r'^', include('branchoffices.urls')),
+    url(r'^', include('products.urls')),
+    url(r'^', include('sales.urls')),
+    url(r'^', include('orders.urls')),
 ]
+
+admin.site.site_header = 'Dabbanet'
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 urlpatterns += [
     # API Endpoints
     url(r'^api/', include('api.urls', namespace='api')),
-
-    # FCM url
-    url(r'fcm/', include('fcm.urls')),
-
 ]

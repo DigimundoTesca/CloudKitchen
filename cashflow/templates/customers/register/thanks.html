@@ -3,7 +3,8 @@
 {% block alert %}
 <script type="text/javascript" charset="utf-8">
 	function rel(){
-		        window.location.href = '/register'; 
+		        window.location.href = "{% url 'users:new_customer' %}";
+
 	}
 	function showAlert() {
 		swal({

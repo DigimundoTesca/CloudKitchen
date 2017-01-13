@@ -112,14 +112,18 @@ ENV/
 .ropeproject
 
 cashflow/__pycache__/
-supplies/__pycache__/
-supplies/migrations/*
-!supplies/migrations/__init__.py
+products/__pycache__/
+products/migrations/*
+!products/migrations/__init__.py
 users/migrations/*
 !users/migrations/__init__.py
-customers/migrations/*
-!customers/migrations/__init__.py
+branchoffices/migrations/*
+!branchoffices/migrations/__init__.py
+sales/migrations/*
+!sales/migrations/__init__.py
+orders/migrations/*
+!orders/migrations/__init__.py
 staticfiles/
 #Database
-##db.sqlite3
+db.sqlite3
 media/

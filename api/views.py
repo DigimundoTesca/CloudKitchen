@@ -1,11 +1,8 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
-from rest_framework.response import Response
-from rest_framework.decorators import detail_route
 
-from api.serializers import CustomerOrderSerializer, CustomerOrderDetailSerializer, CustomerOrderStatusSerializer, \
-    CustomerOrderScoreSerializer, CustomerOrderPinSerializer
-from customers.models import CustomerOrder, CustomerOrderDetail
+from api.serializers import CustomerOrderSerializer, CustomerOrderStatusSerializer, CustomerOrderScoreSerializer, \
+    CustomerOrderPinSerializer
+from orders.models import CustomerOrder
 
 
 class CustomerOrderViewSet(viewsets.ModelViewSet):

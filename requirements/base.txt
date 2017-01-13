@@ -1,6 +1,0 @@
-Django==1.10
-django-fcm==0.1.1
-djangorestframework==3.5.3
-Pillow==3.4.2
-pytz==2016.10
-requests==2.12.3

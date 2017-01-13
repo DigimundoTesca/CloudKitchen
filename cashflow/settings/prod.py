@@ -2,7 +2,8 @@ from cashflow.settings.base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['dabbanet.dabbawala.com.mx', 'dabbawala.com.mx']
+ALLOWED_HOSTS = ['*']
+TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 
 # Database
 DATABASES = {
@@ -16,6 +17,3 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = 'staticfiles'
-
-MEDIA_URL = '/'

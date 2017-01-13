@@ -1,10 +1,19 @@
-# -*- encoding: utf-8 -*-
-from __future__ import unicode_literals
 from django import forms
-from django.contrib.auth.models import User
+
+from users.models import User as UserProfile, CustomerProfile
 
 
 class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
     class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email')
+        model = UserProfile
+        fields = ['username', 'email', 'password', 'is_active']
+
+
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomerProfile
+        fields = ['user', 'longitude', 'latitude', 'address', 'first_dabba']
+
+

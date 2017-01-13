@@ -1,30 +1,19 @@
 from django.contrib import admin
 
-from users.models import UserProfile, UserRol, CashRegister, BranchOffice, Supplier
+from users.models import User as UserProfile, Rol, CustomerProfile
 
 
 class UserProfileAdmin(admin.ModelAdmin):
     pass
 
 
-class UserRolAdmin(admin.ModelAdmin):
+class RolAdmin(admin.ModelAdmin):
     pass
 
+
+@admin.register(CustomerProfile)
+class CustomerProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'address', 'latitude', 'longitude')
+
 admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(UserRol, UserRolAdmin)
-
-
-class CashRegisterInline(admin.StackedInline):
-    model = CashRegister
-    extra = 2
-
-
-@admin.register(BranchOffice)
-class AdminBranchOffice(admin.ModelAdmin):
-    list_display = ('name', 'manager', 'address',)
-    inlines = [CashRegisterInline, ]
-
-
-@admin.register(Supplier)
-class AdminProvider(admin.ModelAdmin):
-    list_display = ('name', 'image',)
+admin.site.register(Rol, RolAdmin)
