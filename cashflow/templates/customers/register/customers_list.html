@@ -1,11 +1,15 @@
 {% extends "base/base_nav_footer.html" %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/sweetalert.css' %}">
+{% endblock link %}
 
 {% block content %}
 <div class="container-fluid">
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>#</th>
         <th>Nombre de usuario</th>
         <th>Coreo</th>
         <th>Teléfono celular</th>
@@ -16,17 +20,101 @@
     <tbody>
       {% for customer in customers  %}        
       <tr>
-        <th scope="row">{{ customer.id }}</th>
-        <td>{{ customer.user }}</td>
+        <th class="customer_user" scope="row">{{ customer.user }}</th>
         <td>{{ customer.email }}</td>
         <td>{{ customer.phone_number }}</td>
         <td>{{ customer.address }}</td>
-        <td>{{ customer.first_dabba }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-    
-  </table>
+        <td>
+          <div class="container-fluid">
+            <button 
+            {% if customer.first_dabba %}
+            disabled
+            {% endif %}
+            {% if customer.first_dabba %}
+            class="btn btn-info col-xs-12 btn-gift"> Dabba entregado 
+            {% else %} 
+            class="btn btn-success col-xs-12 btn-gift"> Activar Regalo 
+            {% endif %} 
+          </button>
+          <span class="hidden-xs-up">{{ customer.id }}</span>
+        </div>
+      </td>
+    </div>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
 </div>
 
-{% endblock content %}
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/sweetalert.min.js' %}"></script>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $(this).on('click', '.btn-gift', function(event) {
+      let element = $(this);
+      let id = element.siblings('span').text();
+      let name = element.parent().parent().siblings('.customer_user').text();
+
+      let CustomerProfile = {
+        id: id,
+      }
+
+      swal({
+        title: "Confirmación de regalo",
+        text: "¿Otorgar regalo a " + name + "?",
+        type: "info",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true, 
+      }, function() {
+        save_change();
+      });
+
+      function rel(){
+        location.reload();          
+      }
+
+      function save_change () {
+        JSONCustomer = JSON.stringify(CustomerProfile);
+        $.ajax({
+          url: "{% url 'users:customers_list' %}",
+          type: 'POST',
+          data: {
+            'customer': JSONCustomer,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          traditional: true,
+          datatype: 'jsonp',
+          success: function(result){
+            swal({
+              title: "Éxito",
+              text: "Regalo Otorgado a " + name + '!',
+              type: "success",
+              timer: 1500,
+              showConfirmButton: false
+            });  
+            $('#btn-pago-efectivo').attr('disabled', 'true');
+            $('#btn-pago-tarjeta').attr('disabled', 'true');
+            setTimeout(rel, 1500);
+            return true;
+          },
+          error: function(result, jqXHR , textStatus, errorThrown){
+            swal({
+              title: "Venta no realizada!",
+              text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
+              type: "error",
+              timer: 4500,
+              showConfirmButton: false
+            });  
+            setTimeout(rel, 5000);
+            return false;
+          },
+        });
+      }
+    });
+  });
+</script>
+{% endblock %}

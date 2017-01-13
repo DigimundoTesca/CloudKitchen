@@ -1,4 +1,7 @@
+import json
+
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate
@@ -136,8 +139,19 @@ def thanks(request):
 
 @login_required(login_url='users:login')
 def customers_list(request):
+    if request.method == 'POST':
+        customer_json_object = json.loads(request.POST.get('customer'))
+
+        customer_object = CustomerProfile.objects.get(id=customer_json_object['id'])
+        customer_object.first_dabba = True
+        customer_object.save()
+        data = {
+            'status': 'ready'
+        }
+        return JsonResponse(data)
+
     template = 'customers/register/customers_list.html'
-    customers = CustomerProfile.objects.all()
+    customers = CustomerProfile.objects.all().order_by('first_dabba')
     title = 'Clientes registrados'
 
     context = {
