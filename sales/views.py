@@ -171,13 +171,19 @@ def new_sale(request):
             """
             Validates if it's a new package
             """
-            print('LISTA', packages_lists)
-            for x in package_list:
-                if package_list.count(x) >= 3:
-                    package_id = x
-                    new_package = False
-                    break
-            print('ES NUEVO? :v :', new_package)
+            list_1 = packages_lists[0]
+            list_2 = packages_lists[1]
+            list_3 = packages_lists[2]
+
+            for x in list_1:
+                if new_package:
+                    for y in list_2:
+                        if x == y:
+                            for z in list_3:
+                                if x == y == z:
+                                    new_package = False
+                                    package_id = x
+                                    break
 
             if new_package:
                 package_name = ticket_detail['name']
