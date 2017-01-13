@@ -3,9 +3,8 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
-
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^dabba-admin/', admin.site.urls),
     url(r'^', include('users.urls')),
     url(r'^', include('branchoffices.urls')),
     url(r'^', include('products.urls')),
