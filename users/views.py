@@ -95,20 +95,17 @@ def logout(request):
 
 # -------------------------------------  Customers -------------------------------------
 def new_customer(request):
+    form_customer = CustomerProfileForm(request.POST or None)
     if request.method == 'POST':
-        form_customer = CustomerProfileForm(request.POST, request.FILES)
         if form_customer.is_valid():
             customer = form_customer.save(commit=False)
             customer.save()
             return redirect('users:thanks')
-    else:
-        form_customer = CustomerProfileForm()
+        print('no es valido')
 
     template = 'customers/register/new_customer.html'
     title = 'Dabbawala - Registro de clientes'
-    form_user = UserForm()
     context = {
-        'form_user': form_user,
         'form_customer': form_customer,
         'title': title,
     }
