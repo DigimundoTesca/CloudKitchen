@@ -57,6 +57,7 @@ def login(request):
     error_message = None
     success_message = None
     template = 'auth/login.html'
+    tab = 'login'
 
     form_user = UserForm(request.POST or None)
 
@@ -67,6 +68,8 @@ def login(request):
                 new_user.set_password(form_user.cleaned_data['password'])
                 new_user.save()
                 success_message = 'Usuario creado. Necesita ser activado por un administrador'
+                form_user = UserForm(None)
+            tab = 'register'
 
         elif 'form-login' in request.POST:
             form_user = UserForm(None)
@@ -82,6 +85,7 @@ def login(request):
                 error_message = 'Usuario o contraseña incorrecto'
 
     context = {
+        'tab': tab,
         'page_title': PAGE_TITLE,
         'error_message': error_message,
         'success_message': success_message,
