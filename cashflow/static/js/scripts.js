@@ -14,4 +14,7 @@ $(function() {
 	else if (path == '/cartridges/' || path == '/cartridges/new/') {
 		$('#link-cartridges').addClass('active');
 	}
+	else if (path == '/customers/register/list/') {
+		$('#link-customers').addClass('active');
+	}
 });
