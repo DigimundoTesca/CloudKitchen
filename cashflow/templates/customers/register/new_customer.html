@@ -25,10 +25,10 @@
             <div class="form-group">
               <label for="id_name" class="sr-only">Nombre de usuario.</label>
               <small id="id_name_help" class="form-text text-muted">Nombre con el que te identificaremos. Campo Obligatorio.</small>
-              <input type="text" class="form-control" id="id_name" name="username" placeholder="Nombre de usuario (Nickname)" maxlength="30" value="{{ form_user.username.value }}" required autofocus onkeypress="return pulsar(event)" >
-              {%  if form.username.errors %}
+              <input type="text" class="form-control" id="id_name" name="{{ form_customer.user.name }}" placeholder="Nombre de usuario (Nickname)" maxlength="30" value="{% if form_customer.user.value == None %}{% else %}{{ form_customer.user.value }}{% endif %}" required autofocus onkeypress="return pulsar(event)" >
+              {%  if form_customer.user.errors %}
               <div class="has-danger">
-                {%  for error in form.username.errors %}
+                {%  for error in form_customer.user.errors %}
                 <small class="form-control-feedback">
                   {{ error|escape }}
                 </small>
@@ -39,10 +39,10 @@
             <div class="form-group">
               <label for="id_email" class="sr-only">Correo</label>
               <small id="id_email_help" class="form-text text-muted">Campo Obligatorio</small>
-              <input type="email" class="form-control" id="id_email" name="email" placeholder="Correo" maxlength="255" value="{{ form_user.email.value }}" required onkeypress="return pulsar(event)" >
-              {%  if form.email.errors %}
+              <input type="email" class="form-control" id="id_email" name="{{ form_customer.email.name }}" placeholder="Correo" maxlength="255" value="{% if  form_customer.email.value == None %}{% else %}{{ form_customer.email.value }}{% endif %}" required onkeypress="return pulsar(event)" >
+              {%  if form_customer.email.errors %}
               <div class="has-danger">
-                {%  for error in form.email.errors %}
+                {%  for error in form_customer.email.errors %}
                 <small class="form-control-feedback">{{ error|escape }}
                 </small>
                 {% endfor %}
@@ -52,29 +52,37 @@
             <div class="form-group">
               <label for="id_phone_number" class="sr-only">Teléfono celular</label>
               <small id="id_phone_number_help" class="form-text text-muted">Campo Obligatorio</small>
-              <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Número con Whatsapp" maxlength="10" value="{{ form.phone_number.value }}" required onkeypress="return pulsar(event)" >
-              {%  if form.phone_number.errors %}
+              <input type="text" class="form-control" id="id_phone_number" name="{{ form_customer.phone_number.name }}" placeholder="Número con WhatsApp" maxlength="10" value="{% if  form_customer.phone_number.value == None %}{% else %}{{ form_customer.phone_number.value }}{% endif %}" required onkeypress="return pulsar(event)" >
+              {%  if form_customer.phone_number.errors %}
               <div class="has-danger">
-                {%  for error in form.phone_number.errors %}
+                {%  for error in form_customer.phone_number.errors %}
                 <small class="form-control-feedback">{{ error|escape }}
                 </small>
                 {% endfor %}
               </div>
               {% endif %}
             </div>
-            <input type="hidden" class="form-control " id="id_longitude" name="longitude" value="{{ form.longitude.value }}">
-            <input type="hidden" class="form-control" id="id_latitude" name="latitude" value="{{ form.latitude.value }}">
+            <input type="hidden" class="form-control " id="id_longitude" name="longitude" value="{{ form_customer.longitude.value }}">
+            <input type="hidden" class="form-control" id="id_latitude" name="latitude" value="{{ form_customer.latitude.value }}">
             <div class="form-group row">
               <div class="col-xs-12">
                 <small id="id_address_help" class="form-text text-muted"></small>
               </div>
               <div class="col-xs-12">
                 <div class="input-group">
-                  <input type="text" class="form-control" id="id_address" name="address" placeholder="Busca tu dirección" maxlength="255" onkeypress="return search(event)" >  
+                  <input type="text" class="form-control" id="id_address" name="address" placeholder="Busca tu dirección" maxlength="255" onkeypress="return search(event)" required="">  
                   <span class="input-group-btn" id="icon-search">
                     <button class="btn btn-primary" type="button" id="btn-search"><i class="material-icons">search</i></button>
                   </span>
                 </div>
+                {%  if form_customer.address.errors %}
+                <div class="has-danger">
+                  {%  for error in form_customer.address.errors %}
+                  <small class="form-control-feedback">{{ error|escape }}
+                  </small>
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
             <div id="container-msj-alert" class="form-group container-hidden">
@@ -98,6 +106,7 @@
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 {% block javascript %}
@@ -106,7 +115,6 @@
 <script src="{% static 'js/sweetalert.min.js' %}" charset="utf-8"></script>
 
 <script type="text/javascript">
-
   var map = null;
   var infoWindow = null;
   var marker = null;
@@ -233,6 +241,12 @@
   }
   $(function() {
     initialize();
+    // swal({
+    //   title: "+52 1 55 42 46 73 60",
+    //   text: "Estamos en Mantenimiento!. Péro aún puedes pedir tu primer dabba gratis en whatsapp",
+    //   type: "warning",
+    //   showConfirmButton: true
+    // }); 
   });
 </script>
 {% endblock %}

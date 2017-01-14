@@ -619,7 +619,7 @@
         JSONTicket = JSON.stringify(Ticket);
 
         $.ajax({
-          url: '/sales/new/',
+          url: '{% url "sales:new_sale" %}',
           type: 'POST',
           data: {
             'ticket': JSONTicket,

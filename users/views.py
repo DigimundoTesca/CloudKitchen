@@ -1,4 +1,7 @@
+import json
+
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate
@@ -95,20 +98,17 @@ def logout(request):
 
 # -------------------------------------  Customers -------------------------------------
 def new_customer(request):
+    form_customer = CustomerProfileForm(request.POST or None)
     if request.method == 'POST':
-        form_customer = CustomerProfileForm(request.POST, request.FILES)
         if form_customer.is_valid():
             customer = form_customer.save(commit=False)
             customer.save()
             return redirect('users:thanks')
-    else:
-        form_customer = CustomerProfileForm()
+        print('no es valido')
 
     template = 'customers/register/new_customer.html'
     title = 'Dabbawala - Registro de clientes'
-    form_user = UserForm()
     context = {
-        'form_user': form_user,
         'form_customer': form_customer,
         'title': title,
     }
@@ -139,8 +139,19 @@ def thanks(request):
 
 @login_required(login_url='users:login')
 def customers_list(request):
+    if request.method == 'POST':
+        customer_json_object = json.loads(request.POST.get('customer'))
+
+        customer_object = CustomerProfile.objects.get(id=customer_json_object['id'])
+        customer_object.first_dabba = True
+        customer_object.save()
+        data = {
+            'status': 'ready'
+        }
+        return JsonResponse(data)
+
     template = 'customers/register/customers_list.html'
-    customers = CustomerProfile.objects.all()
+    customers = CustomerProfile.objects.all().order_by('first_dabba')
     title = 'Clientes registrados'
 
     context = {
