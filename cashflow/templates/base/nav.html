@@ -15,6 +15,12 @@
 				<a class="nav-link" href="{% url 'products:cartridges' %}">Productos</a>
 			</li>
 			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clientes</a>
+				<div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+					<a class="dropdown-item" href="{% url 'users:customers_list' %}">Clientes Registrados</a>
+				</div>
+			</li>
+			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
 				<div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
 					<a class="dropdown-item" href="{% url 'users:logout' %}">Cerrar sesión</a>
