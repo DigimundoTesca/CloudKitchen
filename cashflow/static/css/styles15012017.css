@@ -585,3 +585,9 @@ small {
   font-size: 0.7rem;
 }
 
+@media (min-width: 1024px) { 
+  .container-new-customers table {
+    display: table;
+    width: 100%;
+  }
+}
