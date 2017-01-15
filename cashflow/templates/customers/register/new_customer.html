@@ -156,121 +156,91 @@
   }
 
   function initMap() {
-    // var LatLng = new google.maps.LatLng(19.5228008,-99.2291418);
-    // var optionsMap = {
-    //   zoom: 15,
-    //   center: LatLng,
-    //   mapTypeId: google.maps.MapTypeId.ROADMAP,
-    // }
-
-    // infoWindow = new google.maps.InfoWindow({map:map});
-
-    // drawMap(optionsMap);
-
-    // marker = new google.maps.Marker({
-    //   animation: google.maps.Animation.DROP,
-    //   draggable: true,
-    //   map: map,
-    //   position: LatLng,
-    // });
-
-    // addMarkerLsteners(marker);
-    // openInfoWindow(marker);
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 6
-    });
-    var infoWindow = new google.maps.InfoWindow({map: map});
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
-        map.setCenter(pos);
-      }, function() {
-        handleLocationError(true, infoWindow, map.getCenter());
-      });
-    } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-  }
-}
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-    'Error: The Geolocation service failed.' :
-    'Error: Your browser doesn\'t support geolocation.');
-}
-
-$('#btn-search').on('click', function() {
-  var address = $('#id_address').val();
-  var geocoder = new google.maps.Geocoder();
-  geocoder.geocode({'address': address}, geocodeResult);
-});
-
-function pulsar(e) {
-  tecla = (document.all) ? e.keyCode :e.which;
-  return (tecla!=13);
-}
-
-function search(e) {
-  var code = (e.keyCode ? e.keyCode : e.which);
-  if(code == 13) { 
-    var address = $('#id_address').val();
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'address': address}, geocodeResult);
-  }
-
-  return (code!=13);
-}
-
-function geocodeResult(results, status) {
-  if (status == 'OK') {
-    var address = results[0].formatted_address;
-    setAddressValue(address);
-
+    var LatLng = new google.maps.LatLng(19.5228008,-99.2291418);
     var optionsMap = {
       zoom: 15,
+      center: LatLng,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
     }
 
+    infoWindow = new google.maps.InfoWindow();
+
     drawMap(optionsMap);
-    map.fitBounds(results[0].geometry.viewport);
 
-    var markerOptions = { 
-      position: results[0].geometry.location,
-      draggable: true, 
+    marker = new google.maps.Marker({
       animation: google.maps.Animation.DROP,
-    }
-
-    marker = new google.maps.Marker(markerOptions);
-    marker.setMap(map);
-
-    var latitude = marker.position.lat();
-    var longitude = marker.position.lng();
-
-    setLatLng(latitude, longitude);
-
+      draggable: true,
+      map: map,
+      position: LatLng,
+    });
 
     addMarkerLsteners(marker);
-
-  } else {
-    /** If there's not results */
-    $("#msj-alert").text('No encontramos tu dirección');
-    $("#container-msj-alert").fadeIn(1500);
-    setTimeout(function() {
-      $("#container-msj-alert").fadeOut(1500);
-    },6000);
+    openInfoWindow(marker);
   }
-}
-$(function() {
-  initMap();
+
+  $('#btn-search').on('click', function() {
+    var address = $('#id_address').val();
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'address': address}, geocodeResult);
+  });
+
+  function pulsar(e) {
+    tecla = (document.all) ? e.keyCode :e.which;
+    return (tecla!=13);
+  }
+
+  function search(e) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if(code == 13) { 
+      var address = $('#id_address').val();
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({'address': address}, geocodeResult);
+    }
+
+    return (code!=13);
+  }
+
+  function geocodeResult(results, status) {
+    if (status == 'OK') {
+      var address = results[0].formatted_address;
+      setAddressValue(address);
+
+      var optionsMap = {
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+      }
+
+      drawMap(optionsMap);
+      map.fitBounds(results[0].geometry.viewport);
+
+      var markerOptions = { 
+        position: results[0].geometry.location,
+        draggable: true, 
+        animation: google.maps.Animation.DROP,
+      }
+
+      marker = new google.maps.Marker(markerOptions);
+      marker.setMap(map);
+
+      var latitude = marker.position.lat();
+      var longitude = marker.position.lng();
+
+      setLatLng(latitude, longitude);
+
+
+      addMarkerLsteners(marker);
+
+    } else {
+      /** If there's not results */
+      $("#msj-alert").text('No encontramos tu dirección');
+      $("#container-msj-alert").fadeIn(1500);
+      setTimeout(function() {
+        $("#container-msj-alert").fadeOut(1500);
+      },6000);
+    }
+  }
+  $(function() {
+    initMap();
     // swal({
     //   title: "+52 1 55 42 46 73 60",
     //   text: "Estamos en Mantenimiento!. Péro aún puedes pedir tu primer dabba gratis en whatsapp",
