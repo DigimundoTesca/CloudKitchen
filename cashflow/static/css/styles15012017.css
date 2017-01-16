@@ -145,10 +145,11 @@ small {
 }
 .badge {
     display: inline-block;
-    padding: .30em .4em;
+    padding: .15em .4em;
     font-size: 0.9rem;
     font-weight: 700;
     line-height: 1;
+    margin: 0.1rem;
     color: #fff;
     text-align: center;
     white-space: nowrap;
