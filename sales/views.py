@@ -1,6 +1,10 @@
 import json
 from datetime import datetime, date, timedelta
+from itertools import chain
+
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
+from django.db.models import Avg
 from django.http import JsonResponse
 from django.shortcuts import render
 
@@ -67,6 +71,20 @@ def sales(request):
         days = get_number_day()
         return days
 
+    def get_tickets():
+        tickets_object = Ticket.objects.all()
+        return tickets_object
+
+    def get_tickets_details():
+        tickets = []
+        for ticket_object in Ticket.objects.all():
+            ticket_detail = {'id': ticket_object, 'tickets': [], 'total': 0.0}
+            for ticket_detail_object in TicketDetail.objects.filter(ticket=ticket_object.id):
+                ticket_detail['tickets'].append(ticket_detail_object)
+                ticket_detail['total'] += float(ticket_detail_object.price)
+            tickets.append(ticket_detail)
+        return tickets
+
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
@@ -76,6 +94,8 @@ def sales(request):
         'day_earnings': get_sales_day(),
         'day': get_name_day(),
         'week': get_week_number(),
+        'tickets': get_tickets(),
+        'ticket_details': get_tickets_details(),
     }
 
     return render(request, template, context)
