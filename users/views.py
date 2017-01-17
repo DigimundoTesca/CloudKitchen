@@ -42,11 +42,17 @@ def test(request):
 
 # -------------------------------------  Index -------------------------------------
 def index(request):
-    template = 'index.html'
+    host = request.META['HTTP_HOST']
+
+    if host == 'dabbanet.dabbawala.com.mx':
+        template = 'auth/login.html'
+    else:
+        return redirect('users:new_customer')
+
     context = {
         'page_title': PAGE_TITLE,
     }
-    return redirect('users:new_customer')
+    return render(request, template, context)
 
 
 # -------------------------------------  Auth -------------------------------------
