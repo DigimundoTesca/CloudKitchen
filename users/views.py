@@ -59,7 +59,7 @@ def index(request):
 def login(request):
     if request.user.is_authenticated():
         return redirect('sales:sales')
-
+    tab = 'login'
     error_message = None
     success_message = None
     template = 'auth/login.html'
@@ -80,7 +80,6 @@ def login(request):
             username_login = request.POST.get('username_login')
             password_login = request.POST.get('password_login')
             user = authenticate(username=username_login, password=password_login)
-            tab = 'login'
 
             if user is not None:
                 login_django(request, user)
