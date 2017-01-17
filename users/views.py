@@ -45,21 +45,21 @@ def index(request):
     host = request.META['HTTP_HOST']
 
     if host == 'dabbanet.dabbawala.com.mx':
-        template = 'auth/login.html'
+        return redirect('users:login')
     else:
         return redirect('users:new_customer')
 
-    context = {
-        'page_title': PAGE_TITLE,
-    }
-    return render(request, template, context)
+    # context = {
+    #     'page_title': PAGE_TITLE,
+    # }
+    # return render(request, template, context)
 
 
 # -------------------------------------  Auth -------------------------------------
 def login(request):
     if request.user.is_authenticated():
         return redirect('sales:sales')
-
+    tab = 'login'
     error_message = None
     success_message = None
     template = 'auth/login.html'
@@ -80,7 +80,6 @@ def login(request):
             username_login = request.POST.get('username_login')
             password_login = request.POST.get('password_login')
             user = authenticate(username=username_login, password=password_login)
-            tab = 'login'
 
             if user is not None:
                 login_django(request, user)
