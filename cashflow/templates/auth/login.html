@@ -68,8 +68,8 @@
             </div>
             {% endif %}
             <div class="form-group">
-              <label for="username_register" class="sr-only">Nombre</label>
-              <input type="text" class="form-control" id="username_register" name="{{ form_user.username.name }}" aria-describedby="emailHelp" placeholder="Nombre"
+              <label for="username_register" class="sr-only">Username</label>
+              <input type="text" class="form-control" id="username_register" name="{{ form_user.username.name }}" aria-describedby="emailHelp" placeholder="Nombre de usuario"
               {% if form_user.username.value is not None %}
               value='{{ form_user.username.value }}'
               {% endif %}  required autofocus>

@@ -57,25 +57,24 @@ def login(request):
     error_message = None
     success_message = None
     template = 'auth/login.html'
-    tab = 'login'
 
     form_user = UserForm(request.POST or None)
 
     if request.method == 'POST':
         if 'form-register' in request.POST:
+
             if form_user.is_valid():
                 new_user = form_user.save(commit=False)
                 new_user.set_password(form_user.cleaned_data['password'])
                 new_user.save()
                 success_message = 'Usuario creado. Necesita ser activado por un administrador'
-                form_user = UserForm(None)
-            tab = 'register'
 
         elif 'form-login' in request.POST:
             form_user = UserForm(None)
             username_login = request.POST.get('username_login')
             password_login = request.POST.get('password_login')
             user = authenticate(username=username_login, password=password_login)
+            tab = 'login'
 
             if user is not None:
                 login_django(request, user)
