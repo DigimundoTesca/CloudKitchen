@@ -17,4 +17,7 @@ $(function() {
 	else if (path == '/customers/register/list/') {
 		$('#link-customers').addClass('active');
 	}
+	else if (path == '/kitchen/hot/' || path == '/kitchen/cold/' ) {
+		$('#link-kitchen').addClass('active');
+	}
 });

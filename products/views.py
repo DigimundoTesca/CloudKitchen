@@ -169,3 +169,18 @@ def new_cartridge(request):
         'page_title': PAGE_TITLE
     }
     return render(request, template, context)
+
+
+# -------------------------------------  Kitchen -------------------------------------
+def cold_kitchen(request):
+    template = 'kitchen/cold.html'
+    context = {}
+
+    return render(request, template, context)
+
+
+def hot_kitchen(request):
+    template = 'kitchen/hot.html'
+    context = {}
+
+    return render(request, template, context)

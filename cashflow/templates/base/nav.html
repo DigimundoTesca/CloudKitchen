@@ -11,7 +11,7 @@
 			<li class="nav-item" id="link-supplies">
 				<a class="nav-link" href="{% url 'products:supplies' %}">Insumos</a>
 			</li>			
-			<li class="nav-item" id="link-cartripythdges">
+			<li class="nav-item" id="link-cartridges">
 				<a class="nav-link" href="{% url 'products:cartridges' %}">Productos</a>
 			</li>
 			<li class="nav-item dropdown" id="link-customers">
@@ -20,9 +20,18 @@
 					<a class="dropdown-item" href="{% url 'users:customers_list' %}">Clientes Registrados</a>
 				</div>
 			</li>
+			<li class="nav-item dropdown" id="link-kitchen">
+				<a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cocina</a>
+				<div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+					<a class="dropdown-item" href="{% url 'products:hot' %}">Cocina Caliente</a>
+					<a class="dropdown-item" href="{% url 'products:cold' %}">Cocina Fría</a>
+					<a class="dropdown-item" href="#">Ensamble</a>
+				</div>
+			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
 				<div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+					<a class="dropdown-item" href="#">Configuración</a>
 					<a class="dropdown-item" href="{% url 'users:logout' %}">Cerrar sesión</a>
 				</div>
 			</li>
