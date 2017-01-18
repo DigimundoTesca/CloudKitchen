@@ -79,13 +79,13 @@ def sales(request):
         tickets = []
         for ticket_object in Ticket.objects.all():
             ticket_detail = {
-                'id': ticket_object,
-                'tickets': [],
+                'id_parent': ticket_object,
+                'details': [],
                 'total': 0.0,
                 'quantity': 0.0
             }
             for ticket_detail_object in TicketDetail.objects.filter(ticket=ticket_object.id):
-                ticket_detail['tickets'].append(ticket_detail_object)
+                ticket_detail['details'].append(ticket_detail_object)
                 ticket_detail['total'] += float(ticket_detail_object.price)
                 ticket_detail['quantity'] += float(ticket_detail_object.quantity)
             tickets.append(ticket_detail)

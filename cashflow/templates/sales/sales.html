@@ -62,9 +62,9 @@
               <th>{{ ticket.id }}</th>
               <td class="header-date">{{ ticket.created_at }}</td>
               <td class="header-products">
-                {% for total_ticket in ticket_details %}
-                  {% if total_ticket.id == ticket %}
-                    {% for ticket_detail in total_ticket.tickets %}
+                {% for ticket_detail in ticket_details %}
+                  {% if ticket_detail.id_parent == ticket %}
+                    {% for ticket_detail in ticket_detail.details %}
                       {% if ticket_detail.cartridge is not None %}
                       <span class="badge badge-success">
                         <span class="badge badge-info" >{{ ticket_detail.quantity }}</span>
@@ -76,9 +76,9 @@
                 {% endfor %}
               </td>
               <td class="header-dabba">
-                {% for total_ticket in ticket_details %}
-                  {% if total_ticket.id == ticket %}
-                    {% for ticket_detail in total_ticket.tickets %}
+                {% for ticket_detail in ticket_details %}
+                  {% if ticket_detail.id_parent == ticket %}
+                    {% for ticket_detail in ticket_detail.details %}
                       {% if ticket_detail.package_cartridge is not None %}
                       <span class="badge badge-primary">
                         <span class="badge badge-info">{{ ticket_detail.quantity}}</span>
@@ -92,7 +92,7 @@
               <td>{{ ticket.seller }}</td>
               <td>
                 {% for total_ticket in ticket_details %}
-                  {% if total_ticket.id == ticket %}
+                  {% if total_ticket.id_parent == ticket %}
                     {{ total_ticket.total }}
                   {% endif %}
                 {% endfor %}
@@ -116,6 +116,7 @@
       var ctx_week = document.getElementById("canvas-week-sales");
       var ctx_day = document.getElementById("canvas-day-sales");
       var earnings = JSON.parse('{{ week_earnings|safe }}');
+
 
       function get_sales_day(day) {
         $.ajax({
@@ -194,7 +195,7 @@
           ],
           datasets: [{
             label: 'Ventas en este horario',
-            data: [90, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0],
+            data: [90, 0, 0, 0, 0, 0, 0, 0, 300, 0, 40, 0, 0, 0, 0, 100],
             backgroundColor: [
               'rgba(242,38,19,0.7)',
               'rgba(246,36,89,0.7)',
@@ -253,12 +254,12 @@
       /** Calcula el total de ganancias de la semana y lo imprime */
       function set_total_earnings() {
         var total_earnings = 0;
-
         for (var i = 0; i < earnings.length; i++ ){
           total_earnings += earnings[i];
         }
 
         total_earnings = set_number_format(total_earnings, 2);
+
 
         $('#total-earnings-text').append(total_earnings);
       }
