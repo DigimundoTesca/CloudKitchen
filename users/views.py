@@ -68,12 +68,13 @@ def login(request):
 
     if request.method == 'POST':
         if 'form-register' in request.POST:
-
+            tab = 'register'
             if form_user.is_valid():
                 new_user = form_user.save(commit=False)
                 new_user.set_password(form_user.cleaned_data['password'])
                 new_user.save()
                 success_message = 'Usuario creado. Necesita ser activado por un administrador'
+                form_user = None
 
         elif 'form-login' in request.POST:
             form_user = UserForm(None)
