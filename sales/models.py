@@ -23,7 +23,7 @@ class TicketDetail(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
     package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
-    quantity = models.FloatField(default=0)
+    quantity = models.IntegerField(default=0)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
 
     def __str__(self):

@@ -6,20 +6,20 @@
 {% endblock link %}
 
 {% block content %}
-<div class="container-fluid">
-  <table class="table table-hover">
-    <thead>
+<div class="container-fluid container-new-customers">
+  <table class="table table-hover table-responsive">
+    <thead class="thead-inverse">
       <tr>
         <th>Nombre de usuario</th>
-        <th>Coreo</th>
+        <th>Email</th>
         <th>Teléfono celular</th>
         <th>Dirección</th>
-        <th>Primer Dabba</th>
+        <th>Dabba de Regalo</th>
       </tr>
     </thead>
     <tbody>
       {% for customer in customers  %}        
-      <tr>
+      <tr {% if customer.first_dabba %} class="table-success" {% endif %}>
         <th class="customer_user" scope="row">{{ customer.user }}</th>
         <td>{{ customer.email }}</td>
         <td>{{ customer.phone_number }}</td>
@@ -31,7 +31,7 @@
             disabled
             {% endif %}
             {% if customer.first_dabba %}
-            class="btn btn-info col-xs-12 btn-gift"> Dabba entregado 
+            class="btn btn-info col-xs-12"> Dabba entregado 
             {% else %} 
             class="btn btn-success col-xs-12 btn-gift"> Activar Regalo 
             {% endif %} 

@@ -10,23 +10,23 @@
 {% block content %}
   <div class="container-fluid container-sales">
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-xs-12 col-md-6">
         <div class="text-xs-center">
           <p>Ventas de la semana: <span id="total-earnings-text" class="font-weight-bold">$ </span></p>
         </div>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-12 col-md-6">
         <div class="row">
-          <div class="col-xs-4">
-          </div>
-          <div class="col-xs-4">
+          <div class="col-xs-6">
             <p class="float-xs-right">Hoy es: <span class="font-weight-bold">{{ day }}</span></p>
           </div>
-          <div class="col-xs-4">
+          <div class="col-xs-6">
             <p class="float-xs-right">Semana: <span class="font-weight-bold">{{ week }}</span></p>
           </div>
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-xs-12 col-md-6">
         <div class="canvas-holder">
           <canvas id="canvas-week-sales"></canvas>
@@ -38,36 +38,104 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <h2>Reporte ventas</h2>
+
+      </div>
+      <div class="col-xs-12">
+      <div class="card card-scroll-x">
+        <table class="table table-hover">
+          <thead class="thead-inverse">
+          <tr>
+            <th>Id</th>
+            <th class="header-date">Fecha</th>
+            <th class="header-products">Productos</th>
+            <th class="header-dabba">Dabbas</th>
+            <th>Vendedor</th>
+            <th>Total</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for ticket in tickets %}
+            <tr>
+              <th>{{ ticket.id }}</th>
+              <td class="header-date">{{ ticket.created_at }}</td>
+              <td class="header-products">
+                {% for total_ticket in ticket_details %}
+                  {% if total_ticket.id == ticket %}
+                    {% for ticket_detail in total_ticket.tickets %}
+                      {% if ticket_detail.cartridge is not None %}
+                      <span class="badge badge-success">
+                        <span class="badge badge-info" >{{ ticket_detail.quantity }}</span>
+                        <span class="badge badge-success ">{{ ticket_detail.cartridge }}</span>
+                      </span>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              </td>
+              <td class="header-dabba">
+                {% for total_ticket in ticket_details %}
+                  {% if total_ticket.id == ticket %}
+                    {% for ticket_detail in total_ticket.tickets %}
+                      {% if ticket_detail.package_cartridge is not None %}
+                      <span class="badge badge-primary">
+                        <span class="badge badge-info">{{ ticket_detail.quantity}}</span>
+                        <span class="badge badge-primary">{{ ticket_detail.package_cartridge }}</span> 
+                      </span>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              </td>
+              <td>{{ ticket.seller }}</td>
+              <td>
+                {% for total_ticket in ticket_details %}
+                  {% if total_ticket.id == ticket %}
+                    {{ total_ticket.total }}
+                  {% endif %}
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </div>
+  </div>
 
   </div>
 {% endblock content %}
 
 {% block javascript %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+  <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
   <script type="text/javascript" charset="utf-8">
-    var ctx_week = document.getElementById("canvas-week-sales");
-    var ctx_day = document.getElementById("canvas-day-sales");
-    var earnings = JSON.parse('{{ week_earnings|safe }}');
+    $(function() {
+      var ctx_week = document.getElementById("canvas-week-sales");
+      var ctx_day = document.getElementById("canvas-day-sales");
+      var earnings = JSON.parse('{{ week_earnings|safe }}');
 
-    function get_sales_day(day) {
-      $.ajax({
-        url: '/sales/sales-day/',
-        type: 'POST',
-        data: {
-          csrfmiddlewaretoken: '{{ csrf_token }}',
-          'day': day,
-        },
-        traditional: true,
-        datatype: 'jsonp',
-        success: function(result){
-          console.log(result);
-        },
-        error: function(result, jqXHR , textStatus, errorThrown){
-          console.log(result);
-        },
+      function get_sales_day(day) {
+        $.ajax({
+          url: '/sales/sales-day/',
+          type: 'POST',
+          data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'day': day,
+          },
+          traditional: true,
+          datatype: 'jsonp',
+          success: function(result){
+            console.log(result);
+          },
+          error: function(result, jqXHR , textStatus, errorThrown){
+            console.log(result);
+          },
 
-      });
-    }
+        });
+      }
 
       var earnings_for_the_week = new Chart(ctx_week, {
         type: 'bar',
@@ -190,14 +258,13 @@
           total_earnings += earnings[i];
         }
 
-        total_earnings = set_number_format(total_earnings, 2)
+        total_earnings = set_number_format(total_earnings, 2);
 
-        $('#total-earnings-text').append(total_earnings)
-
+        $('#total-earnings-text').append(total_earnings);
       }
-
-
-
       set_total_earnings();
+
+
+    });
   </script>
 {% endblock javascript %}

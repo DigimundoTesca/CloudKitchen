@@ -98,6 +98,13 @@
                       <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 50.00</span>
                     </div>
                   </div>
+                  <div class="card-block product-container" id="package-container">
+                  <h6 class="product-name">Dabba Gratis</h6>
+                    <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba"  data-toggle="modal" data-target="#modal-dabba">
+                    <div class="text-xs-right content-price">
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 0.00</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -245,6 +252,7 @@
 
     let DabbaProduct = {
       id: [],
+      cost: null,
     }
 
     function activateDabbaButton() {
@@ -371,6 +379,49 @@
     });
 
     $(this).on('click', '.remove-icon-li', function(event) {
+      let element = $(this);
+      console.log(element);
+
+      let quantity_product = element.siblings('.cant-li').text();
+      let cost_base_product = element.siblings('.cost-base-li').text();
+      let total_product = element.siblings('.total-li').text();
+      let total_ticket = 0;
+      let id_product = element.parent().attr('id').substring(13);
+      console.log(id_product);
+
+      /** Refresh total ticket. Removes the product from the tiket list*/
+      if (quantity_product == 1) {
+        element.parent().remove();
+
+        /** Modificacion del total general */
+        $('ul li').find('.total-li').each(function(){
+          re = $(this).text()
+          total_ticket += parseFloat(re)
+        });
+
+        var arreglo = total_ticket.toFixed(2).split('.')
+
+        $('#total-price').html("" +
+          "<span class='text-price align-top' id='int-total-price'>" + arreglo[0] +"</span>" +
+          "<span class='point-total-price'>.</span>" +
+          "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
+          );
+      } else {
+
+        $('ul li').find('.total-li').each(function(){
+          re = $(this).text()
+          total_ticket += parseFloat(re)
+        });
+
+        var arreglo = total_ticket.toFixed(2).split('.')
+
+        $('#total-price').html("" +
+          "<span class='text-price align-top' id='int-total-price'>" + arreglo[0] +"</span>" +
+          "<span class='point-total-price'>.</span>" +
+          "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
+          );
+      }
+
     });
 
     $(this).on('click', '.add-icon-li', function(event) {
@@ -389,7 +440,7 @@
     $(this).on('click', '#btn-add-dabba', function(event) {
 
       var product_type = $(this).attr('id');
-      var element = $(this)
+      var element = $(this);
 
       function addProductToJSON (id_list, name, quantity, price) {
 
@@ -430,11 +481,8 @@
           });
         });
 
-        dabba_name_list_string = 'Dabba [ ' + dabba_name_list_string + ']';
-
-        let cost_base = 50.00;
-        let cost_base_decimal = cost_base.toFixed(2);
-        let cost = cost_base.toFixed(2);
+        let cost_base = DabbaProduct.cost;
+        let cost = cost_base;
         let id = element.parent().attr('id');
         let li_id = DabbaProduct.id;
         let cant = 1;
@@ -443,7 +491,7 @@
         $nuevo_li= $("" +
           "<li class='list-group-item'>" +
           "<span class='name-li text-uppercase'>" + dabba_name_list_string + "</span> " +
-          "<span class='cost-base-li'>" + cost_base_decimal + "</span>"+
+          "<span class='cost-base-li'>" + cost_base + "</span>"+
           "<span class='remove-icon-li'><i class='material-icons'>remove</i></span>" +
           "<span class='cant-li'>" + cant + "</span>"+
           "<span class='add-icon-li'><i class='material-icons'>add</i></span>" +
@@ -567,6 +615,13 @@
 
       var size_tickets = $('#sales-list-modal li').length;
       setButtonStatus(size_tickets);
+    });
+
+    /** Despliega el modal para realizar la venta */
+    $(this).on('click', '#dabba-img', function(event) {
+      element = $(this);
+      price = element.parent().find('span.product-cost').text();
+      DabbaProduct.cost = price;
     });
 
     /** Realizar la venta e imprimir ticket */

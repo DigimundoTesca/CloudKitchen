@@ -143,8 +143,42 @@ main {
 small {
   font-size: 75%;
 }
+.badge {
+    display: inline-block;
+    padding: .15em .4em;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0.1rem;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+}
+.badge-default {
+    background-color: #636c72;
+}
+.badge-primary {
+  background-color: #0275d8;
+}
+.badge-success {
+    background-color: #5cb85c;
+}
+.badge-info {
+    background-color: #5bc0de;
+}
+.badge-warning {
+    background-color: #f0ad4e;
+}
+.badge-danger {
+    background-color: #d9534f;
+}
 .card-scroll {
   overflow-y: scroll;
+}
+.card-scroll-x {
+  overflow-x: scroll;
 }
 .container-hidden {
   display: none;
@@ -163,6 +197,16 @@ small {
 }
 .container-sales{
   margin: 0 0.5rem 0 0;
+}
+.container-sales table th.header-date,
+.container-sales table td.header-date {
+  min-width: 15rem;
+}
+.container-sales table th.header-dabba,
+.container-sales table td.header-dabba, 
+.container-sales table th.header-products,
+.container-sales table td.header-products {
+  min-width: 20rem;
 }
 .container-sales .group-sales button#btn-orders-reset{
   height: 4rem;
@@ -585,3 +629,9 @@ small {
   font-size: 0.7rem;
 }
 
+@media (min-width: 1024px) { 
+  .container-new-customers table {
+    display: table;
+    width: 100%;
+  }
+}

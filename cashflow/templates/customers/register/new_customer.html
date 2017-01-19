@@ -24,7 +24,7 @@
             {% csrf_token %}
             <div class="form-group">
               <label for="id_name" class="sr-only">Nombre de usuario.</label>
-              <small id="id_name_help" class="form-text text-muted">Nombre con el que te identificaremos. Campo Obligatorio.</small>
+              <small id="id_name_help" class="form-text text-muted">Nombre con el que te identificaremos.</small>
               <input type="text" class="form-control" id="id_name" name="{{ form_customer.user.name }}" placeholder="Nombre de usuario (Nickname)" maxlength="30" value="{% if form_customer.user.value == None %}{% else %}{{ form_customer.user.value }}{% endif %}" required autofocus onkeypress="return pulsar(event)" >
               {%  if form_customer.user.errors %}
               <div class="has-danger">
@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
               <label for="id_email" class="sr-only">Correo</label>
-              <small id="id_email_help" class="form-text text-muted">Campo Obligatorio</small>
+              <small id="id_email_help" class="form-text text-muted"></small>
               <input type="email" class="form-control" id="id_email" name="{{ form_customer.email.name }}" placeholder="Correo" maxlength="255" value="{% if  form_customer.email.value == None %}{% else %}{{ form_customer.email.value }}{% endif %}" required onkeypress="return pulsar(event)" >
               {%  if form_customer.email.errors %}
               <div class="has-danger">
@@ -51,7 +51,7 @@
             </div>
             <div class="form-group">
               <label for="id_phone_number" class="sr-only">Teléfono celular</label>
-              <small id="id_phone_number_help" class="form-text text-muted">Campo Obligatorio</small>
+              <small id="id_phone_number_help" class="form-text text-muted"></small>
               <input type="text" class="form-control" id="id_phone_number" name="{{ form_customer.phone_number.name }}" placeholder="Número con WhatsApp" maxlength="10" value="{% if  form_customer.phone_number.value == None %}{% else %}{{ form_customer.phone_number.value }}{% endif %}" required onkeypress="return pulsar(event)" >
               {%  if form_customer.phone_number.errors %}
               <div class="has-danger">
@@ -70,7 +70,7 @@
               </div>
               <div class="col-xs-12">
                 <div class="input-group">
-                  <input type="text" class="form-control" id="id_address" name="address" placeholder="Busca tu dirección" maxlength="255" onkeypress="return search(event)" required="">  
+                  <input type="text" class="form-control" id="id_address" name="address" placeholder="Lugar donde enviaremos tu Dabba gratis" maxlength="255" onkeypress="return search(event)" required="">
                   <span class="input-group-btn" id="icon-search">
                     <button class="btn btn-primary" type="button" id="btn-search"><i class="material-icons">search</i></button>
                   </span>
@@ -104,6 +104,8 @@
         <br>
       </form>
     </div>
+    </small>
+    <small id="id_phone_number_help" class="form-text text-muted">Para hacer válida la promoción de tu primer Dabba debes pedirlo por whatsapp y estar dentro de la zona de cobertura.
   </div>
 </div>
 
@@ -137,7 +139,7 @@
     infoWindow.setContent([
       'Aquí enviaremos tu Dabba.'
       ].join(''));
-    
+
     infoWindow.open(map, marker);
 
     var latitude = markerLatLng.lat();
@@ -155,7 +157,7 @@
     });
   }
 
-  function initialize() {
+  function initMap() {
     var LatLng = new google.maps.LatLng(19.5228008,-99.2291418);
     var optionsMap = {
       zoom: 15,
@@ -183,7 +185,7 @@
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, geocodeResult);
   });
-  
+
   function pulsar(e) {
     tecla = (document.all) ? e.keyCode :e.which;
     return (tecla!=13);
@@ -240,7 +242,7 @@
     }
   }
   $(function() {
-    initialize();
+    initMap();
     // swal({
     //   title: "+52 1 55 42 46 73 60",
     //   text: "Estamos en Mantenimiento!. Péro aún puedes pedir tu primer dabba gratis en whatsapp",
