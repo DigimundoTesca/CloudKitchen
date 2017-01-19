@@ -66,12 +66,12 @@ class Supply(models.Model):
 
     # metrics
     GRAM = 'GR'
-    LITER = 'LI'
+    MILLILITER = 'MI'
     PIECE = 'PI'
 
     METRICS = (
         (GRAM, 'gramo'),
-        (LITER, 'mililitro'),
+        (MILLILITER, 'mililitro'),
         (PIECE, 'pieza'),
     )
 
