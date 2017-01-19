@@ -47,7 +47,7 @@ class AdminPackageCartridge(admin.ModelAdmin):
 
 @admin.register(ProcessedCartridge)
 class AdminProcessedCartridge(admin.ModelAdmin):
-    list_display = ('name', 'status', 'cartridge_parent', 'package_cartridge_parent', 'created_at')
+    list_display = ('status', 'cartridge_parent', 'package_cartridge_parent', 'created_at')
 
 
 @admin.register(Warehouse)

@@ -172,12 +172,13 @@ class ProcessedCartridge(models.Model):
     # Status
     ASSEMBLED = 'AS'
     SOLD = 'SE'
+    DELIVERED = 'DE'
 
     STATUS = (
         (ASSEMBLED, 'Ensamblado'),
-        (SOLD, 'Vendido')
+        (SOLD, 'Vendido'),
+        (DELIVERED, 'Entregado'),
     )
-    name = models.CharField(Supply, max_length=125)
     created_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
     status = models.CharField(max_length=10, choices=STATUS, default=ASSEMBLED)
     supplies = models.ManyToManyField(Supply, blank=True)
