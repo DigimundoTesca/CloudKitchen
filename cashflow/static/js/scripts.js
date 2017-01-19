@@ -9,10 +9,10 @@ $(function() {
 		$('#link-new-sale').addClass('active');
 	}
 	else if (path == '/supplies/' || path == '/supplies/new/') {
-		$('#link-supplies').addClass('active');
+		$('#link-warehouse').addClass('active');
 	}
 	else if (path == '/cartridges/' || path == '/cartridges/new/') {
-		$('#link-cartridges').addClass('active');
+		$('#link-warehouse').addClass('active');
 	}
 	else if (path == '/customers/register/list/') {
 		$('#link-customers').addClass('active');
@@ -20,4 +20,5 @@ $(function() {
 	else if (path == '/kitchen/hot/' || path == '/kitchen/cold/' ) {
 		$('#link-kitchen').addClass('active');
 	}
+
 });
