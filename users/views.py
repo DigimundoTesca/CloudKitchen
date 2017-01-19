@@ -42,18 +42,24 @@ def test(request):
 
 # -------------------------------------  Index -------------------------------------
 def index(request):
-    template = 'index.html'
-    context = {
-        'page_title': PAGE_TITLE,
-    }
-    return redirect('users:new_customer')
+    host = request.META['HTTP_HOST']
+
+    if host == 'dabbanet.dabbawala.com.mx':
+        return redirect('users:login')
+    else:
+        return redirect('users:new_customer')
+
+    # context = {
+    #     'page_title': PAGE_TITLE,
+    # }
+    # return render(request, template, context)
 
 
 # -------------------------------------  Auth -------------------------------------
 def login(request):
     if request.user.is_authenticated():
         return redirect('sales:sales')
-
+    tab = 'login'
     error_message = None
     success_message = None
     template = 'auth/login.html'
@@ -62,11 +68,13 @@ def login(request):
 
     if request.method == 'POST':
         if 'form-register' in request.POST:
+            tab = 'register'
             if form_user.is_valid():
                 new_user = form_user.save(commit=False)
                 new_user.set_password(form_user.cleaned_data['password'])
                 new_user.save()
                 success_message = 'Usuario creado. Necesita ser activado por un administrador'
+                form_user = None
 
         elif 'form-login' in request.POST:
             form_user = UserForm(None)
@@ -82,6 +90,7 @@ def login(request):
                 error_message = 'Usuario o contraseña incorrecto'
 
     context = {
+        'tab': tab,
         'page_title': PAGE_TITLE,
         'error_message': error_message,
         'success_message': success_message,

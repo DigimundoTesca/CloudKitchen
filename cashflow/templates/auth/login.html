@@ -13,10 +13,19 @@
       <!-- Nav tabs -->
       <ul class="nav nav-tabs card-login-nav" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#login" role="tab">Login</a>
+          <a class="nav-link
+          {% if tab == 'login' %}
+          active
+          {% endif %}
+          " data-toggle="tab" href="#login" role="tab"
+          >Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#register" role="tab">Registro</a>
+          <a class="nav-link
+          {% if tab == 'register' %}
+          active
+          {% endif %}
+          " data-toggle="tab" href="#register" role="tab">Registro</a>
         </li>
       </ul>
       <figure class="container-dabbawala-logo">
@@ -24,7 +33,7 @@
       </figure>
       <!-- Tab panes -->
       <div class="tab-content">
-        <div class="tab-pane active" id="login" role="tabpanel">
+        <div class="tab-pane {% if tab == 'login' %}active{% endif %}" id="login" role="tabpanel">
           <!-- Form Login -->
           <form class="form-login" method="post" action="">
             {% csrf_token %}
@@ -49,7 +58,7 @@
           </form>
         </div>
         <!-- Form Register -->
-        <div class="tab-pane" id="register" role="tabpanel">
+        <div class="tab-pane {% if tab == 'register' %}active {% endif %}" id="register" role="tabpanel">
           <form class="form-register" method="post" action="">
             {% csrf_token %}
             <h2>Ingresa tus datos</h2>
@@ -59,8 +68,8 @@
             </div>
             {% endif %}
             <div class="form-group">
-              <label for="username_register" class="sr-only">Nombre</label>
-              <input type="text" class="form-control" id="username_register" name="{{ form_user.username.name }}" aria-describedby="emailHelp" placeholder="Nombre" value=""
+              <label for="username_register" class="sr-only">Username</label>
+              <input type="text" class="form-control" id="username_register" name="{{ form_user.username.name }}" aria-describedby="emailHelp" placeholder="Nombre de usuario"
               {% if form_user.username.value is not None %}
               value='{{ form_user.username.value }}'
               {% endif %}  required autofocus>
@@ -76,7 +85,7 @@
             </div>
             <div class="form-group">
               <label for="email_register" class="sr-only">Email</label>
-              <input type="email" class="form-control" id="email_register" name="{{ form_user.email.name }}" aria-describedby="emailHelp" placeholder="Email" value="" 
+              <input type="email" class="form-control" id="email_register" name="{{ form_user.email.name }}" aria-describedby="emailHelp" placeholder="Email"
               {% if form_user.email.value is not None %}
               value='{{ form_user.email.value }}'
               {% endif %}  required>
@@ -122,9 +131,9 @@
     </div>
   </div>
 </div>
+
 {% endblock %}
 
-
 {% block javascript %}
-  
+
 {% endblock javascript %}
