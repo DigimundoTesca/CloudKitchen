@@ -195,17 +195,33 @@ small {
 .container-main {
   padding-top: 0;
 }
-.container-sales{
+.container-sales {
   margin: 0 0.5rem 0 0;
 }
-.container-sales table th.header-date,
-.container-sales table td.header-date {
+.container-sales-reports {
+  margin: 0 1rem;
+}
+.container-sales-reports .sales-graphics{
+  margin-bottom: 1rem; 
+}
+.container-sales-reports .sales-graphics .canvas-holder{
+  margin-bottom: 2rem;
+}
+.container-sales-reports .sales-details .card {
+  max-height: 100vh;
+}
+.container-sales-reports .sales-details table th.header-date,
+.container-sales-reports .sales-details table td.header-date {
   min-width: 15rem;
 }
-.container-sales table th.header-dabba,
-.container-sales table td.header-dabba, 
-.container-sales table th.header-products,
-.container-sales table td.header-products {
+.container-sales-reports .sales-details table th.header-date,
+.container-sales-reports .sales-details table td.header-date {
+  min-width: 17rem;
+}
+.container-sales-reports .sales-details table th.header-dabba,
+.container-sales-reports .sales-details table td.header-dabba, 
+.container-sales-reports .sales-details table th.header-products,
+.container-sales-reports .sales-details table td.header-products {
   min-width: 20rem;
 }
 .container-sales .group-sales button#btn-orders-reset{
