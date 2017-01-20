@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.contrib import admin
 
-from products.models import Warehouse, ProcessedCartridge, PackageCartridge, PackageCartridgeRecipe, \
+from products.models import PackageCartridge, PackageCartridgeRecipe, \
     CartridgeRecipe, Supply, SupplyLocation, SuppliesCategory, Cartridge
 
 
@@ -43,14 +43,3 @@ class PackageCartridgeRecipeInline(admin.TabularInline):
 class AdminPackageCartridge(admin.ModelAdmin):
     list_display = ('name', 'price', 'package_active',)
     inlines = [PackageCartridgeRecipeInline]
-
-
-@admin.register(ProcessedCartridge)
-class AdminProcessedCartridge(admin.ModelAdmin):
-    list_display = ('status', 'cartridge_parent', 'package_cartridge_parent', 'created_at')
-
-
-@admin.register(Warehouse)
-class AdminWarehouse(admin.ModelAdmin):
-    list_display = ('supply', 'status', 'quantity', 'waste', 'cost')
-

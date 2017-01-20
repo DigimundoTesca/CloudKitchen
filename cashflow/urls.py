@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^', include('products.urls')),
     url(r'^', include('sales.urls')),
     url(r'^', include('orders.urls')),
+    url(r'^', include('kitchen.urls')),
 ]
 
 admin.site.site_header = 'Dabbanet'

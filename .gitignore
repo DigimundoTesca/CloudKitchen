@@ -123,7 +123,11 @@ sales/migrations/*
 !sales/migrations/__init__.py
 orders/migrations/*
 !orders/migrations/__init__.py
+kitchen/migrations/*
+!kitchen/migrations/__init__.py
 staticfiles/
 #Database
-db.sqlite3
 media/
+# Databases
+db.sqlite3
+db_temporal.sqlite3

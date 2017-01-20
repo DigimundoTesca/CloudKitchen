@@ -22,11 +22,6 @@ urlpatterns = [
     # Categories
     url(r'^cartridges/$', views.cartridges, name='cartridges'),
     url(r'^cartridges/new/$', views.new_cartridge, name='new_cartridge'),
-
-    # Kitchen
-    url(r'^kitchen/hot/$', views.hot_kitchen, name='hot'),
-    url(r'^kitchen/cold/$', views.cold_kitchen, name='cold'),
-
 ]
 
 # test
