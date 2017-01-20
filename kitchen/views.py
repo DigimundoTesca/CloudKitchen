@@ -17,7 +17,7 @@ def hot_kitchen(request):
 
 
 def assembly(request):
-    template = 'kitchen/hot.html'
+    template = 'kitchen/assembly.html'
     context = {}
 
     return render(request, template, context)
