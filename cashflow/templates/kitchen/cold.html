@@ -6,22 +6,40 @@
     <h1 class="text-xs-center">Cocina Fría!</h1>
   </div>
   <div class="row">
-    {% for x in '123123' %}
-    <div class="card col-xs-12 card-outline">
-      <div class="row card-block">
-        <div class="col-xs-12 col-sm-4 col-md-3 text-xs-center">
-          <img src="/static/images/dabbawala_orange.jpg" alt="Card image product" width="100%">
-        </div>
-        <div class="col-xs-12 col-sm-8 col-md-9">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Ingrediente 1</li>
-            <li class="list-group-item">Ingrediente 2</li>
-            <li class="list-group-item">Ingrediente 3</li>
-            <li class="list-group-item">Ingrediente 4</li>
-          </ul>    
-        </div>
-      </div>
-    </div>
+    {% for product in products %}
+      {% for ticket_detail in ticket_details %}
+        {# Validates if the ticket detail have the same ticket that processed product #}
+        {% if product.ticket == ticket_detail.ticket%}
+          {% if ticket_detail.cartridge %}
+            <!-- There's a package -->
+            {% if ticket_detail.cartridge.category == 'CO' %}
+            <!-- There's a complement package -->
+              <div class="card col-xs-12 card-outline">
+              <div class="row card-block">
+                <div class="col-xs-12 col-sm-4 col-md-3 text-xs-center">
+                  ID {{ product.ticket }}
+                  <img src="/static/images/dabbawala_orange.jpg" alt="Card image product" width="100%">
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      {% for ticket_detail_2 in ticket_details %}
+                        {% if ticket_detail_2.ticket == product.ticket %}
+                          2 <br>
+                        {% endif %}
+                      {% endfor %}
+                    </li>
+                  </ul>    
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endif %}
+          {% if ticket_detail.package_cartridge  %}
+            <!-- There's a package cartridge -->
+          {% endif %}
+        {% endif %}
+      {% endfor %}
     {% endfor %}
   </div>
 </div>

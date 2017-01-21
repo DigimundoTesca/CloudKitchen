@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.shortcuts import get_object_or_404
 
 from products.models import Supply, Cartridge, PackageCartridge
 from sales.models import Ticket, TicketDetail
@@ -19,18 +20,36 @@ class ProcessedProduct(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     prepared_at = models.DateTimeField(editable=True, null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS, default=ASSEMBLED)
-    ticket = models.OneToOneField(Ticket, on_delete=models.CASCADE)
+    ticket_detail = models.OneToOneField(TicketDetail, on_delete=models.CASCADE)
+    cartridge_parent = models.ForeignKey(Cartridge, null=True, blank=True)
+    package_parent = models.ForeignKey(PackageCartridge, null=True, blank=True)
+    quantity = models.IntegerField()
 
     def __str__(self):
         return '%s' % self.created_at
 
-    @receiver(post_save, sender=Ticket)
+    @receiver(post_save, sender=TicketDetail)
     def create_processed_product(sender, instance, **kwargs):
-        ticket = Ticket.objects.get(id=instance.id)
+        ticket_detail = TicketDetail.objects.get(id=instance.id)
         status = 'PE'
+        quantity = instance.quantity
+
+        def get_cartridge():
+            if instance.cartridge:
+                return instance.cartridge
+            return None
+
+        def get_package_cartridge():
+            if instance.package_cartridge:
+                return instance.package_cartridge
+            return None
+
         processed_product = ProcessedProduct.objects.create(
-            ticket=ticket,
+            ticket_detail=ticket_detail,
             status=status,
+            cartridge_parent=get_cartridge(),
+            package_parent=get_package_cartridge(),
+            quantity=quantity,
         )
         processed_product.save()
 

@@ -5,7 +5,7 @@ from kitchen.models import ProcessedProduct, Warehouse
 
 @admin.register(ProcessedProduct)
 class AdminProcessedCartridge(admin.ModelAdmin):
-    list_display = ('created_at', 'status', 'ticket')
+    list_display = ('created_at', 'status',)
     ordering = ('-created_at',)
 
 
