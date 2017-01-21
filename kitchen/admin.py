@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from kitchen.models import ProcessedCartridge, Warehouse
+from kitchen.models import ProcessedProduct, Warehouse
 
 
-@admin.register(ProcessedCartridge)
+@admin.register(ProcessedProduct)
 class AdminProcessedCartridge(admin.ModelAdmin):
-    list_display = ('status', 'cartridge_parent', 'package_cartridge_parent', 'created_at')
+    list_display = ('created_at', 'status', 'ticket')
+    ordering = ('-created_at',)
 
 
 @admin.register(Warehouse)

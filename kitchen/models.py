@@ -1,32 +1,43 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from products.models import Supply, Cartridge, PackageCartridge
+from sales.models import Ticket, TicketDetail
 
 
-class ProcessedCartridge(models.Model):
+class ProcessedProduct(models.Model):
     # Status
+    PENDING = 'PE'
     ASSEMBLED = 'AS'
-    SOLD = 'SE'
-    DELIVERED = 'DE'
 
     STATUS = (
+        (PENDING, 'Pendiente'),
         (ASSEMBLED, 'Ensamblado'),
-        (SOLD, 'Vendido'),
-        (DELIVERED, 'Entregado'),
     )
-    created_at = models.DateTimeField(editable=False, auto_now=True, auto_now_add=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    prepared_at = models.DateTimeField(editable=True, null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS, default=ASSEMBLED)
-    supplies = models.ManyToManyField(Supply, blank=True)
-    cartridge_parent = models.ForeignKey(Cartridge, default=1, on_delete=models.CASCADE)
-    package_cartridge_parent = models.ForeignKey(PackageCartridge, default=1, on_delete=models.CASCADE)
+    ticket = models.OneToOneField(Ticket, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return '%s' % self.created_at
+
+    @receiver(post_save, sender=Ticket)
+    def create_processed_product(sender, instance, **kwargs):
+        ticket = Ticket.objects.get(id=instance.id)
+        status = 'PE'
+        processed_product = ProcessedProduct.objects.create(
+            ticket=ticket,
+            status=status,
+        )
+        processed_product.save()
 
     class Meta:
         ordering = ('id',)
-        verbose_name = 'Cartuchos'
-        verbose_name_plural = 'Cartuchos Procesados'
+        verbose_name = 'Productos'
+        verbose_name_plural = 'Productos Procesados'
 
 
 class Warehouse(models.Model):
@@ -48,7 +59,6 @@ class Warehouse(models.Model):
     quantity = models.FloatField(default=0)
     waste = models.FloatField(default=0)
     cost = models.FloatField(default=0)
-    processed_cartridge = models.ForeignKey(ProcessedCartridge, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return '%s' % self.id

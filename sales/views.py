@@ -133,7 +133,7 @@ def get_sales_day_view(request):
 def new_sale(request):
     if request.method == 'POST':
         username = request.user
-        user_profile_object = UserProfile.objects.get_object_or_404(username=username)
+        user_profile_object = get_object_or_404(UserProfile, username=username)
         cash_register = CashRegister.objects.first()
         new_ticket_object = Ticket(cash_register=cash_register, seller=user_profile_object, )
         new_ticket_object.save()
@@ -143,7 +143,7 @@ def new_sale(request):
         Saves the tickets details for cartridges
         """
         for ticket_detail in ticket_detail_json_object['cartuchos']:
-            cartridge_object = Cartridge.objects.get_object_or_404(id=ticket_detail['id'])
+            cartridge_object = get_object_or_404(Cartridge, id=ticket_detail['id'])
             quantity = ticket_detail['cant']
             price = ticket_detail['price']
             new_ticket_detail_object = TicketDetail(
@@ -209,7 +209,7 @@ def new_sale(request):
                 Creates a new package
                 """
                 for id_cartridge in ticket_detail['id_list']:
-                    cartridge_object = Cartridge.objects.get_object_or_404(id=id_cartridge)
+                    cartridge_object = get_object_or_404(Cartridge, id=id_cartridge)
                     new_package_recipe_object = PackageCartridgeRecipe(
                         package_cartridge=new_package_object,
                         cartridge=cartridge_object,
@@ -232,7 +232,7 @@ def new_sale(request):
                 """
                 Uses an existent package
                 """
-                package_object = PackageCartridge.objects.get_object_or_404(id=package_id)
+                package_object = get_object_or_404(PackageCartridge, id=package_id)
                 new_ticket_detail_object = TicketDetail(
                     ticket=new_ticket_object,
                     package_cartridge=package_object,
