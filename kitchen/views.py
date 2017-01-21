@@ -4,6 +4,7 @@ from django.shortcuts import render
 # -------------------------------------  Kitchen -------------------------------------
 from cashflow.settings.base import PAGE_TITLE
 from kitchen.models import ProcessedProduct
+from products.models import PackageCartridge, Cartridge
 from sales.models import Ticket, TicketDetail
 
 
@@ -13,21 +14,29 @@ def cold_kitchen(request):
 
     def get_processed_products():
         processed_products_list = []
-        processed_product_object = {
-            'ticket_id': None,
-            'cartridges': None,
-            'packages': None,
-        }
         processed_objects = ProcessedProduct.objects.filter(status='PE')
+
         for processed in processed_objects:
-            processed_product_object['ticket_id'] = processed.id
-            print(1)
-        print(processed_product_object)
+            processed_product_object = {
+                'ticket_id': processed.ticket,
+                'cartridges': [],
+                'packages': []
+            }
+
+            for ticket_detail in TicketDetail.objects.filter(ticket=processed.ticket):
+                if ticket_detail.ticket == processed.ticket:
+                    if ticket_detail.cartridge:
+                        processed_product_object['cartridges'].append(ticket_detail.cartridge)
+
+                    elif ticket_detail.package_cartridge:
+                        processed_product_object['packages'].append(ticket_detail.package_cartridge)
+
+            processed_products_list.append(processed_product_object)
+
         return processed_products_list
 
-    print(get_processed_products())
     context = {
-        #'products': products,
+        'products': get_processed_products(),
         'tickets': tickets,
         'page_title': PAGE_TITLE,
         'title': 'Cocina Fría'
