@@ -687,3 +687,10 @@ small {
     width: 100%;
   }
 }
+
+@media (min-width: 1024px) { 
+  .container-assembly table {
+    display: table;
+    width: 100%;
+  }
+}
