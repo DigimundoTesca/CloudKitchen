@@ -195,10 +195,25 @@ small {
 .container-main {
   padding-top: 0;
 }
-.container-sales {
-  margin: 0 0.5rem 0 0;
+.container-kitchen h1 {
+  font-size: 2rem;
 }
-.container-sales-reports {
+.container-kitchen table.table-kitchen {
+  font-size: 1rem;
+}
+.container-kitchen .table-kitchen ul {
+  padding-left: 0;
+}
+.container-kitchen .table-kitchen ul li {
+  display: flex;
+  min-height: 3rem;
+  list-style: none;
+}
+.container-sales {
+  margin: 0 0.5rem;
+}
+.container-sales-reports,
+.container-kitchen {
   margin: 0 1rem;
 }
 .container-sales-reports .sales-graphics{
@@ -210,18 +225,18 @@ small {
 .container-sales-reports .sales-details .card {
   max-height: 100vh;
 }
-.container-sales-reports .sales-details table th.header-date,
-.container-sales-reports .sales-details table td.header-date {
+.container-sales-reports .sales-details table.table-sales-details th.header-date,
+.container-sales-reports .sales-details table.table-sales-details td.header-date {
   min-width: 15rem;
 }
-.container-sales-reports .sales-details table th.header-date,
-.container-sales-reports .sales-details table td.header-date {
+.container-sales-reports .sales-details table.table-sales-details th.header-date,
+.container-sales-reports .sales-details table.table-sales-details td.header-date {
   min-width: 17rem;
 }
-.container-sales-reports .sales-details table th.header-dabba,
-.container-sales-reports .sales-details table td.header-dabba, 
-.container-sales-reports .sales-details table th.header-products,
-.container-sales-reports .sales-details table td.header-products {
+.container-sales-reports .sales-details table.table-sales-details th.header-dabba,
+.container-sales-reports .sales-details table.table-sales-details td.header-dabba, 
+.container-sales-reports .sales-details table.table-sales-details th.header-products,
+.container-sales-reports .sales-details table.table-sales-details td.header-products {
   min-width: 20rem;
 }
 .container-sales .group-sales button#btn-orders-reset{

@@ -1,13 +1,15 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 
 # -------------------------------------  Kitchen -------------------------------------
 from cashflow.settings.base import PAGE_TITLE
 from kitchen.models import ProcessedProduct
-from products.models import PackageCartridge, Cartridge
+from products.models import PackageCartridgeRecipe
 from sales.models import Ticket, TicketDetail
 
 
+@login_required(login_url='users:login')
 def cold_kitchen(request):
     template = 'kitchen/cold.html'
     tickets = Ticket.objects.all()
@@ -26,15 +28,27 @@ def cold_kitchen(request):
             for ticket_detail in TicketDetail.objects.filter(ticket=processed.ticket):
                 if ticket_detail.ticket == processed.ticket:
                     if ticket_detail.cartridge:
-                        processed_product_object['cartridges'].append(ticket_detail.cartridge)
+                        cartridge = {
+                            'quantity': ticket_detail.quantity,
+                            'cartridge': ticket_detail.cartridge
+                        }
+                        processed_product_object['cartridges'].append(cartridge)
 
                     elif ticket_detail.package_cartridge:
-                        processed_product_object['packages'].append(ticket_detail.package_cartridge)
+                        package = {
+                            'quantity': ticket_detail.quantity,
+                            'package_recipe': []
+                        }
+                        package_recipe = \
+                            PackageCartridgeRecipe.objects.filter(package_cartridge=ticket_detail.package_cartridge)
+                        for recipe in package_recipe:
+                            package['package_recipe'].append(recipe.cartridge)
+                        processed_product_object['packages'].append(package)
 
             processed_products_list.append(processed_product_object)
-
         return processed_products_list
-
+    for xd in get_processed_products():
+        pass
     context = {
         'products': get_processed_products(),
         'tickets': tickets,
