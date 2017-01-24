@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^categories/new/$', views.new_category, name='new_category'),
     url(r'^categories/([A-Za-z]+)/$', views.categories_supplies, name='categories_supplies'),
 
+    # Categories
     url(r'^cartridges/$', views.cartridges, name='cartridges'),
     url(r'^cartridges/new/$', views.new_cartridge, name='new_cartridge'),
 ]

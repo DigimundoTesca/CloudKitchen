@@ -34,6 +34,7 @@ DJANGO_APPS = [
 THIRD_APPS = [
     'rest_framework',
     'fcm',
+    'django_extensions',
 ]
 
 USER_APPS = [
@@ -42,6 +43,7 @@ USER_APPS = [
     'products.apps.ProductsConfig',
     'sales.apps.SalesConfig',
     'orders.apps.OrdersConfig',
+    'kitchen.apps.KitchenConfig',
     'api.apps.ApiConfig',
 ]
 

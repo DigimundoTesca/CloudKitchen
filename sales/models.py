@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from branchoffices.models import CashRegister
 from products.models import Cartridge, PackageCartridge
@@ -6,12 +7,18 @@ from users.models import User as UserProfile
 
 
 class Ticket(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField()
     seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return '%s' % self.id
+
+    def save(self, *args, **kwargs):
+        """ On save, update timestamps"""
+        if not self.id:
+            self.created_at = timezone.now()
+        return super(Ticket, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('-created_at',)

@@ -10,12 +10,14 @@ urlpatterns = [
     url(r'^', include('products.urls')),
     url(r'^', include('sales.urls')),
     url(r'^', include('orders.urls')),
+    url(r'^', include('kitchen.urls')),
 ]
 
 admin.site.site_header = 'Dabbanet'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 urlpatterns += [
     # API Endpoints
     url(r'^api/', include('api.urls', namespace='api')),

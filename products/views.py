@@ -14,7 +14,7 @@ from products.models import Cartridge, Supply, SuppliesCategory
 
 def test(request):
     # template = 'base/base_nav_footer.html'
-    template = 'base/nav_simple.html'
+    template = 'base/nav.html'
     return render(request, template, {})
 
 
