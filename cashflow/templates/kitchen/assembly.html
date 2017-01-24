@@ -1,30 +1,49 @@
 {% extends 'base/base_nav_footer.html' %}
 
 {% block content %}
-<div class="container">
-  <div>
-    <h1 class="text-xs-center">Ensamblado de Órdenes</h1>
-  </div>
+<div class="container-fluid container-assembly">
   <div class="row">
-    {% for x in '123123' %}
-    <div class="card col-xs-12 card-outline">
-      <div class="row card-block">
-        <div class="col-xs-12 col-md-3 text-xs-center">
-          <img class="card-img-top" src="/static/images/dabbawala_orange.jpg" alt="Card image cap"height=180>
-          <button class="btn btn-success btn-block">Listo!</button>
-        </div>
-        <div class="col-xs-12 col-md-9">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Producto 1</li>
-            <li class="list-group-item">Producto 2</li>
-            <li class="list-group-item">Producto 3</li>
-            <li class="list-group-item">Producto 4</li>
-          </ul>    
-        </div>
-        
-      </div>
-    </div>
-    {% endfor %}
+    <table class="table table-hoverable">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Ticket ID</th>
+          <th>Productos</th>
+          <th>Paquetes</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <th>{{ order.ticket_id }}</th>
+            <td>
+              {% for product in order.products %}
+                <span class="badge badge-blue">
+                  {{ product.name }}  
+                  <span class="badge badge-white-blue">
+                    {{ product.quantity }}
+                  </span>
+                </span>
+              {% endfor %}
+            </td>
+            <td>
+              {% for package in order.packages %}
+              <span class="badge badge-dark-blue" >
+                {{ package.name }}
+                <span class="badge badge-white-blue-2">
+                  {{ package.quantity }}
+                </span>
+              </span>
+              {% endfor %}
+            </td>
+            <td>
+              <button class="btn btn-success btn-lg">Ensamblar</button>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
+
 {% endblock %}

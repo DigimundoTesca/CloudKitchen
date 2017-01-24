@@ -2,9 +2,6 @@
 
 {% block content %}
 <div class="container-fluid container-kitchen">
-  <div>
-    <h1 class="text-xs-center">Cocina Fría!</h1>
-  </div>
   <div class="row">
     <table class="table table-kitchen table-striped table-hover">
       <thead>
@@ -28,22 +25,16 @@
             {% endfor %}
           {% endif %}
           {% if product.packages %}
-            {% for pachake in product.packages %}
-              <tr>
-                <th scope="row">
-                  {{ product.ticket_id }}
-                </th>
-                <td>
-                  <ul>
-                  paquete
-                  </ul>
-                </td>
-                <td>
-                  <ul>
-                  </ul>
-                </td>
-                </td>
-              </tr>
+            {% for package in product.packages %}
+              {% for cartridge in package.package_recipe %}
+                {% if cartridge.category == 'CO' %}
+                  <tr>
+                    <th scope="row">{{ product.ticket_id }}</th>
+                    <td>{{ cartridge }}</td>
+                    <td>{{ package.quantity }}</td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
             {% endfor %}
           {% endif %}
         {% endfor %}
@@ -52,17 +43,7 @@
   </div>
   </div>
 </div>
-
-<br>
-{% for product in products %}
-<br>
-    {{ product }}
-  <br>
-{% endfor %}
 {% endblock %}
-
-
-
 
 {% block javascript %}
   <script type="text/javascript" charset="utf-8" async>
@@ -72,7 +53,6 @@
         //$(this).parents('.card').remove()
       };
     });
-
   });
   </script>
 {% endblock  %}

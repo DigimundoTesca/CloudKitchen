@@ -174,6 +174,20 @@ small {
 .badge-danger {
     background-color: #d9534f;
 }
+.badge-blue {
+    background-color: #0081bc;;
+}
+.badge-dark-blue {
+  background-color: #1e3c50;;
+}
+.badge-white-blue {
+  background-color: #eaeaea;
+  color: #0081bc;
+}
+.badge-white-blue-2 {
+  background-color: #eaeaea;
+  color: #1e3c50;
+}
 .card-scroll {
   overflow-y: scroll;
 }
@@ -182,6 +196,12 @@ small {
 }
 .container-hidden {
   display: none;
+}
+.container-assembly table {
+  font-size: 1.4rem;
+}
+.container-assembly table .badge {
+  font-size: 1.4rem;
 }
 .container-dabbawala-logo {
   text-align: center;
@@ -196,10 +216,10 @@ small {
   padding-top: 0;
 }
 .container-kitchen h1 {
-  font-size: 2rem;
+  font-size: 6rem;
 }
 .container-kitchen table.table-kitchen {
-  font-size: 1rem;
+  font-size: 3rem;
 }
 .container-kitchen .table-kitchen ul {
   padding-left: 0;
@@ -212,11 +232,12 @@ small {
 .container-sales {
   margin: 0 0.5rem;
 }
+.container-assembly,
 .container-sales-reports,
 .container-kitchen {
   margin: 0 1rem;
 }
-.container-sales-reports .sales-graphics{
+.container-sales-reports .sales-graphics {
   margin-bottom: 1rem; 
 }
 .container-sales-reports .sales-graphics .canvas-holder{

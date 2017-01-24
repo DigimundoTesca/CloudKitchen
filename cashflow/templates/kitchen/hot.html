@@ -2,45 +2,57 @@
 
 {% block content %}
 <div class="container-fluid container-kitchen">
-  <div>
-    <h1 class="text-xs-center">Cocina Caliente!</h1>
-  </div>
   <div class="row">
     <table class="table table-kitchen table-striped table-hover">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>Ticket ID</th>
           <th>Nombre</th>
           <th>Cantidad</th>
         </tr>
       </thead>
       <tbody>
-    {% for x in '123123' %}
-        <tr>
-          <th scope="row">1</th>
-          <td>
-            <ul>
-              <li>Elemento</li>
-            </ul>
-          </td>
-          <td>
-          <ul>
-              <li>X</li>
-            </ul>
-          </td>
-          </td>
-        </tr>
-    {% endfor %}
+        {% for product in products %}
+          {% if product.cartridges %}
+            {% for cartridge in product.cartridges %}
+              {% if cartridge.cartridge.category == 'FD' %}                
+                <tr>
+                  <th scope="row">{{ product.ticket_id }}</th>
+                  <td>{{ cartridge.cartridge }}</td>
+                  <td>{{ cartridge.quantity }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% if product.packages %}
+            {% for package in product.packages %}
+              {% for cartridge in package.package_recipe %}
+                {% if cartridge.category == 'FD' %}
+                  <tr>
+                    <th scope="row">{{ product.ticket_id }}</th>
+                    <td>{{ cartridge }}</td>
+                    <td>{{ package.quantity }}</td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
       </tbody>
     </table>
   </div>
+  </div>
 </div>
-
-<br><br>
-{% for product in products %}
-<br>
-{{product}}
-<br>
-  
-{% endfor %}
 {% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript" charset="utf-8" async>
+  $(function() {
+    $('ul.list-group').each(function(index,element) {
+      if ($(this).children().length == 0) {
+        //$(this).parents('.card').remove()
+      };
+    });
+  });
+  </script>
+{% endblock  %}
