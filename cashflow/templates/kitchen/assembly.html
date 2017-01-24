@@ -60,8 +60,29 @@
 <script type="text/javascript" charset="utf-8">
   
   $(function() {
-    $(this).on('click', '.btn-assembly', function(event) {
-      var element = $(this);
+      function rel(){
+        location.reload();          
+      }
+
+      var holdActive = false;
+      var holdStarter = null;
+      var holdDelay = 1000;
+
+    $(this).on('mousedown', '.btn-assembly', function () {
+      holdStarter = setTimeout(function() {
+        holdStarter = null;
+        holdActive = true;
+      }, holdDelay);
+    });
+
+    $(this).on('mouseup', '.btn-assembly', function () {
+      if (holdStarter) {
+        clearTimeout(holdStarter);
+      }
+      else if (holdActive){
+        holdActive = false;
+
+              var element = $(this);
       var order_id = element.parent('td').siblings('th').text();
 
       $.ajax({
@@ -96,10 +117,8 @@
           setTimeout(rel, 5000);
         },
       });
-      function rel(){
-        location.reload();          
       }
-    });  
+    });
   });
 </script>  
 {% endblock %}

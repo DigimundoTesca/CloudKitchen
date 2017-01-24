@@ -48,11 +48,10 @@
 {% block javascript %}
   <script type="text/javascript" charset="utf-8" async>
   $(function() {
-    $('ul.list-group').each(function(index,element) {
-      if ($(this).children().length == 0) {
-        //$(this).parents('.card').remove()
-      };
-    });
+    function rel(){
+      location.reload();          
+    }
+    setTimeout(rel, 15000);
   });
   </script>
 {% endblock  %}
