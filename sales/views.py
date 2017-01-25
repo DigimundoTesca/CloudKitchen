@@ -158,6 +158,7 @@ def new_sale(request):
             """
             Saves the tickets details for package cartridges
             """
+            print(ticket_detail_json_object['paquetes'])
             for ticket_detail in ticket_detail_json_object['paquetes']:
                 quantity = ticket_detail['quantity']
                 price = ticket_detail['price']
@@ -190,6 +191,8 @@ def new_sale(request):
                 list_2 = packages_lists[1]
                 list_3 = packages_lists[2]
 
+
+                # TO FIX - RAMSES
                 for x in list_1:
                     if new_package:
                         for y in list_2:
@@ -198,7 +201,6 @@ def new_sale(request):
                                     if x == y == z:
                                         new_package = False
                                         package_id = x
-                                        break
 
                 if new_package:
                     package_name = ticket_detail['name']
