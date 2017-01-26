@@ -1,3 +1,4 @@
+# Linux only
 -r requirements.txt
 
 pydot==1.2.3
