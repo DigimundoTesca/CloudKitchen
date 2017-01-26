@@ -41,7 +41,7 @@ class PackageCartridgeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PackageCartridge
-        fields = ('id', 'name', 'price', 'package_cartridge_recipe', 'image')
+        fields = ('id', 'name', 'price', 'package_cartridge_recipe',)
 
 
 class CustomerOrderDetailSerializer(serializers.ModelSerializer):
