@@ -18,8 +18,9 @@ class AdminSupplyLocation(admin.ModelAdmin):
 
 @admin.register(Supply)
 class AdminSupply(admin.ModelAdmin):
-    list_display = ('name', 'category', 'supplier', 'presentation_unit', 'presentation_cost', 'measurement_unit',
+    list_display = ('id', 'name', 'category', 'supplier', 'presentation_unit', 'presentation_cost', 'measurement_unit',
                     'measurement_quantity',)
+    list_display_links = ('id', 'name')
     ordering = ['name']
 
 
@@ -30,7 +31,8 @@ class CartridgeRecipeInline(admin.TabularInline):
 
 @admin.register(Cartridge)
 class AdminCashRegister(admin.ModelAdmin):
-    list_display = ('name', 'price', 'category', 'created_at')
+    list_display = ('id', 'name', 'price', 'category', 'created_at')
+    list_display_links = ('id', 'name')
     inlines = [CartridgeRecipeInline, ]
 
 
@@ -41,5 +43,6 @@ class PackageCartridgeRecipeInline(admin.TabularInline):
 
 @admin.register(PackageCartridge)
 class AdminPackageCartridge(admin.ModelAdmin):
-    list_display = ('name', 'price', 'package_active',)
+    list_display = ('id', 'name', 'price', 'package_active',)
+    list_display_links = ('id', 'name')
     inlines = [PackageCartridgeRecipeInline]
