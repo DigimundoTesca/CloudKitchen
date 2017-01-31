@@ -134,7 +134,6 @@ def get_sales_day_view(request):
 def new_sale(request):
     if request.method == 'POST':
         if request.POST['ticket']:
-            print(request.POST['ticket'])
             username = request.user
             user_profile_object = get_object_or_404(UserProfile, username=username)
             cash_register = CashRegister.objects.first()
