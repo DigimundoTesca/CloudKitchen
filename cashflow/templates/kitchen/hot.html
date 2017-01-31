@@ -66,17 +66,19 @@
           lista_id.push(id_element)
         }
       });
-      for(var i=0; i<lista_id.length;i++){
+      for(var i=0; i<lista_id.length; i++){
         a = i;
         b = i + 1;
         if (lista_id[a] == lista_id[b]){
-              // $(lista_id[b]).text(' ')
-              lista_id[b] = " ";
-            } 
-          }
-          // console.log(lista_id.length) 
-          console.log(lista_id);
-          // console.log(a,b);
-        }); 
-      </script>
+          // objetos.find('th.id').text(" ");
+          lista_id[b] = " ";
+        } 
+      }
+      console.log(lista_id);
+      for(var j=0; j<lista_id.length; j++){
+        objetos.find('th.id').text(lista_id[j]);
+        console.log(lista_id[j]);
+      }
+    }); 
+  </script>
 {% endblock  %}
