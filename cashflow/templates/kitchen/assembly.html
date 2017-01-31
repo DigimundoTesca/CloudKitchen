@@ -8,7 +8,7 @@
 
 {% block content %}
 <div class="container-fluid container-assembly">
-  <h3>Para ensamblar presione el boton <strong>"Ensamblar"</strong> durante dos segundos</h3>
+  <h3>Presiona el boton <strong>"Ensamblar"</strong> hasta que sea azul completamente.</h3>
   <br>
   <div class="row">
     <table class="table table-hoverable table-responsive">
@@ -108,11 +108,8 @@
               title: "Éxito",
               text: "Paquete ensamblado",
               type: "success",
-              timer: 1000,
               showConfirmButton: false
             });  
-            $('#btn-pago-efectivo').attr('disabled', 'true');
-            $('#btn-pago-tarjeta').attr('disabled', 'true');
             setTimeout(rel, 1500);
           },
           error: function(result, jqXHR , textStatus, errorThrown){
@@ -120,10 +117,10 @@
               title: "Orden no procesada!",
               text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
               type: "error",
-              timer: 4500,
+              timer: 2500,
               showConfirmButton: false
             });  
-            setTimeout(rel, 5000);
+            setTimeout(rel, 3000);
           },
         });
       }
