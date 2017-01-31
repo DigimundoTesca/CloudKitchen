@@ -8,6 +8,8 @@
 
 {% block content %}
 <div class="container-fluid container-assembly">
+  <h3>Para ensamblar presione el boton <strong>"Ensamblar"</strong> durante dos segundos</h3>
+  <br>
   <div class="row">
     <table class="table table-hoverable table-responsive">
       <thead class="thead-inverse">
@@ -20,32 +22,32 @@
       </thead>
       <tbody>
         {% for order in orders %}
-          <tr>
-            <th>{{ order.ticket_id }}</th>
-            <td>
-              {% for product in order.products %}
-                <span class="badge badge-blue">
-                  {{ product.name }}  
-                  <span class="badge badge-white-blue">
-                    {{ product.quantity }}
-                  </span>
-                </span>
-              {% endfor %}
-            </td>
-            <td>
-              {% for package in order.packages %}
-              <span class="badge badge-dark-blue" >
-                {{ package.name }}
-                <span class="badge badge-white-blue-2">
-                  {{ package.quantity }}
-                </span>
+        <tr>
+          <th>{{ order.ticket_id }}</th>
+          <td>
+            {% for product in order.products %}
+            <span class="badge badge-blue">
+              {{ product.name }}  
+              <span class="badge badge-white-blue">
+                {{ product.quantity }}
               </span>
-              {% endfor %}
-            </td>
-            <td>
-              <button class="btn btn-success btn-lg btn-assembly">Ensamblar</button>
-            </td>
-          </tr>
+            </span>
+            {% endfor %}
+          </td>
+          <td>
+            {% for package in order.packages %}
+            <span class="badge badge-dark-blue" >
+              {{ package.name }}
+              <span class="badge badge-white-blue-2">
+                {{ package.quantity }}
+              </span>
+            </span>
+            {% endfor %}
+          </td>
+          <td>
+            <button class="btn btn-success btn-lg btn-assembly">Ensamblar</button>
+          </td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
@@ -58,65 +60,72 @@
 <script src="{% static 'js/sweetalert.min.js' %}"></script>
 
 <script type="text/javascript" charset="utf-8">
-  
-  $(function() {
-      function rel(){
-        location.reload();          
-      }
 
-      var holdActive = false;
-      var holdStarter = null;
-      var holdDelay = 1000;
+  $(function() {
+    function rel(){
+      location.reload();          
+    }
+
+    var holdActive = false;
+    var holdStarter = null;
+    var holdDelay = 1000;
 
     $(this).on('mousedown', '.btn-assembly', function () {
+      var assembly_button = $(this);
+      assembly_button.removeClass('btn-success btn-primary').addClass('btn-info');
+      
       holdStarter = setTimeout(function() {
         holdStarter = null;
         holdActive = true;
+        assembly_button.removeClass('btn-info').addClass('btn-primary');
       }, holdDelay);
     });
 
     $(this).on('mouseup', '.btn-assembly', function () {
+      var assembly_button = $(this);
       if (holdStarter) {
         clearTimeout(holdStarter);
+        assembly_button.removeClass('btn-info').addClass('btn-success');
+
       }
       else if (holdActive){
+        assembly_button.removeClass('btn-success').addClass('btn-primary');
         holdActive = false;
+        var element = $(this);
+        var order_id = element.parent('td').siblings('th').text();
 
-              var element = $(this);
-      var order_id = element.parent('td').siblings('th').text();
-
-      $.ajax({
-        url: '{% url "kitchen:assembly" %}',
-        type: 'POST',
-        data: {
-          'order_id': order_id,
-          csrfmiddlewaretoken: '{{ csrf_token }}',
-        },
-        traditional: true,
-        datatype: 'jsonp',
-        success: function(result){
-          swal({
-            title: "Éxito",
-            text: "Venta realizada",
-            type: "success",
-            timer: 1000,
-            showConfirmButton: false
-          });  
-          $('#btn-pago-efectivo').attr('disabled', 'true');
-          $('#btn-pago-tarjeta').attr('disabled', 'true');
-          setTimeout(rel, 1500);
-        },
-        error: function(result, jqXHR , textStatus, errorThrown){
-          swal({
-            title: "Orden no procesada!",
-            text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
-            type: "error",
-            timer: 4500,
-            showConfirmButton: false
-          });  
-          setTimeout(rel, 5000);
-        },
-      });
+        $.ajax({
+          url: '{% url "kitchen:assembly" %}',
+          type: 'POST',
+          data: {
+            'order_id': order_id,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          traditional: true,
+          datatype: 'jsonp',
+          success: function(result){
+            swal({
+              title: "Éxito",
+              text: "Paquete ensamblado",
+              type: "success",
+              timer: 1000,
+              showConfirmButton: false
+            });  
+            $('#btn-pago-efectivo').attr('disabled', 'true');
+            $('#btn-pago-tarjeta').attr('disabled', 'true');
+            setTimeout(rel, 1500);
+          },
+          error: function(result, jqXHR , textStatus, errorThrown){
+            swal({
+              title: "Orden no procesada!",
+              text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
+              type: "error",
+              timer: 4500,
+              showConfirmButton: false
+            });  
+            setTimeout(rel, 5000);
+          },
+        });
       }
     });
   });

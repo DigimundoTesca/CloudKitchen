@@ -203,6 +203,9 @@ small {
 .container-assembly table .badge {
   font-size: 1.4rem;
 }
+.container-assembly table button.btn-assembly{
+transition: all 1s ease;
+}
 .container-dabbawala-logo {
   text-align: center;
 }
