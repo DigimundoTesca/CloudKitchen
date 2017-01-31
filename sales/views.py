@@ -2,6 +2,7 @@ import json
 from datetime import datetime, date, timedelta
 
 from django.contrib.auth.decorators import login_required,permission_required
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -133,6 +134,7 @@ def get_sales_day_view(request):
 def new_sale(request):
     if request.method == 'POST':
         if request.POST['ticket']:
+            print(request.POST['ticket'])
             username = request.user
             user_profile_object = get_object_or_404(UserProfile, username=username)
             cash_register = CashRegister.objects.first()
@@ -155,63 +157,49 @@ def new_sale(request):
                 )
                 new_ticket_detail_object.save()
 
-            """
-            Saves the tickets details for package cartridges
-            """
-            print(ticket_detail_json_object['paquetes'])
-            for ticket_detail in ticket_detail_json_object['paquetes']:
-                quantity = ticket_detail['quantity']
-                price = ticket_detail['price']
-
-                packages_lists = []
-                package_list = []
-                index_packages_lists = 0
+            for ticket_detail_packages in ticket_detail_json_object['paquetes']:
+                """
+                Saves the tickets details for package cartridges
+                    1. Iterates each package
+                    2. For each package, gets the list of cartridges tha make up each recipe
+                    3. Compares the cartridge's list obtained with the corresponding list in the JSON
+                    4. Depending on the result on th result creates a new item in the package table and the new
+                        ticket or just creates the new ticket
+                """
+                quantity = ticket_detail_packages['quantity']
+                price = ticket_detail_packages['price']
+                packages_id_list = ticket_detail_packages['id_list']
                 package_id = None
-                new_package = True
+                is_new_package = True
 
-                """
-                Gets the packages that already have the chosen products
-                """
-                for id_cartridge in ticket_detail['id_list']:
-                    packages_recipe = PackageCartridgeRecipe.objects.filter(cartridge=id_cartridge)
-                    packages_lists.append([])
+                print('TICKET DETAIL', ticket_detail_packages)
 
-                    for package_recipe in packages_recipe:
-                        packages_lists[index_packages_lists].append(package_recipe.package_cartridge.id)
+                packages_recipes = PackageCartridge.objects.all()
+                print('\nPACKAGES RECIPES\n\n', packages_recipes)
 
-                    index_packages_lists += 1
+                for package_recipe in packages_recipes:
+                    """
+                    Gets the cartridges for each package cartridge
+                    """
+                    print('PACKAGE RECIPE:', package_recipe)
+                    cartridges_for_recipe = PackageCartridgeRecipe.objects.filter(package_cartridge=package_recipe)
 
-                for element in packages_lists:
-                    package_list += element
+                    for cartridge in cartridges_for_recipe:
+                        """
+                        compares each package recipe cartridges if is equal that packages_id_list
+                        """
+                        print('CARTUCHO: ', cartridge)
 
-                """
-                Validates if it's a new package
-                """
-                list_1 = packages_lists[0]
-                list_2 = packages_lists[1]
-                list_3 = packages_lists[2]
-
-
-                # TO FIX - RAMSES
-                for x in list_1:
-                    if new_package:
-                        for y in list_2:
-                            if x == y:
-                                for z in list_3:
-                                    if x == y == z:
-                                        new_package = False
-                                        package_id = x
-
-                if new_package:
-                    package_name = ticket_detail['name']
-                    package_price = ticket_detail['price']
+                if is_new_package:
+                    package_name = ticket_detail_packages['name']
+                    package_price = ticket_detail_packages['price']
                     new_package_object = PackageCartridge(name=package_name, price=package_price, package_active=True)
                     new_package_object.save()
 
                     """
                     Creates a new package
                     """
-                    for id_cartridge in ticket_detail['id_list']:
+                    for id_cartridge in packages_id_list:
                         cartridge_object = get_object_or_404(Cartridge, id=id_cartridge)
                         new_package_recipe_object = PackageCartridgeRecipe(
                             package_cartridge=new_package_object,

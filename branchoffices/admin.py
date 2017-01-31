@@ -5,7 +5,7 @@ from branchoffices.models import CashRegister, BranchOffice, Supplier
 
 class CashRegisterInline(admin.StackedInline):
     model = CashRegister
-    extra = 2
+    extra = 0
 
 
 @admin.register(BranchOffice)
