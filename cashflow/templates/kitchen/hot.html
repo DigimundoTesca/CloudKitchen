@@ -70,8 +70,11 @@
       for(var i=0; i<lista_id.length; i++){
         a = i;
         b = i + 1;
-        if (lista_id[a] == lista_id[b]){
+        if (lista_id[a] == lista_id[b]||lista_id[a-1]==lista_id[b]){
           lista_id[b] = " ";
+          /*for (var i1=lista_id.length ; i1=0 ; i--){
+          lista_id[b] = " ";
+        }*/
         } 
       }
       console.log(lista_id);
