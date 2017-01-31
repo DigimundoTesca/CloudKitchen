@@ -44,10 +44,10 @@ def test(request):
 def index(request):
     host = request.META['HTTP_HOST']
 
-    if host != 'dabbawala.com.mx' or host != 'www.dabbawala.com.mx':
-        return redirect('users:login')
-    else:
+    if host == 'dabbawala.com.mx' or host == 'www.dabbawala.com.mx':
         return redirect('users:new_customer')
+    else:
+        return redirect('users:login')
 
 
 # -------------------------------------  Auth -------------------------------------
