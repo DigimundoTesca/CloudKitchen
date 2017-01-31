@@ -142,6 +142,35 @@ def new_sale(request):
             new_ticket_object.save()
             ticket_detail_json_object = json.loads(request.POST.get('ticket'))
 
+            def items_list_to_int(list_to_cast):
+                """
+                Evaluates each of the elements of the list received and casts them to integers
+                """
+                cast_list = []
+                for item in range(0, len(list_to_cast)):
+                    cast_list.append(int(list_to_cast[item]))
+
+                return cast_list
+
+            def are_equal_lists(list_1, list_2):
+                """
+                 Checks if two lists are identical
+                """
+                list_1 = items_list_to_int(list_1)
+                list_2 = items_list_to_int(list_2)
+
+                list_1.sort()
+                list_2.sort()
+
+                if len(list_1) != len(list_2):
+                    return False
+                else:
+                    for element in range(0, len(list_1)):
+                        if list_1[element] != list_2[element]:
+                            return False
+
+                return True
+
             """
             Saves the tickets details for cartridges
             """
@@ -171,24 +200,22 @@ def new_sale(request):
                 packages_id_list = ticket_detail_packages['id_list']
                 package_id = None
                 is_new_package = True
-
-                print('TICKET DETAIL', ticket_detail_packages)
-
                 packages_recipes = PackageCartridge.objects.all()
-                print('\nPACKAGES RECIPES\n\n', packages_recipes)
 
                 for package_recipe in packages_recipes:
                     """
-                    Gets the cartridges for each package cartridge
+                    Gets the cartridges for each package cartridge and compares
+                    each package recipe cartridges if is equal that packages_id_list
                     """
-                    print('PACKAGE RECIPE:', package_recipe)
-                    cartridges_for_recipe = PackageCartridgeRecipe.objects.filter(package_cartridge=package_recipe)
+                    cartridges_per_recipe = PackageCartridgeRecipe.objects.filter(package_cartridge=package_recipe)
+                    cartridges_in_package_recipe = []
 
-                    for cartridge in cartridges_for_recipe:
-                        """
-                        compares each package recipe cartridges if is equal that packages_id_list
-                        """
-                        print('CARTUCHO: ', cartridge)
+                    for cartridge_recipe in cartridges_per_recipe:
+                        cartridges_in_package_recipe.append(cartridge_recipe.cartridge.id)
+
+                    if are_equal_lists(cartridges_in_package_recipe, packages_id_list):
+                        is_new_package = False
+                        package_id = package_recipe.id
 
                 if is_new_package:
                     package_name = ticket_detail_packages['name']
@@ -232,10 +259,9 @@ def new_sale(request):
                     )
                     new_ticket_detail_object.save()
 
-            data = {
-                'status': 'ready'
-            }
-            return JsonResponse(data)
+            return JsonResponse({'status': 'ready'})
+
+        return JsonResponse({'status': 'error'})
 
     else:
         cartridges_list = Cartridge.objects.all()
@@ -248,4 +274,4 @@ def new_sale(request):
             'cartridges': cartridges_list,
             'package_cartridges': package_cartridges
         }
-    return render(request, template, context)
+        return render(request, template, context)

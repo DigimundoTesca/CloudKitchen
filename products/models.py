@@ -160,7 +160,7 @@ class PackageCartridgeRecipe(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return '%s -> %s' % (self.quantity, self.cartridge)
+        return '%s %s' % (self.quantity, self.cartridge)
 
     class Meta:
         ordering = ('id',)
