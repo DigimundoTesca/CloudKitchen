@@ -46,42 +46,42 @@
 {% endblock %}
 
 {% block javascript %}
-  <script type="text/javascript" charset="utf-8" async>
+<script type="text/javascript" charset="utf-8" async>
   $(function() {
     function rel(){
       location.reload();          
     }
     setTimeout(rel, 15000);
   });
-  </script>
-  <script type="text/javascript" charset="utf-8" async>
-    $(function() {
-      var objetos = $('tr');
-      var lista_id = []
-      var a = 0;
-      var b = 0;
-      var count = -1; 
-      objetos.each(function(index, element) {
-        id_element = parseInt($(element).find('th.id').text().trim())
-        if (!isNaN(id_element)) {
-          lista_id.push(id_element)
-        }
-      });
-      for(var i=0; i<lista_id.length; i++){
-        a = i;
-        b = i + 1;
-        if (lista_id[a] == lista_id[b]||lista_id[a-1]==lista_id[b]){
-          lista_id[b] = " ";
-          /*for (var i1=lista_id.length ; i1=0 ; i--){
-          lista_id[b] = " ";
-        }*/
-        } 
+</script>
+<script type="text/javascript" charset="utf-8" async>
+  $(function() {
+    var objetos = $('tr');
+    var lista_id = [];
+    var lista_2 = [];
+    var a = 0;
+    var b = 0;
+    var count = -1; 
+    objetos.each(function(index, element) {
+      id_element = parseInt($(element).find('th.id').text().trim())
+      if (!isNaN(id_element)) {
+        lista_id.push(id_element);
+        lista_2.push(id_element);
       }
-      console.log(lista_id);
-      objetos.each(function(index, element) {
-        id_element = parseInt($(element).find('th.id').text(lista_id[count]))
-         count++;
-      });
-    }); 
-  </script>
+    });
+      for (var j=0; j<lista_id.length; j++){
+        a=j;
+        b = j+1;
+        if (lista_2[a] ===  lista_id[b]){
+          lista_id[b] = " ";
+      }
+    }
+    console.log(lista_2);
+    console.log(lista_id);
+    objetos.each(function(index, element) {
+      id_element = parseInt($(element).find('th.id').text(lista_id[count]))
+      count++;
+    });
+  }); 
+</script>
 {% endblock  %}
