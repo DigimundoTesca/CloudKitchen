@@ -16,7 +16,7 @@
           {% if product.cartridges %}
             {% for cartridge in product.cartridges %}
               {% if cartridge.cartridge.category == 'FD' %}                
-                <tr>
+                <tr class="tr_id">
                   <th scope="row" class="id">{{ product.ticket_id }}</th>
                   <td>{{ cartridge.cartridge }}</td>
                   <td>{{ cartridge.quantity }}</td>
@@ -28,7 +28,7 @@
             {% for package in product.packages %}
               {% for cartridge in package.package_recipe %}
                 {% if cartridge.category == 'FD' %}
-                  <tr>
+                  <tr class="tr_id">
                     <th scope="row" class="id">{{ product.ticket_id }}</th>
                     <td>{{ cartridge }}</td>
                     <td>{{ package.quantity }}</td>
@@ -59,6 +59,7 @@
     var objetos = $('tr');
     var lista_id = [];
     var lista_2 = [];
+    var color = [];
     var a = 0;
     var b = 0;
     var count = -1; 
@@ -74,13 +75,16 @@
         b = j+1;
         if (lista_2[a] ===  lista_id[b]){
           lista_id[b] = " ";
+        }
+        if (lista_2[a]%2==0){
+          color.push('#FFB74D');
+        } else {
+          color.push('#F4F4ED');
+        }
       }
-    }
-    console.log(lista_2);
-    console.log(lista_id);
     objetos.each(function(index, element) {
       id_element = parseInt($(element).find('th.id').text(lista_id[count]));
-      id_element = parseInt($(element).find('th.row').background="blue");
+      id_element = parseInt($(element).css('background',color[count]));
       count++;
     });
   }); 
