@@ -17,7 +17,7 @@
             {% for cartridge in product.cartridges %}
               {% if cartridge.cartridge.category == 'FD' %}                
                 <tr class="tr_id">
-                  <th scope="row" class="id">{{ product.ticket_id }}</th>
+                  <th scope="row" class="id_kitchen_table">{{ product.ticket_id }}</th>
                   <td>{{ cartridge.cartridge }}</td>
                   <td>{{ cartridge.quantity }}</td>
                 </tr>
@@ -29,7 +29,7 @@
               {% for cartridge in package.package_recipe %}
                 {% if cartridge.category == 'FD' %}
                   <tr class="tr_id">
-                    <th scope="row" class="id">{{ product.ticket_id }}</th>
+                    <th scope="row" class="id_kitchen_table">{{ product.ticket_id }}</th>
                     <td>{{ cartridge }}</td>
                     <td>{{ package.quantity }}</td>
                   </tr>
@@ -40,7 +40,6 @@
         {% endfor %}
       </tbody>
     </table>
-  </div>
   </div>
 </div>
 {% endblock %}
@@ -64,7 +63,7 @@
     var b = 0;
     var count = -1; 
     objetos.each(function(index, element) {
-      id_element = parseInt($(element).find('th.id').text().trim())
+      id_element = parseInt($(element).find('th.id_kitchen_table').text().trim())
       if (!isNaN(id_element)) {
         lista_id.push(id_element);
         lista_2.push(id_element);
@@ -83,7 +82,7 @@
         }
       }
     objetos.each(function(index, element) {
-      id_element = parseInt($(element).find('th.id').text(lista_id[count]));
+      id_element = parseInt($(element).find('th.id_kitchen_table').text(lista_id[count]));
       id_element = parseInt($(element).css('background',color[count]));
       count++;
     });
