@@ -11,4 +11,5 @@ class TicketDetailInline(admin.TabularInline):
 @admin.register(Ticket)
 class AdminTicket(admin.ModelAdmin):
     list_display = ('created_at', 'seller', 'cash_register',)
+    list_filter = ('seller',)
     inlines = [TicketDetailInline, ]
