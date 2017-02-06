@@ -58,6 +58,7 @@
 
 {% block javascript %}
 <script src="{% static 'js/sweetalert.min.js' %}"></script>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
 
 <script type="text/javascript" charset="utf-8">
 
@@ -70,7 +71,8 @@
     var holdStarter = null;
     var holdDelay = 1000;
 
-    $(this).on('mousedown', '.btn-assembly', function () {
+    $(this).on('mousedown touchstart', '.btn-assembly', function (e) {
+      e.preventDefault();
       var assembly_button = $(this);
       assembly_button.removeClass('btn-success btn-primary').addClass('btn-info');
       
@@ -81,7 +83,8 @@
       }, holdDelay);
     });
 
-    $(this).on('mouseup', '.btn-assembly', function () {
+    $(this).on('mouseup touchend', '.btn-assembly', function (e) {
+      e.preventDefault();
       var assembly_button = $(this);
       if (holdStarter) {
         clearTimeout(holdStarter);
