@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Sum
 from django.utils import timezone
 
 from branchoffices.models import CashRegister
@@ -20,6 +21,17 @@ class Ticket(models.Model):
             self.created_at = timezone.now()
         return super(Ticket, self).save(*args, **kwargs)
 
+    def ticket_details(self):
+        tickets_details = TicketDetail.objects.filter(ticket=self.id)
+        options = []
+
+        for ticket_detail in tickets_details:
+            options.append(("<option value=%s>%s</option>" % (ticket_detail, ticket_detail)))
+        tag = """<select>%s</select>""" % str(options)
+        return tag
+
+    ticket_details.allow_tags = True
+
     class Meta:
         ordering = ('-created_at',)
         verbose_name = 'Ticket '
@@ -40,4 +52,3 @@ class TicketDetail(models.Model):
         ordering = ('id',)
         verbose_name = 'Ticket Details'
         verbose_name_plural = 'Tickets Details'
-
