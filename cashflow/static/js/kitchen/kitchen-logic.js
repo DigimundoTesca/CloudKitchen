@@ -1,6 +1,6 @@
 $(function() {
   function rel(){
-    location.reload();          
+    location.reload();
   }
   setTimeout(rel, 15000);
 });
