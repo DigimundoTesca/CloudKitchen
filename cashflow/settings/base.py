@@ -22,6 +22,7 @@ SECRET_KEY = os.getenv('DABBANET_SECRET_KEY')
 
 # Application definition
 DJANGO_APPS = [
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middlewares.HostMiddleware',
 ]
 
 ROOT_URLCONF = 'cashflow.urls'

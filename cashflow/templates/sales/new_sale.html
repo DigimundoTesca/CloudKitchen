@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block link %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/sweetalert.css' %}">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
 {% endblock link %}
 
 {% block content %}
@@ -241,7 +241,7 @@
 {% endblock content %}
 
 {% block javascript %}
-<script src="{% static 'js/sweetalert.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.js"></script>
 
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function(){
@@ -380,14 +380,12 @@
 
     $(this).on('click', '.remove-icon-li', function(event) {
       let element = $(this);
-      console.log(element);
 
       let quantity_product = element.siblings('.cant-li').text();
       let cost_base_product = element.siblings('.cost-base-li').text();
       let total_product = element.siblings('.total-li').text();
       let total_ticket = 0;
       let id_product = element.parent().attr('id').substring(13);
-      console.log(id_product);
 
       /** Refresh total ticket. Removes the product from the tiket list*/
       if (quantity_product == 1) {
@@ -703,3 +701,7 @@
   });
 </script>
 {% endblock javascript %}
+
+603 604
+
+chilaquiles

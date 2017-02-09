@@ -3,7 +3,8 @@
 {% load static %}
 
 {% block link %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/sweetalert.css' %}">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
 {% endblock link %}
 
 {% block content %}
@@ -57,7 +58,7 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'js/sweetalert.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -68,9 +69,10 @@
 
     var holdActive = false;
     var holdStarter = null;
-    var holdDelay = 1000;
+    var holdDelay = 500;
 
-    $(this).on('mousedown', '.btn-assembly', function () {
+    $(this).on('mousedown touchstart', '.btn-assembly', function (e) {
+      e.preventDefault();
       var assembly_button = $(this);
       assembly_button.removeClass('btn-success btn-primary').addClass('btn-info');
       
@@ -81,7 +83,8 @@
       }, holdDelay);
     });
 
-    $(this).on('mouseup', '.btn-assembly', function () {
+    $(this).on('mouseup touchend', '.btn-assembly', function (e) {
+      e.preventDefault();
       var assembly_button = $(this);
       if (holdStarter) {
         clearTimeout(holdStarter);
@@ -103,6 +106,17 @@
           },
           traditional: true,
           datatype: 'jsonp',
+          beforeSend: function (xhr) {
+            swal({
+              title: "Ensamblando Paquete",
+              text: "Espere mientras se envia la petición",
+              type: "info",
+              showCancelButton: false,
+              showConfirmButton: true,
+              showLoaderOnConfirm: true,
+            });
+            $('button.swal2-confirm').addClass('swal2-loading').blur();
+          },
           success: function(result){
             swal({
               title: "Éxito",
@@ -110,17 +124,16 @@
               type: "success",
               showConfirmButton: false
             });  
-            setTimeout(rel, 1500);
+            setTimeout(rel, 1000);
           },
           error: function(result, jqXHR , textStatus, errorThrown){
             swal({
               title: "Orden no procesada!",
               text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
               type: "error",
-              timer: 2500,
               showConfirmButton: false
             });  
-            setTimeout(rel, 3000);
+            setTimeout(rel,1500);
           },
         });
       }

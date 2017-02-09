@@ -1,9 +1,10 @@
 {% extends 'base/base_nav_footer.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container-fluid container-kitchen">
   <div class="row">
-    <table class="table table-kitchen table-striped table-hover">
+    <table class="table table-kitchen table-hover">
       <thead>
         <tr>
           <th>Ticket ID</th>
@@ -16,8 +17,8 @@
           {% if product.cartridges %}
             {% for cartridge in product.cartridges %}
               {% if cartridge.cartridge.category == 'FD' %}                
-                <tr>
-                  <th scope="row">{{ product.ticket_id }}</th>
+                <tr class="tr_id">
+                  <th scope="row" class="id_kitchen_table">{{ product.ticket_id }}</th>
                   <td>{{ cartridge.cartridge }}</td>
                   <td>{{ cartridge.quantity }}</td>
                 </tr>
@@ -28,8 +29,8 @@
             {% for package in product.packages %}
               {% for cartridge in package.package_recipe %}
                 {% if cartridge.category == 'FD' %}
-                  <tr>
-                    <th scope="row">{{ product.ticket_id }}</th>
+                  <tr class="tr_id">
+                    <th scope="row" class="id_kitchen_table">{{ product.ticket_id }}</th>
                     <td>{{ cartridge }}</td>
                     <td>{{ package.quantity }}</td>
                   </tr>
@@ -41,17 +42,11 @@
       </tbody>
     </table>
   </div>
-  </div>
 </div>
 {% endblock %}
 
 {% block javascript %}
-  <script type="text/javascript" charset="utf-8" async>
-  $(function() {
-    function rel(){
-      location.reload();          
-    }
-    setTimeout(rel, 15000);
-  });
-  </script>
+
+<script type="text/javascript" src="{% static 'js/kitchen/kitchen-logic.js' %}" async charset="utf-8"></script>
+
 {% endblock  %}

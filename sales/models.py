@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Sum
 from django.utils import timezone
 
 from branchoffices.models import CashRegister
@@ -7,7 +8,7 @@ from users.models import User as UserProfile
 
 
 class Ticket(models.Model):
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(editable=True)
     seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
 
@@ -19,6 +20,20 @@ class Ticket(models.Model):
         if not self.id:
             self.created_at = timezone.now()
         return super(Ticket, self).save(*args, **kwargs)
+
+    def ticket_details(self):
+        tickets_details = TicketDetail.objects.filter(ticket=self.id)
+        options = []
+
+        for ticket_detail in tickets_details:
+            if ticket_detail.cartridge:
+                options.append(("<option value=%s>%s</option>" % (ticket_detail, ticket_detail.cartridge)))
+            elif ticket_detail.package_cartridge:
+                options.append(("<option value=%s>%s</option>" % (ticket_detail, ticket_detail.package_cartridge)))
+        tag = """<select>%s</select>""" % str(options)
+        return tag
+
+    ticket_details.allow_tags = True
 
     class Meta:
         ordering = ('-created_at',)
@@ -40,4 +55,3 @@ class TicketDetail(models.Model):
         ordering = ('id',)
         verbose_name = 'Ticket Details'
         verbose_name_plural = 'Tickets Details'
-

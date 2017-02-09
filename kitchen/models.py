@@ -27,13 +27,16 @@ class ProcessedProduct(models.Model):
     @receiver(post_save, sender=Ticket)
     def create_processed_product(sender, instance, **kwargs):
         ticket = Ticket.objects.get(id=instance.id)
-        status = 'PE'
+        processed_product = ProcessedProduct.objects.filter(ticket=ticket).exists()
 
-        processed_product = ProcessedProduct.objects.create(
-            ticket=ticket,
-            status=status,
-        )
-        processed_product.save()
+        if not processed_product:
+            status = 'PE'
+            processed_product = ProcessedProduct.objects.create(
+                ticket=ticket,
+                status=status,
+            )
+
+            processed_product.save()
 
     class Meta:
         ordering = ('id',)
