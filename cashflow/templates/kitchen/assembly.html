@@ -73,6 +73,9 @@
         assembly_button.removeClass('btn-info').addClass('btn-primary');
       }, holdDelay);
     });
+
+    //Usar mouseleave ??
+    //
     $(this).on('mouseup touchend', '.btn-assembly', function (e) {
       e.preventDefault(); 
       var assembly_button = $(this);
