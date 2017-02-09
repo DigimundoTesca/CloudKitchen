@@ -105,8 +105,6 @@ def sales(request):
         'ticket_details': get_tickets_details(),
     }
 
-    print(get_tickets_details()[0])
-
     return render(request, template, context)
 
 
