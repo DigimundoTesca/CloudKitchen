@@ -3,7 +3,6 @@ from django.test import TestCase
 from django.urls import reverse
 
 from users.models import User
-from django.contrib.auth import authenticate, login
 
 
 class SimpleClass(TestCase):

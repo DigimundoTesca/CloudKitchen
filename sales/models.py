@@ -26,7 +26,10 @@ class Ticket(models.Model):
         options = []
 
         for ticket_detail in tickets_details:
-            options.append(("<option value=%s>%s</option>" % (ticket_detail, ticket_detail)))
+            if ticket_detail.cartridge:
+                options.append(("<option value=%s>%s</option>" % (ticket_detail, ticket_detail.cartridge)))
+            elif ticket_detail.package_cartridge:
+                options.append(("<option value=%s>%s</option>" % (ticket_detail, ticket_detail.package_cartridge)))
         tag = """<select>%s</select>""" % str(options)
         return tag
 
