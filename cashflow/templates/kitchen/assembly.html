@@ -1,8 +1,8 @@
 {% extends 'base/base_nav_footer.html' %}
 {% load static %}
 {% block link %}
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css"/>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 {% endblock link %}
 {% block content %}
   <div class="container-fluid container-assembly">
@@ -69,12 +69,12 @@
       
       holdStarter = setTimeout(function() {
         holdStarter = null;
-        holdActive = true;
+        holdActive = true; 
         assembly_button.removeClass('btn-info').addClass('btn-primary');
       }, holdDelay);
     });
     $(this).on('mouseup touchend', '.btn-assembly', function (e) {
-      e.preventDefault();
+      e.preventDefault(); 
       var assembly_button = $(this);
       if (holdStarter) {
         clearTimeout(holdStarter);
