@@ -42,12 +42,7 @@ def test(request):
 
 # -------------------------------------  Index -------------------------------------
 def index(request):
-    host = request.META['HTTP_HOST']
-
-    if host == 'dabbawala.com.mx' or host == 'www.dabbawala.com.mx':
-        return redirect('users:new_customer')
-    else:
-        return redirect('users:login')
+    return redirect('users:login')
 
 
 # -------------------------------------  Auth -------------------------------------
@@ -109,7 +104,6 @@ def new_customer(request):
             customer = form_customer.save(commit=False)
             customer.save()
             return redirect('users:thanks')
-        print('no es valido')
 
     template = 'customers/register/new_customer.html'
     title = 'Dabbawala - Registro de clientes'

@@ -1,11 +1,11 @@
-import json
+import json, sys
 from datetime import datetime, date, timedelta
 
+from decimal import Decimal
+
 from django.contrib.auth.decorators import login_required,permission_required
-from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-
 
 from branchoffices.models import CashRegister
 from cashflow.settings.base import PAGE_TITLE
@@ -71,24 +71,42 @@ def sales(request):
         return days
 
     def get_tickets():
-        tickets_object = Ticket.objects.all()
-        return tickets_object
+        tickets_details = TicketDetail.objects.select_related('ticket', 'ticket__seller', 'cartridge','package_cartridge').filter()
+        tickets = Ticket.objects.all()
+        tickets_list = []
 
-    def get_tickets_details():
-        tickets = []
-        for ticket_object in Ticket.objects.all():
-            ticket_detail = {
-                'id_parent': ticket_object,
-                'details': [],
-                'total': 0.0,
-                'quantity': 0.0
+        for ticket in tickets:
+            ticket_object = {
+                'ticket_parent': ticket,
+                'cartridges': [],
+                'packages': [],
+                'total': Decimal(0.00),
             }
-            for ticket_detail_object in TicketDetail.objects.filter(ticket=ticket_object.id):
-                ticket_detail['details'].append(ticket_detail_object)
-                ticket_detail['total'] += float(ticket_detail_object.price)
-                ticket_detail['quantity'] += float(ticket_detail_object.quantity)
-            tickets.append(ticket_detail)
-        return tickets
+
+            for ticket_details in tickets_details:
+                if ticket_details.ticket == ticket:
+                    if ticket_details.cartridge:
+                        cartridge_object = {
+                            'cartridge': None,
+                            'quantity': 0
+                        }
+                        cartridge_object['cartridge'] = ticket_details.cartridge
+                        cartridge_object['quantity'] = ticket_details.quantity
+                        ticket_object['cartridges'].append(cartridge_object)
+                        ticket_object['total'] += ticket_details.price
+                    elif ticket_details.package_cartridge:
+                        package_cartridge_object = {
+                            'package': None,
+                            'quantity': 0
+                        }
+                        package_cartridge_object['package'] = ticket_details.package_cartridge
+                        package_cartridge_object['quantity'] = ticket_details.quantity
+                        ticket_object['packages'].append(package_cartridge_object)
+                        ticket_object['total'] += ticket_details.price
+
+            tickets_list.append(ticket_object)
+
+        return tickets_list
 
     template = 'sales/sales.html'
     title = 'Ventas'
@@ -100,10 +118,10 @@ def sales(request):
         'day': get_name_day(),
         'week': get_week_number(),
         'tickets': get_tickets(),
-        'ticket_details': get_tickets_details(),
     }
 
     return render(request, template, context)
+
 
 
 @login_required(login_url='users:login')
@@ -206,7 +224,8 @@ def new_sale(request):
                     Gets the cartridges for each package cartridge and compares
                     each package recipe cartridges if is equal that packages_id_list
                     """
-                    cartridges_per_recipe = PackageCartridgeRecipe.objects.filter(package_cartridge=package_recipe)
+                    cartridges_per_recipe = PackageCartridgeRecipe.objects.select_related(
+                        'package_cartridge', 'cartridge').filter(package_cartridge=package_recipe)
                     cartridges_in_package_recipe = []
 
                     for cartridge_recipe in cartridges_per_recipe:
@@ -274,3 +293,49 @@ def new_sale(request):
             'package_cartridges': package_cartridges
         }
         return render(request, template, context)
+
+
+# -------------------------------- Test ------------------------------
+def test(request):
+    template = 'sales/test.html'
+
+    tickets_details = TicketDetail.objects.select_related('ticket', 'ticket__seller', 'cartridge','package_cartridge').filter()
+    tickets = Ticket.objects.all()
+    tickets_list = []
+
+    for ticket in tickets:
+        ticket_object = {
+            'ticket_parent': ticket,
+            'cartridges': [],
+            'packages': [],
+            'total': Decimal(0.00),
+        }
+
+        for ticket_details in tickets_details:
+            if ticket_details.ticket == ticket:
+                if ticket_details.cartridge:
+                    cartridge_object = {
+                        'cartridge': None,
+                        'quantity': 0
+                    }
+                    cartridge_object['cartridge'] = ticket_details.cartridge
+                    cartridge_object['quantity'] = ticket_details.quantity
+                    ticket_object['cartridges'].append(cartridge_object)
+                    ticket_object['total'] += ticket_details.price
+                elif ticket_details.package_cartridge:
+                    package_cartridge_object = {
+                        'package': None,
+                        'quantity': 0
+                    }
+                    package_cartridge_object['package'] = ticket_details.package_cartridge
+                    package_cartridge_object['quantity'] = ticket_details.quantity
+                    ticket_object['packages'].append(package_cartridge_object)
+                    ticket_object['total'] += ticket_details.price
+
+        tickets_list.append(ticket_object)
+
+    context = {
+        'tickets': tickets_list,
+    }
+
+    return render(request, template, context)

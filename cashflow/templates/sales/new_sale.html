@@ -380,14 +380,12 @@
 
     $(this).on('click', '.remove-icon-li', function(event) {
       let element = $(this);
-      console.log(element);
 
       let quantity_product = element.siblings('.cant-li').text();
       let cost_base_product = element.siblings('.cost-base-li').text();
       let total_product = element.siblings('.total-li').text();
       let total_ticket = 0;
       let id_product = element.parent().attr('id').substring(13);
-      console.log(id_product);
 
       /** Refresh total ticket. Removes the product from the tiket list*/
       if (quantity_product == 1) {
@@ -703,3 +701,7 @@
   });
 </script>
 {% endblock javascript %}
+
+603 604
+
+chilaquiles
