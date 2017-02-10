@@ -248,6 +248,7 @@
     let Ticket = {
       cartuchos: [],
       paquetes: [],
+      payment_type: 'cash',
     }
 
     let DabbaProduct = {
@@ -624,6 +625,16 @@
 
     /** Realizar la venta e imprimir ticket */
     $(this).on('click', '.btn-printer', function(event) {
+      var payment_type = $(this).attr('id');
+
+      if (payment_type == 'btn-pago-efectivo') {
+        // Cash Payment
+        Ticket['payment_type'] = 'CA';
+      } else {
+        // Credit Payment
+        Ticket['payment_type'] = 'CR';
+      }
+
       let ticket_list = $('#sales-list-modal li');
       if (ticket_list.length > 2) {
         JSONTicket = JSON.stringify(Ticket);
@@ -657,7 +668,7 @@
               timer: 4500,
               showConfirmButton: false
             });  
-            setTimeout(rel, 5000);
+            // setTimeout(rel, 5000);
           },
         });
 
@@ -701,7 +712,3 @@
   });
 </script>
 {% endblock javascript %}
-
-603 604
-
-chilaquiles
