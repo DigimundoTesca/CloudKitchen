@@ -8,9 +8,19 @@ from users.models import User as UserProfile
 
 
 class Ticket(models.Model):
+    # Payment Type
+    CASH = 'CA'
+    CREDIT = 'CR'
+
+    PAYMENT_TYPE = (
+        (CASH, 'Efectivo'),
+        (CREDIT, 'Crédito'),
+    )
+
     created_at = models.DateTimeField(editable=True)
     seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
     cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
+    payment_type = models.CharField(choices=PAYMENT_TYPE, default=CASH, max_length=2)
 
     def __str__(self):
         return '%s' % self.id
@@ -20,6 +30,13 @@ class Ticket(models.Model):
         if not self.id:
             self.created_at = timezone.now()
         return super(Ticket, self).save(*args, **kwargs)
+
+    def total(self):
+        tickets_details = TicketDetail.objects.filter(ticket=self.id)
+        total = 0
+        for x in tickets_details:
+            total += x.price
+        return total
 
     def ticket_details(self):
         tickets_details = TicketDetail.objects.filter(ticket=self.id)

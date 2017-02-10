@@ -12,8 +12,8 @@ class TicketDetailInline(admin.TabularInline):
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_at', 'seller', 'ticket_details', )
-    list_filter = ('seller', 'created_at')
+    list_display = ('id', 'created_at', 'seller', 'ticket_details', 'payment_type', 'total')
+    list_filter = ('seller', 'created_at', 'payment_type')
     list_display_links = ('id', 'created_at')
     date_hierarchy = 'created_at'
     inlines = [TicketDetailInline, ]
