@@ -73,7 +73,8 @@ def sales(request):
     def get_tickets():
         tickets_details = TicketDetail.objects.select_related(
             'ticket', 'ticket__seller', 'cartridge', 'package_cartridge').filter()
-        tickets = Ticket.objects.all()[:10]
+        tickets = Ticket.objects.filter(created_at__gte=date.today())
+        print(tickets)
         tickets_list = []
 
         for ticket in tickets:
@@ -274,8 +275,11 @@ def new_sale(request):
                         price=price,
                     )
                     new_ticket_detail_object.save()
-
-            return JsonResponse({'status': 'ready'})
+            json_response = {
+                'status': 'ready',
+                'ticket_id': new_ticket_object.id,
+            }
+            return JsonResponse(json_response)
 
         return JsonResponse({'status': 'error'})
 
@@ -313,20 +317,16 @@ def test(request):
             if ticket_details.ticket == ticket:
                 if ticket_details.cartridge:
                     cartridge_object = {
-                        'cartridge': None,
-                        'quantity': 0
+                        'cartridge': ticket_details.cartridge,
+                        'quantity': ticket_details.quantity
                     }
-                    cartridge_object['cartridge'] = ticket_details.cartridge
-                    cartridge_object['quantity'] = ticket_details.quantity
                     ticket_object['cartridges'].append(cartridge_object)
                     ticket_object['total'] += ticket_details.price
                 elif ticket_details.package_cartridge:
                     package_cartridge_object = {
-                        'package': None,
-                        'quantity': 0
+                        'package': ticket_details.package_cartridge,
+                        'quantity': ticket_details.quantity
                     }
-                    package_cartridge_object['package'] = ticket_details.package_cartridge
-                    package_cartridge_object['quantity'] = ticket_details.quantity
                     ticket_object['packages'].append(package_cartridge_object)
                     ticket_object['total'] += ticket_details.price
 
