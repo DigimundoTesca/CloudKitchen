@@ -75,6 +75,16 @@
     });
 
     //Usar mouseleave ??
+    $(this).on('mouseleave','btn-assembly', function(e){
+      var assembly_button = $(this);
+      assembly_button.removeClass('btn-success btn-primary').addClass('btn-info');
+      
+      holdStarter = setTimeout(function() {
+        holdStarter = null;
+        holdActive = false; 
+        assembly_button.removeClass('btn-info').addClass('btn-primary');
+      }, holdDelay);
+    });
     
     $(this).on('mouseup touchend', '.btn-assembly', function (e) {
       e.preventDefault(); 
