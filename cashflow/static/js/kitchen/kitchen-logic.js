@@ -31,17 +31,29 @@ $(function() {
     for (let j=0; j<list_id.length; j++){
       a = j;
       b = j+1;
+      c = 2;
+      c1 = '#FFB74D';
+      c2 = '#F4F4ED';
+
       if (list_aux[a] ===  list_id[b]){
         list_id[b] = " ";
+      } else{
+        c++;
+      }
+      if (c%2==0){
+        color.push(c1);
+      } else{
+        color.push(c2);
       }
     }
 
     /**
      * Associates a color with each item in the list.
      */
-    for (let i=0; i<list_id.length; i++){
+/*    for (let i=0; i<list_id.length; i++){
       a = i;
       b = i+1;
+      c = 2;
       c1 = '#FFB74D';
       c2 = '#F4F4ED';
       if (list_aux[a] ===  list_color[b]){
@@ -50,7 +62,7 @@ $(function() {
       else {
         color.push(c2);
       }
-    }
+    }*/
 
     /**
      * Applies changed text to items in the list.
