@@ -19,16 +19,6 @@ class TicketAdmin(admin.ModelAdmin):
     inlines = [TicketDetailInline, ]
     actions = (export_as_excel,)
 
-    def changelist_view(self, request, extra_context=None):
-        #total = TicketDetail.objects.aggregate(total=Sum('price'))['total']
-        #total = TicketDetail.objects.filter(ticket=self.id).aggregate(total=Sum('price'))['total']
-        total = 19
-        context = {
-            'total': total,
-        }
-        print(request)
-        return super(TicketAdmin, self).changelist_view(request, extra_context=context)
-
 
 @admin.register(TicketDetail)
 class TicketDetailAdmin(admin.ModelAdmin):
