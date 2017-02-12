@@ -18,8 +18,19 @@ from users.models import User as UserProfile
 @login_required(login_url='users:login')
 def sales(request):
   
-    def naive_to_datetime(dt):
-        return pytz.timezone('America/Mexico_City').localize(dt)
+    def naive_to_datetime(nd):
+        if type(nd) == datetime:
+            if nd.tzinfo is not None and nd.tzinfo.utcoffset(nd) is not None: # Is Aware
+                return nd
+            else: # Is Naive
+                return pytz.timezone('America/Mexico_City').localize(nd)              
+
+        elif type(nd) == date:
+            d = nd
+            t = time(0,0)
+            new_date = datetime.combine(d, t)
+            return pytz.timezone('America/Mexico_City').localize(new_date)
+        
 
     def get_name_day():
         datetime_now = datetime.now()
@@ -52,14 +63,12 @@ def sales(request):
         start_date_number = 0
         
         def start_date():
-            d = date.today() - timedelta(days=days_to_count) 
-            t = time (0, 0)
-            return naive_to_datetime(datetime.combine(d, t))
+            start_date = date.today() - timedelta(days=days_to_count) 
+            return naive_to_datetime(start_date)
 
         def end_date():
-            d = start_date() + timedelta(days=1)
-            t = time (0, 0)
-            return naive_to_datetime(datetime.combine(d, t))
+            end_date = start_date() + timedelta(days=1)
+            return naive_to_datetime(end_date)
 
         while start_date_number <= day_limit:
             tickets = Ticket.objects.filter(created_at__range=[start_date(), end_date()])
@@ -85,7 +94,7 @@ def sales(request):
     def get_tickets():
         tickets_details = TicketDetail.objects.select_related(
             'ticket', 'ticket__seller', 'cartridge', 'package_cartridge').filter()
-        tickets = Ticket.objects.filter(created_at__gte=naive_to_datetime(datetime.today()))
+        tickets = Ticket.objects.filter(created_at__gte=naive_to_datetime(date.today()))
         tickets_list = []
 
         for ticket in tickets:
