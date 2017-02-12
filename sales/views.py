@@ -195,9 +195,6 @@ def new_sale(request):
                 list_1 = items_list_to_int(list_1)
                 list_2 = items_list_to_int(list_2)
 
-                print('*'*30,'\n',list_1)
-                print('\n',list_2, '\n\n')
-
                 list_1.sort()
                 list_2.sort()
 
@@ -225,11 +222,7 @@ def new_sale(request):
                 )
                 new_ticket_detail_object.save()
 
-            for ticket_detail_packages in ticket_detail_json_object['paquetes']:
-                print('*'*50)
-                print(ticket_detail_packages)
-                print('*'*50)
-                
+            for ticket_detail_packages in ticket_detail_json_object['paquetes']:               
                 """
                 Saves the tickets details for package cartridges
                     1. Iterates each package

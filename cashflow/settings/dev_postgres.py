@@ -1,7 +1,4 @@
-from cashflow.settings.base import *
-
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+from cashflow.settings.dev import *
 
 DATABASES = {
     'default': {
@@ -12,9 +9,4 @@ DATABASES = {
         'HOST': os.getenv('DABBANET_DB_HOST'),
         'PORT': os.getenv('DABBANET_DB_PORT'),
     }
-}
-
-GRAPH_MODELS = {
-  'all_applications': True,
-  'group_models': True,
 }
