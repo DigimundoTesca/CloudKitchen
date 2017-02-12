@@ -366,17 +366,16 @@
       let number_container = $(this).attr('id');
       let product_name = $(this).children('.modal-prod-name').text();
       let id_product = $(this).find('img').attr('id');
-
       if (number_container.indexOf('1') != -1) {
-        DabbaProduct.id[0] = id_product.substring(12, 13);
+        DabbaProduct.id[0] = id_product.substring(12);
         $('#modal-prod-head-1').text(product_name).fadeTo('slow', 1);
       }
       else if (number_container.indexOf('2') != -1) {
-        DabbaProduct.id[1] = id_product.substring(12, 13);
+        DabbaProduct.id[1] = id_product.substring(12);
         $('#modal-prod-head-2').text(product_name).fadeTo('slow', 1);
       }
       else if (number_container.indexOf('3') != -1){
-        DabbaProduct.id[2] = id_product.substring(12, 13);
+        DabbaProduct.id[2] = id_product.substring(12);
         $('#modal-prod-head-3').text(product_name).fadeTo('slow', 1);
       }
       activateDabbaButton();
@@ -445,7 +444,6 @@
       var element = $(this);
 
       function addProductToJSON (id_list, name, quantity, price) {
-
         new_package = {}
         new_package.id_list = []
         new_package.quantity = quantity;
@@ -645,7 +643,6 @@
 
       if (ticket_list.length > 2) {
         JSONTicket = JSON.stringify(Ticket);
-
         $.ajax({
           url: '{% url "sales:new_sale" %}',
           type: 'POST',
