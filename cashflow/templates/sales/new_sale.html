@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block link %}
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
 {% endblock link %}
 
 {% block content %}
@@ -99,7 +99,7 @@
                     </div>
                   </div>
                   <div class="card-block product-container" id="package-container">
-                  <h6 class="product-name">Dabba Gratis</h6>
+                    <h6 class="product-name">Dabba Gratis</h6>
                     <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba"  data-toggle="modal" data-target="#modal-dabba">
                     <div class="text-xs-right content-price">
                       <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 0.00</span>
@@ -192,6 +192,9 @@
                   <figure class="content-img">
                     <img src="{% static 'images/dabbawala_black.jpg' %}" alt="logo-dabbawala" >
                   </figure>
+                  <div class="ticket-id-container">
+                    <span id="ticket-id"></span>
+                  </div>
                   <div class="ticket-address">
                     <p class="text-xs-center">
                       20 de Noviembre #32, San Lucas Tepetlacalco, Tlanepantla Edo. De México CP 54055
@@ -248,6 +251,7 @@
     let Ticket = {
       cartuchos: [],
       paquetes: [],
+      payment_type: 'cash',
     }
 
     let DabbaProduct = {
@@ -624,7 +628,21 @@
 
     /** Realizar la venta e imprimir ticket */
     $(this).on('click', '.btn-printer', function(event) {
-      let ticket_list = $('#sales-list-modal li');
+      var payment_type = $(this).attr('id');
+      var ticket_list = $('#sales-list-modal li');
+
+      if (payment_type == 'btn-pago-efectivo') {
+        // Cash Payment
+        Ticket['payment_type'] = 'CA';
+      } else {
+        // Credit Payment
+        Ticket['payment_type'] = 'CR';
+      }
+
+      function rel(){
+        location.reload();          
+      }
+
       if (ticket_list.length > 2) {
         JSONTicket = JSON.stringify(Ticket);
 
@@ -642,11 +660,13 @@
               title: "Éxito",
               text: "Venta realizada",
               type: "success",
-              timer: 1000,
-              showConfirmButton: false
+              showConfirmButton: false,
             });  
             $('#btn-pago-efectivo').attr('disabled', 'true');
             $('#btn-pago-tarjeta').attr('disabled', 'true');
+            $('#ticket-id').text(result.ticket_id);
+            var options = { mode: 'iframe', popClose: true,};
+            $("#printer").printArea(options);
             setTimeout(rel, 1500);
           },
           error: function(result, jqXHR , textStatus, errorThrown){
@@ -654,20 +674,11 @@
               title: "Venta no realizada!",
               text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
               type: "error",
-              timer: 4500,
               showConfirmButton: false
             });  
-            setTimeout(rel, 5000);
+            setTimeout(rel, 3000);
           },
         });
-
-        function rel(){
-          location.reload();          
-        }
-
-        let options = { mode: 'iframe', popClose: true,};
-
-        $("#printer").printArea(options);
       };
     });
 
@@ -696,12 +707,7 @@
       }
       resetTicketList();
       resetTicketObject();
-
     });
   });
 </script>
 {% endblock javascript %}
-
-603 604
-
-chilaquiles
