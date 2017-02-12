@@ -1,5 +1,5 @@
-import json, sys
-from datetime import datetime, date, timedelta
+import json, pytz
+from datetime import datetime, date, timedelta, time
 
 from decimal import Decimal
 
@@ -17,6 +17,10 @@ from users.models import User as UserProfile
 # -------------------------------------  Sales -------------------------------------
 @login_required(login_url='users:login')
 def sales(request):
+  
+    def naive_to_datetime(dt):
+        return pytz.timezone('America/Mexico_City').localize(dt)
+
     def get_name_day():
         datetime_now = datetime.now()
         days_list = {
@@ -46,11 +50,19 @@ def sales(request):
         days_to_count = get_number_day() - 1
         day_limit = days_to_count
         start_date_number = 0
+        
+        def start_date():
+            d = date.today() - timedelta(days=days_to_count) 
+            t = time (0, 0)
+            return naive_to_datetime(datetime.combine(d, t))
+
+        def end_date():
+            d = start_date() + timedelta(days=1)
+            t = time (0, 0)
+            return naive_to_datetime(datetime.combine(d, t))
 
         while start_date_number <= day_limit:
-            start_date = date.today() - timedelta(days=days_to_count)
-            end_date = start_date + timedelta(days=1)
-            tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
+            tickets = Ticket.objects.filter(created_at__range=[start_date(), end_date()])
 
             for ticket in tickets:
                 ticket_details = TicketDetail.objects.filter(ticket=ticket)
@@ -73,8 +85,7 @@ def sales(request):
     def get_tickets():
         tickets_details = TicketDetail.objects.select_related(
             'ticket', 'ticket__seller', 'cartridge', 'package_cartridge').filter()
-        tickets = Ticket.objects.filter(created_at__gte=date.today())
-        print(tickets)
+        tickets = Ticket.objects.filter(created_at__gte=naive_to_datetime(datetime.today()))
         tickets_list = []
 
         for ticket in tickets:

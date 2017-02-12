@@ -12,9 +12,9 @@ class TicketDetailInline(admin.TabularInline):
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_at', 'seller', 'ticket_details', 'payment_type', 'total')
-    list_filter = ('seller', 'created_at', 'payment_type')
-    list_display_links = ('id', 'created_at')
+    list_display = ('id', 'created_at', 'seller', 'ticket_details', 'payment_type', 'total',)
+    list_filter = ('seller', 'created_at', 'payment_type',)
+    list_display_links = ('id', 'created_at',)
     date_hierarchy = 'created_at'
     inlines = [TicketDetailInline, ]
     actions = (export_as_excel,)
@@ -22,7 +22,7 @@ class TicketAdmin(admin.ModelAdmin):
 
 @admin.register(TicketDetail)
 class TicketDetailAdmin(admin.ModelAdmin):
-    list_display = ('id', 'ticket', 'created_at', 'cartridge', 'package_cartridge', 'quantity', 'price')
+    list_display = ('id', 'ticket', 'created_at', 'cartridge', 'package_cartridge', 'quantity', 'price',)
     list_display_links = ('id', 'ticket', )
     list_filter = ('ticket',)
     search_fields = ('ticket__created_at',)

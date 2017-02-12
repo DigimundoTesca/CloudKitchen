@@ -18,9 +18,12 @@ class Ticket(models.Model):
     )
 
     created_at = models.DateTimeField(editable=True)
-    seller = models.ForeignKey(UserProfile, default=1, on_delete=models.CASCADE)
-    cash_register = models.ForeignKey(CashRegister, on_delete=models.CASCADE, default=1)
-    payment_type = models.CharField(choices=PAYMENT_TYPE, default=CASH, max_length=2)
+    seller = models.ForeignKey(
+        UserProfile, default=1, on_delete=models.CASCADE)
+    cash_register = models.ForeignKey(
+        CashRegister, on_delete=models.CASCADE, default=1)
+    payment_type = models.CharField(
+        choices=PAYMENT_TYPE, default=CASH, max_length=2)
 
     def __str__(self):
         return '%s' % self.id
@@ -44,9 +47,11 @@ class Ticket(models.Model):
 
         for ticket_detail in tickets_details:
             if ticket_detail.cartridge:
-                options.append(("<option value=%s>%s</option>" % (ticket_detail, ticket_detail.cartridge)))
+                options.append(("<option value=%s>%s</option>" %
+                                (ticket_detail, ticket_detail.cartridge)))
             elif ticket_detail.package_cartridge:
-                options.append(("<option value=%s>%s</option>" % (ticket_detail, ticket_detail.package_cartridge)))
+                options.append(("<option value=%s>%s</option>" %
+                                (ticket_detail, ticket_detail.package_cartridge)))
         tag = """<select>%s</select>""" % str(options)
         return tag
 
@@ -60,8 +65,10 @@ class Ticket(models.Model):
 
 class TicketDetail(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    cartridge = models.ForeignKey(Cartridge, on_delete=models.CASCADE, blank=True, null=True)
-    package_cartridge = models.ForeignKey(PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
+    cartridge = models.ForeignKey(
+        Cartridge, on_delete=models.CASCADE, blank=True, null=True)
+    package_cartridge = models.ForeignKey(
+        PackageCartridge, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=0)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
 
