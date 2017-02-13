@@ -45,35 +45,29 @@ $(function() {
       } else{
         color.push(c2);
       }*/
-      if (list_aux[a] % 2 == 0 && list_aux[a-1]%2 != 0 || list_aux[a-1]%2 != " "){
-       color.push('#FFB74D');
-     } else if (list_aux[a] % 2 == 0 && list_aux[a-1]% 2==0|| list_aux[a-1]%2 != " "){
-       color.push('#F4F4ED');
-     }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2!=0|| list_aux[a-1]%2 != " "){
-       color.push('#F4F4ED');
-     }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2==0|| list_aux[a-1]%2 == " "){
-       color.push('#FFB74D');
-     }else {
-      color.push('#FFa4ED');
     }
-  }
 
     /**
      * Associates a color with each item in the list.
      */
-/*    for (let i=0; i<list_id.length; i++){
+    for (let i=0; i<list_id.length; i++){
       a = i;
       b = i+1;
       c = 2;
       c1 = '#FFB74D';
       c2 = '#F4F4ED';
-      if (list_aux[a] ===  list_color[b]){
-        color.push(c1);
+      if (list_aux[a] % 2 == 0 && list_aux[a-1]%2 != 0 || list_aux[a-1]%2 != " "){
+         color.push('#FFB74D');
+       } else if (list_aux[a] % 2 == 0 && list_aux[a-1]% 2==0|| list_aux[a-1]%2 != " "){
+         color.push('#F4F4ED');
+       }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2!=0|| list_aux[a-1]%2 != " "){
+         color.push('#F4F4ED');
+       }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2==0|| list_aux[a-1]%2 == " "){
+         color.push('#FFB74D');
+       }else {
+        color.push('#FFa4ED');
       }
-      else {
-        color.push(c2);
-      }
-    }*/
+    }
 
     /**
      * Applies changed text to items in the list.
