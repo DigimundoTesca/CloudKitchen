@@ -8,16 +8,19 @@
           <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}            
             <div>
+              <br>
               <label for="id_name">Nombre del Producto</label>
               <input id="id_name" class ="form-control" maxlength="128" name="name" type="text" required />
             </div>
             <div>
+              <br>
               <label for="id_price">Precio</label>
               <input id="id_price" class ="form-control" name="price" step="0.01" type="number" value="0" required />
             </div>
-            <br>
+            <br>            
             <div>
             <label for="id_category">Categoria</label>
+              <br>
             <select class="form-control" id="category" name="category">
               <option value="FD" selected="selected">Platillos</option>
               <option value="CO">Complementos</option>              
@@ -26,7 +29,7 @@
             <br>            
             <center><label for="id_image">Image:</label> <input id="id_image" name="image" type="file" required /></center>
             <br>
-            <center><button class="btn color-primary right large" type="submit">Submit<i class="material-icons right">send</i></center>
+            <center><button class="btn color-primary right large" type="submit">Enviar<i class="material-icons right">send</i></center>
           </button>
         </form>
       </div>
