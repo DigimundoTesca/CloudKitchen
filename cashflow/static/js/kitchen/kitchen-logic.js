@@ -45,15 +45,15 @@ $(function() {
       } else{
         color.push(c2);
       }*/
-      if (list_aux[a] % 2 == 0 && list_aux[a-1]%2 != 0 && list_aux[a-1]!=" "){
+      if (list_aux[a] % 2 == 0 && list_aux[a-1]%2 != 0 || list_aux[a-1]%2 != " "){
        color.push('#FFB74D');
-     } else if (list_aux[a] % 2 == 0 && list_aux[a-1]% 2==0 && list_aux[a-1]!=" "){
+     } else if (list_aux[a] % 2 == 0 && list_aux[a-1]% 2==0|| list_aux[a-1]%2 != " "){
        color.push('#F4F4ED');
-    }/*else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2!=0){
+     }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2!=0|| list_aux[a-1]%2 != " "){
        color.push('#F4F4ED');
-    }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2==0){
-       color.push('#F4F4ED');
-    }*/else {
+     }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2==0|| list_aux[a-1]%2 == " "){
+       color.push('#FFB74D');
+     }else {
       color.push('#FFa4ED');
     }
   }
