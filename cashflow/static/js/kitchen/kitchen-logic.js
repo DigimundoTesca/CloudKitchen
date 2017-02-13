@@ -37,15 +37,26 @@ $(function() {
 
       if (list_aux[a] ===  list_id[b]){
         list_id[b] = " ";
-      } else{
+      } /*else{
         c++;
       }
       if (c%2==0){
         color.push(c1);
       } else{
         color.push(c2);
-      }
+      }*/
+      if (list_aux[a] % 2 == 0 && list_aux[a-1]%2 != 0 && list_aux[a-1]!=" "){
+       color.push('#FFB74D');
+     } else if (list_aux[a] % 2 == 0 && list_aux[a-1]% 2==0 && list_aux[a-1]!=" "){
+       color.push('#F4F4ED');
+    }/*else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2!=0){
+       color.push('#F4F4ED');
+    }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2==0){
+       color.push('#F4F4ED');
+    }*/else {
+      color.push('#FFa4ED');
     }
+  }
 
     /**
      * Associates a color with each item in the list.
