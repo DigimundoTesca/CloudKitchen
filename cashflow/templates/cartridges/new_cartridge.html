@@ -1,14 +1,33 @@
 {% extends "base/base_nav_footer.html" %}
-
 {% block content %}
-<div class="container-fluid">
-  <h1>Crear Productos</h1>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="card-panel">
-        <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ form.as_p }}
+  <div class="container center_div">
+  <font color="red"><center><h1>Agregar Producto</h1></center></font>        
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="card-panel">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}            
+            <div>
+              <label for="id_name">Nombre del Producto</label>
+              <input id="id_name" class ="form-control" maxlength="128" name="name" type="text" required />
+            </div>
+            <div>
+              <label for="id_price">Precio</label>
+              <input id="id_price" class ="form-control" name="price" step="0.01" type="number" value="0" required />
+            </div>
+            <br>
+            <div>
+            <label for="id_category">Categoria</label>
+            <select class="form-control" id="category" name="category">
+              <option value="FD" selected="selected">Platillos</option>
+              <option value="CO">Complementos</option>              
+            </select>              
+            </div>
+            <br>            
+            <center><label for="id_image">Image:</label> <input id="id_image" name="image" type="file" required /></center>
+            <br>
+            <center><button class="btn color-primary right large" type="submit">Submit<i class="material-icons right">send</i></center>
+          </button>
         </form>
       </div>
     </div>
