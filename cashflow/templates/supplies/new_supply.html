@@ -1,81 +1,17 @@
 {% extends "base/base_nav_footer.html" %}
+
 {% block content %}
-  <div class="container center_div">
-    <font color="red"><center><h1>Agregar Insumos</h1></center></font>        
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="card-panel">
-          <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="col-xs-6" >
-              <p><label for="id_name">Name:</label> <input id="id_name" class="form-control" maxlength="125" name="name" type="text" required /></p>  
-            </div>
-            <div class="col-xs-6">
-              <p><label for="id_category">Category:</label> <select id="id_category" class="form-control" name="category" required>
-              <option value="1" selected="selected">Suplementos</option>
-              </select></p>  
-            </div>            
-            <div class="col-xs-12">
-              <p><label for="id_barcode">Barcode:</label> <input id="id_barcode" class="form-control" min="0" name="barcode" type="number" /> <span class="helptext">(Código de barras de 13 dígitos)</span></p>    
-            </div>
-            <div class="col-xs-6">
-              <p><label for="id_supplier">Supplier:</label> <select id="id_supplier" class="form-control" name="supplier" required>
-              <option value="1" selected="selected">Central de Abastos Atizapán</option>
-              </select></p>
-            </div>
-            <div class="col-xs-6">
-              <p><label for="id_storage_required">Storage required:</label> <select id="id_storage_required" class="form-control" name="storage_required" required>
-              <option value="DR" selected="selected">Ambiente Seco</option>
-              <option value="RE">Refrigeración</option>
-              <option value="FR">Congelación</option>
-              </select></p>
-            </div>
-            <div class="col-xs-6">
-              <p><label for="id_presentation_unit">Presentation unit:</label> <select id="id_presentation_unit" class="form-control" name="presentation_unit" required>
-              <option value="PA" selected="selected">Paquete</option>
-              <option value="BO">Caja</option>
-              <option value="PI">Pieza</option>
-              </select></p>              
-            </div>
-            <div class="col-xs-6">
-              <p><label for="id_presentation_cost">Presentation cost:</label> <input id="id_presentation_cost" class="form-control" name="presentation_cost" step="any" type="number" value="0" required /></p>              
-            </div>
-            <div class="col-xs-6">
-              <p><label for="id_measurement_quantity">Measurement quantity:</label> <input id="id_measurement_quantity" class="form-control" name="measurement_quantity" step="any" type="number" value="0" required /></p>              
-            </div>
-            <div class ="col-xs-6">
-              <p><label for="id_measurement_unit">Measurement unit:</label> <select id="id_measurement_unit" class="form-control" name="measurement_unit" required>
-              <option value="GR">gramo</option>
-              <option value="MI">mililitro</option>
-              <option value="PI">pieza</option>
-              </select></p>              
-            </div>
-            <div class ="col-xs-6">
-              <p><label for="id_optimal_duration">Optimal duration:</label> <input id="id_optimal_duration" class="form-control" name="optimal_duration" type="number" value="0" required /></p>              
-            </div>
-            <div class ="col-xs-6">
-              <p><label for="id_optimal_duration_unit">Optimal duration unit:</label> <select id="id_optimal_duration_unit" class="form-control" name="optimal_duration_unit" required>
-              <option value="DA" selected="selected">Dias</option>
-              <option value="MO">Meses</option>
-              <option value="YE">Años</option>
-              </select></p>              
-            </div>
-            <div class ="col-xs-6">
-              <p><label for="id_location">Location:</label> <select id="id_location" class="form-control" name="location" required>
-              <option value="1" selected="selected">Almaćen</option>
-              </select></p>              
-            </div>
-            <div class="col-xs-6">
-              <p><label for="id_image">Image:</label> <input id="id_image" class="form-control" name="image" type="file" required /></p> 
-            </div>   
-            <div class="col-xs-6">
-              <center>
-              <button class="btn color-primary right large" type="submit">
-              Submit <i class="material-icons right">send</i>
-              </button>              
-            </center>  
-            </div>       
-            
+<div class="container-fluid">  
+<h1>Crear Insumos</h1>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="card-panel">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button class="btn color-primary right large" type="submit">
+            Submit <i class="material-icons right">send</i>
+          </button>
         </form>
       </div>
     </div>
