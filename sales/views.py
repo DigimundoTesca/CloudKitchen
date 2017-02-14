@@ -6,6 +6,8 @@ from decimal import Decimal
 from django.contrib.auth.decorators import login_required,permission_required
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_protect, requires_csrf_token
+from django.middleware.csrf import get_token
 
 from branchoffices.models import CashRegister
 from cashflow.settings.base import PAGE_TITLE
@@ -140,7 +142,6 @@ def sales(request):
 
     return render(request, template, context)
 
-
 @login_required(login_url='users:login')
 def get_sales_day_view(request):
     def get_name_day():
@@ -167,6 +168,8 @@ def get_sales_day_view(request):
 
 @login_required(login_url='users:login')
 def new_sale(request):
+    print(request.COOKIES)
+    print('TOKEN::::',get_token(request), '\n\n')
     if request.method == 'POST':
         if request.POST['ticket']:
             username = request.user
