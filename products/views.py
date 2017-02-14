@@ -169,3 +169,16 @@ def new_cartridge(request):
         'page_title': PAGE_TITLE
     }
     return render(request, template, context)
+
+
+@login_required(login_url='users:login')
+def cartridge_detail(request, pk):
+    cartridge = get_object_or_404(Cartridge, pk=pk)
+    template = 'cartridges/cartridge_detail.html'
+    title = 'DabbaNet - Detalles del Producto'
+    context = {
+        'page_title': PAGE_TITLE,
+        'cartridge': cartridge,
+        'title': title
+    }
+    return render(request, template, context)

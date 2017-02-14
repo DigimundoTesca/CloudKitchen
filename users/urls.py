@@ -20,6 +20,7 @@ urlpatterns = [
 
     # profile
     # url(r'^profiles/$', views.ProfileVIew, name='profiles'),
+
     # test
 ]
 

@@ -120,6 +120,15 @@ class Cartridge(models.Model):
     def __str__(self):
         return self.name
 
+    def get_image(self):
+        return """
+        <img src="%s" alt="Product image" height="80" >
+
+        """  % self.image.url
+
+    get_image.allow_tags = True
+    get_image.short_description = 'Foto'
+
     class Meta:
         ordering = ('id',)
         verbose_name = 'Cartucho'
@@ -147,6 +156,19 @@ class PackageCartridge(models.Model):
 
     def __str__(self):
         return self.name
+
+    def package_recipe(self):
+        recipes = PackageCartridgeRecipe.objects.filter(package_cartridge=self.id)
+        options = []
+
+        for recipe in recipes:
+            options.append(("<option value=%s selected>%s</option>" %
+                                (recipe, recipe.cartridge)))
+        tag = """<select multiple disabled>%s</select>""" % str(options)
+        return tag
+
+    package_recipe.allow_tags = True
+
 
     class Meta:
         ordering = ('name',)
