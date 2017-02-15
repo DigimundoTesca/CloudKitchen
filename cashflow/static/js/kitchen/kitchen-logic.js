@@ -9,8 +9,11 @@ $(function() {
     let list_aux = [];
     let list_color = [];
     let color = [];
+    let the_color=['#FFB74D','#F4F4ED','#12f0f0'];
     let a = 0;
     let b = 0;
+    let c = 0;
+    let col = 0;
     let count = -1;
 
     /**
@@ -31,42 +34,32 @@ $(function() {
     for (let j=0; j<list_id.length; j++){
       a = j;
       b = j+1;
-      c = 2;
-      c1 = '#FFB74D';
-      c2 = '#F4F4ED';
 
       if (list_aux[a] ===  list_id[b]){
         list_id[b] = " ";
-      } /*else{
-        c++;
       }
-      if (c%2==0){
-        color.push(c1);
-      } else{
-        color.push(c2);
-      }*/
     }
 
     /**
      * Associates a color with each item in the list.
      */
-    for (let i=0; i<list_id.length; i++){
+    for (let i=0; i<=list_color.length; i++){
       a = i;
       b = i+1;
-      c = 2;
-      c1 = '#FFB74D';
-      c2 = '#F4F4ED';
-      if (list_aux[a] % 2 == 0 && list_aux[a-1]%2 != 0 || list_aux[a-1]%2 != " "){
-         color.push('#FFB74D');
-       } else if (list_aux[a] % 2 == 0 && list_aux[a-1]% 2==0|| list_aux[a-1]%2 != " "){
-         color.push('#F4F4ED');
-       }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2!=0|| list_aux[a-1]%2 != " "){
-         color.push('#F4F4ED');
-       }else if (list_aux[a] % 2 != 0 && list_aux[a-1]% 2==0|| list_aux[a-1]%2 == " "){
-         color.push('#FFB74D');
-       }else {
-        color.push('#FFa4ED');
+      if (list_aux[a] === list_color[b]){
+        c=c+1;
+      }else{
+        for(q=0;q<c;q++)
+        {
+          color.push(the_color[col]);
+        }
+          col++;
+          c=0;
       }
+        if(col===3)
+        {
+          col=0;
+        }
     }
 
     /**
