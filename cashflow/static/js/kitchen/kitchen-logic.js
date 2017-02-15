@@ -9,10 +9,10 @@ $(function() {
     let list_aux = [];
     let list_color = [];
     let color = [];
-    let the_color=['#FFB74D','#F4F4ED','#12f0f0'];
+    let the_color=['#E0E2DB','#F7AD63','#D9F2B4'];
     let a = 0;
     let b = 0;
-    let c = 0;
+    let c = 1;
     let col = 0;
     let count = -1;
 
@@ -32,8 +32,8 @@ $(function() {
      * Change the text for each item in the list.
      */
     for (let j=0; j<list_id.length; j++){
-      a = j;
-      b = j+1;
+      let a = j;
+      let b = j+1;
 
       if (list_aux[a] ===  list_id[b]){
         list_id[b] = " ";
@@ -43,20 +43,20 @@ $(function() {
     /**
      * Associates a color with each item in the list.
      */
-    for (let i=0; i<=list_color.length; i++){
-      a = i;
-      b = i+1;
-      if (list_aux[a] === list_color[b]){
-        c=c+1;
+    for (let i=0; i<=list_aux.length; i++){
+      let r = i;
+      let t = i+1;
+      if (list_aux[r] == list_color[t]){
+        c++;
       }else{
         for(q=0;q<c;q++)
         {
           color.push(the_color[col]);
         }
           col++;
-          c=0;
+          c=1;
       }
-        if(col===3)
+        if(col==3)
         {
           col=0;
         }
