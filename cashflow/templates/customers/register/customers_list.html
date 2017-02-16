@@ -78,6 +78,7 @@
           confirmButtonText: 'Confirmar'
         }).then(function () {
           save_change();
+          $('.btn-gift').attr('disabled', 'true');
         });
 
         function save_change () {
@@ -89,8 +90,18 @@
               'customer': JSONCustomer,
               csrfmiddlewaretoken: '{{ csrf_token }}',
             },
-            traditional: true,
+            traditional: true, 
             datatype: 'jsonp',
+            beforeSend: function (xhr) {
+            swal({
+              title: "Activando Regalo",
+              text: "Espere mientras se envia la petición",
+              type: "info",
+              showCancelButton: false,
+              showConfirmButton: true,
+              showLoaderOnConfirm: true,
+            });
+          },
             success: function(result){
               swal({
                 title: "Éxito",
@@ -98,8 +109,8 @@
                 type: "success",
                 timer: 1000,
                 showConfirmButton: false
-              });
-              setTimeout(rel, 1000);
+              })
+              setTimeout(rel, 1500);
               return true;
             },
             error: function(result, jqXHR , textStatus, errorThrown){
@@ -110,7 +121,7 @@
                 timer: 3000,
                 showConfirmButton: false
               });
-              setTimeout(rel, 3000);
+              setTimeout(rel, 1500);
               return false;
             },
           });
