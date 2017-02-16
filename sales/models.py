@@ -72,6 +72,10 @@ class TicketDetail(models.Model):
     quantity = models.IntegerField(default=0)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
 
+
+    def created_at(self):
+        return self.ticket.created_at
+
     def __str__(self):
         return '%s' % self.id
 

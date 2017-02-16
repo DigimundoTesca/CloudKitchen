@@ -27,6 +27,3 @@ class TicketDetailAdmin(admin.ModelAdmin):
     list_filter = ('ticket',)
     search_fields = ('ticket__created_at',)
     actions = (export_as_excel,)
-
-    def created_at(self):
-        return self.ticket.created_at
