@@ -12,8 +12,7 @@
         <h6 class="card-subtitle text-muted">{{ sp.category }}</h6>
         <div class="card-bloc text-xs-right">
           <a href="{% url 'products:supply_detail' sp.pk %}">Detalles</a> <br>
-
-          <a href="{% url 'products:supply_detail' sp.pk %}">Modificar</a>          
+          <a href="{% url 'products:supply_modify' sp.pk %}">Modificar</a>
         </div>
       </div>
     </div>

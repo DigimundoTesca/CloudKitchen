@@ -1,5 +1,4 @@
 {% extends "base/base_nav_footer.html" %}
-
 {% block content %}
 <div class="container container-main col-lg-10 push-lg-1">
   <div class="row">
@@ -11,11 +10,8 @@
       <div class="card-block">
         <h4 class="card-title">{{ cartridge.name }}</h4>
         <div class="card-bloc text-xs-right">
-<<<<<<< HEAD
-          <a href="{% url 'products:supply_detail' ca.pk %}">Detalles</a>          
-=======
-          <a href="{% url 'products:cartridge_detail' cartridge.pk %}">Mostrar Detalles</a>
->>>>>>> 43df9c81729fcad8c27a847b523d0ed2a2f78b9c
+          <a href="{% url 'products:cartridge_detail' cartridge.pk %}">Detalles</a><br>
+          <a href="{% url 'products:cartridge_modify' cartridge.pk %}">Modificar</a>
         </div>
       </div>
     </div>

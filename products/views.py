@@ -86,6 +86,19 @@ def supply_detail(request, pk):
     }
     return render(request, template, context)
 
+@login_required(login_url='users:login')
+def supply_modify(request,pk):
+    supply = get_object_or_404(Supply, pk=pk)
+    template = 'supplies/new_supply.html'
+    title = 'DabbaNet - Detalles del insumo'
+    context = {
+        'page_title': PAGE_TITLE,
+        'supply': supply,
+        'title': title
+    }
+    return render(request, template, context)
+
+
 
 # ------------------------------------- Categories -------------------------------------
 @login_required(login_url='users:login')
@@ -180,5 +193,28 @@ def cartridge_detail(request, pk):
         'page_title': PAGE_TITLE,
         'cartridge': cartridge,
         'title': title
+    }
+    return render(request, template, context)
+
+def cartridge_modify(request, pk):
+    cartridge = get_object_or_404(Cartridge, pk=pk)
+    
+    if request.method == 'POST':
+        form = CartridgeForm(request.POST, request.FILES) 
+        if form.is_valid():
+            nuevo = form.save(commit=False)            
+            cartridge.name = nuevo.name
+            cartridge.save()
+            return redirect('/cartridges')
+    else:
+        form = CartridgeForm()
+
+    template = 'cartridges/new_cartridge.html'
+    title = 'Modificar Cartucho'
+    context = {
+        'form': form,
+        'cartridge' : cartridge,
+        'title': title,
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)

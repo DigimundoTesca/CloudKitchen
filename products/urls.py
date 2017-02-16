@@ -8,12 +8,14 @@ app_name = 'products'
 urlpatterns = [
     # Supplies
     url(r'^supplies/$', views.supplies, name='supplies'),
-    url(r'^supplies/new/$', views.new_supply, name='new_supply'),
-    url(r'^supplies/(?P<pk>[0-9]+)/$', views.supply_detail, name='supply_detail'),
+    url(r'^supplies/new/$', views.new_supply, name='new_supply'),    
+    url(r'^supplies/(?P<pk>[0-9]+)/$', views.supply_modify, name='supply_modify'),    
+    url(r'^supplies/modify/(?P<pk>[0-9]+)/$', views.supply_detail, name='supply_detail'),
 
     # Cartridges
     url(r'^cartridges/$', views.cartridges, name='cartridges'),
     url(r'^cartridges/new/$', views.new_cartridge, name='new_cartridge'),
+    url(r'^cartridges/modify/(?P<pk>[0-9]+)/$', views.cartridge_modify, name='cartridge_modify'),
     url(r'^cartridges/(?P<pk>[0-9]+)/$', views.cartridge_detail, name='cartridge_detail'),
 
     # Suppliers
