@@ -95,9 +95,11 @@
 
 <script type="text/javascript" charset="utf-8" defer>
   $(function() {
-    var ctx_week = document.getElementById("canvas-week-sales");
-    var ctx_day = document.getElementById("canvas-day-sales");
+    var ctx_week = document.getElementById("canvas-week-sales"),
+        ctx_day = document.getElementById("canvas-day-sales");
     var sales_week = JSON.parse('{{ sales_week|safe }}');
+    var earnings_for_the_week_chart,
+        earnings_for_the_day_chart;
 
     function get_earnings_week_list() {
       var earnings_list = [];
@@ -128,7 +130,8 @@
         },
       });
     }
-    var earnings_for_the_week = new Chart(ctx_week, {
+
+    earnings_for_the_week_chart = new Chart(ctx_week, {
       type: 'bar',
       data: {
         labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
@@ -173,7 +176,8 @@
         }
       }
     });
-    var earnings_for_the_day = new Chart(ctx_day, {
+
+    earnings_for_the_day_chart = new Chart(ctx_day, {
       type: 'horizontalBar',
       data: {
         labels: [
@@ -218,29 +222,39 @@
         }
       }
     });
+
     /** Funciona para darle formato de moneda a un numero */
     function set_number_format(amount, decimals) {
+      var amount_parts,
+          regexp = /(\d+)(\d{3})/;
+
       amount += '';
       amount = parseFloat(amount.replace(/[^0-9\.]/g, ''));
       decimals = decimals || 0;
+
       if (isNaN(amount) || amount === 0)
         return parseFloat(0).toFixed(decimals);
+
       amount = '' + amount.toFixed(decimals);
-      var amount_parts = amount.split('.'),
-      regexp = /(\d+)(\d{3})/;
+      amount_parts = amount.split('.');
+
       while (regexp.test(amount_parts[0]))
         amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ' ' + '$2');
+
       return amount_parts.join('.');
     }
+
     /** Calcula el total de ganancias de la semana y lo imprime */
     function set_total_earnings() {
       var total_earnings = 0;
-      for (var i = 0; i < sales_week.length; i++) {
-        total_earnings += sales_week[i];
+      var earnings_list = get_earnings_week_list();
+      for (var i = 0; i < earnings_list.length; i++) {
+        total_earnings += earnings_list[i];
       }
       total_earnings = set_number_format(total_earnings, 2);
       $('#total-earnings-text').append(total_earnings);
     }
+
     set_total_earnings();
   });
 </script>
