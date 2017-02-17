@@ -1,0 +1,25 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+a {
+	text-decoration: none;
+}
+sidebar{
+	background: #1A1A1A;
+	width: 250px;
+	height: 100%;
+	top: 0;
+	left: -250px;
+	padding: 20px 0 10px 0;
+	text-align: center;
+	position: fixed; 
+	transition:left 1s;
+	-webkit-transition:left 1s;
+	-moz-transition:left 1s;
+	-o-transition:left 1s;
+	-ms-transition:left 1s;
+}
+#sidebar:hover{
+	left :0px;
+}
