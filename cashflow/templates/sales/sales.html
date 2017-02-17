@@ -112,13 +112,16 @@
       return earnings_list;
     }
 
-    function get_sales_day(day) {
+    function get_sales_day(day_number) {
+      earnings_list = sales_week;
+      date =  earnings_list[day_number].date;
+ 
       $.ajax({
-        url: "{% url 'sales:get_sales_day' %}",
+        url: "{% url 'sales:sales' %}",
         type: 'POST',
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
-          'day': day,
+          'day': date,
         },
         traditional: true,
         datatype: 'jsonp',
@@ -162,7 +165,7 @@
         responsive: true,
         onClick: function(event, legendItem) {
           try {
-            console.log('index:' + legendItem[0]._index);
+            get_sales_day(legendItem[0]._index);
           } catch (error) {
             console.log(error.message);
           }

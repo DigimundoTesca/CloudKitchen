@@ -55,9 +55,17 @@ def sales(request):
     def get_week_number():
         return date.today().isocalendar()[1]
 
+    def start_datetime(back_days):
+        start_date = date.today() - timedelta(days=back_days) 
+        return naive_to_datetime(start_date)
+
+    def end_datetime(back_days):
+        end_date = start_datetime(back_days) + timedelta(days=1)
+        return naive_to_datetime(end_date)
+
     def get_sales_week():
         """
-        1. Obtiene el dia actual: Nombre, Fecha y ganancias
+        1. Gets the following properties for the day: Name, Date and Earnings
         """
         week_sales_list = []
         total_earnings = 0
@@ -67,22 +75,14 @@ def sales(request):
         all_tickets = Ticket.objects.all()
         all_ticket_details = TicketDetail.objects.all()
         
-        def start_date():
-            start_date = date.today() - timedelta(days=days_to_count) 
-            return naive_to_datetime(start_date)
-
-        def end_date():
-            end_date = start_date() + timedelta(days=1)
-            return naive_to_datetime(end_date)
-
         while start_date_number <= day_limit:
             day_object = {
-                'date': str(start_date()),
+                'date': str(start_datetime(days_to_count).date()),
                 'day_name': None,
                 'earnings': None,
             }
 
-            tickets = all_tickets.filter(created_at__range=[start_date(), end_date()])
+            tickets = all_tickets.filter(created_at__range=[start_datetime(days_to_count), end_datetime(days_to_count)])
 
             for ticket in tickets:
                 for ticket_detail in all_ticket_details:
@@ -90,8 +90,8 @@ def sales(request):
                         total_earnings += ticket_detail.price
 
             day_object['earnings'] = str(total_earnings)
-            day_object['day_name'] = get_name_day(start_date())
-            
+            day_object['day_name'] = get_name_day(start_datetime(days_to_count).date())
+
             week_sales_list.append(day_object)
 
             # restarting counters
@@ -140,6 +140,11 @@ def sales(request):
 
         return tickets_list
 
+    if request.method == 'POST':
+        date_day = datetime.strptime(request.POST['day'], '%Y-%m-%d').date()
+        return JsonResponse({'day': date_day})
+
+    # Any other request method:
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
@@ -155,33 +160,7 @@ def sales(request):
     return render(request, template, context)
 
 @login_required(login_url='users:login')
-def get_sales_day_view(request):
-    def get_name_day():
-        datetime_now = datetime.now()
-        days_list = {
-            'MONDAY': 'Lunes',
-            'TUESDAY': 'Martes',
-            'WEDNESDAY': 'Miércoles',
-            'THURSDAY': 'Jueves',
-            'FRIDAY': 'Viernes',
-            'SATURDAY': 'Sábado',
-            'SUNDAY': 'Domingo'
-        }
-        name_day = datetime.date(datetime_now.year, datetime_now.month, datetime_now.day)
-        return days_list[name_day.strftime('%A').upper()]
-
-    def get_sales_day(filter_date):
-        start_date = date.today() - timedelta(days=4)
-        end_date = start_date + timedelta(days=1)
-        tickets = Ticket.objects.filter(created_at__range=[start_date, end_date])
-
-    return JsonResponse({'day': get_name_day()})
-
-
-@login_required(login_url='users:login')
 def new_sale(request):
-    print(request.COOKIES)
-    print('TOKEN::::',get_token(request), '\n\n')
     if request.method == 'POST':
         if request.POST['ticket']:
             username = request.user
