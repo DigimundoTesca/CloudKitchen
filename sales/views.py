@@ -32,10 +32,8 @@ def sales(request):
             t = time(0,0)
             new_date = datetime.combine(d, t)
             return pytz.timezone('America/Mexico_City').localize(new_date)
-        
 
-    def get_name_day():
-        datetime_now = datetime.now()
+    def get_name_day(datetime_now):
         days_list = {
             'MONDAY': 'Lunes',
             'TUESDAY': 'Martes',
@@ -52,17 +50,22 @@ def sales(request):
         days = {
             'Lunes': 1, 'Martes': 2, 'Miércoles': 3, 'Jueves': 4, 'Viernes': 5, 'Sábado': 6, 'Domingo': 7,
         }
-        return days[get_name_day()]
+        return days[get_name_day(datetime.now())]
 
     def get_week_number():
         return date.today().isocalendar()[1]
 
     def get_sales_week():
+        """
+        1. Obtiene el dia actual: Nombre, Fecha y ganancias
+        """
+        week_sales_list = []
         total_earnings = 0
-        week_sales_list = [0, 0, 0, 0, 0, 0, 0]
         days_to_count = get_number_day() - 1
         day_limit = days_to_count
         start_date_number = 0
+        all_tickets = Ticket.objects.all()
+        all_ticket_details = TicketDetail.objects.all()
         
         def start_date():
             start_date = date.today() - timedelta(days=days_to_count) 
@@ -73,20 +76,29 @@ def sales(request):
             return naive_to_datetime(end_date)
 
         while start_date_number <= day_limit:
-            tickets = Ticket.objects.filter(created_at__range=[start_date(), end_date()])
+            day_object = {
+                'date': str(start_date()),
+                'day_name': None,
+                'earnings': None
+            }
+
+            tickets = all_tickets.filter(created_at__range=[start_date(), end_date()])
 
             for ticket in tickets:
-                ticket_details = TicketDetail.objects.filter(ticket=ticket)
+                for ticket_detail in all_ticket_details:
+                    if ticket_detail.ticket == ticket:
+                        total_earnings += ticket_detail.price
 
-                for ticket_detail in ticket_details:
-                    total_earnings += ticket_detail.price
-
-            week_sales_list[start_date_number] = float(total_earnings)
+            day_object['earnings'] = str(total_earnings)
+            day_object['day_name'] = get_name_day(start_date())
+            
+            week_sales_list.append(day_object)
 
             # restarting counters
             days_to_count -= 1
             total_earnings = 0
             start_date_number += 1
+
         return json.dumps(week_sales_list)
 
     def get_sales_day():
@@ -133,9 +145,9 @@ def sales(request):
     context = {
         'page_title': PAGE_TITLE,
         'title': title,
-        'week_earnings': get_sales_week(),
+        'sales_week': get_sales_week(),
         'day_earnings': get_sales_day(),
-        'day': get_name_day(),
+        'day': get_name_day(datetime.now()),
         'week': get_week_number(),
         'tickets': get_tickets(),
     }

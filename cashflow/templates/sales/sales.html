@@ -97,32 +97,36 @@
   $(function() {
     var ctx_week = document.getElementById("canvas-week-sales");
     var ctx_day = document.getElementById("canvas-day-sales");
-    var earnings = JSON.parse('{{ week_earnings|safe }}');
+    var sales_week = JSON.parse('{{ sales_week|safe }}');
+    var earnings_list = []
+    console.log(sales_week);
+
     function get_sales_day(day) {
-      $.ajax({
-        url: '/sales/sales-day/',
-        type: 'POST',
-        data: {
-          csrfmiddlewaretoken: '{{ csrf_token }}',
-          'day': day,
-        },
-        traditional: true,
-        datatype: 'jsonp',
-        success: function(result) {
-          console.log(result);
-        },
-        error: function(result, jqXHR, textStatus, errorThrown) {
-          console.log(result);
-        },
-      });
+      console.log(day); 
+      // $.ajax({
+      //   url: '/sales/sales-day/',
+      //   type: 'POST',
+      //   data: {
+      //     csrfmiddlewaretoken: '{{ csrf_token }}',
+      //     'day': day,
+      //   },
+      //   traditional: true,
+      //   datatype: 'jsonp',
+      //   success: function(result) {
+      //     console.log(result);
+      //   },
+      //   error: function(result, jqXHR, textStatus, errorThrown) {
+      //     console.log(result);
+      //   },
+      // });
     }
     var earnings_for_the_week = new Chart(ctx_week, {
       type: 'bar',
       data: {
-        labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+        labels: ["Lunes", "Martes,date", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         datasets: [{
           label: 'Ventas del día',
-          data: earnings,
+          data: sales_week,
           backgroundColor: [
           'rgba(241,196,15,0.7)',
           'rgba(230,126,34,0.7)',
@@ -147,7 +151,7 @@
         responsive: true,
         onClick: function(event, legendItem) {
           try {
-            get_sales_day(legendItem[0]._index);
+            console.log('index:' + legendItem[0]._index);
           } catch (error) {
             console.log(error.message);
           }
@@ -165,7 +169,7 @@
       type: 'horizontalBar',
       data: {
         labels: [
-        "12:00 - 13:00", "12:00 - 12:30", "11:30 - 12:00", "11:00 - 11:30", "10:30 - 11:00", "10:00 - 10:30", "09:30 - 10:00", "09:00 - 09:30",
+        "12:30 - 13:00", "12:00 - 12:30", "11:30 - 12:00", "11:00 - 11:30", "10:30 - 11:00", "10:00 - 10:30", "09:30 - 10:00", "09:00 - 09:30",
         "08:30 - 09:00", "08:00 - 08:30", "07:30 - 08:00", "07:00 - 07:30", "06:30 - 07:00", "06:00 - 06:30", "05:30 - 06:00", "05:00 - 05:30",
         ],
         datasets: [{
@@ -223,8 +227,8 @@
     /** Calcula el total de ganancias de la semana y lo imprime */
     function set_total_earnings() {
       var total_earnings = 0;
-      for (var i = 0; i < earnings.length; i++) {
-        total_earnings += earnings[i];
+      for (var i = 0; i < sales_week.length; i++) {
+        total_earnings += sales_week[i];
       }
       total_earnings = set_number_format(total_earnings, 2);
       $('#total-earnings-text').append(total_earnings);
