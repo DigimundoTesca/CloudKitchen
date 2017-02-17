@@ -98,35 +98,43 @@
     var ctx_week = document.getElementById("canvas-week-sales");
     var ctx_day = document.getElementById("canvas-day-sales");
     var sales_week = JSON.parse('{{ sales_week|safe }}');
-    var earnings_list = []
-    console.log(sales_week);
+
+    function get_earnings_week_list() {
+      var earnings_list = [];
+      var count = 0;
+
+      while (count < sales_week.length) {
+        earnings_list.push(parseFloat(sales_week[count].earnings));
+        count++;
+      }
+      return earnings_list;
+    }
 
     function get_sales_day(day) {
-      console.log(day); 
-      // $.ajax({
-      //   url: '/sales/sales-day/',
-      //   type: 'POST',
-      //   data: {
-      //     csrfmiddlewaretoken: '{{ csrf_token }}',
-      //     'day': day,
-      //   },
-      //   traditional: true,
-      //   datatype: 'jsonp',
-      //   success: function(result) {
-      //     console.log(result);
-      //   },
-      //   error: function(result, jqXHR, textStatus, errorThrown) {
-      //     console.log(result);
-      //   },
-      // });
+      $.ajax({
+        url: "{% url 'sales:get_sales_day' %}",
+        type: 'POST',
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'day': day,
+        },
+        traditional: true,
+        datatype: 'jsonp',
+        success: function(result) {
+          console.log(result);
+        },
+        error: function(result, jqXHR, textStatus, errorThrown) {
+          console.log(result);
+        },
+      });
     }
     var earnings_for_the_week = new Chart(ctx_week, {
       type: 'bar',
       data: {
-        labels: ["Lunes", "Martes,date", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+        labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         datasets: [{
           label: 'Ventas del día',
-          data: sales_week,
+          data: get_earnings_week_list(),
           backgroundColor: [
           'rgba(241,196,15,0.7)',
           'rgba(230,126,34,0.7)',

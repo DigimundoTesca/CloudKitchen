@@ -79,7 +79,7 @@ def sales(request):
             day_object = {
                 'date': str(start_date()),
                 'day_name': None,
-                'earnings': None
+                'earnings': None,
             }
 
             tickets = all_tickets.filter(created_at__range=[start_date(), end_date()])
