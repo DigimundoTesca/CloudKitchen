@@ -140,26 +140,31 @@ def sales(request):
 
         return tickets_list
 
-    def is_datetime_in_range(datetime_in, datetime_min, datetime_max):
-        if datetime_min <= datetime_in <= datetime:
-            return True
-        return False
-
     if request.method == 'POST':
         if request.POST['type'] == 'sales_day':
+            """
+            Returns a list with objects:
+            Each object has the following characteristics
+            """
             sales_day_list = []
             start_day = naive_to_datetime(datetime.strptime(request.POST['date'], '%Y-%m-%d').date())
             end_date = naive_to_datetime(start_day + timedelta(days=1))
             tickets_objects = all_tickets.filter(created_at__range=[start_day, end_date])
-            ticket_details_day = []
 
             for ticket in tickets_objects:
+                """
+                Filling in the sales list of the day
+                """
+                earnings_sale_object = {
+                    'datetime': ticket.created_at,
+                    'earnings': 0
+                }
                 for ticket_detail in all_ticket_details:
                     if ticket_detail.ticket == ticket:
-                        print(ticket_detail)
+                        earnings_sale_object['earnings'] += ticket_detail.price
+                sales_day_list.append(earnings_sale_object)
 
-
-            return JsonResponse({'date': sales_day_list})
+            return JsonResponse({'sales_day_list': sales_day_list})
 
     # Any other request method:
     template = 'sales/sales.html'
