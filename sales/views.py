@@ -19,6 +19,8 @@ from users.models import User as UserProfile
 # -------------------------------------  Sales -------------------------------------
 @login_required(login_url='users:login')
 def sales(request):
+    all_tickets = Ticket.objects.all()
+    all_ticket_details = TicketDetail.objects.all()
   
     def naive_to_datetime(nd):
         if type(nd) == datetime:
@@ -72,8 +74,6 @@ def sales(request):
         days_to_count = get_number_day() - 1
         day_limit = days_to_count
         start_date_number = 0
-        all_tickets = Ticket.objects.all()
-        all_ticket_details = TicketDetail.objects.all()
         
         while start_date_number <= day_limit:
             day_object = {
@@ -140,9 +140,26 @@ def sales(request):
 
         return tickets_list
 
+    def is_datetime_in_range(datetime_in, datetime_min, datetime_max):
+        if datetime_min <= datetime_in <= datetime:
+            return True
+        return False
+
     if request.method == 'POST':
-        date_day = datetime.strptime(request.POST['day'], '%Y-%m-%d').date()
-        return JsonResponse({'day': date_day})
+        if request.POST['type'] == 'sales_day':
+            sales_day_list = []
+            start_day = naive_to_datetime(datetime.strptime(request.POST['date'], '%Y-%m-%d').date())
+            end_date = naive_to_datetime(start_day + timedelta(days=1))
+            tickets_objects = all_tickets.filter(created_at__range=[start_day, end_date])
+            ticket_details_day = []
+
+            for ticket in tickets_objects:
+                for ticket_detail in all_ticket_details:
+                    if ticket_detail.ticket == ticket:
+                        print(ticket_detail)
+
+
+            return JsonResponse({'date': sales_day_list})
 
     # Any other request method:
     template = 'sales/sales.html'

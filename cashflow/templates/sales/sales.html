@@ -121,7 +121,8 @@
         type: 'POST',
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
-          'day': date,
+          'date': date,
+          'type': 'sales_day',
         },
         traditional: true,
         datatype: 'jsonp',
