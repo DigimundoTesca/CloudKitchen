@@ -98,8 +98,8 @@
     var ctx_week = document.getElementById("canvas-week-sales"),
         ctx_day = document.getElementById("canvas-day-sales");
     var sales_week = JSON.parse('{{ sales_week|safe }}');
-    var earnings_for_the_week_chart,
-        earnings_for_the_day_chart;
+    var earnings_week_chart,
+        earnings_day_chart;
 
     function get_earnings_week_list() {
       var earnings_list = [];
@@ -112,9 +112,47 @@
       return earnings_list;
     }
 
+    function get_time_differences(initial_time, final_time){
+      initial_mins = parseInt(initial_time.substr(3,2));
+      initial_hours = parseInt(initial_time.substr(0,2));
+      
+      final_mins = parseInt(final_time.substr(3,2));
+      final_hours = parseInt(final_time.substr(0,2));
+
+      elapsed_mins = final_mins - initial_mins;
+      elapsed_hours = final_hours - initial_hours;
+      
+      if (elapsed_mins < 0) {
+        elapsed_hours--;
+        elapsed_mins = 60 + elapsed_mins;
+      }
+      
+      hours = elapsed_hours.toString();
+      minutes = elapsed_mins.toString();
+      
+      if (hours.length < 2) {
+        hours = "0"+hours;
+      }
+      
+      if (minutes.length < 2) {
+        minutes = "0"+minutes;
+      }
+      return hours+':'+minutes;
+    }
+
+    /** Retorna una lista con los espcios requeridos segun el rango de horas
+      * con una separacion de media hora entre cada lugar
+      */
+    function get_formated_list_days(initial_hour, final_hour) {
+      list_formated = [];
+      /** Primero obtiene la diferencia en horas */
+      diference = get_time_differences(initial_hour, final_hour);
+      console.log(diference);
+    }
+
     function get_sales_day(day_number) {
-      earnings_list = sales_week;
-      date =  earnings_list[day_number].date;
+      var earnings_list = [];
+      date =  sales_week[day_number].date;
  
       $.ajax({
         url: "{% url 'sales:sales' %}",
@@ -127,7 +165,14 @@
         traditional: true,
         datatype: 'jsonp',
         success: function(result) {
-          console.log(result);
+          var initial_hour = '05:00',
+              final_hour = '13:00';
+            get_formated_list_days(initial_hour, final_hour);
+          var total_datas = result['sales_day_list'].length;
+
+          for(var i = 0; i < total_datas; i++) {
+
+          }
         },
         error: function(result, jqXHR, textStatus, errorThrown) {
           console.log(result);
@@ -135,7 +180,7 @@
       });
     }
 
-    earnings_for_the_week_chart = new Chart(ctx_week, {
+    earnings_week_chart = new Chart(ctx_week, {
       type: 'bar',
       data: {
         labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
@@ -181,7 +226,7 @@
       }
     });
 
-    earnings_for_the_day_chart = new Chart(ctx_day, {
+    earnings__day_chart = new Chart(ctx_day, {
       type: 'horizontalBar',
       data: {
         labels: [
