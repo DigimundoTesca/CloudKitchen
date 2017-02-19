@@ -111,7 +111,57 @@
       }
       return earnings_list;
     }
+    /**
+     * Receives an hour in 24-hour format and returns the same hour but
+     * converted into minutes.
+     * The string must have to have the following format: hh:mm
+     */
+    function hours_to_minutes(original_time) {
+      var hours,
+          minutes;
+        hours = parseInt(original_time.split(':')[0])*60;
+        minutes = parseInt(original_time.split(':')[1]);
+      return parseInt(hours + minutes);
+    }
 
+    /**
+     * Receives an hour in minutes format and returns the same hour but
+     * converted into 24-hour format.
+     * The string returned have the next format: hh:mm
+     */
+    function minutes_to_hours(original_time) {
+      hours = parseInt(original_time / 60);
+      minutes = parseInt(original_time % 60);
+      
+      if (hours.toString().length < 2) {
+        hours = "0"+hours;
+      }
+      
+      if (minutes.toString().length < 2) {
+        minutes = "0"+minutes;
+      }
+        return hours + ':' + minutes;
+    }
+
+    /**
+     * Receives an hour and verifies if it't is in the offered time range.
+     * The hours received must have the following format: hh:mm
+     * Returns true if the condition is met. Otherwise returns false.
+     */
+    function is_time_in_range(hour, start_hour, end_hour) {
+      hour_in_minutes = hours_to_minutes(hour);
+      start_hour_in_minutes = hours_to_minutes(start_hour);
+      end_hour_in_minutes = hours_to_minutes(end_hour);
+
+      if(hour_in_minutes >= start_hour_in_minutes && hour_in_minutes < end_hour_in_minutes)
+        return true;
+      return false;
+    }
+
+    /**
+     * Receives two hours with the next format: hh:mm
+     * Returns the diference of the hours given with the following format: hh:mm
+     */
     function get_time_differences(initial_time, final_time){
       initial_mins = parseInt(initial_time.substr(3,2));
       initial_hours = parseInt(initial_time.substr(0,2));
@@ -140,14 +190,56 @@
       return hours+':'+minutes;
     }
 
-    /** Retorna una lista con los espcios requeridos segun el rango de horas
-      * con una separacion de media hora entre cada lugar
-      */
-    function get_formated_list_days(initial_hour, final_hour) {
-      list_formated = [];
-      /** Primero obtiene la diferencia en horas */
-      diference = get_time_differences(initial_hour, final_hour);
-      console.log(diference);
+    /**
+     * Receives a datetime with format from python.
+     * Returns an hour converted into 24-hours format: hh:mm ith Timezone +06:00
+     */
+    function convert_datetime_to_hour(original_datetime){
+      hour_formated = original_datetime.split('T')[1].split('.')[0].substr(0,5);
+      return hour_formated;
+    }
+
+    /** 
+     * Returns a list with the earnings of each time range
+     */
+    function get_sales_day_list(initial_hour, final_hour, separation_time, sales_list) {
+      var initial_hour_minutes,
+            final_hour_minutes;
+      var list_formated = [],
+          elements_ok = [];
+      var earnings = 0;
+
+      initial_hour_minutes = hours_to_minutes(initial_hour);
+      final_hour_minutes = hours_to_minutes(final_hour);
+
+      while(initial_hour_minutes < final_hour_minutes) {
+        start_hour_f = minutes_to_hours(initial_hour_minutes);
+        end_hour_f = minutes_to_hours(initial_hour_minutes + separation_time);
+
+        for (var i = 0; i < sales_list.length; i++) {
+          hour_sale = convert_datetime_to_hour(sales_list[i].datetime);
+          
+          if(is_time_in_range(hour_sale, start_hour_f, end_hour_f)) {
+            earnings += parseFloat(sales_list[i].earnings);
+            elements_ok.push(sales_list[i]);
+          }
+        }
+
+        list_formated.push(earnings);
+        initial_hour_minutes += separation_time;
+        earnings = 0;
+      }
+
+      // Searches the times outside the time range
+      for(var i = 0; i < sales_list.length; i++) {
+        for(var j = 0; j < elements_ok.length; j++) {
+          if(sales_list[i] !== elements_ok[j]) {
+            earnings += parseFloat(sales_list[i].earnings);
+          }
+        }
+      }
+      list_formated.push(earnings)
+      return list_formated.reverse();
     }
 
     function get_sales_day(day_number) {
@@ -165,15 +257,18 @@
         traditional: true,
         datatype: 'jsonp',
         success: function(result) {
+          var sales_day_earnings_list = [];
           var initial_hour = '05:00',
-              final_hour = '13:00';
-            get_formated_list_days(initial_hour, final_hour);
-          var total_datas = result['sales_day_list'].length;
+              final_hour = '13:00',
+              separation_time = 30; // In minutes
+          var sales_day_object_list = result['sales_day_list'];
+          var total_datas = sales_day_object_list.length;
 
-          for(var i = 0; i < total_datas; i++) {
-
-          }
+          sales_day_earnings_list = get_sales_day_list(initial_hour, final_hour, separation_time, sales_day_object_list);
+          earnings_day_chart.data.datasets[0].data = sales_day_earnings_list;
+          earnings_day_chart.update();
         },
+
         error: function(result, jqXHR, textStatus, errorThrown) {
           console.log(result);
         },
@@ -226,21 +321,23 @@
       }
     });
 
-    earnings__day_chart = new Chart(ctx_day, {
+    earnings_day_chart = new Chart(ctx_day, {
       type: 'horizontalBar',
       data: {
         labels: [
+        "Out",
         "12:30 - 13:00", "12:00 - 12:30", "11:30 - 12:00", "11:00 - 11:30", "10:30 - 11:00", "10:00 - 10:30", "09:30 - 10:00", "09:00 - 09:30",
         "08:30 - 09:00", "08:00 - 08:30", "07:30 - 08:00", "07:00 - 07:30", "06:30 - 07:00", "06:00 - 06:30", "05:30 - 06:00", "05:00 - 05:30",
         ],
         datasets: [{
           label: 'Ventas en este horario',
-          data: [90, 0, 0, 0, 0, 0, 0, 0, 300, 0, 40, 0, 0, 0, 0, 100],
+          data: [],
           backgroundColor: [
-          'rgba(242,38,19,0.7)',
-          'rgba(246,36,89,0.7)',
+          'rgba(247,202,24,0.7)',
           'rgba(103,65,114,0.7)',
           'rgba(65,131,215,0.7)',
+          'rgba(246,36,89,0.7)',
+          'rgba(103,65,114,0.7)',
           'rgba(54,215,183,0.7)',
           'rgba(46,204,113,0.7)',
           'rgba(247,202,24,0.7)',

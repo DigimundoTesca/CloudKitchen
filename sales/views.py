@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
 from django.middleware.csrf import get_token
+from django.utils import timezone
 
 from branchoffices.models import CashRegister
 from cashflow.settings.base import PAGE_TITLE
@@ -156,7 +157,7 @@ def sales(request):
                 Filling in the sales list of the day
                 """
                 earnings_sale_object = {
-                    'datetime': ticket.created_at,
+                    'datetime': timezone.localtime(ticket.created_at),
                     'earnings': 0
                 }
                 for ticket_detail in all_ticket_details:
