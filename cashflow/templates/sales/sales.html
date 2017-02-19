@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block link %}
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
+{% endblock link %}
+
 {% block page_title %}
   {{ page_title }}
 {% endblock %}
@@ -91,6 +95,7 @@
 {% endblock content %}
 
 {% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.js"></script>
 <script src="{% static 'js/Chart.bundle.min.js' %}" defer></script>
 
 <script type="text/javascript" charset="utf-8" defer>
@@ -232,7 +237,7 @@
 
       // Searches the times outside the time range
       for(var i = 0; i < sales_list.length; i++) {
-        if(!elements_ok.indexOf(sales_list[i])) {
+        if(elements_ok.indexOf(sales_list[i]) == -1) {
           earnings += parseFloat(sales_list[i].earnings);
         }
       }
@@ -254,6 +259,13 @@
         },
         traditional: true,
         datatype: 'jsonp',
+        beforeSend: function(){
+          swal({
+              title: "Generando gráficas",
+              text: "Espere mientras se calculan los datos",
+            });
+          swal.enableLoading();
+        },
         success: function(result) {
           var sales_day_earnings_list = [];
           var initial_hour = '05:00',
@@ -265,6 +277,16 @@
           sales_day_earnings_list = get_sales_day_list(initial_hour, final_hour, separation_time, sales_day_object_list);
           earnings_day_chart.data.datasets[0].data = sales_day_earnings_list;
           earnings_day_chart.update();
+          swal({
+            title: "Éxito",
+            text: "Gráfica generada",
+            type: "success",
+            timer: 1000,
+            showConfirmButton: false
+          }).then(
+          function(){},
+          function(dismiss){}
+          );
         },
 
         error: function(result, jqXHR, textStatus, errorThrown) {
