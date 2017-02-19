@@ -157,6 +157,7 @@ def sales(request):
                 Filling in the sales list of the day
                 """
                 earnings_sale_object = {
+                    'id_ticket': ticket.id,
                     'datetime': timezone.localtime(ticket.created_at),
                     'earnings': 0
                 }

@@ -232,10 +232,8 @@
 
       // Searches the times outside the time range
       for(var i = 0; i < sales_list.length; i++) {
-        for(var j = 0; j < elements_ok.length; j++) {
-          if(sales_list[i] !== elements_ok[j]) {
-            earnings += parseFloat(sales_list[i].earnings);
-          }
+        if(!elements_ok.indexOf(sales_list[i])) {
+          earnings += parseFloat(sales_list[i].earnings);
         }
       }
       list_formated.push(earnings)
