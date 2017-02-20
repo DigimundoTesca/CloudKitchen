@@ -194,6 +194,10 @@ small {
 .card-scroll-x {
   overflow-x: scroll;
 }
+.container,
+.container-fluid {
+  margin-top: 1rem;
+}
 .container-hidden {
   display: none;
 }
@@ -235,11 +239,6 @@ transition: all 1s ease;
 .container-sales {
   margin: 0 0.5rem;
 }
-.container-assembly,
-.container-sales-reports,
-.container-kitchen {
-  margin: 0 1rem;
-}
 .container-sales-reports .sales-graphics {
   margin-bottom: 1rem; 
 }
@@ -248,6 +247,10 @@ transition: all 1s ease;
 }
 .container-sales-reports .sales-details .card {
   max-height: 45vh;
+}
+.container-sales-reports .sales-details table.table-sales-details th.header-actions,
+.container-sales-reports .sales-details table.table-sales-details td.header-actions {
+  min-width: 10rem;
 }
 .container-sales-reports .sales-details table.table-sales-details th.header-date,
 .container-sales-reports .sales-details table.table-sales-details td.header-date {
@@ -262,6 +265,19 @@ transition: all 1s ease;
 .container-sales-reports .sales-details table.table-sales-details th.header-products,
 .container-sales-reports .sales-details table.table-sales-details td.header-products {
   min-width: 20rem;
+}
+.container-sales-reports .sales-details table.table-sales-details span.sales-actions {
+  padding: 0 0.5rem 0 1rem;
+}
+.container-sales-reports .sales-details table.table-sales-details span.sales-actions i {
+  font-size: 2rem;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+.container-sales-reports .sales-details table.table-sales-details span.sales-actions:hover > i {
+  opacity: 0.8;
 }
 .container-sales .group-sales button#btn-orders-reset{
   height: 4rem;

@@ -21,10 +21,10 @@
       <div class="col-xs-12 col-md-6">
         <div class="row">
           <div class="col-xs-6">
-            <p class="float-xs-right">Hoy es: <span class="font-weight-bold">{{ day }}</span></p>
+            <p class="float-xs-right">Hoy es: <span class="font-weight-bold">{{ today_name }}</span></p>
           </div>
           <div class="col-xs-6">
-            <p class="float-xs-right">Semana: <span class="font-weight-bold">{{ week }}</span></p>
+            <p class="float-xs-right">Semana: <span class="font-weight-bold">{{ week_number }}</span></p>
           </div>
         </div>
       </div>
@@ -56,12 +56,13 @@
                 <th class="header-dabba">Dabbas</th>
                 <th>Vendedor</th>
                 <th>Total</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
               {% for ticket in tickets %}
                 <tr>
-                  <th>{{ ticket.ticket_parent }}</th>
+                  <th class="header-id">{{ ticket.ticket_parent }}</th>
                   <td class="header-date">{{ ticket.ticket_parent.created_at }}</td>
                   <td class="header-products">
                     {% for cartridge in ticket.cartridges %}
@@ -83,6 +84,10 @@
                   <td>
                     {{ ticket.total }}
                   </td>
+                  <td class="header-actions">
+                    <span class="sales-actions" id="delete-ticket"><i class="material-icons text-muted">delete</i></span>
+                    <span class="sales-actions" id="print-ticket"><i class="material-icons text-primary">local_printshop</i></span>
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -102,10 +107,15 @@
   $(function() {
     var ctx_week = document.getElementById("canvas-week-sales"),
         ctx_day = document.getElementById("canvas-day-sales");
+    var today_number = {{ today_number }};
     var sales_week = JSON.parse('{{ sales_week|safe }}');
     var earnings_week_chart,
         earnings_day_chart;
 
+
+    /**
+     * returns a list with the earnings of the week per day
+     */
     function get_earnings_week_list() {
       var earnings_list = [];
       var count = 0;
@@ -116,6 +126,7 @@
       }
       return earnings_list;
     }
+
     /**
      * Receives an hour in 24-hour format and returns the same hour but
      * converted into minutes.
@@ -245,6 +256,11 @@
       return list_formated.reverse();
     }
 
+
+    /*
+     * Get's the earnings of the selected day in week chart and
+     * show the results in sales day chart
+     */
     function get_sales_day(day_number) {
       var earnings_list = [];
       date =  sales_week[day_number].date;
@@ -281,7 +297,7 @@
             title: "Éxito",
             text: "Gráfica generada",
             type: "success",
-            timer: 1000,
+            timer: 750,
             showConfirmButton: false
           }).then(
           function(){},
@@ -295,6 +311,9 @@
       });
     }
 
+    /**
+     * Draws the chart of sales of the week
+     */
     earnings_week_chart = new Chart(ctx_week, {
       type: 'bar',
       data: {
@@ -341,6 +360,9 @@
       }
     });
 
+    /**
+     * Draws the chart of sales of the day
+     */
     earnings_day_chart = new Chart(ctx_day, {
       type: 'horizontalBar',
       data: {
@@ -377,7 +399,12 @@
       options: {
         responsive: true,
         onClick: function(event, legendItem) {
-          console.log(legendItem[0]._index);
+          try {
+            console.log(legendItem[0]._index);
+          }
+          catch(error) {
+            console.log(error.message);
+          }
         },
         scales: {
           yAxes: [{
@@ -389,7 +416,9 @@
       }
     });
 
-    /** Funciona para darle formato de moneda a un numero */
+    /** 
+     * Receives a number and returns it with currency format
+     */
     function set_number_format(amount, decimals) {
       var amount_parts,
           regexp = /(\d+)(\d{3})/;
@@ -410,7 +439,9 @@
       return amount_parts.join('.');
     }
 
-    /** Calcula el total de ganancias de la semana y lo imprime */
+    /** 
+     * Calculates total earnings in the actual week and print it
+     */
     function set_total_earnings() {
       var total_earnings = 0;
       var earnings_list = get_earnings_week_list();
@@ -421,7 +452,73 @@
       $('#total-earnings-text').append(total_earnings);
     }
 
+    /**
+     * Get's the ticket id for printer-icon selected 
+     * TODO: Make an iframe to print the ticket
+     */
+    $(this).on('click', '#print-ticket', function(event) {
+      var id_element = $(this).parent().siblings('.header-id').text();
+      console.log(id_element);
+    });
+
+    /**
+     * Get's the ticket id for delete-icon selected 
+     * TODO: Make a view for delete the ticket from backend
+     */
+    $(this).on('click', '#delete-ticket', function(event) {
+      var id_element = $(this).parent().siblings('.header-id').text();
+
+      function delete_ticket() {
+        $.ajax({
+          url: "{% url 'sales:delete-sale' %}",
+          type: 'POST',
+          data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'ticket_id': id_element,
+          },
+          traditional: true,
+          datatype: 'jsonp',
+          beforeSend: function(){
+            swal({
+                title: "Eliminando ticket",
+                text: "Espere mientras se realiza la petición",
+              });
+            swal.enableLoading();
+          },
+          success: function(result) {
+            swal({
+              title: "Éxito",
+              text: "Ticket Eliminando",
+              type: "warning",
+              timer: 1000,
+              showConfirmButton: false
+            }).then(
+            function(){},
+            function(dismiss){
+              location.reload();
+            }
+            );
+          }
+        });
+      }
+
+      swal({
+          title: '¿Estás seguro?',
+          text: "No podras recuperar el ticket!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, eliminar ticket!'
+        }).then(function () {
+         delete_ticket();
+        });
+    });
+    /**
+     * Functions to initialize the graphs
+     */
     set_total_earnings();
+    // get_sales_day(today_number);
   });
 </script>
 {% endblock javascript %}
