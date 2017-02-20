@@ -112,6 +112,10 @@
     var earnings_week_chart,
         earnings_day_chart;
 
+
+    /**
+     * returns a list with the earnings of the week per day
+     */
     function get_earnings_week_list() {
       var earnings_list = [];
       var count = 0;
@@ -122,6 +126,7 @@
       }
       return earnings_list;
     }
+
     /**
      * Receives an hour in 24-hour format and returns the same hour but
      * converted into minutes.
@@ -251,6 +256,11 @@
       return list_formated.reverse();
     }
 
+
+    /*
+     * Get's the earnings of the selected day in week chart and
+     * show the results in sales day chart
+     */
     function get_sales_day(day_number) {
       var earnings_list = [];
       date =  sales_week[day_number].date;
@@ -301,6 +311,9 @@
       });
     }
 
+    /**
+     * Draws the chart of sales of the week
+     */
     earnings_week_chart = new Chart(ctx_week, {
       type: 'bar',
       data: {
@@ -347,6 +360,9 @@
       }
     });
 
+    /**
+     * Draws the chart of sales of the day
+     */
     earnings_day_chart = new Chart(ctx_day, {
       type: 'horizontalBar',
       data: {
@@ -400,7 +416,9 @@
       }
     });
 
-    /** Funciona para darle formato de moneda a un numero */
+    /** 
+     * Receives a number and returns it with currency format
+     */
     function set_number_format(amount, decimals) {
       var amount_parts,
           regexp = /(\d+)(\d{3})/;
@@ -421,7 +439,9 @@
       return amount_parts.join('.');
     }
 
-    /** Calcula el total de ganancias de la semana y lo imprime */
+    /** 
+     * Calculates total earnings in the actual week and print it
+     */
     function set_total_earnings() {
       var total_earnings = 0;
       var earnings_list = get_earnings_week_list();
@@ -432,6 +452,9 @@
       $('#total-earnings-text').append(total_earnings);
     }
 
+    /**
+     * Functions to initialize the graphs
+     */
     set_total_earnings();
     get_sales_day(today_number);
   });
