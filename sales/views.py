@@ -179,6 +179,15 @@ def sales(request):
     return render(request, template, context)
 
 @login_required(login_url='users:login')
+def delete_sale(request):
+    if request.method == 'POST':
+        # ticket_to_delete = Ticket.objects.get(id=request.method)
+        ticket_id = request.POST['ticket_id']
+        ticket = Ticket.objects.get(id=ticket_id)
+        ticket.delete()
+        return JsonResponse({'result': 'excelente!'})
+
+@login_required(login_url='users:login')
 def new_sale(request):
     if request.method == 'POST':
         if request.POST['ticket']:
