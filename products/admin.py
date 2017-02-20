@@ -30,19 +30,24 @@ class CartridgeRecipeInline(admin.TabularInline):
 
 
 @admin.register(Cartridge)
-class AdminCashRegister(admin.ModelAdmin):
-    list_display = ('id', 'name', 'price', 'category', 'created_at')
+class AdminCartridge(admin.ModelAdmin):
+    list_display = ('id', 'name', 'price', 'category', 'created_at', 'get_image', 'image')
     list_display_links = ('id', 'name')
+    list_editable = ('image',)
     inlines = [CartridgeRecipeInline, ]
 
 
 class PackageCartridgeRecipeInline(admin.TabularInline):
     model = PackageCartridgeRecipe
-    extra = 1
+    extra = 0
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'cartridge':
+            kwargs['queryset'] = Cartridge.objects.order_by('name')
+        return super(PackageCartridgeRecipeInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 @admin.register(PackageCartridge)
 class AdminPackageCartridge(admin.ModelAdmin):
-    list_display = ('id', 'name', 'price', 'package_active',)
+    list_display = ('id', 'name', 'price', 'package_active', 'package_recipe')
     list_display_links = ('id', 'name')
     inlines = [PackageCartridgeRecipeInline]

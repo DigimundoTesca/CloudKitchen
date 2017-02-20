@@ -12,31 +12,19 @@ class TicketDetailInline(admin.TabularInline):
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_at', 'seller', 'ticket_details', 'payment_type', 'total')
-    list_filter = ('seller', 'created_at', 'payment_type')
-    list_display_links = ('id', 'created_at')
+    list_display = ('id', 'seller', 'created_at', 'ticket_details', 'payment_type', 'total',)
+    list_filter = ('seller', 'created_at', 'payment_type',)
+    list_display_links = ('id', 'seller',)
+    list_editable = ('created_at',)
     date_hierarchy = 'created_at'
     inlines = [TicketDetailInline, ]
     actions = (export_as_excel,)
 
-    def changelist_view(self, request, extra_context=None):
-        #total = TicketDetail.objects.aggregate(total=Sum('price'))['total']
-        #total = TicketDetail.objects.filter(ticket=self.id).aggregate(total=Sum('price'))['total']
-        total = 19
-        context = {
-            'total': total,
-        }
-        print(request)
-        return super(TicketAdmin, self).changelist_view(request, extra_context=context)
-
 
 @admin.register(TicketDetail)
 class TicketDetailAdmin(admin.ModelAdmin):
-    list_display = ('id', 'ticket', 'created_at', 'cartridge', 'package_cartridge', 'quantity', 'price')
+    list_display = ('id', 'ticket', 'created_at', 'cartridge', 'package_cartridge', 'quantity', 'price',)
     list_display_links = ('id', 'ticket', )
     list_filter = ('ticket',)
     search_fields = ('ticket__created_at',)
     actions = (export_as_excel,)
-
-    def created_at(self):
-        return self.ticket.created_at

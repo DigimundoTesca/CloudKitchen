@@ -116,6 +116,10 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# Visual Studio Code 
+.vscode/
+tags
+
 cashflow/__pycache__/
 products/__pycache__/
 products/migrations/*

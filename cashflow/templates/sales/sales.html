@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block link %}
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
+{% endblock link %}
+
 {% block page_title %}
   {{ page_title }}
 {% endblock %}
@@ -39,7 +43,7 @@
     </div>
     <div class="row sales-details">
       <div class="col-xs-12">
-        <h4>Reporte de ventas de hoy</h4>
+        <h4>Ventas de hoy</h4>
       </div>
       <div class="col-xs-12">
         <div class="card card-scroll-x">
@@ -91,38 +95,213 @@
 {% endblock content %}
 
 {% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.js"></script>
 <script src="{% static 'js/Chart.bundle.min.js' %}" defer></script>
 
 <script type="text/javascript" charset="utf-8" defer>
   $(function() {
-    var ctx_week = document.getElementById("canvas-week-sales");
-    var ctx_day = document.getElementById("canvas-day-sales");
-    var earnings = JSON.parse('{{ week_earnings|safe }}');
-    function get_sales_day(day) {
+    var ctx_week = document.getElementById("canvas-week-sales"),
+        ctx_day = document.getElementById("canvas-day-sales");
+    var sales_week = JSON.parse('{{ sales_week|safe }}');
+    var earnings_week_chart,
+        earnings_day_chart;
+
+    function get_earnings_week_list() {
+      var earnings_list = [];
+      var count = 0;
+
+      while (count < sales_week.length) {
+        earnings_list.push(parseFloat(sales_week[count].earnings));
+        count++;
+      }
+      return earnings_list;
+    }
+    /**
+     * Receives an hour in 24-hour format and returns the same hour but
+     * converted into minutes.
+     * The string must have to have the following format: hh:mm
+     */
+    function hours_to_minutes(original_time) {
+      var hours,
+          minutes;
+        hours = parseInt(original_time.split(':')[0])*60;
+        minutes = parseInt(original_time.split(':')[1]);
+      return parseInt(hours + minutes);
+    }
+
+    /**
+     * Receives an hour in minutes format and returns the same hour but
+     * converted into 24-hour format.
+     * The string returned have the next format: hh:mm
+     */
+    function minutes_to_hours(original_time) {
+      hours = parseInt(original_time / 60);
+      minutes = parseInt(original_time % 60);
+      
+      if (hours.toString().length < 2) {
+        hours = "0"+hours;
+      }
+      
+      if (minutes.toString().length < 2) {
+        minutes = "0"+minutes;
+      }
+        return hours + ':' + minutes;
+    }
+
+    /**
+     * Receives an hour and verifies if it't is in the offered time range.
+     * The hours received must have the following format: hh:mm
+     * Returns true if the condition is met. Otherwise returns false.
+     */
+    function is_time_in_range(hour, start_hour, end_hour) {
+      hour_in_minutes = hours_to_minutes(hour);
+      start_hour_in_minutes = hours_to_minutes(start_hour);
+      end_hour_in_minutes = hours_to_minutes(end_hour);
+
+      if(hour_in_minutes >= start_hour_in_minutes && hour_in_minutes < end_hour_in_minutes)
+        return true;
+      return false;
+    }
+
+    /**
+     * Receives two hours with the next format: hh:mm
+     * Returns the diference of the hours given with the following format: hh:mm
+     */
+    function get_time_differences(initial_time, final_time){
+      initial_mins = parseInt(initial_time.substr(3,2));
+      initial_hours = parseInt(initial_time.substr(0,2));
+      
+      final_mins = parseInt(final_time.substr(3,2));
+      final_hours = parseInt(final_time.substr(0,2));
+
+      elapsed_mins = final_mins - initial_mins;
+      elapsed_hours = final_hours - initial_hours;
+      
+      if (elapsed_mins < 0) {
+        elapsed_hours--;
+        elapsed_mins = 60 + elapsed_mins;
+      }
+      
+      hours = elapsed_hours.toString();
+      minutes = elapsed_mins.toString();
+      
+      if (hours.length < 2) {
+        hours = "0"+hours;
+      }
+      
+      if (minutes.length < 2) {
+        minutes = "0"+minutes;
+      }
+      return hours+':'+minutes;
+    }
+
+    /**
+     * Receives a datetime with format from python.
+     * Returns an hour converted into 24-hours format: hh:mm ith Timezone +06:00
+     */
+    function convert_datetime_to_hour(original_datetime){
+      hour_formated = original_datetime.split('T')[1].split('.')[0].substr(0,5);
+      return hour_formated;
+    }
+
+    /** 
+     * Returns a list with the earnings of each time range
+     */
+    function get_sales_day_list(initial_hour, final_hour, separation_time, sales_list) {
+      var initial_hour_minutes,
+            final_hour_minutes;
+      var list_formated = [],
+          elements_ok = [];
+      var earnings = 0;
+
+      initial_hour_minutes = hours_to_minutes(initial_hour);
+      final_hour_minutes = hours_to_minutes(final_hour);
+
+      while(initial_hour_minutes < final_hour_minutes) {
+        start_hour_f = minutes_to_hours(initial_hour_minutes);
+        end_hour_f = minutes_to_hours(initial_hour_minutes + separation_time);
+
+        for (var i = 0; i < sales_list.length; i++) {
+          hour_sale = convert_datetime_to_hour(sales_list[i].datetime);
+          
+          if(is_time_in_range(hour_sale, start_hour_f, end_hour_f)) {
+            earnings += parseFloat(sales_list[i].earnings);
+            elements_ok.push(sales_list[i]);
+          }
+        }
+
+        list_formated.push(earnings);
+        initial_hour_minutes += separation_time;
+        earnings = 0;
+      }
+
+      // Searches the times outside the time range
+      for(var i = 0; i < sales_list.length; i++) {
+        if(elements_ok.indexOf(sales_list[i]) == -1) {
+          earnings += parseFloat(sales_list[i].earnings);
+        }
+      }
+      list_formated.push(earnings)
+      return list_formated.reverse();
+    }
+
+    function get_sales_day(day_number) {
+      var earnings_list = [];
+      date =  sales_week[day_number].date;
+ 
       $.ajax({
-        url: '/sales/sales-day/',
+        url: "{% url 'sales:sales' %}",
         type: 'POST',
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
-          'day': day,
+          'date': date,
+          'type': 'sales_day',
         },
         traditional: true,
         datatype: 'jsonp',
-        success: function(result) {
-          console.log(result);
+        beforeSend: function(){
+          swal({
+              title: "Generando gráficas",
+              text: "Espere mientras se calculan los datos",
+            });
+          swal.enableLoading();
         },
+        success: function(result) {
+          var sales_day_earnings_list = [];
+          var initial_hour = '05:00',
+              final_hour = '13:00',
+              separation_time = 30; // In minutes
+          var sales_day_object_list = result['sales_day_list'];
+          var total_datas = sales_day_object_list.length;
+
+          sales_day_earnings_list = get_sales_day_list(initial_hour, final_hour, separation_time, sales_day_object_list);
+          earnings_day_chart.data.datasets[0].data = sales_day_earnings_list;
+          earnings_day_chart.update();
+          swal({
+            title: "Éxito",
+            text: "Gráfica generada",
+            type: "success",
+            timer: 1000,
+            showConfirmButton: false
+          }).then(
+          function(){},
+          function(dismiss){}
+          );
+        },
+
         error: function(result, jqXHR, textStatus, errorThrown) {
           console.log(result);
         },
       });
     }
-    var earnings_for_the_week = new Chart(ctx_week, {
+
+    earnings_week_chart = new Chart(ctx_week, {
       type: 'bar',
       data: {
         labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         datasets: [{
           label: 'Ventas del día',
-          data: earnings,
+          data: get_earnings_week_list(),
           backgroundColor: [
           'rgba(241,196,15,0.7)',
           'rgba(230,126,34,0.7)',
@@ -161,21 +340,24 @@
         }
       }
     });
-    var earnings_for_the_day = new Chart(ctx_day, {
+
+    earnings_day_chart = new Chart(ctx_day, {
       type: 'horizontalBar',
       data: {
         labels: [
-        "12:00 - 13:00", "12:00 - 12:30", "11:30 - 12:00", "11:00 - 11:30", "10:30 - 11:00", "10:00 - 10:30", "09:30 - 10:00", "09:00 - 09:30",
+        "Out",
+        "12:30 - 13:00", "12:00 - 12:30", "11:30 - 12:00", "11:00 - 11:30", "10:30 - 11:00", "10:00 - 10:30", "09:30 - 10:00", "09:00 - 09:30",
         "08:30 - 09:00", "08:00 - 08:30", "07:30 - 08:00", "07:00 - 07:30", "06:30 - 07:00", "06:00 - 06:30", "05:30 - 06:00", "05:00 - 05:30",
         ],
         datasets: [{
           label: 'Ventas en este horario',
-          data: [90, 0, 0, 0, 0, 0, 0, 0, 300, 0, 40, 0, 0, 0, 0, 100],
+          data: [],
           backgroundColor: [
-          'rgba(242,38,19,0.7)',
-          'rgba(246,36,89,0.7)',
+          'rgba(247,202,24,0.7)',
           'rgba(103,65,114,0.7)',
           'rgba(65,131,215,0.7)',
+          'rgba(246,36,89,0.7)',
+          'rgba(103,65,114,0.7)',
           'rgba(54,215,183,0.7)',
           'rgba(46,204,113,0.7)',
           'rgba(247,202,24,0.7)',
@@ -206,29 +388,39 @@
         }
       }
     });
+
     /** Funciona para darle formato de moneda a un numero */
     function set_number_format(amount, decimals) {
+      var amount_parts,
+          regexp = /(\d+)(\d{3})/;
+
       amount += '';
       amount = parseFloat(amount.replace(/[^0-9\.]/g, ''));
       decimals = decimals || 0;
+
       if (isNaN(amount) || amount === 0)
         return parseFloat(0).toFixed(decimals);
+
       amount = '' + amount.toFixed(decimals);
-      var amount_parts = amount.split('.'),
-      regexp = /(\d+)(\d{3})/;
+      amount_parts = amount.split('.');
+
       while (regexp.test(amount_parts[0]))
         amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ' ' + '$2');
+
       return amount_parts.join('.');
     }
+
     /** Calcula el total de ganancias de la semana y lo imprime */
     function set_total_earnings() {
       var total_earnings = 0;
-      for (var i = 0; i < earnings.length; i++) {
-        total_earnings += earnings[i];
+      var earnings_list = get_earnings_week_list();
+      for (var i = 0; i < earnings_list.length; i++) {
+        total_earnings += earnings_list[i];
       }
       total_earnings = set_number_format(total_earnings, 2);
       $('#total-earnings-text').append(total_earnings);
     }
+
     set_total_earnings();
   });
 </script>
