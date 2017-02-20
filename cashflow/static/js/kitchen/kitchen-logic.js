@@ -7,9 +7,13 @@ $(function() {
     const objects = $('tr');
     let list_id = [];
     let list_aux = [];
+    let list_color = [];
     let color = [];
+    let the_color=['#FFAB77','#5CB28D','#75E3B3'];
     let a = 0;
     let b = 0;
+    let c = 1;
+    let col = 0;
     let count = -1;
 
     /**
@@ -20,26 +24,46 @@ $(function() {
       if (!isNaN(id_element)) {
         list_id.push(id_element);
         list_aux.push(id_element);
+        list_color.push(id_element);
       }
     });
 
     /**
-     * Associates a color with each item in the list.
+     * Change the text for each item in the list.
      */
     for (let j=0; j<list_id.length; j++){
-      a = j;
-      b = j+1;
+      let a = j;
+      let b = j+1;
+
       if (list_aux[a] ===  list_id[b]){
         list_id[b] = " ";
-      }
-      if (list_aux[a] % 2 == 0){
-        color.push('#FFB74D');
-      } else {
-        color.push('#F4F4ED');
       }
     }
 
     /**
+     * Associates a color with each item in the list.
+     */
+    for (let i=0; i<=list_aux.length; i++){
+      let r = i;
+      let t = i+1;
+      if (list_aux[r] == list_color[t]){
+        c++;
+      }else{
+        for(q=0;q<c;q++)
+        {
+          color.push(the_color[col]);
+        }
+          col++;
+          c=1;
+      }
+        if(col==3)
+        {
+          col=0;
+        }
+    }
+
+    /**
+     * Applies changed text to items in the list.
      * Applies the new color to items in the list.
      */
     objects.each(function(index, element) {
