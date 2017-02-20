@@ -21,10 +21,10 @@
       <div class="col-xs-12 col-md-6">
         <div class="row">
           <div class="col-xs-6">
-            <p class="float-xs-right">Hoy es: <span class="font-weight-bold">{{ day }}</span></p>
+            <p class="float-xs-right">Hoy es: <span class="font-weight-bold">{{ today_name }}</span></p>
           </div>
           <div class="col-xs-6">
-            <p class="float-xs-right">Semana: <span class="font-weight-bold">{{ week }}</span></p>
+            <p class="float-xs-right">Semana: <span class="font-weight-bold">{{ week_number }}</span></p>
           </div>
         </div>
       </div>
@@ -56,6 +56,7 @@
                 <th class="header-dabba">Dabbas</th>
                 <th>Vendedor</th>
                 <th>Total</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -83,6 +84,10 @@
                   <td>
                     {{ ticket.total }}
                   </td>
+                  <td class="header-actions">
+                    <span class="sales-actions" id="print-ticket"><i class="material-icons text-primary">local_printshop</i></span>
+                    <span class="sales-actions" id="delete-ticket"><i class="material-icons text-danger">delete</i></span>
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -102,6 +107,7 @@
   $(function() {
     var ctx_week = document.getElementById("canvas-week-sales"),
         ctx_day = document.getElementById("canvas-day-sales");
+    var today_number = {{ today_number }};
     var sales_week = JSON.parse('{{ sales_week|safe }}');
     var earnings_week_chart,
         earnings_day_chart;
@@ -377,7 +383,12 @@
       options: {
         responsive: true,
         onClick: function(event, legendItem) {
-          console.log(legendItem[0]._index);
+          try {
+            console.log(legendItem[0]._index);
+          }
+          catch(error) {
+            console.log(error.message);
+          }
         },
         scales: {
           yAxes: [{
@@ -422,6 +433,7 @@
     }
 
     set_total_earnings();
+    get_sales_day(today_number);
   });
 </script>
 {% endblock javascript %}

@@ -51,7 +51,7 @@ def sales(request):
 
     def get_number_day():
         days = {
-            'Lunes': 1, 'Martes': 2, 'Miércoles': 3, 'Jueves': 4, 'Viernes': 5, 'Sábado': 6, 'Domingo': 7,
+            'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3, 'Viernes': 4, 'Sábado': 5, 'Domingo': 6,
         }
         return days[get_name_day(datetime.now())]
 
@@ -72,7 +72,7 @@ def sales(request):
         """
         week_sales_list = []
         total_earnings = 0
-        days_to_count = get_number_day() - 1
+        days_to_count = get_number_day()
         day_limit = days_to_count
         start_date_number = 0
         
@@ -101,10 +101,6 @@ def sales(request):
             start_date_number += 1
 
         return json.dumps(week_sales_list)
-
-    def get_sales_day():
-        days = get_number_day()
-        return days
 
     def get_tickets():
         tickets_details = TicketDetail.objects.select_related(
@@ -175,12 +171,11 @@ def sales(request):
         'page_title': PAGE_TITLE,
         'title': title,
         'sales_week': get_sales_week(),
-        'day_earnings': get_sales_day(),
-        'day': get_name_day(datetime.now()),
-        'week': get_week_number(),
+        'today_name': get_name_day(datetime.now()),
+        'today_number': get_number_day(),
+        'week_number': get_week_number(),
         'tickets': get_tickets(),
     }
-
     return render(request, template, context)
 
 @login_required(login_url='users:login')
