@@ -194,6 +194,10 @@ small {
 .card-scroll-x {
   overflow-x: scroll;
 }
+.container,
+.container-fluid {
+  margin-top: 1rem;
+}
 .container-hidden {
   display: none;
 }
@@ -234,11 +238,6 @@ transition: all 1s ease;
 }
 .container-sales {
   margin: 0 0.5rem;
-}
-.container-assembly,
-.container-sales-reports,
-.container-kitchen {
-  margin: 0 1rem;
 }
 .container-sales-reports .sales-graphics {
   margin-bottom: 1rem; 

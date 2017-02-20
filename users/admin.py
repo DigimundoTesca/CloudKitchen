@@ -13,7 +13,8 @@ class RolAdmin(admin.ModelAdmin):
 
 @admin.register(CustomerProfile)
 class CustomerProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'address', 'latitude', 'longitude', 'first_dabba')
+    list_display = ('user', 'address', 'latitude', 'longitude', 'first_dabba',)
+    list_editable = ('first_dabba',)
     ordering = ('first_dabba',)
 
 admin.site.register(UserProfile, UserProfileAdmin)
