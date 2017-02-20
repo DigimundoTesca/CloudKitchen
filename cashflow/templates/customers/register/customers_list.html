@@ -22,7 +22,6 @@
       <tbody>
         {% for customer in customers  %}        
           <tr {% if customer.first_dabba %} class="table-success" {% endif %}>
-<<<<<<< HEAD
             <th class="customer_user" scope="row">{{ customer.user }}</th>
             <td>{{ customer.email }}</td>
             <td>{{ customer.phone_number }}</td>
@@ -47,28 +46,6 @@
       </tbody>
     </table>
   </div>
-=======
-          <th class="customer_user" scope="row">{{ customer.user }}</th>
-          <td>{{ customer.email }}</td>
-          <td>{{ customer.phone_number }}</td>
-          <td>{{ customer.address }}</td>
-          <td>
-            <div class="container-fluid">
-              {% if customer.first_dabba %}
-                <button disabled class="btn btn-info col-xs-12"> Dabba entregado </button>
-              {% else %}
-                <button class="btn btn-success col-xs-12 btn-gift"> Activar Regalo</button>
-              {% endif %}
-              <span class="hidden-xs-up">{{ customer.id }}</span>
-            </div>
-          </td>
-        </div>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-</div>
->>>>>>> origin
 {% endblock %}
 
 {% block javascript %}
@@ -82,7 +59,6 @@
         let id = element.siblings('span').text();
         let name = element.parent().parent().siblings('.customer_user').text();
 
-<<<<<<< HEAD
         let CustomerProfile = {
           id: id,
         };
@@ -90,21 +66,6 @@
         function rel(){
           location.reload();
         }
-=======
-      let CustomerProfile = {
-        id: id,
-      }
-      swal({
-        title: "Confirmación de regalo",
-        text: "¿Otorgar regalo a " + name + "?",
-        type: "info",
-        showCancelButton: true,
-        confirmButtonColor: '#025aa5',
-        cancelButtonColor: '#d9534f',
-      }).then(function () {
-        save_change();
-      })
->>>>>>> origin
 
         swal({
           text: "¿Otorgar regalo a " + name + "?",
@@ -119,8 +80,6 @@
           save_change();
           $('.btn-gift').attr('disabled', 'true');
         });
-
-<<<<<<< HEAD
         function save_change () {
           JSONCustomer = JSON.stringify(CustomerProfile);
           $.ajax({
@@ -141,40 +100,6 @@
               showConfirmButton: true,
               showLoaderOnConfirm: true,
             });
-=======
-      function save_change () {
-        JSONCustomer = JSON.stringify(CustomerProfile);
-        $.ajax({
-          url: "{% url 'users:customers_list' %}",
-          type: 'POST',
-          data: {
-            'customer': JSONCustomer,
-            csrfmiddlewaretoken: '{{ csrf_token }}',
-          },
-          traditional: true,
-          datatype: 'jsonp',
-          success: function(result){
-            swal({
-              title: "Éxito",
-              text: "Regalo Otorgado a " + name + '!',
-              type: "success",
-              timer: 1500,
-              showConfirmButton: false
-            });  
-            setTimeout(rel, 1500);
-            return true;
-          },
-          error: function(result, jqXHR , textStatus, errorThrown){
-            swal({
-              title: "Venta no realizada!",
-              text: 'Contacte a soporte!\n ' + 'Errores: ' + textStatus + ', ' + jqXHR,
-              type: "error",
-              timer: 3000,
-              showConfirmButton: false
-            });  
-            setTimeout(rel, 5000);
-            return false;
->>>>>>> origin
           },
             success: function(result){
               swal({
