@@ -511,6 +511,10 @@
      */
     $(this).on('click', '#print-ticket', function(event) {
       var id_element = $(this).parent().siblings('.header-id').text();
+      var products_list = $(this).parent().siblings('.header-products');
+      var dabbas_list = $(this).parent().siblings('.header-dabbas');
+      console.log(products_list);
+      console.log(dabbas_list);
       var nuevo_li = $("" +
           "<li>" +
           "<span class='name-li-title-modal'>Nombre</span> " +
@@ -518,7 +522,7 @@
           "<span class='cant-li-title-modal'>Cant</span>" +
           "<span class='total-li-title-modal'>Total</span> " +
           "</li>");
-      
+
       nuevo_li.appendTo('#sales-list-modal');
       $('#modal-ticket').modal('show');
 

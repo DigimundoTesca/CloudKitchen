@@ -400,30 +400,40 @@
 
       $(this).on('click', '.remove-icon-li', function(event) {
         let element = $(this);
-
         let quantity_product = element.siblings('.cant-li').text();
         let cost_base_product = element.siblings('.cost-base-li').text();
         let total_product = element.siblings('.total-li').text();
         let total_ticket = 0;
         let id_product = element.parent().attr('id').substring(13);
+        var count = 0;
 
         /** Refresh total ticket. Removes the product from the tiket list*/
         if (quantity_product == 1) {
-          element.parent().remove();
+          element.parent().remove(); // Removes from DOM
 
-          /** Modificacion del total general */
+          /** Modificacion del total del ticket */
           $('ul li').find('.total-li').each(function() {
-            re = $(this).text();
-            total_ticket += parseFloat(re)
+            var total_span = $(this).text();
+            total_ticket += parseFloat(total_span);
           });
 
-          var arreglo = total_ticket.toFixed(2).split('.')
+          var total_ticket_split = total_ticket.toFixed(2).split('.')
 
           $('#total-price').html("" +
-            "<span class='text-price align-top' id='int-total-price'>" + arreglo[0] + "</span>" +
+            "<span class='text-price align-top' id='int-total-price'>" + total_ticket_split[0] + "</span>" +
             "<span class='point-total-price'>.</span>" +
-            "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
+            "<span class='text-price-decimal' id='dec-total-price'>" + total_ticket_split[1] + "</span>"
           );
+
+
+          // Removes cartridge from ticket JSON
+          Ticket.cartuchos.forEach(function(cartridge_object) {
+            if (cartridge_object.id == id_product) {
+              Ticket.cartuchos.splice(count, 1);
+            };
+            count += 1;
+          });
+
         } else {
 
           $('ul li').find('.total-li').each(function() {

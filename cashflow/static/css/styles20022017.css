@@ -651,6 +651,9 @@ transition: all 1s ease;
   min-width: 56mm;
   max-width: 56mm;
 }
+#printer .modal-body { 
+  overflow: hidden;
+}
 #printer figure {
   display: flex;
   flex-direction: row;
@@ -734,7 +737,6 @@ transition: all 1s ease;
     width: 100%;
   }
 }
-
 @media (min-width: 1024px) { 
   .container-assembly table {
     display: table;
