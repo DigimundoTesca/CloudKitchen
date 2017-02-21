@@ -477,8 +477,8 @@ transition: all 1s ease;
 }
 .modal#modal-dabba .modal-content {
   margin-top: calc(50vh - 16rem);
-  max-height: 31rem;
-  min-height: 31rem;
+  max-height: 33rem;
+  min-height: 33rem;
 }
 .modal#modal-dabba .modal-content h5 {
   font-size: 1.4rem;
@@ -539,8 +539,8 @@ transition: all 1s ease;
 }
 .modal#modal-order .modal-content {
   margin-top: calc(50vh - 15rem);
-  max-height: 30rem;
-  min-height: 30rem;
+  max-height: 31rem;
+  min-height: 31rem;
 }
 .modal#modal-order .modal-content .modal-body #printer-container {
   flex-direction: row;

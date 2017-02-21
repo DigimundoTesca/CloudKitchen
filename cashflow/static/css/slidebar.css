@@ -1,11 +1,11 @@
-*{
+/**{
 	padding: 0px;
 	margin: 0px;
 }
 a {
 	text-decoration: none;
 }
-sidebar{
+.sidebar{
 	background: #1A1A1A;
 	width: 250px;
 	height: 100px;
@@ -34,4 +34,4 @@ sidebar{
 	border-radius: 0px 4px 4px 0px;
 	font-size: 32px;
 	line-height: 50px;
-}
+}*/
