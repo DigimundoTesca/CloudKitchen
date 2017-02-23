@@ -534,7 +534,38 @@
 
         sales_list_modal.append(nuevo_li);
        
-        function iterate_elements(element, index, array) {
+        function iterate_cartridges(element, index, array) {
+          console.log(array);
+          var name = element.name;
+          var cost_base = parseFloat(element.total) / element.quantity;
+          var total = parseFloat(element.total);
+          var quantity = element.quantity;
+
+          // Formarts the cost_base and total
+          if (cost_base % 2 != 0) {
+              cost_base = cost_base.toFixed(2);
+            } else
+              cost_base += '.00';
+
+          if (total % 2 != 0) {
+              total = total.toFixed(2);
+            } else
+              total += '.00';
+
+          // Adds the list to tickets
+          nuevo_li = $("" +
+            "<li class='list-group-item'>" +
+            "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
+            "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>" +
+            "<span class='cant-li-modal'>" + quantity + "</span>" +
+            "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
+            "</li>");
+
+            sales_list_modal.append(nuevo_li);
+        }
+
+        function iterate_packages(element, index, array) {
+          console.log(array);
           var name = element.name;
           var cost_base = parseFloat(element.total) / element.quantity;
           var total = parseFloat(element.total);
@@ -572,8 +603,8 @@
             sales_list_modal.append(nuevo_li);
         }
 
-        ticket_details.cartridges.forEach(iterate_elements);
-        ticket_details.packages.forEach(iterate_elements);
+        ticket_details.cartridges.forEach(iterate_cartridges);
+        ticket_details.packages.forEach(iterate_packages);
         $("#ticket-id").text(id_element)
         
         $('#modal-ticket').modal('show');
@@ -689,7 +720,7 @@
      * Functions to initialize the graphs
      */
     set_total_earnings();
-    // get_sales_day(today_number);
+    get_sales_day(today_number);
   });
 </script>
 {% endblock javascript %}
