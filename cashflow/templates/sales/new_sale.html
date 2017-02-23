@@ -12,97 +12,97 @@
 {% endblock link %}
 
 {% block content %}
-  <div class="container-fluid container-sales">
-    <div class="row">
-      <div class="col-xs-12 col-lg-3 group-sales">
-        <div class="card col-sm-12 card-outline-info">
-          <div class="info-sale">
-            <span class="text-total left">Total: </span>
-            <p class="text-xs-center">
-              <span class="text-price align-top" id="s-total-price">$ </span>
-              <span id="total-price">
-              <span class="text-price align-top" id="int-total-price">0</span>
-              <span class="point-total-price">.</span>
-              <span class="text-price-decimal" id="dec-total-price">00</span>
-            </span>
-            </p>
-          </div>
+<!-- Container -->
+<div class="container-fluid container-sales">
+  <div class="row">
+    <div class="col-xs-12 col-lg-3 group-sales">
+      <div class="card col-sm-12 card-outline-info">
+        <div class="info-sale">
+          <span class="text-total left">Total: </span>
+          <p class="text-xs-center">
+            <span class="text-price align-top" id="s-total-price">$ </span>
+            <span id="total-price">
+            <span class="text-price align-top" id="int-total-price">0</span>
+            <span class="point-total-price">.</span>
+            <span class="text-price-decimal" id="dec-total-price">00</span>
+          </span>
+          </p>
         </div>
-        <div class="card col-sm-12 card-scroll-orders card-scroll card-outline-warning">
-          <div class="card-block products-block">
-            <div class="row">
-              <div class="col-xs-10 col-lg-9 col-xl-10">
-                <h4>Ticket</h4>
-              </div>
+        </div>
+      <div class="card col-sm-12 card-scroll-orders card-scroll card-outline-warning">
+        <div class="card-block products-block">
+          <div class="row">
+            <div class="col-xs-10 col-lg-9 col-xl-10">
+              <h4>Ticket</h4>
             </div>
           </div>
-          <ul class="list-group list-group-flush" id="sales-list">
-          </ul>
         </div>
-        <button type="button" id="btn-orders-reset" class="btn btn-danger col-xs-12 btn-lg">Cancelar Venta</button>
+        <ul class="list-group list-group-flush" id="sales-list">
+        </ul>
       </div>
-      <div class="group-sales col-xs-12 col-lg-9">
-        <div class="row">
-          <div class="col-xs-12 col-md-4 col-lg-4">
-            <div class="card card-block card-product-title">
-              <h3>Complementos</h3>
-            </div>
-            <div class="card col-xs-12 card-scroll card-outline-warning" id="group-complements">
-              <div class="card-block products-block">
-                {% for cartridge in cartridges %}
-                  {% if cartridge.category == 'CO' %}
-                    <div class="card-block product-container" id="cartridge-{{ cartridge.pk }}">
-                      <h6 class="product-name">{{ cartridge.name }}</h6>
-                      <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
-                      <div class="text-xs-right content-price">
-                        <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
-                      </div>
+      <button type="button" id="btn-orders-reset" class="btn btn-danger col-xs-12 btn-lg">Cancelar Venta</button>
+    </div>
+    <div class="group-sales col-xs-12 col-lg-9">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 col-lg-4">
+          <div class="card card-block card-product-title">
+            <h3>Complementos</h3>
+          </div>
+          <div class="card col-xs-12 card-scroll card-outline-warning" id="group-complements">
+            <div class="card-block products-block">
+              {% for cartridge in cartridges %}
+                {% if cartridge.category == 'CO' %}
+                  <div class="card-block product-container" id="cartridge-{{ cartridge.pk }}">
+                    <h6 class="product-name">{{ cartridge.name }}</h6>
+                    <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
+                    <div class="text-xs-right content-price">
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
                     </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
-          <div class="col-xs-12 col-md-4 col-lg-4">
-            <div class="card card-block card-product-title">
-              <h3>Rotis</h3>
-            </div>
-            <div class="card col-xs-12 card-scroll card-outline-warning" id="group-dishes">
-              <div class="card-block products-block">
-                {% for cartridge in cartridges %}
-                  {% if cartridge.category == 'FD' %}
-                    <div class="card-block product-container" id="cartridge-{{ cartridge.pk }}">
-                      <h6 class="product-name">{{ cartridge.name }}</h6>
-                      <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
-                      <div class="text-xs-right content-price">
-                        <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
-                      </div>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4">
+          <div class="card card-block card-product-title">
+            <h3>Rotis</h3>
+          </div>
+          <div class="card col-xs-12 card-scroll card-outline-warning" id="group-dishes">
+            <div class="card-block products-block">
+              {% for cartridge in cartridges %}
+                {% if cartridge.category == 'FD' %}
+                  <div class="card-block product-container" id="cartridge-{{ cartridge.pk }}">
+                    <h6 class="product-name">{{ cartridge.name }}</h6>
+                    <img src="{{ cartridge.image.url }}" id="cartridge-img-{{ cartridge.pk }}" class="product-img" alt="Nombre de la bebida">
+                    <div class="text-xs-right content-price">
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold">{{ cartridge.price }}</span>
                     </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
-          <div class="col-xs-12 col-md-4 col-lg-4">
-            <div class="row">
-              <div class=" col-xs-12">
-                <button type="button" id="btn-order" class="btn btn-success col-xs-12 btn-lg" data-toggle="modal" data-target="#modal-order">Realizar venta</button>
-                <div class="card col-xs-12 card-scroll card-outline-warning" id="group-promos">
-                  <div class="card-block card-block">
-                    <h4>Promos</h4>
-                    <div class="card-block product-container" id="package-container">
-                      <h6 class="product-name">Dabba</h6>
-                      <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba" data-toggle="modal" data-target="#modal-dabba">
-                      <div class="text-xs-right content-price">
-                        <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 50.00</span>
-                      </div>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4">
+          <div class="row">
+            <div class=" col-xs-12">
+              <button type="button" id="btn-order" class="btn btn-success col-xs-12 btn-lg" data-toggle="modal" data-target="#modal-order">Realizar venta</button>
+              <div class="card col-xs-12 card-scroll card-outline-warning" id="group-promos">
+                <div class="card-block card-block">
+                  <h4>Promos</h4>
+                  <div class="card-block product-container" id="package-container">
+                    <h6 class="product-name">Dabba</h6>
+                    <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba" data-toggle="modal" data-target="#modal-dabba">
+                    <div class="text-xs-right content-price">
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 50.00</span>
                     </div>
-                    <div class="card-block product-container" id="package-container">
-                      <h6 class="product-name">Dabba Gratis</h6>
-                      <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba" data-toggle="modal" data-target="#modal-dabba">
-                      <div class="text-xs-right content-price">
-                        <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 0.00</span>
-                      </div>
+                  </div>
+                  <div class="card-block product-container" id="package-container">
+                    <h6 class="product-name">Dabba Gratis</h6>
+                    <img src="{% static 'images/pack_dabba.jpg' %}" id="dabba-img" class="dabba-img" alt="Dabba" data-toggle="modal" data-target="#modal-dabba">
+                    <div class="text-xs-right content-price">
+                      <span class="font-weight-bold">$ </span><span class="product-cost font-weight-bold"> 0.00</span>
                     </div>
                   </div>
                 </div>
@@ -111,132 +111,143 @@
           </div>
         </div>
       </div>
-      <!-- Dabba Modal -->
-      <div class="modal fade" id="modal-dabba" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <div class="container-fluid">
-                <div class="card col-xs-4">
-                  <span id="modal-prod-head-1" class="modal-head-prod-name"></span>
-                </div>
-                <div class="card col-xs-4">
-                  <span id="modal-prod-head-2" class="modal-head-prod-name"></span>
-                </div>
-                <div class="card col-xs-4">
-                  <span id="modal-prod-head-3" class="modal-head-prod-name"></span>
-                </div>
-              </div>
-            </div>
-            <div class="modal-body">
-              <div class="container-fluid">
-                <div class="card card-scroll col-xs-4 ">
-                  {% for cartridge in cartridges %}
-                    {% if cartridge.category == 'FD' %}
-                      <div class="modal-prod-container product-container" id="modal-prod-cont-1">
-                        <h5 class="modal-prod-name">{{ cartridge.name }}</h5>
-                        <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-1-{{ cartridge.pk }}" class="modal-product-img">
-                      </div>
-                    {% endif %}
-                  {% endfor %}
-                </div>
-                <div class="card card-scroll col-xs-4 ">
-                  {% for cartridge in cartridges %}
-                    {% if cartridge.category == 'CO' %}
-                      <div class="modal-prod-container product-container" id="modal-prod-cont-2">
-                        <h5 class="modal-prod-name">{{ cartridge.name }}</h5>
-                        <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-2-{{ cartridge.pk }}" class="modal-product-img">
-                      </div>
-                    {% endif %}
-                  {% endfor %}
-                </div>
-                <div class="card card-scroll col-xs-4 ">
-                  {% for cartridge in cartridges %}
-                    {% if cartridge.category == 'CO' %}
-                      <div class="modal-prod-container product-container" id="modal-prod-cont-3">
-                        <h5 class="modal-prod-name">{{ cartridge.name }}</h5>
-                        <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-3-{{ cartridge.pk }}" class="modal-product-img">
-                      </div>
-                    {% endif %}
-                  {% endfor %}
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <div class="container">
-                <div class="row">
-                  <button type="button" class="btn btn-secondary col-xs-3 push-xs-2" data-dismiss="modal" id="btn-close-dabba-modal">Close</button>
-                  <button id="btn-add-dabba" data-dismiss="modal" type="button" class="btn btn-success col-xs-4 push-xs-3">¡Listo!</button>
-                </div>
-              </div>
-            </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dabba Modal -->
+<div class="modal fade" id="modal-dabba" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container-fluid">
+          <div class="card col-xs-4">
+            <span id="modal-prod-head-1" class="modal-head-prod-name"></span>
+          </div>
+          <div class="card col-xs-4">
+            <span id="modal-prod-head-2" class="modal-head-prod-name"></span>
+          </div>
+          <div class="card col-xs-4">
+            <span id="modal-prod-head-3" class="modal-head-prod-name"></span>
           </div>
         </div>
       </div>
-      <!-- Sales Modal -->
-      <div class="modal fade" id="modal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Realizar venta</h4>
-            </div>
-            <div class="modal-body">
-              <div class="container-fluid">
-                <div class="card card-scroll col-xs-4" id="printer-container">
-                  <div id="printer">
-                    <figure class="content-img">
-                      <img src="
-                    {% static 'images/dabbawala_black.jpg' %}" alt="logo-dabbawala">
-                    </figure>
-                    <div class="ticket-id-container">
-                      <span id="ticket-id"></span>
-                    </div>
-                    <div class="ticket-address">
-                      <p class="text-xs-center">
-                        20 de Noviembre #32, San Lucas Tepetlacalco, Tlanepantla Edo. De México CP 54055
-                      </p>
-                    </div>
-                    <div class="container ticket-datetime-container">
-                      <div class="row">
-                        <div class="col-xs-6 ticket-datetime">
-                          <span id="ticket-time"></span>
-                        </div>
-                        <div class="col-xs-6 ticket-datetime">
-                          <span id="ticket-date"></span>
-                        </div>
-                      </div>
-                    </div>
-                    <ul class="list-group list-group-flush" id="sales-list-modal">
-                    </ul>
-                    <div class="ticket-celphone">
-                      <br> Whatsapp: 55 42 46 73 60
-                    </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="card card-scroll col-xs-4 ">
+            {% for cartridge in cartridges %}
+              {% if cartridge.category == 'FD' %}
+                <div class="modal-prod-container product-container" id="modal-prod-cont-1">
+                  <h5 class="modal-prod-name">{{ cartridge.name }}</h5>
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-1-{{ cartridge.pk }}" class="modal-product-img">
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="card card-scroll col-xs-4 ">
+            {% for cartridge in cartridges %}
+              {% if cartridge.category == 'CO' %}
+                <div class="modal-prod-container product-container" id="modal-prod-cont-2">
+                  <h5 class="modal-prod-name">{{ cartridge.name }}</h5>
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-2-{{ cartridge.pk }}" class="modal-product-img">
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="card card-scroll col-xs-4 ">
+            {% for cartridge in cartridges %}
+              {% if cartridge.category == 'CO' %}
+                <div class="modal-prod-container product-container" id="modal-prod-cont-3">
+                  <h5 class="modal-prod-name">{{ cartridge.name }}</h5>
+                  <img src="{{ cartridge.image.url }}" alt="product image" id="modal-img-3-{{ cartridge.pk }}" class="modal-product-img">
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="container">
+          <div class="row">
+            <button type="button" class="btn btn-secondary col-xs-3 push-xs-2" data-dismiss="modal" id="btn-close-dabba-modal">Close</button>
+            <button id="btn-add-dabba" data-dismiss="modal" type="button" class="btn btn-success col-xs-4 push-xs-3">¡Listo!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ticket Modal -->
+<div class="modal fade" id="modal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Realizar venta</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="card card-scroll col-xs-4" id="printer-container">
+            <div id="printer" style="margin: 0 auto">
+              <figure class="content-img">
+                <img src="{% static 'images/dabbawala_black.jpg' %}" alt="logo-dabbawala">
+              </figure>
+              <div class="ticket-order-container text-xs-center">
+                <!-- TODO added actions in views-->
+                <!--
+                <span>ORDEN</span>
+                <span id="ticket-order"></span>
+                -->
+              </div>
+              <div class="ticket-address">
+                <p class="text-xs-center">
+                  20 de Noviembre #32, San Lucas Tepetlacalco, Tlanepantla Edo. De México CP 54055
+                </p>
+              </div>
+              <div class="container ticket-datetime-container">
+                <div class="row">
+                  <div class="col-xs-6 ticket-datetime">
+                    <span id="ticket-time"></span>
+                  </div>
+                  <div class="col-xs-6 ticket-datetime">
+                    <span id="ticket-date"></span>
                   </div>
                 </div>
-                <div class="card card-scroll" id="ticket-description">
-                  <h3>No olvides recordarle al cliente las promociones</h3>
-                </div>
+              </div>
+              <ul class="list-group list-group-flush" id="sales-list-modal">
+              </ul>
+              <div class="ticket-id-container">
+                <span>ID: </span><span id="ticket-id"></span>
+              </div>
+              <div class="ticket-celphone">
+                <span>Whatsapp: 55 42 46 73 60</span>
               </div>
             </div>
-            <div class="modal-footer">
-              <div class="container">
-                <div class="row">
-                  <button type="submit" id="btn-pago-tarjeta" class="btn btn-primary col-xs-4 push-xs-3 btn-printer">Pago con tarjeta</button>
-                  <button type="submit" id="btn-pago-efectivo" class="btn btn-success col-xs-4 push-xs-4 btn-printer">Pago con efectivo</button>
-                </div>
-              </div>
-            </div>
+          </div>
+          <div class="card card-scroll" id="ticket-description">
+            <h3>No olvides recordarle al cliente las promociones</h3>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="container">
+          <div class="row">
+            <button type="submit" id="btn-pago-tarjeta" class="btn btn-primary col-xs-4 push-xs-3 btn-printer">Pago con tarjeta</button>
+            <button type="submit" id="btn-pago-efectivo" class="btn btn-success col-xs-4 push-xs-4 btn-printer">Pago con efectivo</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="popout">
-    <div class="FAB">
-      <i class="material-icons">motorcycle</i>
-    </div>
+</div>
+
+<!-- Floating Action Button -->
+<div class="popout">
+  <div class="FAB">
+    <i class="material-icons">motorcycle</i>
   </div>
+</div>
 
 {% endblock content %}
 {% block javascript %}
@@ -275,7 +286,7 @@
         header_2 = $('#modal-prod-head-2').is(':empty');
         header_3 = $('#modal-prod-head-3').is(':empty');
 
-        if (header_1 == false && header_3 == false && header_3 == false) {
+        if (header_1 == false && header_2 == false && header_3 == false) {
           $('#btn-add-dabba').attr('disabled', false);
         } else {
           $('#btn-add-dabba').attr('disabled', true);
@@ -389,30 +400,40 @@
 
       $(this).on('click', '.remove-icon-li', function(event) {
         let element = $(this);
-
         let quantity_product = element.siblings('.cant-li').text();
         let cost_base_product = element.siblings('.cost-base-li').text();
         let total_product = element.siblings('.total-li').text();
         let total_ticket = 0;
         let id_product = element.parent().attr('id').substring(13);
+        var count = 0;
 
         /** Refresh total ticket. Removes the product from the tiket list*/
         if (quantity_product == 1) {
-          element.parent().remove();
+          element.parent().remove(); // Removes from DOM
 
-          /** Modificacion del total general */
+          /** Modificacion del total del ticket */
           $('ul li').find('.total-li').each(function() {
-            re = $(this).text();
-            total_ticket += parseFloat(re)
+            var total_span = $(this).text();
+            total_ticket += parseFloat(total_span);
           });
 
-          var arreglo = total_ticket.toFixed(2).split('.')
+          var total_ticket_split = total_ticket.toFixed(2).split('.')
 
           $('#total-price').html("" +
-            "<span class='text-price align-top' id='int-total-price'>" + arreglo[0] + "</span>" +
+            "<span class='text-price align-top' id='int-total-price'>" + total_ticket_split[0] + "</span>" +
             "<span class='point-total-price'>.</span>" +
-            "<span class='text-price-decimal' id='dec-total-price'>" + arreglo[1] + "</span>"
+            "<span class='text-price-decimal' id='dec-total-price'>" + total_ticket_split[1] + "</span>"
           );
+
+
+          // Removes cartridge from ticket JSON
+          Ticket.cartuchos.forEach(function(cartridge_object) {
+            if (cartridge_object.id == id_product) {
+              Ticket.cartuchos.splice(count, 1);
+            };
+            count += 1;
+          });
+
         } else {
 
           $('ul li').find('.total-li').each(function() {
@@ -633,16 +654,15 @@
         var ticket_list = $('#sales-list-modal li');
         var csrf_token = getCookie('csrftoken');
 
-        if (payment_type == 'btn-pago-efectivo') {
-          // Cash Payment
-          Ticket['payment_type'] = 'CA';
-        } else {
-          // Credit Payment
-          Ticket['payment_type'] = 'CR';
-        }
-
         function rel() {
           location.reload();
+        }
+
+        // Add pyment type to ticket json
+        if (payment_type == 'btn-pago-efectivo') {
+          Ticket['payment_type'] = 'CA';
+        } else {
+          Ticket['payment_type'] = 'CR';
         }
 
         if (ticket_list.length > 2) {

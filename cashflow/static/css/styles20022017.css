@@ -475,16 +475,26 @@ transition: all 1s ease;
 .map-container {
   margin-top: 2rem;
 }
+.modal#modal-ticket .printer-container {
+  border: 1px solid #dadade;
+  border-radius: 5px;
+  margin: 0 6rem;
+}
 .modal#modal-dabba .modal-content {
   margin-top: calc(50vh - 16rem);
-  max-height: 31rem;
-  min-height: 31rem;
+  max-height: 33rem;
+  min-height: 33rem;
+}
+.modal#modal-ticket .modal-content {
+  margin: auto;
+  min-height: 30rem; 
+  max-width: 30rem;
 }
 .modal#modal-dabba .modal-content h5 {
   font-size: 1.4rem;
 }
 .modal#modal-dabba .modal-content .card-scroll,
-.modal#modal-order .modal-content .card-scroll {
+.modal#modal-order .modal-content .card-scroll{
   display: flex;
   height: 310px;
 }
@@ -511,6 +521,9 @@ transition: all 1s ease;
 .modal#modal-order .modal-content .modal-body {
   max-height: 21.5rem;
   min-height: 21.5rem;
+}
+.modal#modal-ticket .modal-content .modal-body {
+  min-height: 22rem; 
 }
 .modal#modal-dabba .modal-content .modal-body .card {
   display: flex; 
@@ -539,10 +552,11 @@ transition: all 1s ease;
 }
 .modal#modal-order .modal-content {
   margin-top: calc(50vh - 15rem);
-  max-height: 30rem;
-  min-height: 30rem;
+  max-height: 31rem;
+  min-height: 31rem;
 }
-.modal#modal-order .modal-content .modal-body #printer-container {
+.modal#modal-order .modal-content .modal-body #printer-container,
+.modal#modal-ticket .modal-content .modal-body #printer-container {
   flex-direction: row;
   justify-content: center;
   font-size: 3mm;
@@ -628,11 +642,12 @@ transition: all 1s ease;
 #printer { 
   color: #000000;
   font-size: 0.8rem;
-  /*font-family: 'Fjalla One', serif;*/
-  /*font-family: 'Eligible-Regular', serif;*/
   font-family: 'Dosis-Regular', serif;
   min-width: 56mm;
   max-width: 56mm;
+}
+#printer .modal-body { 
+  overflow: hidden;
 }
 #printer figure {
   display: flex;
@@ -689,24 +704,34 @@ transition: all 1s ease;
 #printer ul li.total-ticket-container{
   justify-content: flex-end;  
 }
-#printer ul li span#total-ticket {
+#printer ul li span.total-ticket {
   margin-top: 0.2rem;
   font-size: 0.9rem;
   text-align: right;
   font-family: 'Dosis-SemiBold';
 }
-
+#printer .ticket-order-container {
+  font-size: 1rem;
+}
+#printer .ticket-order-container span {
+  margin-right: 0.5rem;
+}
 #printer .ticket-address p {
+  margin-top: 1rem;
   font-size: 0.7rem;
 }
-
+#printer .ticket-id-container {
+  margin-top: 1rem;
+}
+#printer .ticket-celphone {
+  margin-top: 0.5rem;
+}
 @media (min-width: 1024px) { 
   .container-new-customers table {
     display: table;
     width: 100%;
   }
 }
-
 @media (min-width: 1024px) { 
   .container-assembly table {
     display: table;

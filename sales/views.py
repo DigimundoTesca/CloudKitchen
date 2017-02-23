@@ -1,5 +1,6 @@
 import json, pytz
 from datetime import datetime, date, timedelta, time
+import time as python_time
 
 from decimal import Decimal
 
@@ -163,6 +164,35 @@ def sales(request):
                 sales_day_list.append(earnings_sale_object)
 
             return JsonResponse({'sales_day_list': sales_day_list})
+
+        if request.POST['type'] == 'ticket_details':
+            ticket_id = int(request.POST['ticket_id'])
+            ticket_object = {
+                'ticket_id': ticket_id,
+                'cartridges': [],
+                'packages': [],
+            }
+
+            # Get cartridges details
+            for ticket_detail in all_ticket_details:
+                if ticket_detail.ticket.id == ticket_id:
+                    if ticket_detail.cartridge:
+                        cartridge_object = {
+                            'name': ticket_detail.cartridge.name,
+                            'quantity': ticket_detail.quantity,
+                            'total': ticket_detail.price
+                        }
+                        ticket_object['cartridges'].append(cartridge_object)
+                    elif ticket_detail.package_cartridge:
+                        package_cartridge_object = {
+                            'name': ticket_detail.package_cartridge.name,
+                            'quantity': ticket_detail.quantity,
+                            'total': ticket_detail.price
+                        }
+                        ticket_object['packages'].append(package_cartridge_object)
+            python_time.sleep(0.5) # YOLO!
+            return JsonResponse({'ticket_details': ticket_object})
+            
 
     # Any other request method:
     template = 'sales/sales.html'
