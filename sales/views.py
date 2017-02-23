@@ -184,8 +184,15 @@ def sales(request):
                         }
                         ticket_object['cartridges'].append(cartridge_object)
                     elif ticket_detail.package_cartridge:
+                        cartridges_list = []
+                        package_cartridge_recipe = PackageCartridgeRecipe.objects.filter(
+                            package_cartridge=ticket_detail.package_cartridge)
+
+                        for cartridge_recipe in package_cartridge_recipe:
+                            cartridges_list.append(cartridge_recipe.cartridge.name)
+                            
                         package_cartridge_object = {
-                            'name': ticket_detail.package_cartridge.name,
+                            'cartridges': cartridges_list,
                             'quantity': ticket_detail.quantity,
                             'total': ticket_detail.price
                         }
