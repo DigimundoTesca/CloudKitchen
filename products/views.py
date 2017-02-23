@@ -10,7 +10,42 @@ from branchoffices.models import Supplier
 from cashflow.settings.base import PAGE_TITLE
 from products.forms import SupplyForm, SuppliesCategoryForm, CartridgeForm
 from products.models import Cartridge, Supply, SuppliesCategory
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
+from django.views.generic import CreateView
+
+
+class Create_Cartridge(CreateView):
+    model = Cartridge
+    fields = ['name','price','category','image']
+    template_name = 'new_cartridge.html'    
+    
+    def form_valid(self,form):
+        self.object = form.save()
+        return redirect('/cartridges/')
+
+class Update_Cartridge(UpdateView):
+    model = Cartridge
+    fields = ['name','price','category','image']
+    template_name = 'new_cartridge.html'
+
+    def form_valid(self,form):
+        self.object = form.save()
+        return redirect('/cartridges/')
+
+class Delete_Cartridge(DeleteView):
+    model = Cartridge
+    template_name = 'delete_cartridge.html'
+
+    def delete(self, request, *args, **kwargs):
+        
+        self.object = self.get_object()        
+        self.object.delete()
+        return redirect('/cartridges/')
 
 def test(request):
     # template = 'base/base_nav_footer.html'
@@ -88,17 +123,57 @@ def supply_detail(request, pk):
 
 @login_required(login_url='users:login')
 def supply_modify(request,pk):
-    supply = get_object_or_404(Supply, pk=pk)
+    supply = get_object_or_404(Supply, pk=pk) 
+
+    if request.method == 'POST':        
+        form = SupplyForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            nuevo = form.save(commit=False)
+            supply.name = nuevo.name
+            supply.category = nuevo.category
+            supply.barcode = nuevo.barcode
+            supply.supplier = nuevo.suppliter
+            supply.storage_required = nuevo.storage_required
+            supply.presentation_unit = nuevo.presentation_unit
+            supply.presentation_cost = nuevo.presentation_cost
+            supply.measurement_quantity = nuevo.measurement_quantity
+            supply.measurement_unit = nuevo.measurement_unit
+            supply.optimal_duration = nuevo.optimal_duration
+            supply.optimal_duration_unit = nuevo.optimal_duration_unit
+            supply.location = nuevo.location
+            supply.image = nuevo.image            
+            supply.save()
+
+            return redirect('/supply')        
+            
+    else:
+        dic = {
+            'name' : supply.name,           
+            'category' : supply.category ,
+            'barcode' : supply.barcode,
+            'supplier' : supply.supplier,
+            'storage_required' : supply.storage_required,
+            'presentation_unit' : supply.presentation_unit,
+            'presentation_cost' : supply.presentation_cost,
+            'quantity' : supply.measurement_quantity,
+            'measurement_unit' : supply.measurement_unit,
+            'optimal_duration' : supply.optimal_duration,
+            'optimal_duration_unit' : supply.optimal_duration_unit,
+            'location' : supply.location,
+            'image' : supply.image,    
+        }
+        form = SupplyForm(initial=dic)
+
     template = 'supplies/new_supply.html'
-    title = 'DabbaNet - Detalles del insumo'
+    title = 'Modificar Insumo'
     context = {
-        'page_title': PAGE_TITLE,
-        'supply': supply,
-        'title': title
+        'form': form,
+        'supply' : supply,
+        'title': title,
+        'page_title': PAGE_TITLE
     }
     return render(request, template, context)
-
-
 
 # ------------------------------------- Categories -------------------------------------
 @login_required(login_url='users:login')
@@ -197,17 +272,27 @@ def cartridge_detail(request, pk):
     return render(request, template, context)
 
 def cartridge_modify(request, pk):
-    cartridge = get_object_or_404(Cartridge, pk=pk)
-    
+    cartridge = get_object_or_404(Cartridge, pk=pk)      
+
     if request.method == 'POST':
-        form = CartridgeForm(request.POST, request.FILES) 
+        form = CartridgeForm(request.POST, request.FILES)  
+
         if form.is_valid():
-            nuevo = form.save(commit=False)            
+            nuevo = form.save(commit=False)
             cartridge.name = nuevo.name
+            cartridge.price = nuevo.price
+            cartridge.category = nuevo.category
             cartridge.save()
-            return redirect('/cartridges')
+            return redirect('/cartridges')        
+            
     else:
-        form = CartridgeForm()
+        dic = {
+            'name' : cartridge.name, 
+            'price' : cartridge.price,
+            'category' : cartridge.category,
+            'image' : cartridge.image
+        }
+        form = CartridgeForm(initial=dic)
 
     template = 'cartridges/new_cartridge.html'
     title = 'Modificar Cartucho'

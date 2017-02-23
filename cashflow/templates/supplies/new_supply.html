@@ -11,7 +11,7 @@
             {% csrf_token %}            
             <div class="col-xs-6" >
               <label for="id_name">Nombre</label> 
-              <input id="id_name" class="form-control" maxlength="125" name="name" type="text"  required value={{ supply.name }} >
+              <input id="id_name" class="form-control" maxlength="125" name="name" type="text"  required value={{supply.name}} >
             </div>
             <div class="col-xs-6">
               <label for="id_category">Categoria</label> 
@@ -22,7 +22,7 @@
             <div class="col-xs-12">
               <br>
               <label for="id_barcode">Codigo de Barras</label> 
-              <input id="id_barcode" class="form-control" min="0" name="barcode" type="number" placeholder="Codigo de Barras de 13 Digitos" value={{ supply.barcode }}/> 
+              <input id="id_barcode" class="form-control" min="0" name="barcode" type="number" placeholder="Codigo de Barras de 13 Digitos" /> 
             </div>            
             <div class="col-xs-6">
               <br>
@@ -52,7 +52,7 @@
             <div class="col-xs-6">
               <br>
               <label for="id_presentation_cost">Costo de Presentcion</label>
-              <input id="id_presentation_cost" class="form-control" name="presentation_cost" step="any" type="number" value={{ supply.presentation_cost }} required /></p>              
+              <input id="id_presentation_cost" class="form-control" name="presentation_cost" step="any" type="number" required /></p>              
             </div>
             <div class="col-xs-6">
               <br>
