@@ -190,7 +190,6 @@ def sales(request):
                             'total': ticket_detail.price
                         }
                         ticket_object['packages'].append(package_cartridge_object)
-            python_time.sleep(0.5) # YOLO!
             return JsonResponse({'ticket_details': ticket_object})
             
 
