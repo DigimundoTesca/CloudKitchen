@@ -164,6 +164,35 @@ def sales(request):
 
             return JsonResponse({'sales_day_list': sales_day_list})
 
+        if request.POST['type'] == 'ticket_details':
+            ticket_id = int(request.POST['ticket_id'])
+            ticket_object = {
+                'ticket_id': ticket_id,
+                'cartridges': [],
+                'packages': [],
+            }
+
+            # Get cartridges details
+            for ticket_detail in all_ticket_details:
+                if ticket_detail.ticket.id == ticket_id:
+                    if ticket_detail.cartridge:
+                        cartridge_object = {
+                            'name': ticket_detail.cartridge.name,
+                            'quantity': ticket_detail.quantity,
+                            'price': ticket_detail.price
+                        }
+                        ticket_object['cartridges'].append(cartridge_object)
+                    elif ticket_detail.package_cartridge:
+                        package_cartridge_object = {
+                            'name': ticket_detail.package_cartridge.name,
+                            'quantity': ticket_detail.quantity,
+                            'price': ticket_detail.price
+                        }
+                        ticket_object['packages'].append(package_cartridge_object)
+                        
+            return JsonResponse({'ticket_details': ticket_object})
+            
+
     # Any other request method:
     template = 'sales/sales.html'
     title = 'Ventas'

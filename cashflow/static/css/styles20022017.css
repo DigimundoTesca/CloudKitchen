@@ -709,7 +709,7 @@ transition: all 1s ease;
 #printer ul li.total-ticket-container{
   justify-content: flex-end;  
 }
-#printer ul li span#total-ticket {
+#printer ul li span.total-ticket {
   margin-top: 0.2rem;
   font-size: 0.9rem;
   text-align: right;

@@ -654,16 +654,15 @@
         var ticket_list = $('#sales-list-modal li');
         var csrf_token = getCookie('csrftoken');
 
-        if (payment_type == 'btn-pago-efectivo') {
-          // Cash Payment
-          Ticket['payment_type'] = 'CA';
-        } else {
-          // Credit Payment
-          Ticket['payment_type'] = 'CR';
-        }
-
         function rel() {
           location.reload();
+        }
+
+        // Add pyment type to ticket json
+        if (payment_type == 'btn-pago-efectivo') {
+          Ticket['payment_type'] = 'CA';
+        } else {
+          Ticket['payment_type'] = 'CR';
         }
 
         if (ticket_list.length > 2) {

@@ -85,8 +85,8 @@
                     {{ ticket.total }}
                   </td>
                   <td class="header-actions">
-                    <span class="sales-actions" id="delete-ticket"><i class="material-icons text-muted">delete</i></span>
-                    <span class="sales-actions" id="print-ticket"><i class="material-icons text-primary">local_printshop</i></span>
+                    <span class="sales-actions delete-ticket"><i class="material-icons text-muted">delete</i></span>
+                    <span class="sales-actions print-ticket"><i class="material-icons text-primary">local_printshop</i></span>
                   </td>
                 </tr>
               {% endfor %}
@@ -146,7 +146,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary .btn-printer">Imprimir</button>
+        <button type="submit" class="btn btn-primary btn-printer">Imprimir</button>
       </div>
     </div>
   </div>
@@ -505,27 +505,81 @@
       $('#total-earnings-text').append(total_earnings);
     }
 
+
     /**
      * Get's the ticket id for printer-icon selected 
      * TODO: Make an iframe to print the ticket
      */
-    $(this).on('click', '#print-ticket', function(event) {
+    $(this).on('click', '.print-ticket', function(event) {
       var id_element = $(this).parent().siblings('.header-id').text();
       var products_list = $(this).parent().siblings('.header-products');
       var dabbas_list = $(this).parent().siblings('.header-dabbas');
-      console.log(products_list);
-      console.log(dabbas_list);
-      var nuevo_li = $("" +
+      var btn_printer = $('.btn-printer');
+      var ticket_details;
+
+      /**
+       * Draws te ticket details and activates btn-ptinter onClick listener
+       */
+      function set_ticket_details (dataResponse) {
+        ticket_details = dataResponse;
+
+        btn_printer.on('click', function(){
+          var options = {
+            mode: 'iframe',
+            popClose: true,
+          };
+          $("#printer").printArea(options);
+        });
+      }
+
+      $.ajax({
+        url: "{% url 'sales:sales' %}",
+        type: 'POST',
+        traditional: true,
+        dataType: 'json',
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'ticket_id': id_element,
+          'type': 'ticket_details',
+        },
+        beforeSend: function(){
+          swal({
+              title: "Obteniendo datos del ticket",
+              text: "Espere mientras obtenemos toda la información",
+            });
+          swal.enableLoading();
+        },
+        success: function(result, status, XHR) {
+          swal({
+            title: "Éxito",
+            text: "Datos obtenidos",
+            type: "info",
+            timer: 1000,
+            showConfirmButton: false
+          }).then(
+            function(){},
+            function(dismiss){}
+          );
+        },
+        complete: function(result){
+          set_ticket_details(result);
+        }
+      });
+      
+      function show_modal() {
+        var nuevo_li = $("" +
           "<li>" +
           "<span class='name-li-title-modal'>Nombre</span> " +
           "<span class='cost-li-title-modal'>Cost</span>" +
           "<span class='cant-li-title-modal'>Cant</span>" +
           "<span class='total-li-title-modal'>Total</span> " +
           "</li>");
+        nuevo_li.appendTo('#sales-list-modal');
 
-      nuevo_li.appendTo('#sales-list-modal');
-      $('#modal-ticket').modal('show');
+        $('#modal-ticket').modal('show');
+      }
 
+      setTimeout(show_modal, 1000);
     });
 
     /**
@@ -580,18 +634,6 @@
         }).then(function () {
          delete_ticket();
         });
-    });
-
-    /**
-     * Prints the ticket selected
-     */
-    $(this).on('click', '.btn-printer', function(event) {      
-      console.log("xd");
-      var options = {
-        mode: 'iframe',
-        popClose: true,
-      };
-      $("#printer").printArea(options);
     });
 
     /**
