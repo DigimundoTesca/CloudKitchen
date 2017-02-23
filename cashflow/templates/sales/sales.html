@@ -535,7 +535,6 @@
         sales_list_modal.append(nuevo_li);
        
         function iterate_cartridges(element, index, array) {
-          console.log(array);
           var name = element.name;
           var cost_base = parseFloat(element.total) / element.quantity;
           var total = parseFloat(element.total);
@@ -565,20 +564,16 @@
         }
 
         function iterate_packages(element, index, array) {
-          console.log(array);
-          var name = element.name;
+          var cartridges_list = array[0].cartridges;
+          var name = '';
           var cost_base = parseFloat(element.total) / element.quantity;
           var total = parseFloat(element.total);
           var quantity = element.quantity;
 
           // Formats the names
-          name = name.split(' ');
-          $.each(name, function(index, item) {
-            name[index] = item.substring(0, 3);
+          $.each(cartridges_list, function(index, item) {
+            name += item.substring(0, 3) + ' ';
           });
-
-          name = name.toString().replace(',', ' ');
-          name = name.replace(/,/g, ' ');
 
           // Formarts the cost_base and total
           if (cost_base % 2 != 0) {
