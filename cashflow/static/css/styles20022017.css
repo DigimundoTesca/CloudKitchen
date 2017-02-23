@@ -486,9 +486,7 @@ transition: all 1s ease;
   min-height: 33rem;
 }
 .modal#modal-ticket .modal-content {
-  margin: 0 auto;
-  margin-top: calc(50vh - 16rem);
-  max-height: 30rem;
+  margin: auto;
   min-height: 30rem; 
   max-width: 30rem;
 }
@@ -525,7 +523,6 @@ transition: all 1s ease;
   min-height: 21.5rem;
 }
 .modal#modal-ticket .modal-content .modal-body {
-  max-height: 22rem;
   min-height: 22rem; 
 }
 .modal#modal-dabba .modal-content .modal-body .card {
@@ -645,8 +642,6 @@ transition: all 1s ease;
 #printer { 
   color: #000000;
   font-size: 0.8rem;
-  /*font-family: 'Fjalla One', serif;*/
-  /*font-family: 'Eligible-Regular', serif;*/
   font-family: 'Dosis-Regular', serif;
   min-width: 56mm;
   max-width: 56mm;

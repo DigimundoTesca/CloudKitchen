@@ -108,7 +108,7 @@
       </div>
       <div class="modal-body">
         <div class="printer-container">
-          <div id="printer" style="margin: 0 auto">
+          <div id="printer">
             <figure class="content-img">
               <img src="{% static 'images/dabbawala_black.jpg' %}" alt="logo-dabbawala">
             </figure>
@@ -137,7 +137,7 @@
             <ul class="list-group list-group-flush" id="sales-list-modal">
             </ul>
             <div class="ticket-id-container">
-              <span>ID: </span><span class="ticket-id"></span>
+              <span>ID: </span><span id="ticket-id"></span>
             </div>
             <div class="ticket-celphone">
               <span>Whatsapp: 55 42 46 73 60</span>
@@ -519,7 +519,6 @@
       var sales_list_modal = $('#sales-list-modal');
 
       function show_modal(dataResponse) {
-        console.log(dataResponse);
         var nuevo_li;
 
         // First reset the ticket 
@@ -534,22 +533,49 @@
         "</li>");
 
         sales_list_modal.append(nuevo_li);
-        sales_list_modal.append(nuevo_li);
-        sales_list_modal.append(nuevo_li);
-        sales_list_modal.append(nuevo_li);
-        sales_list_modal.append(nuevo_li);
        
-        // nuevo_li.appendTo('#sales-list-modal');
+        function iterate_elements(element, index, array) {
+          var name = element.name;
+          var cost_base = parseFloat(element.total) / element.quantity;
+          var total = parseFloat(element.total);
+          var quantity = element.quantity;
 
-        // nuevo_li = $("" +
-        //   "<li id='" + li_id + "' class='list-group-item'>" +
-        //   "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
-        //   "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>" +
-        //   "<span class='cant-li-modal'>" + cant + "</span>" +
-        //   "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
-        //   "</li>");
+          // Formats the names
+          name = name.split(' ');
+          $.each(name, function(index, item) {
+            name[index] = item.substring(0, 3);
+          });
 
+          name = name.toString().replace(',', ' ');
+          name = name.replace(/,/g, ' ');
 
+          // Formarts the cost_base and total
+          if (cost_base % 2 != 0) {
+              cost_base = cost_base.toFixed(2);
+            } else
+              cost_base += '.00';
+
+          if (total % 2 != 0) {
+              total = total.toFixed(2);
+            } else
+              total += '.00';
+
+          // Adds the list to tickets
+          nuevo_li = $("" +
+            "<li class='list-group-item'>" +
+            "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
+            "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>" +
+            "<span class='cant-li-modal'>" + quantity + "</span>" +
+            "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
+            "</li>");
+
+            sales_list_modal.append(nuevo_li);
+        }
+
+        ticket_details.cartridges.forEach(iterate_elements);
+        ticket_details.packages.forEach(iterate_elements);
+        $("#ticket-id").text(id_element)
+        
         $('#modal-ticket').modal('show');
       }
 
@@ -578,7 +604,7 @@
             title: "Éxito",
             text: "Datos obtenidos",
             type: "info",
-            timer: 500,
+            timer: 750,
             showConfirmButton: false
           }).then(
             function(){},
@@ -586,7 +612,7 @@
           );
         },
         complete: function(result){
-          ticket_details = result.responseJSON;
+          ticket_details = result.responseJSON.ticket_details;
 
           setTimeout(function() {
             show_modal(ticket_details)

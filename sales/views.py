@@ -180,14 +180,14 @@ def sales(request):
                         cartridge_object = {
                             'name': ticket_detail.cartridge.name,
                             'quantity': ticket_detail.quantity,
-                            'price': ticket_detail.price
+                            'total': ticket_detail.price
                         }
                         ticket_object['cartridges'].append(cartridge_object)
                     elif ticket_detail.package_cartridge:
                         package_cartridge_object = {
                             'name': ticket_detail.package_cartridge.name,
                             'quantity': ticket_detail.quantity,
-                            'price': ticket_detail.price
+                            'total': ticket_detail.price
                         }
                         ticket_object['packages'].append(package_cartridge_object)
             python_time.sleep(0.5) # YOLO!
