@@ -7,10 +7,9 @@
       <div class="col-xs-12">
         <div class="card-panel">
           <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}                      
+            {% csrf_token %}
             {{ form.as_p }}
-            
-              <button class="btn color-primary right large" type="submit">Enviar<i class="material-icons right">send</i>
+              <button class="btn color-primary right large" type="update">Enviar<i class="material-icons right">send</i>
               </button>            
         </form>
       </div>

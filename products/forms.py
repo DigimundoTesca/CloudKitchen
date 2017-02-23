@@ -11,7 +11,6 @@ class SupplyForm(forms.ModelForm):
         model = Supply
         fields = '__all__'
 
-
 class SuppliesCategoryForm(forms.ModelForm):
 
     class Meta:
