@@ -1,5 +1,6 @@
 import json, pytz
 from datetime import datetime, date, timedelta, time
+import time as python_time
 
 from decimal import Decimal
 
@@ -189,7 +190,7 @@ def sales(request):
                             'price': ticket_detail.price
                         }
                         ticket_object['packages'].append(package_cartridge_object)
-                        
+            python_time.sleep(0.5) # YOLO!
             return JsonResponse({'ticket_details': ticket_object})
             
 

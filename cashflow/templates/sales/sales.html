@@ -516,22 +516,46 @@
       var dabbas_list = $(this).parent().siblings('.header-dabbas');
       var btn_printer = $('.btn-printer');
       var ticket_details;
+      var sales_list_modal = $('#sales-list-modal');
+
+      function show_modal(dataResponse) {
+        console.log(dataResponse);
+        var nuevo_li;
+
+        // First reset the ticket 
+        sales_list_modal.empty();
+
+        nuevo_li = ("" +
+        "<li>" +
+        "<span class='name-li-title-modal'>Nombre</span> " +
+        "<span class='cost-li-title-modal'>Cost</span>" +
+        "<span class='cant-li-title-modal'>Cant</span>" +
+        "<span class='total-li-title-modal'>Total</span> " +
+        "</li>");
+
+        sales_list_modal.append(nuevo_li);
+        sales_list_modal.append(nuevo_li);
+        sales_list_modal.append(nuevo_li);
+        sales_list_modal.append(nuevo_li);
+        sales_list_modal.append(nuevo_li);
+       
+        // nuevo_li.appendTo('#sales-list-modal');
+
+        // nuevo_li = $("" +
+        //   "<li id='" + li_id + "' class='list-group-item'>" +
+        //   "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
+        //   "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>" +
+        //   "<span class='cant-li-modal'>" + cant + "</span>" +
+        //   "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
+        //   "</li>");
+
+
+        $('#modal-ticket').modal('show');
+      }
 
       /**
        * Draws te ticket details and activates btn-ptinter onClick listener
        */
-      function set_ticket_details (dataResponse) {
-        ticket_details = dataResponse;
-
-        btn_printer.on('click', function(){
-          var options = {
-            mode: 'iframe',
-            popClose: true,
-          };
-          $("#printer").printArea(options);
-        });
-      }
-
       $.ajax({
         url: "{% url 'sales:sales' %}",
         type: 'POST',
@@ -554,7 +578,7 @@
             title: "Éxito",
             text: "Datos obtenidos",
             type: "info",
-            timer: 1000,
+            timer: 500,
             showConfirmButton: false
           }).then(
             function(){},
@@ -562,31 +586,29 @@
           );
         },
         complete: function(result){
-          set_ticket_details(result);
+          ticket_details = result.responseJSON;
+
+          setTimeout(function() {
+            show_modal(ticket_details)
+          }, 750);
+
+          btn_printer.on('click', function(){
+          var options = {
+            mode: 'iframe',
+            popClose: true,
+          };
+          $("#printer").printArea(options);
+        });
         }
       });
       
-      function show_modal() {
-        var nuevo_li = $("" +
-          "<li>" +
-          "<span class='name-li-title-modal'>Nombre</span> " +
-          "<span class='cost-li-title-modal'>Cost</span>" +
-          "<span class='cant-li-title-modal'>Cant</span>" +
-          "<span class='total-li-title-modal'>Total</span> " +
-          "</li>");
-        nuevo_li.appendTo('#sales-list-modal');
-
-        $('#modal-ticket').modal('show');
-      }
-
-      setTimeout(show_modal, 1000);
     });
 
     /**
      * Get's the ticket id for delete-icon selected 
      * TODO: Make a view for delete the ticket from backend
      */
-    $(this).on('click', '#delete-ticket', function(event) {
+    $(this).on('click', '.delete-ticket', function(event) {
       var id_element = $(this).parent().siblings('.header-id').text();
 
       function delete_ticket() {
@@ -614,10 +636,10 @@
               timer: 1000,
               showConfirmButton: false
             }).then(
-            function(){},
-            function(dismiss){
-              location.reload();
-            }
+              function(){},
+              function(dismiss){
+                location.reload();
+              }
             );
           }
         });
@@ -632,9 +654,10 @@
           confirmButtonColor: '#d33',
           confirmButtonText: 'Sí, eliminar ticket!'
         }).then(function () {
-         delete_ticket();
-        });
-    });
+            delete_ticket();
+          },
+          function(dismiss){});
+      });
 
     /**
      * Functions to initialize the graphs
