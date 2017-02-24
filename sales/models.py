@@ -24,6 +24,8 @@ class Ticket(models.Model):
         CashRegister, on_delete=models.CASCADE, default=1)
     payment_type = models.CharField(
         choices=PAYMENT_TYPE, default=CASH, max_length=2)
+    order_number = models.IntegerField(
+        null=True)
 
     def __str__(self):
         return '%s' % self.id
