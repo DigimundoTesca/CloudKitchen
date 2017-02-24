@@ -2,19 +2,26 @@ from django.conf import settings
 from django.conf.urls import url
 
 from products import views
+from products.views import Update_Cartridge
+from products.views import Delete_Cartridge
+from products.views import Create_Cartridge
 
 app_name = 'products'
 
 urlpatterns = [
+
     # Supplies
     url(r'^supplies/$', views.supplies, name='supplies'),
     url(r'^supplies/new/$', views.new_supply, name='new_supply'),
     url(r'^supplies/(?P<pk>[0-9]+)/$', views.supply_detail, name='supply_detail'),
+    url(r'^supplies/modify/(?P<pk>[0-9]+)/$', views.supply_modify, name='supply_modify'),
 
     # Cartridges
     url(r'^cartridges/$', views.cartridges, name='cartridges'),
-    url(r'^cartridges/new/$', views.new_cartridge, name='new_cartridge'),
+    url(r'^cartridges/new/$', Create_Cartridge.as_view(), name='new_cartridge'),
     url(r'^cartridges/(?P<pk>[0-9]+)/$', views.cartridge_detail, name='cartridge_detail'),
+    url(r'^cartridges/modify/(?P<pk>[0-9]+)/$', Update_Cartridge.as_view(), name='cartridge_modify'),
+    url(r'^cartridges/delete/(?P<pk>[0-9]+)/$', Delete_Cartridge.as_view(), name='cartridge_delete'),
 
     # Suppliers
     url(r'^suppliers/$', views.suppliers, name='suppliers'),
