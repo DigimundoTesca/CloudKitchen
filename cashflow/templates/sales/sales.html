@@ -113,11 +113,8 @@
               <img src="{% static 'images/dabbawala_black.jpg' %}" alt="logo-dabbawala">
             </figure>
             <div class="ticket-order-container text-xs-center">
-              <!-- TODO added actions in views-->
-              <!--
               <span>ORDEN</span>
               <span id="ticket-order"></span>
-              -->
             </div>
             <div class="ticket-address">
               <p class="text-xs-center">
@@ -606,7 +603,7 @@
       }
 
       /**
-       * Draws te ticket details and activates btn-ptinter onClick listener
+       * Draws the ticket details and activates btn-ptinter onClick listener
        */
       $.ajax({
         url: "{% url 'sales:sales' %}",

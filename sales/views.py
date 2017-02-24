@@ -17,55 +17,98 @@ from products.models import Cartridge, PackageCartridge, PackageCartridgeRecipe
 from sales.models import Ticket, TicketDetail
 from users.models import User as UserProfile
 
+"""
+Start auxiliary functions
+"""
+def naive_to_datetime(nd):
+    if type(nd) == datetime:
+        if nd.tzinfo is not None and nd.tzinfo.utcoffset(nd) is not None: # Is Aware
+            return nd
+        else: # Is Naive
+            return pytz.timezone('America/Mexico_City').localize(nd)              
 
+    elif type(nd) == date:
+        d = nd
+        t = time(0,0)
+        new_date = datetime.combine(d, t)
+        return pytz.timezone('America/Mexico_City').localize(new_date)
+
+
+def get_name_day(datetime_now):
+    days_list = {
+        'MONDAY': 'Lunes',
+        'TUESDAY': 'Martes',
+        'WEDNESDAY': 'Miércoles',
+        'THURSDAY': 'Jueves',
+        'FRIDAY': 'Viernes',
+        'SATURDAY': 'Sábado',
+        'SUNDAY': 'Domingo'
+    }
+    name_day = date(datetime_now.year, datetime_now.month, datetime_now.day)
+    return days_list[name_day.strftime('%A').upper()]
+
+
+def get_number_day():
+    days = {
+        'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3, 'Viernes': 4, 'Sábado': 5, 'Domingo': 6,
+    }
+    return days[get_name_day(datetime.now())]
+
+
+def get_week_number():
+    return date.today().isocalendar()[1]
+
+
+def start_datetime(back_days):
+    start_date = date.today() - timedelta(days=back_days) 
+    return naive_to_datetime(start_date)
+
+
+def end_datetime(back_days):
+    end_date = start_datetime(back_days) + timedelta(days=1)
+    return naive_to_datetime(end_date)
+
+
+def items_list_to_int(list_to_cast):
+    """
+    Evaluates each of the elements of the list received and casts them to integers
+    """
+    cast_list = []
+    for item in range(0, len(list_to_cast)):
+        cast_list.append(int(list_to_cast[item]))
+
+    return cast_list
+
+
+def are_equal_lists(list_1, list_2):
+    """
+     Checks if two lists are identical
+    """
+    list_1 = items_list_to_int(list_1)
+    list_2 = items_list_to_int(list_2)
+
+    list_1.sort()
+    list_2.sort()
+
+    if len(list_1) != len(list_2):
+        return False
+    else:
+        for element in range(0, len(list_1)):
+            if list_1[element] != list_2[element]:
+                return False
+
+    return True
+
+
+
+"""
+Start of views
+"""
 # -------------------------------------  Sales -------------------------------------
 @login_required(login_url='users:login')
 def sales(request):
     all_tickets = Ticket.objects.all()
     all_ticket_details = TicketDetail.objects.all()
-  
-    def naive_to_datetime(nd):
-        if type(nd) == datetime:
-            if nd.tzinfo is not None and nd.tzinfo.utcoffset(nd) is not None: # Is Aware
-                return nd
-            else: # Is Naive
-                return pytz.timezone('America/Mexico_City').localize(nd)              
-
-        elif type(nd) == date:
-            d = nd
-            t = time(0,0)
-            new_date = datetime.combine(d, t)
-            return pytz.timezone('America/Mexico_City').localize(new_date)
-
-    def get_name_day(datetime_now):
-        days_list = {
-            'MONDAY': 'Lunes',
-            'TUESDAY': 'Martes',
-            'WEDNESDAY': 'Miércoles',
-            'THURSDAY': 'Jueves',
-            'FRIDAY': 'Viernes',
-            'SATURDAY': 'Sábado',
-            'SUNDAY': 'Domingo'
-        }
-        name_day = date(datetime_now.year, datetime_now.month, datetime_now.day)
-        return days_list[name_day.strftime('%A').upper()]
-
-    def get_number_day():
-        days = {
-            'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3, 'Viernes': 4, 'Sábado': 5, 'Domingo': 6,
-        }
-        return days[get_name_day(datetime.now())]
-
-    def get_week_number():
-        return date.today().isocalendar()[1]
-
-    def start_datetime(back_days):
-        start_date = date.today() - timedelta(days=back_days) 
-        return naive_to_datetime(start_date)
-
-    def end_datetime(back_days):
-        end_date = start_datetime(back_days) + timedelta(days=1)
-        return naive_to_datetime(end_date)
 
     def get_sales_week():
         """
@@ -214,14 +257,15 @@ def sales(request):
     }
     return render(request, template, context)
 
+
 @login_required(login_url='users:login')
 def delete_sale(request):
     if request.method == 'POST':
-        # ticket_to_delete = Ticket.objects.get(id=request.method)
         ticket_id = request.POST['ticket_id']
         ticket = Ticket.objects.get(id=ticket_id)
         ticket.delete()
         return JsonResponse({'result': 'excelente!'})
+
 
 @login_required(login_url='users:login')
 def new_sale(request):
@@ -234,36 +278,19 @@ def new_sale(request):
             payment_type = ticket_detail_json_object['payment_type']
             new_ticket_object = Ticket(
                 cash_register=cash_register, seller=user_profile_object, payment_type=payment_type)
+
+            """ 
+            Gets the tickets in the week and returns n + 1 
+            where n is the Ticket.order_number biggest for the current week
+            TODO:
+            1. Get tickets in the current week range
+            2. Search the ticket with the largest order_number atribute
+            3. save the 'new_ticket_object' with the new atribute (n + 1)
+            4. Save the new object
+            """
+            new_ticket_object = Ticket(
+                cash_register=cash_register, seller=user_profile_object, payment_type=payment_type)
             new_ticket_object.save()
-
-            def items_list_to_int(list_to_cast):
-                """
-                Evaluates each of the elements of the list received and casts them to integers
-                """
-                cast_list = []
-                for item in range(0, len(list_to_cast)):
-                    cast_list.append(int(list_to_cast[item]))
-
-                return cast_list
-
-            def are_equal_lists(list_1, list_2):
-                """
-                 Checks if two lists are identical
-                """
-                list_1 = items_list_to_int(list_1)
-                list_2 = items_list_to_int(list_2)
-
-                list_1.sort()
-                list_2.sort()
-
-                if len(list_1) != len(list_2):
-                    return False
-                else:
-                    for element in range(0, len(list_1)):
-                        if list_1[element] != list_2[element]:
-                            return False
-
-                return True
 
             """
             Saves the tickets details for cartridges
@@ -353,9 +380,11 @@ def new_sale(request):
                         price=price,
                     )
                     new_ticket_detail_object.save()
+            print(new_ticket_object.order_number)
             json_response = {
                 'status': 'ready',
                 'ticket_id': new_ticket_object.id,
+                'ticket_order': new_ticket_object.order_number,
             }
             return JsonResponse(json_response)
 
