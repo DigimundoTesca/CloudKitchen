@@ -194,10 +194,6 @@ small {
 .card-scroll-x {
   overflow-x: scroll;
 }
-.container,
-.container-fluid {
-  margin-top: 1rem;
-}
 .container-hidden {
   display: none;
 }
@@ -645,6 +641,7 @@ transition: all 1s ease;
   font-family: 'Dosis-Regular', serif;
   min-width: 56mm;
   max-width: 56mm;
+  margin: 0 auto;
 }
 #printer .modal-body { 
   overflow: hidden;

@@ -82,7 +82,7 @@ def login(request):
 
     context = {
         'tab': tab,
-        'page_title': PAGE_TITLE,
+        'title': 'Bienvenido a Dabbanet. Inicia Sesión o registrate.',
         'error_message': error_message,
         'success_message': success_message,
         'form_user': form_user,
@@ -106,7 +106,7 @@ def new_customer(request):
             return redirect('users:thanks')
 
     template = 'customers/register/new_customer.html'
-    title = 'Dabbawala - Registro de clientes'
+    title = 'Dabbawala - Bienvenido a Dabbawala. Registrare y obtén un desayuno gratis. '
     context = {
         'form_customer': form_customer,
         'title': title,

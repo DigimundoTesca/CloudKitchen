@@ -194,11 +194,8 @@
                 <img src="{% static 'images/dabbawala_black.jpg' %}" alt="logo-dabbawala">
               </figure>
               <div class="ticket-order-container text-xs-center">
-                <!-- TODO added actions in views-->
-                <!--
                 <span>ORDEN</span>
                 <span id="ticket-order"></span>
-                -->
               </div>
               <div class="ticket-address">
                 <p class="text-xs-center">
@@ -686,6 +683,7 @@
               $('#btn-pago-efectivo').attr('disabled', 'true');
               $('#btn-pago-tarjeta').attr('disabled', 'true');
               $('#ticket-id').text(result.ticket_id);
+              $('#ticket-order').text(result.ticket_order);
               var options = {
                 mode: 'iframe',
                 popClose: true,
