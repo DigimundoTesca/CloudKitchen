@@ -194,10 +194,6 @@ small {
 .card-scroll-x {
   overflow-x: scroll;
 }
-.container,
-.container-fluid {
-  margin-top: 1rem;
-}
 .container-hidden {
   display: none;
 }
