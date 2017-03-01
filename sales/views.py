@@ -242,6 +242,27 @@ def sales(request):
                         ticket_object['packages'].append(package_cartridge_object)
             return JsonResponse({'ticket_details': ticket_object})
             
+        if request.POST['type'] == 'tickets':
+            tickets_objects_list = []
+
+            for ticket in all_tickets:
+                ticket_object = {
+                    'id': ticket.id,
+                    'created_at': ticket.created_at,
+                    'seller': ticket.seller.username,
+                    'payment_type': ticket.payment_type,
+                }
+
+                for ticket_detail in all_ticket_details:
+                    if ticket_detail.ticket == ticket:
+                        if ticket_detail.cartridge:
+                            ticket_object['cartridge'] =  ticket_detail.cartridge.name
+                        if ticket_detail.package_cartridge:
+                            ticket_object['package_cartridge'] = ticket_detail.package_cartridge.name
+                        ticket_object['quantity'] = ticket_detail.quantity
+                        ticket_object['price'] = ticket_detail.price
+                tickets_objects_list.append(ticket_object)
+            return JsonResponse({'ticket': tickets_objects_list})
 
     # Any other request method:
     template = 'sales/sales.html'

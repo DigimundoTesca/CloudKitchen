@@ -43,7 +43,8 @@
     </div>
     <div class="row sales-details">
       <div class="col-xs-12">
-        <h4>Ventas de hoy</h4>
+        <h4 class="col-xs-11">Ventas de hoy</h4>
+        <button id="btn-save-ticket-csv" class="col-xs-1 btn btn-primary"><i class="material-icons">file_download</i></button>
       </div>
       <div class="col-xs-12">
         <div class="card card-scroll-x">
@@ -153,6 +154,9 @@
 {% block javascript %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.js"></script>
 <script src="{% static 'js/Chart.bundle.min.js' %}" defer></script>
+<script src="{% static 'js/papaparse.min.js' %}" defer></script>
+<script src="{% static 'js/blob.js' %}" defer></script>
+<script src="{% static 'js/fileSaver.min.js' %}" defer></script>
 
 <script type="text/javascript" charset="utf-8" defer>
   $(function() {
@@ -502,7 +506,6 @@
       $('#total-earnings-text').append(total_earnings);
     }
 
-
     /**
      * Get's the ticket id for printer-icon selected 
      * TODO: Make an iframe to print the ticket
@@ -642,15 +645,14 @@
           }, 750);
 
           btn_printer.on('click', function(){
-          var options = {
-            mode: 'iframe',
-            popClose: true,
-          };
-          $("#printer").printArea(options);
-        });
+            var options = {
+              mode: 'iframe',
+              popClose: true,
+            };
+            $("#printer").printArea(options);
+          });
         }
       });
-      
     });
 
     /**
@@ -706,7 +708,62 @@
             delete_ticket();
           },
           function(dismiss){});
-      });
+    });
+
+    /** 
+     * Saves the ticket a csv file
+     */
+    $(this).on('click', '#btn-save-ticket-csv', function(event) {
+      /**
+       * Convert JSON TO CSV
+       */
+
+        var tickets_json = null
+        $.ajax({
+          url: "{% url 'sales:sales' %}",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            type: 'tickets',
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          beforeSend: function(){
+            swal({
+                title: "Generando Excel",
+                text: "Espere mientras obtenemos toda la información",
+              });
+            swal.enableLoading();
+          },
+          success: function(result, status, XHR) {
+            ticket_details = Papa.unparse(result.ticket);
+            // console.log(ticket_details);
+            // typeof(ticket_details)
+            // var tmpElemento = document.createElement('a');
+            // var data_type = 'data:application/vnd.ms-excel';
+            // tmpElemento.href = data_type + ', ' + ticket_details;
+            // tmpElemento.download = 'Nombre_De_Mi_Excel.xls';
+            // tmpElemento.click();
+
+            var blob = new Blob([ ticket_details ], { type: "text/csv;charset=UTF-8" });
+            saveAs(blob, "export.csv");
+
+            swal({
+              title: "Éxito",
+              text: "Datos obtenidos",
+              type: "info",
+              timer: 750,
+              showConfirmButton: false
+            }).then(
+              function(){},
+              function(dismiss){}
+            );
+          },
+          complete: function(result){
+            setTimeout(function() {
+            }, 750);
+          }
+        });
+    });
 
     /**
      * Functions to initialize the graphs
