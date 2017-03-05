@@ -1,7 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate
@@ -17,6 +17,10 @@ from cashflow.settings.base import PAGE_TITLE
 from users.models import CustomerProfile
 
 
+def arduino(request):
+    print(request)
+    return HttpResponse('HOLA')
+
 def test(request):
     form_customer = CustomerProfileForm(request.POST, request.FILES)
     if request.method == 'POST':
@@ -25,9 +29,7 @@ def test(request):
             customer = form_customer.save(commit=False)
             customer.save()
             return redirect('users:thanks')
-        print('IS NOT VALID!!!')
     else:
-        print('IS NOT POST')
         form_customer = CustomerProfileForm()
     template = 'test/test.html'
     title = 'Dabbawala - Registro de clientes'

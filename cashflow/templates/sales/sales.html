@@ -744,8 +744,12 @@
             // tmpElemento.download = 'Nombre_De_Mi_Excel.xls';
             // tmpElemento.click();
 
-            var blob = new Blob([ ticket_details ], { type: "text/csv;charset=UTF-8" });
-            saveAs(blob, "export.csv");
+            var blob = new Blob([ ticket_details ], { 
+              type: "text/csv;charset=UTF-8" }
+              );
+            var datetime = new Date();
+            csv_name = datetime.getDay() + datetime.getDate() + datetime.getFullYear() + '-' + datetime.getHours() + ':' + datetime.getMinutes() + ':' + datetime.getSeconds() + '.csv';
+            saveAs(blob, csv_name);
 
             swal({
               title: "Éxito",
