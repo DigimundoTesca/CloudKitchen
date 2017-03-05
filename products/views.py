@@ -18,12 +18,40 @@ from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 from django.views.generic import CreateView
 
+class Create_Supply(CreateView):
+    model = Supply
+    fields = ['name','category','barcode','supplier','storage_required','presentation_unit','presentation_cost',
+        'measurement_quantity','measurement_unit','optimal_duration','optimal_duration_unit','location','image']
+    template_name = 'new_supply.html'   
+
+    def form_valid(self,form):
+        self.object = form.save()        
+        return redirect('/supplies/')
+
+class Update_Supply(UpdateView):
+    model = Supply
+    fields = ['name','category','barcode','supplier','storage_required','presentation_unit','presentation_cost',
+        'measurement_quantity','measurement_unit','optimal_duration','optimal_duration_unit','location','image']
+    template_name = 'new_supply.html'
+
+    def form_valid(self,form):
+        self.object = form.save()
+        return redirect('/supplies/')
+
+class Delete_Supply(DeleteView):
+    model = Supply
+    template_name = 'delete_supply.html'
+
+    def delete(self, request, *args, **kwargs):        
+        self.object = self.get_object()        
+        self.object.delete()
+        return redirect('/supplies/')
 
 class Create_Cartridge(CreateView):
     model = Cartridge
     fields = ['name','price','category','image']
-    template_name = 'new_cartridge.html'    
-    
+    template_name = 'new_cartridge.html'     
+
     def form_valid(self,form):
         self.object = form.save()
         return redirect('/cartridges/')
@@ -41,8 +69,7 @@ class Delete_Cartridge(DeleteView):
     model = Cartridge
     template_name = 'delete_cartridge.html'
 
-    def delete(self, request, *args, **kwargs):
-        
+    def delete(self, request, *args, **kwargs):        
         self.object = self.get_object()        
         self.object.delete()
         return redirect('/cartridges/')
