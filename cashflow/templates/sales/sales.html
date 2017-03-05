@@ -43,8 +43,10 @@
     </div>
     <div class="row sales-details">
       <div class="col-xs-12">
-        <h4 class="col-xs-11">Ventas de hoy</h4>
-        <button id="btn-save-ticket-csv" class="col-xs-1 btn btn-primary"><i class="material-icons">file_download</i></button>
+        <h4 class="col-xs-12 col-sm-8 col-xl-10">Ventas de hoy</h4>
+        <button id="btn-save-ticket-csv" class="col-xs-12 col-sm-4 col-xl-2 btn btn-primary d-flex">
+          <span class="btn-reports d-flex align-items-center"><i class="material-icons">file_download</i>Generar Reporte</span>
+        </button>
       </div>
       <div class="col-xs-12">
         <div class="card card-scroll-x">
@@ -748,8 +750,7 @@
               type: "text/csv;charset=UTF-8" }
               );
             var datetime = new Date();
-            csv_name = datetime.getDay() + datetime.getDate() + datetime.getFullYear() + '-' + datetime.getHours() + ':' + datetime.getMinutes() + ':' + datetime.getSeconds() + '.csv';
-            saveAs(blob, csv_name);
+            saveAs(blob, datetime + '.csv');
 
             swal({
               title: "Éxito",

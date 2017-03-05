@@ -244,6 +244,10 @@ transition: all 1s ease;
 .container-sales-reports .sales-details .card {
   max-height: 45vh;
 }
+.container-sales-reports .sales-details span.btn-reports {
+  display: flex;
+  justify-content: center;
+}
 .container-sales-reports .sales-details table.table-sales-details th.header-actions,
 .container-sales-reports .sales-details table.table-sales-details td.header-actions {
   min-width: 10rem;
