@@ -3,3 +3,4 @@
 
 # Your custom requirements go here
 # -----------------------------------------------------------------------------
+ django-extensions 
