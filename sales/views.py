@@ -12,7 +12,7 @@ from django.middleware.csrf import get_token
 from django.utils import timezone
 
 from branchoffices.models import CashRegister
-from cashflow.settings.base import PAGE_TITLE
+from cloudkitchen.settings.base import PAGE_TITLE
 from products.models import Cartridge, PackageCartridge, PackageCartridgeRecipe
 from sales.models import Ticket, TicketDetail
 from users.models import User as UserProfile

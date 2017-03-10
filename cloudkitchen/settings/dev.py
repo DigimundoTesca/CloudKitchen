@@ -1,4 +1,4 @@
-from cashflow.settings.base import *
+from cloudkitchen.settings.base import *
 
 DEBUG = True
 ALLOWED_HOSTS = ['*']

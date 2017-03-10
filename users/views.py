@@ -10,7 +10,7 @@ from django.contrib.auth import logout as logout_django
 
 from users.forms import CustomerProfileForm, UserForm
 
-from cashflow.settings.base import PAGE_TITLE
+from cloudkitchen.settings.base import PAGE_TITLE
 
 
 # -------------------------------------  Index -------------------------------------

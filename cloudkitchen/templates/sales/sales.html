@@ -12,6 +12,23 @@
 
 {% block content %}
   <div class="container-fluid container-sales-reports">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="text-xs-right">
+        <form class="form-inline">
+          <select class="custom-select" id="select-year">
+            <option Selected="2017">2017</option>
+            <option value="2016">2016</option>
+          </select>
+          <select class="custom-select" id="select-week">
+            <option Selected="1">Semana 1</option>
+            <option value="2">Semana 2</option>
+          </select>
+          <button type="button" class="btn btn-outline-primary">Actualizar</button>
+        </form>
+      </div>
+    </div>
+  </div>
     <div class="row container-sales-header">
       <div class="col-xs-12 col-md-6">
         <div class="text-xs-center">

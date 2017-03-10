@@ -9,8 +9,8 @@
 
 
 # Project files:
-.sublime-project/
-.sublime-workspace/
+*.sublime-project
+*.sublime-workspace
 
 # IntelliJ
 /out/
@@ -120,7 +120,7 @@ ENV/
 .vscode/
 tags
 
-cashflow/__pycache__/
+cloudkitchen/__pycache__/
 products/__pycache__/
 products/migrations/*
 !products/migrations/__init__.py
