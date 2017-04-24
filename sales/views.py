@@ -1,7 +1,7 @@
 import json, pytz
 from datetime import datetime, date, timedelta, time
 import time as python_time
-
+import calendar
 from decimal import Decimal
 
 from django.contrib.auth.decorators import login_required,permission_required
@@ -12,7 +12,7 @@ from django.middleware.csrf import get_token
 from django.utils import timezone
 
 from branchoffices.models import CashRegister
-from cashflow.settings.base import PAGE_TITLE
+from cloudkitchen.settings.base import PAGE_TITLE
 from products.models import Cartridge, PackageCartridge, PackageCartridgeRecipe
 from sales.models import Ticket, TicketDetail
 from users.models import User as UserProfile
@@ -109,6 +109,23 @@ Start of views
 def sales(request):
     all_tickets = Ticket.objects.all()
     all_ticket_details = TicketDetail.objects.all()
+
+    def get_years_list():
+        """
+        Returns a list of all the years in which there have been sales
+        """
+        years_list = []
+
+        for ticket in all_tickets:
+            if not ticket.created_at.year in years_list:
+                years_list.append(ticket.created_at.year)
+
+        return years_list
+
+    def get_weeks_list(year):
+        tickets = all_tickets.filter(created_at__gte=naive_to_datetime(date(year,1,1)))
+        dt = date(2016,1,1)
+        print(dt.isocalendar()[1])
 
     def get_sales_week():
         """
@@ -273,6 +290,8 @@ def sales(request):
     template = 'sales/sales.html'
     title = 'Ventas'
     context = {
+        'years_list': get_years_list(),
+        'weeks_list': get_weeks_list(datetime.now().year),
         'page_title': PAGE_TITLE,
         'title': title,
         'sales_week': get_sales_week(),

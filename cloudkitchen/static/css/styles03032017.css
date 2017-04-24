@@ -135,7 +135,8 @@ footer .footer-header .info-container {
   margin: 0.5rem 0;
 }
 
-/* DabbaNet styles
+
+/* CloudKitchen styles
 -------------------------------------------------------- */
 main {
   flex: 1;
@@ -234,6 +235,9 @@ transition: all 1s ease;
 }
 .container-sales {
   margin: 0 0.5rem;
+}
+.container-sales-header {
+  margin-top: 1rem;
 }
 .container-sales-reports .sales-graphics {
   margin-bottom: 1rem; 
@@ -466,6 +470,7 @@ transition: all 1s ease;
 .container-error .alert {
   margin-top: 2rem;
 }
+
 .dropdown-menu {
   margin-left: -5rem !important;
 }
