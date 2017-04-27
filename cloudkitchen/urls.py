@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^', include('kitchen.urls')),
 ]
 
-admin.site.site_header = 'Dabbanet'
+admin.site.site_header = 'CloudKitchen'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
