@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^', include('sales.urls')),
     url(r'^', include('orders.urls')),
     url(r'^', include('kitchen.urls')),
+    url(r'^', include('diners.urls')),
 ]
 
 admin.site.site_header = 'CloudKitchen'

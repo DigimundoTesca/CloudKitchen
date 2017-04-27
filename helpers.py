@@ -34,11 +34,11 @@ class Helper(object):
         name_day = date(datetime_now.year, datetime_now.month, datetime_now.day)
         return self.days_list[name_day.strftime('%A').upper()]
 
-    def get_number_day(self):
+    def get_number_day(self, dt):
         days = {
             'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3, 'Viernes': 4, 'Sábado': 5, 'Domingo': 6,
         }
-        return days[self.get_name_day(datetime.now())]
+        return days[self.get_name_day(dt)]
 
     def start_datetime(self, back_days):
         start_date = date.today() - timedelta(days=back_days)
@@ -47,6 +47,13 @@ class Helper(object):
     def end_datetime(self, back_days):
         end_date = self.start_datetime(back_days) + timedelta(days=1)
         return self.naive_to_datetime(end_date)
+
+    def parse_to_datetime(self, dt):
+        day = int(dt.split('-')[0])
+        month = int(dt.split('-')[1])
+        year = int(dt.split('-')[2])
+        parse_date = date(year, month, day)
+        return self.naive_to_datetime(parse_date)
 
     def are_equal_lists(self, list_1, list_2):
         """

@@ -40,7 +40,7 @@ def sales(request):
         """
         week_sales_list = []
         total_earnings = 0
-        days_to_count = helper.get_number_day()
+        days_to_count = helper.get_number_day(datetime.today())
         day_limit = days_to_count
         start_date_number = 0
 
@@ -203,7 +203,7 @@ def sales(request):
         'title': title,
         'sales_week': get_sales_week(),
         'today_name': helper.get_name_day(datetime.now()),
-        'today_number': helper.get_number_day(),
+        'today_number': helper.get_number_day(datetime.today()),
         'week_number': helper.get_week_number(),
         'tickets': get_tickets(),
     }
