@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 from django.db.models import Max, Min
 
 from helpers import Helper
-from .models import AccessLog, Diner, ElementToEvaluate
+from .models import AccessLog, Diner, ElementToEvaluate, SatisfactionRating
 from cloudkitchen.settings.base import PAGE_TITLE
 
 
@@ -234,7 +234,7 @@ def diners(request):
 
     else:
         template = 'diners.html'
-        title = 'Comensales del Dia'
+        title = 'Accesos de hoy'
 
         context = {
             'title': PAGE_TITLE + ' | ' + title,
@@ -246,8 +246,6 @@ def diners(request):
 
 
 # -------------------------------------- SATISFACTION RATING ------------------------------------------
-
-
 @login_required(login_url='users:login')
 def diners_logs(request):
     helper = Helper()
@@ -421,7 +419,7 @@ def diners_logs(request):
 
         pag = diners_paginator(request, all_diners_objects, 50)
         template = 'diners_logs.html'
-        title = 'Registro de comensales'
+        title = 'Registro de Accesos'
 
         context = {
             'title': PAGE_TITLE + ' | ' + title,
@@ -435,10 +433,6 @@ def diners_logs(request):
             'dates_range': get_dates_range(),
         }
         return render(request, template, context)
-
-
-class SatisfactionRating(object):
-    pass
 
 
 def satisfaction_rating(request):
@@ -464,10 +458,193 @@ def satisfaction_rating(request):
                 new_satisfaction_rating.save()
             return JsonResponse({'status': 'ready'})
 
+    template = 'satisfaction_rating.html'
+    title = 'Rating'
+    elements = ElementToEvaluate.objects.all()
+    context = {
+        'title': PAGE_TITLE + ' | ' + title,
+        'page_title': title,
+        'elements': elements,
+    }
+    return render(request, template, context)
+
+
+@login_required(login_url='users:login')
+def analytics(request):
+    helper = Helper()
+    all_suggestions = SatisfactionRating.objects.all()
+    all_elements = ElementToEvaluate.objects.all()
+
+    def get_dates_range():
+        """
+        Returns a JSON with a years list.
+        The years list contains years objects that contains a weeks list
+            and the Weeks list contains a weeks objects with two attributes: 
+            start date and final date. Ranges of each week.
+        """
+        try:
+            min_year = all_suggestions.aggregate(Min('creation_date'))['creation_date__min'].year
+            max_year = all_suggestions.aggregate(Max('creation_date'))['creation_date__max'].year
+            years_list = []  # [2015:object, 2016:object, 2017:object, ...]
+        except:
+            min_year = datetime.now().year
+            max_year = datetime.now().year
+            years_list = []  # [2015:object, 2016:object, 2017:object, ...]
+
+        while max_year >= min_year:
+            year_object = {  # 2015:object or 2016:object or 2017:object ...
+                'year': max_year,
+                'weeks_list': []
+            }
+
+            ratings_per_year = all_suggestions.filter(
+                creation_date__range=[helper.naive_to_datetime(date(max_year, 1, 1)),
+                                      helper.naive_to_datetime(date(max_year, 12, 31))])
+            for rating in ratings_per_year:
+                if len(year_object['weeks_list']) == 0:
+                    """
+                    Creates a new week_object in the weeks_list of the actual year_object
+                    """
+                    week_object = {
+                        'week_number': rating.creation_date.isocalendar()[1],
+                        'start_date': rating.creation_date.date().strftime("%d-%m-%Y"),
+                        'end_date': rating.creation_date.date().strftime("%d-%m-%Y"),
+                    }
+                    year_object['weeks_list'].append(week_object)
+                    # End if
+                else:
+                    """
+                    Validates if exists some week with an indentical week_number of the actual year
+                    If exists a same week in the list validates the start_date and the end_date,
+                    In each case valid if there is an older start date or a more current end date 
+                        if it is the case, update the values.
+                    Else creates a new week_object with the required week number
+                    """
+                    existing_week = False
+                    for week_object in year_object['weeks_list']:
+
+                        if week_object['week_number'] == rating.creation_date.isocalendar()[1]:
+                            # There's a same week number
+                            existing_week = True
+                            if datetime.strptime(week_object['start_date'],
+                                                 "%d-%m-%Y").date() > rating.creation_date.date():
+                                exists = True
+                                week_object['start_date'] = rating.creation_date.date().strftime("%d-%m-%Y")
+                            elif datetime.strptime(week_object['end_date'],
+                                                   "%d-%m-%Y").date() < rating.creation_date.date():
+                                week_object['end_date'] = rating.creation_date.date().strftime("%d-%m-%Y")
+
+                            existing_week = True
+                            break
+
+                    if not existing_week:
+                        # There's a different week number
+                        week_object = {
+                            'week_number': rating.creation_date.isocalendar()[1],
+                            'start_date': rating.creation_date.date().strftime("%d-%m-%Y"),
+                            'end_date': rating.creation_date.date().strftime("%d-%m-%Y"),
+                        }
+                        year_object['weeks_list'].append(week_object)
+
+                        # End else
+            years_list.append(year_object)
+            max_year -= 1
+        # End while
+        return json.dumps(years_list)
+
+    def get_suggestions_actual_week():
+        """
+        Gets the following properties for each week's day: Name, Date and suggestions
+        """
+        week_suggestions_list = []
+        total_suggestions = 0
+        days_to_count = helper.get_number_day(datetime.now())
+        day_limit = days_to_count
+        start_date_number = 0
+
+        while start_date_number <= day_limit:
+            day_object = {
+                'date': str(helper.start_datetime(days_to_count).date().strftime('%d-%m-%Y')),
+                'day_name': None,
+                'total_suggestions': None,
+                'number_day': helper.get_number_day(helper.start_datetime(days_to_count).date()),
+            }
+
+            suggestions = all_suggestions.filter(
+                creation_date__range=[helper.start_datetime(days_to_count), helper.end_datetime(days_to_count)])
+
+            for suggestion in suggestions:
+                if suggestion.suggestion:
+                    total_suggestions += 1
+
+            day_object['total_suggestions'] = str(total_suggestions)
+            day_object['day_name'] = helper.get_name_day(helper.start_datetime(days_to_count).date())
+
+            week_suggestions_list.append(day_object)
+
+            # restarting counters
+            days_to_count -= 1
+            total_suggestions = 0
+            start_date_number += 1
+
+        return json.dumps(week_suggestions_list)
+
+    def get_suggestions(initial_date, final_date):
+        return all_suggestions.filter(
+            creation_date__range=(initial_date, final_date)).order_by('-creation_date')
+
+    if request.method == 'POST':
+        if request.POST['type'] == 'reactions_day':
+            start_date = helper.naive_to_datetime(datetime.strptime(request.POST['date'], '%d-%m-%Y').date())
+            end_date = helper.naive_to_datetime(start_date + timedelta(days=1))
+            today_suggestions = get_suggestions(start_date, end_date)
+            reactions_list = []
+            for element_to_evaluate in all_elements:
+                """ For every element chart """
+                element_object = {
+                    'id': element_to_evaluate.id,
+                    'name': element_to_evaluate.element,
+                    'reactions': {
+                        0: {'reaction': 'Enojado', 'quantity': 0},
+                        1: {'reaction': 'Triste', 'quantity': 0},
+                        2: {'reaction': 'Feliz', 'quantity': 0},
+                        3: {'reaction': 'Encantado', 'quantity': 0},
+                    },
+                }
+                for suggestion in today_suggestions:
+                    for element_in_suggestion in suggestion.elements.all():
+                        if element_in_suggestion == element_to_evaluate:
+                            element_object['reactions'][suggestion.satisfaction_rating - 1]['quantity'] += 1
+
+                reactions_list.append(element_object)
+            return JsonResponse(reactions_list, safe=False)
+    template = 'analytics.html'
+    title = 'Analytics'
+    context = {
+        'title': PAGE_TITLE + ' | ' + title,
+        'page_title': title,
+        'dates_range': get_dates_range(),
+        'suggestions_week': get_suggestions_actual_week(),
+        'elements': all_elements,
+        'total_elements': all_elements.count(),
+    }
+    return render(request, template, context)
+
+
+@login_required(login_url='users:login')
+def suggestions(request):
+    template = 'suggestions.html'
+    title = 'Analytics'
+    tests = SatisfactionRating.objects.order_by('-creation_date')
+    context = {
+        'title': PAGE_TITLE + ' | ' + title,
+        'page_title': title,
+        'tests': tests,
+    }
+    return render(request, template, context)
+
 
 # --------------------------- TEST ------------------------
-
-
 def test(request):
     diners = Diner.objects.all()
     rfids = []
