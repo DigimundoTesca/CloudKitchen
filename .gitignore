@@ -27,7 +27,6 @@ fabric.properties
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
 *$py.class
 
 # C extensions
@@ -120,8 +119,6 @@ ENV/
 .vscode/
 tags
 
-cloudkitchen/__pycache__/
-products/__pycache__/
 products/migrations/*
 !products/migrations/__init__.py
 users/migrations/*
@@ -134,9 +131,14 @@ orders/migrations/*
 !orders/migrations/__init__.py
 kitchen/migrations/*
 !kitchen/migrations/__init__.py
+diners/migrations/*
+!diners/migrations/__init__.py
 staticfiles/
 #Database
 media/
 # Databases
 db.sqlite3
 db_temporal.sqlite3
+
+
+
