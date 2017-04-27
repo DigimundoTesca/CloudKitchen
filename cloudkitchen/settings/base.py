@@ -68,12 +68,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middlewares.HostMiddleware',
 ]
-
-ROOT_URLCONF = 'cloudkitchen.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': False,
         'DIRS': [
             os.path.join(BASE_DIR, 'templates/'),
         ],
@@ -96,6 +94,9 @@ TEMPLATES = [
         },
     },
 ]
+
+ROOT_URLCONF = 'cloudkitchen.urls'
+
 
 WSGI_APPLICATION = 'cloudkitchen.wsgi.application'
 
