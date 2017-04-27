@@ -222,7 +222,7 @@ class CreateCartridge(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return redirect('products:supplies')
+        return redirect('products:cartridges')
 
 
 class UpdateCartridge(UpdateView):

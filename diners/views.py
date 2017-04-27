@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 from django.db.models import Max, Min
 
 from helpers import Helper
-from .models import AccessLog, Diner
+from .models import AccessLog, Diner, ElementToEvaluate
 from cloudkitchen.settings.base import PAGE_TITLE
 
 
@@ -96,7 +96,9 @@ class DinersHelper(object):
             }
 
             logs = AccessLog.objects.filter(
-                access_to_room__range=[self.helper.start_datetime(days_to_count), self.helper.end_datetime(days_to_count)])
+                access_to_room__range=[
+                    self.helper.start_datetime(days_to_count), self.helper.end_datetime(days_to_count)
+                ])
 
             for _ in logs:
                 total_entries += 1
@@ -125,10 +127,8 @@ class DinersHelper(object):
 def diners_paginator(request, queryset, num_pages):
     result_list = Paginator(queryset, num_pages)
     context = {}
-    try:
-        num_page = int(request.GET['num_page'])
-    except ValueError:
-        num_page = 1
+
+    num_page = request.POST.get('num_page', 1)
 
     if num_page <= 0:
         num_page = 1
@@ -207,7 +207,7 @@ def diners(request):
     if request.method == 'POST':
         if request.POST['type'] == 'diners_logs_today':
 
-            diners = Diner.objects.all()
+            diners_queryset = Diner.objects.all()
 
             diners_objects = {
                 'total_diners': total_diners,
@@ -222,7 +222,7 @@ def diners(request):
                     'date': timezone.localtime(diner_log.access_to_room).strftime("%B %d, %Y, %I:%M:%S %p"),
                 }
 
-                for diner in diners:
+                for diner in diners_queryset:
                     if diner_log.RFID == diner.RFID:
                         diner_object['sap'] = diner.employee_number
                         diner_object['name'] = diner.name
@@ -245,12 +245,15 @@ def diners(request):
         return render(request, template, context)
 
 
+# -------------------------------------- SATISFACTION RATING ------------------------------------------
+
+
 @login_required(login_url='users:login')
 def diners_logs(request):
     helper = Helper()
     diners_helper = DinersHelper()
     all_entries = AccessLog.objects.all()
-    diners = Diner.objects.all()
+    all_diners = Diner.objects.all()
 
     def get_entries(initial_date, final_date):
         """
@@ -262,9 +265,9 @@ def diners_logs(request):
         total_days = (final_date - initial_date).days
 
         while count <= total_days:
-            diners = all_entries.filter(access_to_room__range=[initial_date, limit_day])
+            diners_query = all_entries.filter(access_to_room__range=[initial_date, limit_day])
             day_object = {'date': str(timezone.localtime(initial_date).date().strftime('%d-%m-%Y')),
-                          'day_name': helper.get_name_day(initial_date.date()), 'entries': diners.count(),
+                          'day_name': helper.get_name_day(initial_date.date()), 'entries': diners_query.count(),
                           'number_day': helper.get_number_day(initial_date)}
 
             week_diners_list.append(day_object)
@@ -326,7 +329,7 @@ def diners_logs(request):
                     'Fecha de Acceso': timezone.localtime(entry.access_to_room).date(),
                     'Hora de Acceso': timezone.localtime(entry.access_to_room).time(),
                 }
-                for diner in diners:
+                for diner in all_diners:
                     if entry.RFID == diner.RFID:
                         diner_object['SAP'] = diner.employee_number
                         diner_object['Nombre'] = diner.name
@@ -432,6 +435,34 @@ def diners_logs(request):
             'dates_range': get_dates_range(),
         }
         return render(request, template, context)
+
+
+class SatisfactionRating(object):
+    pass
+
+
+def satisfaction_rating(request):
+    if request.method == 'POST':
+        if request.POST['type'] == 'satisfaction_rating':
+            satisfaction_rating_value = request.POST['satisfaction_rating']
+            elements_list = json.loads(request.POST['elements_id'])
+
+            if request.POST['suggestion']:
+                new_satisfaction_rating = SatisfactionRating.objects.create(
+                    satisfaction_rating=satisfaction_rating_value,
+                    suggestion=request.POST['suggestion'],
+                )
+            else:
+                new_satisfaction_rating = SatisfactionRating.objects.create(
+                    satisfaction_rating=satisfaction_rating_value
+                )
+            new_satisfaction_rating.save()
+
+            for element in elements_list:
+                new_element = ElementToEvaluate.objects.get(id=element)
+                new_satisfaction_rating.elements.add(new_element)
+                new_satisfaction_rating.save()
+            return JsonResponse({'status': 'ready'})
 
 
 # --------------------------- TEST ------------------------
