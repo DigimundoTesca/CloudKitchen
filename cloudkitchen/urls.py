@@ -5,16 +5,17 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    url(r'^dabba-admin/', admin.site.urls, name='admin'),
+    url(r'^admin-cloud/', admin.site.urls, name='admin'),
     url(r'^', include('users.urls')),
     url(r'^', include('branchoffices.urls')),
     url(r'^', include('products.urls')),
     url(r'^', include('sales.urls')),
     url(r'^', include('orders.urls')),
     url(r'^', include('kitchen.urls')),
+    url(r'^', include('diners.urls')),
 ]
 
-admin.site.site_header = 'Dabbanet'
+admin.site.site_header = 'CloudKitchen'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
