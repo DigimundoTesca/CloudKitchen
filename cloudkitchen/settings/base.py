@@ -47,6 +47,7 @@ USER_APPS = [
     'orders.apps.OrdersConfig',
     'kitchen.apps.KitchenConfig',
     'api.apps.ApiConfig',
+    'diners.apps.DinersConfig'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + USER_APPS
