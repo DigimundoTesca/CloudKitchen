@@ -20,6 +20,7 @@ from users.models import User as UserProfile
 """
 Start auxiliary functions
 """
+
 def naive_to_datetime(nd):
     if type(nd) == datetime:
         if nd.tzinfo is not None and nd.tzinfo.utcoffset(nd) is not None: # Is Aware
