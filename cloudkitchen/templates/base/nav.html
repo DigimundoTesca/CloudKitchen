@@ -1,25 +1,21 @@
 <nav class="navbar navbar-full navbar-dark navbar-base">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'users:login' %}"><h3>{{ page_title }}</h3></a>
-
     <ul class="nav navbar-nav float-xs-right">
-
+      <!-- Start first nav item -->
       <li class="nav-item dropdown" id="link-diners">
-        <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Analytics</a>
+        <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ventas</a>
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
-          <a class="dropdown-item" href="{% url 'diners:analytics' %}">Encuesta de Satisfacción</a>
-          <a class="dropdown-item" href="{% url 'diners:suggestions' %}">Comentarios</a>
-          <a class="dropdown-item" href="{% url 'sales:sales' %}">Ventas</a>
+          <a class="dropdown-item" href="{% url 'sales:new_sale' %}">POS</a>
+          <a class="dropdown-item" href="{% url 'sales:sales' %}">Analytics</a>
         </div>
       </li>
-      <li class="nav-item" id="link-new-sale">
-        <a class="nav-link" href="{% url 'sales:new_sale'  %}">Nueva venta</a>
-      </li>
-      <li class="nav-item dropdown" id="link-kitchen">
-        <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cocina</a>
+    <!-- End first nav item -->
+      <li class="nav-item dropdown" id="link-diners">
+        <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">NetKitchen</a>
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
-          <a class="dropdown-item" href="{% url 'kitchen:hot_kitchen' %}">Cocina Caliente</a>
-          <a class="dropdown-item" href="{% url 'kitchen:cold_kitchen' %}">Cocina Fría</a>
+          <a class="dropdown-item" href="{% url 'kitchen:kitchen_1' %}">Cocina 1</a>
+          <a class="dropdown-item" href="{% url 'kitchen:kitchen_2' %}">Cocina 2</a>
           <a class="dropdown-item" href="{% url 'kitchen:assembly' %}">Ensamble</a>
         </div>
       </li>
@@ -28,23 +24,35 @@
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
           <a class="dropdown-item" href="{% url 'products:supplies' %}">Insumos</a>
           <a class="dropdown-item" href="{% url 'products:cartridges' %}">Productos</a>
+          <a class="dropdown-item" href="#">Paquetes</a>
+          <a class="dropdown-item" href="#">Analytics</a>
+          <a class="dropdown-item" href="#">Almacén 1</a>
+          <a class="dropdown-item" href="#">Almacén 2</a>
         </div>
+      </li>
+      <li class="nav-item dropdown" id="link-kitchen">
+        <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Smart Access</a>
+        <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+          <a class="dropdown-item" href="{% url 'diners:diners' %}">Accesos del día</a>
+          <a class="dropdown-item" href="{% url 'diners:diners_logs' %}">Analytics</a>
+        </div>
+      </li>
+          <li class="nav-item dropdown" id="link-diners">
+        <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Servicio</a>
+        <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+          <a class="dropdown-item" href="{% url 'diners:reactions_analytics' %}">Analytics</a>
+          <a class="dropdown-item" href="{% url 'diners:suggestions' %}">Comentarios</a>
+          <a class="dropdown-item" href="{% url 'diners:satisfaction_rating' %}">Encuesta Satistacción</a>
+        </div>
+      </li>
+      <li class="nav-item" id="link-new-sale">
+        <a class="nav-link" href="{% url 'sales:new_sale'  %}">Nueva venta</a>
       </li>
       <li class="nav-item dropdown" id="link-customers">
         <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
           <a class="dropdown-item" href="{% url 'users:customers_list' %}">Registros Web</a>
         </div>
-      </li>
-      <li class="nav-item dropdown" id="link-diners">
-        <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Comedor</a>
-        <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
-          <a class="dropdown-item" href="{% url 'diners:diners' %}">Accesos de Hoy</a>
-          <a class="dropdown-item" href="{% url 'diners:diners_logs' %}">Registro de Accesos</a>
-        </div>
-      </li>
-      <li class="nav-item" id="link-satisfaction-rating">
-        <a class="nav-link" href="{% url 'diners:satisfaction_rating' %}">Encuesta de Saisfacción <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>

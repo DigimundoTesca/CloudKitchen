@@ -101,7 +101,7 @@
      */
     function set_reactions_day_chart(date) {
       $.ajax({
-        url: "{% url 'diners:analytics' %}",
+        url: "{% url 'diners:reactions_analytics' %}",
         type: 'POST',
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',

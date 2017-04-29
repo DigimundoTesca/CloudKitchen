@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth import logout as logout_django
 
+from sales.models import Ticket, TicketDetail
 from users.forms import CustomerProfileForm, UserForm
 
 from cloudkitchen.settings.base import PAGE_TITLE
@@ -18,28 +19,37 @@ from users.models import CustomerProfile
 
 
 def arduino(request):
-    print(request)
-    return HttpResponse('HOLA')
+    query_tickets = Ticket.objects.all()
+    query_tickets_details = TicketDetail.objects.all()
+    tickets_list = []
+
+    for ticket in query_tickets:
+        ticket_object = {
+            'id': ticket.id,
+            'total': 0,
+            'datetime': ticket.created_at,
+        }
+        query_td_tmp = query_tickets_details.filter(ticket=ticket.id)
+
+        if query_td_tmp.count() > 0:
+            for ticket_detail in query_td_tmp:
+                ticket_object['total'] += ticket_detail.price
+            ticket_object['total'] = str(ticket_object['total'])
+            ticket_object['datetime'] = ticket_object['datetime'].strftime('%d-%m-%Y')
+            tickets_list.append(ticket_object)
+
+    list_str = '<ul>'
+    for element in tickets_list:
+        list_str += '<li>id: ' + str(element['id']) + \
+                    '<br>Fecha: ' + str(element['datetime']) + \
+                    '<br>Total: ' + str(element['total']) + '</li>'
+
+    return HttpResponse(list_str)
+
 
 def test(request):
-    form_customer = CustomerProfileForm(request.POST, request.FILES)
-    if request.method == 'POST':
-        if form_customer.is_valid():
-            print('IS VALID!!!')
-            customer = form_customer.save(commit=False)
-            customer.save()
-            return redirect('users:thanks')
-    else:
-        form_customer = CustomerProfileForm()
-    template = 'test/test.html'
-    title = 'Dabbawala - Registro de clientes'
-    form_user = UserForm()
-    context = {
-        'form_customer': form_customer,
-        'title': title,
-    }
-
-    return render(request, template, context)
+    print('jajajaja')
+    return  HttpResponse('jeje')
 
 
 # -------------------------------------  Index -------------------------------------
