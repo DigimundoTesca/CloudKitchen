@@ -19,6 +19,7 @@
           <a class="dropdown-item" href="{% url 'kitchen:assembly' %}">Ensamble</a>
         </div>
       </li>
+      <!--
       <li class="nav-item dropdown" id="link-warehouse">
         <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Almacén</a>
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
@@ -30,6 +31,7 @@
           <a class="dropdown-item" href="#">Almacén 2</a>
         </div>
       </li>
+      -->
       <li class="nav-item dropdown" id="link-kitchen">
         <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Smart Access</a>
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
@@ -45,13 +47,16 @@
           <a class="dropdown-item" href="{% url 'diners:satisfaction_rating' %}">Encuesta Satistacción</a>
         </div>
       </li>
+      <!--
       <li class="nav-item" id="link-new-sale">
         <a class="nav-link" href="{% url 'sales:new_sale'  %}">Nueva venta</a>
       </li>
+      -->
       <li class="nav-item dropdown" id="link-customers">
         <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
-          <a class="dropdown-item" href="{% url 'users:customers_list' %}">Registros Web</a>
+          <a class="dropdown-item" href="{% url 'users:new_customer' %}">Registro de Usuarios</a>
+          <a class="dropdown-item" href="{% url 'users:customers_list' %}">Usuarios Registrados</a>
         </div>
       </li>
       <li class="nav-item dropdown">

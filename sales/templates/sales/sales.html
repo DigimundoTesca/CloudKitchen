@@ -177,7 +177,6 @@
     let ctx_week = document.getElementById("canvas-week-sales"),
         ctx_day = document.getElementById("canvas-day-sales");
     let today_date;
-    let day_number = {{ today_number }};
     let sales_week = JSON.parse('{{ sales_week|safe }}');
     let earnings_week_chart,
         earnings_day_chart;
@@ -333,6 +332,53 @@
       list_formated.push(earnings)
       return list_formated.reverse();
     }
+    function set_sales_day_chart(date) {
+      let earnings_list = [];
+
+      $.ajax({
+        url: "{% url 'sales:sales' %}",
+        type: 'POST',
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'date': date,
+          'type': 'sales_day',
+        },
+        traditional: true,
+        datatype: 'jsonp',
+        beforeSend: function(){
+          // swal({
+          //     title: "Generando gráficas",
+          //     text: "Espere mientras se calculan los datos",
+          //   });
+          // swal.enableLoading();
+        },
+        success: function(result) {
+          let sales_day_earnings_list;
+          let initial_hour = '08:00',
+              final_hour = '16:00',
+              separation_time = 60; // In minutes
+          let sales_day_object_list = result['sales_day_list'];
+          sales_day_earnings_list = get_sales_day_list(initial_hour, final_hour, separation_time, sales_day_object_list);
+          earnings_day_chart.data.datasets[0].data = sales_day_earnings_list;
+          earnings_day_chart.update();
+
+          swal({
+            title: "Éxito",
+            text: "Gráfica generada",
+            type: "success",
+            timer: 600,
+            showConfirmButton: false
+          }).then(
+          function(){},
+          function(dismiss){}
+          );
+        },
+
+        error: function(result, jqXHR, textStatus, errorThrown) {
+          console.log(result);
+        },
+      });
+    }
 
     /*
      * Get's the earnings of the selected day in week chart and
@@ -340,8 +386,9 @@
      */
     function get_sales_day(day_number) {
       let earnings_list = [];
+      console.log(day_number)
+      //console.log(sales_week[day_number])
       let date =  sales_week[day_number].date;
- 
       $.ajax({
         url: "{% url 'sales:sales' %}",
         type: 'POST',
@@ -794,6 +841,7 @@
      * Fills the weeks select
      */
     function fill_dates_range_form() {
+      let dates_range_form = $(this).find('#dt-year');
       let selected_year;
       $.each(dates_range, function(index, item) {
          $('#dates-range-form').find('#dt-year').append(
@@ -804,7 +852,7 @@
       selected_year = $('#dates-range-form').find('#dt-year').val();
 
       $.each(dates_range, function(index, item) {
-        if (dates_range[index].year ===  selected_year) {
+        if (dates_range[index].year ==  selected_year) {
           $.each(dates_range[index].weeks_list, function(index, item) {
             $('#dates-range-form').find('#dt-week').append(
               "<option value=" + item.start_date + "," + item.end_date + ">" +
@@ -823,9 +871,9 @@
     /**
      * Functions to initialize the graphs
      */
-    set_total_earnings();
-    get_sales_day(day_number);
     fill_dates_range_form();
+    set_total_earnings();
+    set_sales_day_chart(today_date);
   });
 </script>
 {% endblock javascript %}

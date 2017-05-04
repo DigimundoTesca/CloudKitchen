@@ -124,11 +124,10 @@ def sales(request):
 
         while start_date_number <= day_limit:
             day_object = {
-                'date': str(helper.start_datetime(days_to_count).date()),
+                'date': str(helper.start_datetime(days_to_count).date().strftime('%d-%m-%Y')),
                 'day_name': None,
                 'earnings': None,
             }
-
             tickets = all_tickets.filter(
                 created_at__range=[helper.start_datetime(days_to_count), helper.end_datetime(days_to_count)])
 
@@ -191,10 +190,10 @@ def sales(request):
             Each object has the following characteristics
             """
             sales_day_list = []
-            start_day = helper.naive_to_datetime(datetime.strptime(request.POST['date'], '%Y-%m-%d').date())
+            start_day = helper.naive_to_datetime(datetime.strptime(request.POST['date'], '%d-%m-%Y').date())
             end_date = helper.naive_to_datetime(start_day + timedelta(days=1))
             tickets_objects = all_tickets.filter(created_at__range=[start_day, end_date])
-
+            print(start_day)
             for ticket in tickets_objects:
                 """
                 Filling in the sales list of the day
