@@ -170,9 +170,8 @@
 <script src="{% static 'js/papaparse.min.js' %}" defer></script>
 <script src="{% static 'js/blob.js' %}" defer></script>
 <script src="{% static 'js/fileSaver.min.js' %}" defer></script>
-    let today_number = {{ today_number }};
 
-<script type="text/javascript" charset="utf-8" defer>
+  <script type="text/javascript" charset="utf-8" defer>
   $(function() {
     let ctx_week = document.getElementById("canvas-week-sales"),
         ctx_day = document.getElementById("canvas-day-sales");
@@ -229,11 +228,11 @@
     function minutes_to_hours(original_time) {
       let hours = parseInt(original_time / 60);
       let minutes = parseInt(original_time % 60);
-      
+
       if (hours.toString().length < 2) {
         hours = "0"+hours;
       }
-      
+
       if (minutes.toString().length < 2) {
         minutes = "0"+minutes;
       }
@@ -259,25 +258,24 @@
     function get_time_differences(initial_time, final_time){
       let initial_mins = parseInt(initial_time.substr(3,2));
       let initial_hours = parseInt(initial_time.substr(0,2));
-      
       let final_mins = parseInt(final_time.substr(3,2));
       let final_hours = parseInt(final_time.substr(0,2));
 
       let elapsed_mins = final_mins - initial_mins;
       let elapsed_hours = final_hours - initial_hours;
-      
+
       if (elapsed_mins < 0) {
         elapsed_hours -= 1;
         elapsed_mins = 60 + elapsed_mins;
       }
-      
+
       let hours = elapsed_hours.toString();
       let minutes = elapsed_mins.toString();
-      
+
       if (hours.length < 2) {
         hours = "0"+hours;
       }
-      
+
       if (minutes.length < 2) {
         minutes = "0"+minutes;
       }
@@ -292,7 +290,7 @@
       return original_datetime.split('T')[1].split('.')[0].substr(0,5);
     }
 
-    /** 
+    /**
      * Returns a list with the earnings of each time range
      */
     function get_sales_day_list(initial_hour, final_hour, separation_time, sales_list) {
@@ -311,7 +309,7 @@
 
         for (var i = 0; i < sales_list.length; i++) {
           let hour_sale = convert_datetime_to_hour(sales_list[i].datetime);
-          
+
           if(is_time_in_range(hour_sale, start_hour_f, end_hour_f)) {
             earnings += parseFloat(sales_list[i].earnings);
             elements_ok.push(sales_list[i]);
@@ -540,7 +538,7 @@
       }
     });
 
-    /** 
+    /**
      * Receives a number and returns it with currency format
      */
     function set_number_format(amount, decimals) {
@@ -563,7 +561,7 @@
       return amount_parts.join('.');
     }
 
-    /** 
+    /**
      * Calculates total earnings in the actual week and print it
      */
     function set_total_earnings() {
@@ -577,7 +575,7 @@
     }
 
     /**
-     * Get's the ticket id for printer-icon selected 
+     * Get's the ticket id for printer-icon selected
      * TODO: Make an iframe to print the ticket
      */
     $(this).on('click', '.print-ticket', function(event) {
@@ -603,7 +601,7 @@
         "</li>");
 
         sales_list_modal.append(nuevo_li);
-       
+
         function iterate_cartridges(element, index, array) {
           let name = element.name;
           let cost_base = parseFloat(element.total) / element.quantity;
@@ -671,7 +669,7 @@
         ticket_details.cartridges.forEach(iterate_cartridges);
         ticket_details.packages.forEach(iterate_packages);
         $("#ticket-id").text(id_element);
-        
+
         //language=JQuery-CSS
         $('#modal-ticket').modal('show');
       }
@@ -727,7 +725,7 @@
     });
 
     /**
-     * Get's the ticket id for delete-icon selected 
+     * Get's the ticket id for delete-icon selected
      * TODO: Make a view for delete the ticket from backend
      */
     $(this).on('click', '.delete-ticket', function(event) {
@@ -781,7 +779,7 @@
           function(dismiss){});
     });
 
-    /** 
+    /**
      * Saves the ticket a csv file
      */
     $(this).on('click', '#btn-save-ticket-csv', function(event) {

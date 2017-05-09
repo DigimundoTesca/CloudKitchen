@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+<html>
 <head>
   <title>{{ title }}</title>
   <!-- Required meta tags always come first -->
@@ -9,12 +10,16 @@
   <meta name="description" content="CloudKitchen - Tu Cocina en la nube">
   <link rel="icon" href="{% static 'images/CloudKitchen.png' %}">
 
+  <!-- Loader Style -->
+  <link rel="stylesheet" href="{% static 'css/loader_style.css' %}">
+
   <!-- Font style -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans+Condensed:300|Open+Sans:300,400" rel="stylesheet">
+  <!-- Sweet Alert -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
 
   <!-- Icon font styles -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
   {% block link %}
   {% endblock link %}
@@ -26,6 +31,10 @@
 
 </head>
 <body>
+<div class="sk-double-bounce">
+  <div class="sk-child sk-double-bounce1"></div>
+  <div class="sk-child sk-double-bounce2"></div>
+</div>
 {% block nav %}
 {% endblock %}
 <main>
@@ -48,9 +57,5 @@
 {% endblock javascript %}
 {% block alert %}
 {% endblock alert %}
-<!-- <script>document.write('<script src="http://'
-+ (location.host || 'localhost').split(':')[0]
-+ ':35729/livereload.js?snipver=1"></'
-+ 'script>')</script> -->
 </body>
 </html>

@@ -169,11 +169,10 @@ class PackageCartridge(models.Model):
 
     package_recipe.allow_tags = True
 
-
     class Meta:
         ordering = ('name',)
-        verbose_name = 'Dabba'
-        verbose_name_plural = 'Dabbas'
+        verbose_name = 'Paquete'
+        verbose_name_plural = 'Paquetes'
 
 
 class PackageCartridgeRecipe(models.Model):
