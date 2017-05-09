@@ -290,6 +290,18 @@
       return original_datetime.split('T')[1].split('.')[0].substr(0,5);
     }
 
+
+    /**
+     * Axuxiliar function to show random data list
+     */
+    function get_aux_data(elements){
+      let aux_data = [];
+      for(let j = 0; j < elements; j++) {
+        aux_data.push(parseInt(Math.random()*100));
+      }
+      return aux_data;
+    }
+
     /**
      * Returns a list with the earnings of each time range
      */
@@ -357,7 +369,7 @@
               separation_time = 60; // In minutes
           let sales_day_object_list = result['sales_day_list'];
           sales_day_earnings_list = get_sales_day_list(initial_hour, final_hour, separation_time, sales_day_object_list);
-          earnings_day_chart.data.datasets[0].data = sales_day_earnings_list;
+          earnings_day_chart.data.datasets[0].data = get_aux_data(17);
           earnings_day_chart.update();
 
           swal({
@@ -442,7 +454,7 @@
         labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         datasets: [{
           label: 'Ventas del día',
-          data: get_earnings_week_list(),
+          data: get_aux_data(7),
           backgroundColor: [
           'rgba(241,196,15,0.7)',
           'rgba(230,126,34,0.7)',
