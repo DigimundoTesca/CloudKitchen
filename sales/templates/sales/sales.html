@@ -95,7 +95,7 @@
                 {% endfor %}
               </td>
               <td>{{ ticket.ticket_parent.seller }}</td>
-              <td>
+              <td class="td-total">
                 {{ ticket.total }}
               </td>
               <td class="header-actions">
@@ -123,7 +123,7 @@
         <div class="printer-container">
           <div id="printer">
             <figure class="content-img">
-              <img src="{% static 'images/dabbawala_black.jpg' %}" alt="logo-dabbawala">
+              <img src="{% static 'images/Cloud_kitchenLogo.png' %}" alt="logo-cloudkitchen">
             </figure>
             <div class="ticket-order-container text-xs-center">
               <span>ORDEN</span>
@@ -596,14 +596,15 @@
       let btn_printer = $('.btn-printer');
       let ticket_details;
       let sales_list_modal = $('#sales-list-modal');
+      let total = $(this).parent().siblings('.td-total').text();
 
       function show_modal(dataResponse) {
-        let nuevo_li;
+        let new_li;
 
         // First reset the ticket 
         sales_list_modal.empty();
 
-        nuevo_li = ("" +
+        new_li = ("" +
         "<li>" +
         "<span class='name-li-title-modal'>Nombre</span> " +
         "<span class='cost-li-title-modal'>Cost</span>" +
@@ -611,7 +612,7 @@
         "<span class='total-li-title-modal'>Total</span> " +
         "</li>");
 
-        sales_list_modal.append(nuevo_li);
+        sales_list_modal.append(new_li);
 
         function iterate_cartridges(element, index, array) {
           let name = element.name;
@@ -631,7 +632,7 @@
               total += '.00';
 
           // Adds the list to tickets
-          nuevo_li = $("" +
+          new_li = $("" +
             "<li class='list-group-item'>" +
             "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
             "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>" +
@@ -639,7 +640,7 @@
             "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
             "</li>");
 
-            sales_list_modal.append(nuevo_li);
+            sales_list_modal.append(new_li);
         }
 
         function iterate_packages(element, index, array) {
@@ -648,6 +649,7 @@
           let cost_base = parseFloat(element.total) / element.quantity;
           let total = parseFloat(element.total);
           let quantity = element.quantity;
+          let new_li;
 
           // Formats the names
           $.each(cartridges_list, function(index, item) {
@@ -666,7 +668,7 @@
               total += '.00';
 
           // Adds the list to tickets
-          nuevo_li = $("" +
+          new_li = $("" +
             "<li class='list-group-item'>" +
             "<span class='name-li-modal text-uppercase'>" + name + "</span> " +
             "<span class='cost-li-modal'>" + '$ ' + cost_base + "</span>" +
@@ -674,14 +676,23 @@
             "<span class='total-li-modal'>" + '$ ' + total + "</span> " +
             "</li>");
 
-            sales_list_modal.append(nuevo_li);
-        }
+            sales_list_modal.append(new_li);
+          }
 
         ticket_details.cartridges.forEach(iterate_cartridges);
         ticket_details.packages.forEach(iterate_packages);
         $("#ticket-id").text(id_element);
 
+        new_li = $("" +
+          "<li class='total-ticket-container mt-1'>" +
+          " <span id='total-ticket'>$ <span class='total-ticket-cant'> " +
+          " " + total +"</span></span> " +
+          "</li>" +
+          "");
+        console.log(total)
+
         //language=JQuery-CSS
+        sales_list_modal.append(new_li);
         $('#modal-ticket').modal('show');
       }
 
@@ -719,6 +730,7 @@
         },
         complete: function(result){
           ticket_details = result.responseJSON.ticket_details;
+          $('.ticket-order-container').find('#ticket-order').text(ticket_details.ticket_order);
 
           setTimeout(function() {
             show_modal(ticket_details)
