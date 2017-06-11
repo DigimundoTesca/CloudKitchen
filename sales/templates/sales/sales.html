@@ -161,7 +161,6 @@
     </div>
   </div>
 </div>
-  {{ today_number }}
 {% endblock content %}
 
 {% block javascript %}
@@ -355,13 +354,7 @@
         },
         traditional: true,
         datatype: 'jsonp',
-        beforeSend: function(){
-          // swal({
-          //     title: "Generando gráficas",
-          //     text: "Espere mientras se calculan los datos",
-          //   });
-          // swal.enableLoading();
-        },
+        beforeSend: function(){},
         success: function(result) {
           let sales_day_earnings_list;
           let initial_hour = '08:00',
@@ -479,7 +472,13 @@
         responsive: true,
         onClick: function(event, legendItem) {
           try {
-            get_sales_day(legendItem[0]._index);
+            let new_data = [];
+            for(var i = 0; i < 16; i++){
+              new_data[i] = parseInt(Math.random() * 10);
+            }
+            earnings_day_chart.data.datasets[0].data = new_data;
+            earnings_day_chart.update();
+
           } catch (error) {
             console.log(error.message);
           }
