@@ -75,18 +75,18 @@
       elements_to_evaluate.push({
         'id': '{{ element.id }}',
         'name': '{{ element.element }}',
-      })
+      });
     {% endfor %}
     
-    for (var i = 0; i < {{ total_elements }}; i++) {
+    for (let i = 0; i < {{ total_elements }}; i++) {
       let element_id = elements_to_evaluate[i].id;
       element_id = "canvas-element-" + element_id;
       ctx_reactions.push(document.getElementById(element_id));
     }
     
     function get_suggestions_week_list() {
-      var suggestions_list = [];
-      var count = 0;
+      let suggestions_list = [];
+      let count = 0;
 
       while (count < suggestions_week.length) {
         suggestions_list.push(parseFloat(suggestions_week[count].total_suggestions));
@@ -95,13 +95,13 @@
       return suggestions_list;
     }
 
-    /*
+    /**
      * Get's the suggestions of the selected day in week chart and
      * show the results in reactions day chart
      */
     function set_reactions_day_chart(date) {
       $.ajax({
-        url: "{% url 'diners:analytics' %}",
+        url: "{% url 'diners:reactions_analytics' %}",
         type: 'POST',
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -118,38 +118,43 @@
           // swal.enableLoading();
         },
         success: function(result) {
-          for(var i = 0; i < {{ total_elements }}; i++){
+          for(let i = 0; i < {{ total_elements }}; i++){
             let is_empty = true;
             /**
              * Sets the doughnuts with the new values
              */
-            for(var j = 0; j < 4; j++){
+            for(let j = 0; j < 4; j++){
               elements_charts[i].data.datasets[0].data[j] = result[i].reactions[j].quantity;
             }
 
             /**
              * Validates the charts and change them if any of these do not have doesn't have values
              */
-            for(var j = 0; j < 4; j++){
+            for(let j = 0; j < 4; j++){
               if (elements_charts[i].config.data.datasets[0].data[j] > 0) {
                 is_empty = false;
               }
             }
+            /**
             if(is_empty) {
               elements_charts[i].config.options.tooltips.callbacks.label = function () {
                 return ' Sin reacciones';
-              }
+              };
               elements_charts[i].config.data.datasets[0].data[4] = 1;
             } else {
               elements_charts[i].config.options.tooltips.callbacks.label = function(tooltipItem, data) {
-                var dataLabel = data.labels[tooltipItem.index];
-                var value = ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                let dataLabel = data.labels[tooltipItem.index];
+                let value = ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 
                 dataLabel += value;
                 return dataLabel;
-              }
+              };
               elements_charts[i].config.data.datasets[0].data.splice(4,1);
             }
+             */
+            /** CODE FOR DEMO */
+            elements_charts[i].config.data.datasets[0].data = get_aux_data(4);
+
             elements_charts[i].update();
           }
 
@@ -173,6 +178,17 @@
     }
 
     /**
+     * Axuxiliar function to show random data list
+     */
+    function get_aux_data(elements){
+      let aux_data = [];
+      for(let j = 0; j < elements; j++) {
+        aux_data.push(parseInt(Math.random()*100));
+      }
+      return aux_data;
+    }
+
+    /**
      * Draws the chart of reactions of the day
      */
     suggestions_week_chart = new Chart(ctx_week_suggestions, {
@@ -181,7 +197,8 @@
         labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         datasets: [{
           label: 'Comentarios del día',
-          data: get_suggestions_week_list(),
+          // data: get_suggestions_week_list(),
+          data: get_aux_data(7),
           backgroundColor: [
           'rgba(26, 188, 156,1.0)',
           'rgba(46, 204, 113, 1.0)',
@@ -206,12 +223,12 @@
         responsive: true,
         onClick: function(event, legendItem) {
           try {
-            var selected_day = legendItem[0]._index;
-            for (var i = 0; i < suggestions_week.length; i++) {
+            let selected_day = legendItem[0]._index;
+            for (let i = 0; i < suggestions_week.length; i++) {
               if (suggestions_week[i].number_day == selected_day) {
                 set_reactions_day_chart(suggestions_week[i].date);
               }
-            };
+            }
           } catch (error) {
             console.log(error.message);
           }
@@ -233,9 +250,9 @@
       }
     });
 
-    for (var i = 0; i < {{ total_elements }}; i++) {
+    for (let i = 0; i < {{ total_elements }}; i++) {
       let data = [];
-      for(var j = 0; j < 4; j++) {
+      for(let j = 0; j < 4; j++) {
         data[j] = parseInt(Math.random() * 100  );
       }
       elements_charts[i] = new Chart(ctx_reactions[i], {
@@ -249,7 +266,7 @@
           "Sin Reacciones",
           ],
           datasets: [{
-            data: [0,0,0,0,0],
+            data: get_aux_data(7),
             backgroundColor: [
             "#FF5252",
             "#FFC400",
@@ -303,8 +320,8 @@
       months = {
         1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun',
         7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic', 
-      }
-      date = date.split('-')
+      };
+      date = date.split('-');
       fdate = date[0] + " " + months[parseInt(date[1])] + " " + date[2];
       return fdate;
     }
@@ -313,8 +330,8 @@
      * Fills the weeks select
      */
     function fill_dates_range_form() {
-      var dates_range_form = $(this).find('#dt-year');
-      var selected_year;
+      let dates_range_form = $(this).find('#dt-year');
+      let selected_year;
       $.each(dates_range, function(index, item) {
          $('#dates-range-form').find('#dt-year').append(
             "<option value=" + item.year + ">" + item.year + "</option>"

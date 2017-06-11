@@ -1,20 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
+<html>
 <head>
   <title>{{ title }}</title>
   <!-- Required meta tags always come first -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="description" content="Sabemos que el desayuno es la comida más importante del día, quítate de problemas y deja que nosotros lo entreguemos a la puerta de tu casa. ¡Desayunos ya!">
+  <meta name="description" content="CloudKitchen - Tu Cocina en la nube">
   <link rel="icon" href="{% static 'images/CloudKitchen.png' %}">
 
+  <!-- Loader Style -->
+  <link rel="stylesheet" href="{% static 'css/loader_style.css' %}">
+
   <!-- Font style -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans+Condensed:300|Open+Sans:300,400" rel="stylesheet">
+  <!-- Sweet Alert -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.8/sweetalert2.min.css">
 
   <!-- Icon font styles -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
   {% block link %}
   {% endblock link %}
@@ -22,10 +27,14 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/bootstrap-flex.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/styles27042017.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles2042017.css' %}">
 
 </head>
 <body>
+<div class="sk-double-bounce">
+  <div class="sk-child sk-double-bounce1"></div>
+  <div class="sk-child sk-double-bounce2"></div>
+</div>
 {% block nav %}
 {% endblock %}
 <main>
@@ -48,9 +57,5 @@
 {% endblock javascript %}
 {% block alert %}
 {% endblock alert %}
-<!-- <script>document.write('<script src="http://'
-+ (location.host || 'localhost').split(':')[0]
-+ ':35729/livereload.js?snipver=1"></'
-+ 'script>')</script> -->
 </body>
 </html>

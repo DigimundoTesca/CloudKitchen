@@ -470,7 +470,7 @@ def satisfaction_rating(request):
 
 
 @login_required(login_url='users:login')
-def analytics(request):
+def reactions_analytics(request):
     helper = Helper()
     all_suggestions = SatisfactionRating.objects.all()
     all_elements = ElementToEvaluate.objects.all()

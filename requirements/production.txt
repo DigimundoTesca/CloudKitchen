@@ -1,16 +1,17 @@
 
 # Pro-tip: Try not to put anything here. There should be no dependency in
 #	production that isn't in development.
-# Server : Ubuntu 14.10
+# Server : Ubuntu 16.04
 -r base.txt
 
 # Python-PostgreSQL Database Adapter
 # ------------------------------------------------
 psycopg2==2.6.1
 
+
 # Python WSGI HTTP Server for UNIX
-gunicorn==19.6.0
+gunicorn==19.7.1
 
 # Non-validating SQL parser
 # ------------------------------------------------
-sqlparse==0.1.18
+sqlparse==0.2.3
