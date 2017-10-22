@@ -59,6 +59,7 @@ class CustomerProfile(models.Model):
     longitude = models.CharField(default='0.0', max_length=30, blank=True)
     latitude = models.CharField(default=0.0, max_length=30, blank=True)
     first_dabba = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Perfil de Usuario'

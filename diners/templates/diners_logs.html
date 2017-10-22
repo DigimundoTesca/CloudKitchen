@@ -1,4 +1,5 @@
 {% extends 'base/base_nav_footer.html' %}
+
 {% load static %}
 
 {% block content %}
@@ -165,6 +166,18 @@
       date = date.split('-')
       fdate = date[0] + " " + months[parseInt(date[1])] + " " + date[2];
       return fdate;
+    }
+
+
+    /**
+     * Axuxiliar function to show random data list
+     */
+    function get_aux_data(elements){
+      let aux_data = [];
+      for(let j = 0; j < elements; j++) {
+        aux_data.push(parseInt(Math.random()*100));
+      }
+      return aux_data;
     }
 
     /**
@@ -357,7 +370,7 @@
           var total_datas = access_logs_day_list.length;
 
           diners_access_day_list = get_diners_day_list(initial_hour, final_hour, separation_time, access_logs_day_list);
-          diners_day_chart.data.datasets[0].data = diners_access_day_list;
+          diners_day_chart.data.datasets[0].data = get_aux_data(7);
           diners_day_chart.update();
 
           swal({
@@ -384,7 +397,7 @@
         labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
         datasets: [{
           label: 'Comensales por dia',
-          data: get_diners_day(),
+          data: get_aux_data(7),
           backgroundColor: [
             'rgba(255, 99, 132, 0.6)',
             'rgba(54, 162, 235, 0.6)',
@@ -409,16 +422,7 @@
       options: {
         responsive: true,
         onClick: function(event, legendItem) {
-          try {
-            var selected_day = legendItem[0]._index;
-            for (var i = 0; i < diners_week.length; i++) {
-              if (diners_week[i].number_day == selected_day) {
-                set_diners_day_chart(diners_week[i].date);
-              }
-            };
-          } catch (error) {
-            console.log(error.message);
-          }
+          diners_day_chart.data.datasets[0].data = get_aux_data(7);
         },
         scales: {
           yAxes: [{
@@ -439,7 +443,7 @@
         ],
         datasets: [{
           label: 'Comensales por hora',
-          data: get_hours_of_diners(),
+          data: get_aux_data(7),
           backgroundColor: [
             'rgba(54, 162, 235, 0.6)',
             'rgba(75, 192, 192, 0.6)',
