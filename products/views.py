@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import get_object_or_404, render, redirect
-
+from datetime import timedelta, datetime, date
 from django.contrib.auth.decorators import login_required
 
 from branchoffices.models import Supplier
@@ -13,6 +13,8 @@ from products.models import Cartridge, Supply, SuppliesCategory
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 from django.views.generic import CreateView
+
+from methods.products_helper import ProductsHelper
 
 
 # -------------------------------------  Profile -------------------------------------
@@ -265,6 +267,54 @@ class DeleteCartridge(DeleteView):
         self.object = self.get_object()
         self.object.delete()
         return redirect('products:cartridges')
+
+
+# -------------------------------------  Warehouse -------------------------------------
+
+@login_required(login_url='users:login')
+def warehouse_analytics(request):
+
+    products_helper = ProductsHelper()
+    today = datetime.today()
+    current_year = today.year
+    current_month = today.month
+    category = "select"
+
+    resultado = products_helper.get_cartridges_sales_by_date(
+        current_year, current_month, category)
+
+    sales_data = resultado['sales_data']
+    json_sales_data_by_date = resultado['json_sales_data_by_date']
+
+    if request.method == 'POST':
+        if request.POST['type'] == 'load_date':
+            selected_year = request.POST['year']
+            selected_month = request.POST['month']
+            selected_category = request.POST['category']
+
+            resultado = products_helper.get_cartridges_sales_by_date(
+                int(selected_year), int(selected_month), selected_category)
+
+            sales_data = resultado['sales_data']
+            json_sales_data_by_date = resultado['json_sales_data_by_date']
+
+            return JsonResponse({
+                'sales_data':
+                sales_data,
+                'json_sales_data_by_date':
+                json_sales_data_by_date
+            })
+
+    template = 'catering/analytics.html'
+    title = 'Almacen - Analytics'
+    context = {
+        'sales_data_by_date': json_sales_data_by_date,
+        'sales_data': sales_data,
+        'today': today,
+        'title': title,
+        'page_title': PAGE_TITLE
+    }
+    return render(request, template, context)
 
 
 # -------------------------------------  Test -------------------------------------

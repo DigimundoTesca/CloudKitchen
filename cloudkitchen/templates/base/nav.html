@@ -19,19 +19,19 @@
           <a class="dropdown-item" href="{% url 'kitchen:assembly' %}">Ensamble</a>
         </div>
       </li>
-      <!--
+      
       <li class="nav-item dropdown" id="link-warehouse">
         <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Almacén</a>
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
           <a class="dropdown-item" href="{% url 'products:supplies' %}">Insumos</a>
           <a class="dropdown-item" href="{% url 'products:cartridges' %}">Productos</a>
-          <a class="dropdown-item" href="#">Paquetes</a>
-          <a class="dropdown-item" href="#">Analytics</a>
-          <a class="dropdown-item" href="#">Almacén 1</a>
-          <a class="dropdown-item" href="#">Almacén 2</a>
+          <!-- <a class="dropdown-item" href="#">Paquetes</a> -->
+          <a class="dropdown-item" href="{% url 'products:warehouse_analytics' %}">Analytics</a>
+          <!-- <a class="dropdown-item" href="#">Almacén 1</a>
+          <a class="dropdown-item" href="#">Almacén 2</a> -->
         </div>
       </li>
-      -->
+      
       <li class="nav-item dropdown" id="link-kitchen">
         <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Smart Access</a>
         <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">

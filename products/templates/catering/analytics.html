@@ -1,0 +1,206 @@
+{% extends "base/base_nav_footer.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">    
+    <div class="row">
+        <div class="col-12 col-xl-5">            
+            <canvas id="myChart1" width="400" height="300"></canvas>
+        </div>
+        <div class="col-12 col-xl-5">
+            <canvas id="myChart2" width="400" height="300"></canvas>
+        </div>        
+        <div class="col-md-2">
+            <select class="year_select" id="cat-sold">
+                <option value="2017">2017</option>                
+                <option value="2018">2018</option>
+            </select><br><br>
+            <select class="month_select" id="cat-sold">
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select><br><br>
+            <select class="category_select" id="cat-sold">
+                <option value="select">General</option>
+                <option value="drinks_sold" id="drinksValue">Bebidas</option>
+                <option value="food_sold" id="food_value">Platillos</option>
+            </select>            
+        </div>
+    </div>
+</div>
+
+{% endblock content %} 
+{% block javascript %}
+
+<script src="{% static 'js/Chart.bundle.min.js' %}" ></script>
+<script type="text/javascript" charset="utf-8" >
+
+    var sales_data = JSON.parse('{{ sales_data | safe }}');  
+    var sales_data_by_date = JSON.parse('{{ sales_data_by_date | safe }}');  
+    let year = "{{today.year}}"
+    let month = "{{today.month}}"
+    let day = "{{today.day}}"
+    let category = "select"
+
+    $(".year_select").val(year);
+    $(".month_select").val(month);
+    
+    function get_cookie(name) {
+        let cookie_value = null;
+        if (document.cookie && document.cookie !== '') {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookie_value = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookie_value;/**/
+    }
+    
+    function random_rgba() {
+        var o = Math.round, r = Math.random, s = 255;
+        return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')';
+    }
+
+    function get_colors(sales_data) {
+        let color_list = [];
+        let count = 0;
+        while (count < sales_data.length) {
+            color_list.push(random_rgba());
+            count++;
+        }
+        return color_list;
+    }
+
+    function get_new_data() {
+        var csrf_token = get_cookie('csrftoken');
+
+        $.ajax({
+            url: '{% url "products:warehouse_analytics" %}',
+            type: 'POST',
+            data: {
+                'type': 'load_date',
+                'year': year,
+                'month': month,
+                'category': category,
+                csrfmiddlewaretoken: csrf_token
+            },
+            datatype: "html",
+            success: function (result) {            
+                data = JSON.parse(result['sales_data']);       
+                colors = get_colors(data.names);
+
+                myChart1.destroy()
+                myChart1 = new Chart(ctx1, {
+                    type: 'horizontalBar',
+                    data: {
+                        labels: data.names,
+                        datasets: getDataset(data,colors)
+                    },     
+                });                
+
+                data_by_date = JSON.parse(result['json_sales_data_by_date']);
+                myChart2.destroy()
+                myChart2 = new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: getLabels(data_by_date),
+                        datasets: getDatasets(data_by_date,colors),
+                    },                    
+                });   
+            }
+        });
+    }
+
+    var colors = get_colors(sales_data.names)
+
+    var ctx1 = document.getElementById("myChart1");
+    var myChart1 = new Chart(ctx1, {
+        type: 'horizontalBar',
+        data: {
+            labels: sales_data.names,
+            datasets: getDataset(sales_data,colors)
+        },        
+    });
+    var ctx2 = document.getElementById("myChart2");
+    var myChart2 = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: getLabels(sales_data_by_date),
+            datasets: getDatasets(sales_data_by_date,colors),
+        },        
+    });    
+
+    $(".year_select").on('change', function () {
+        year = $(this).val();
+        get_new_data()
+    });
+
+    $(".month_select").on('change', function () {
+        month = $(this).val();
+        get_new_data()
+    });
+
+    $(".category_select").on('change', function () {
+        category = $(this).val();
+        console.log(category)
+        get_new_data()
+    });
+
+    function getDataset(data,colors){
+        dataset = [];
+        obj = {
+            label: '# de Ventas',
+            data: data.tick_sales,
+            borderColor: colors,
+            backgroundColor: colors,
+            borderWidth: 1,            
+        }
+        dataset.push(obj)
+        return dataset
+    }
+
+    function getDatasets(data,colors){
+        datasets = [];
+        for(x=0;x<data.final_name.length;x++){
+            object = {
+                borderWidth: 2,
+                borderColor: colors[x],
+                pointRadius: 4,
+                label: data.final_name[x],
+                data: data.final_dates[x],
+                fill: false,
+                hidden:true,
+            };
+            datasets.push(object);
+        }
+        return datasets;
+    }
+
+    function getLabels(data){
+        dates = []
+        try{
+            for (x = 1; x <= data.final_dates[0].length; x++) {
+                dates.push(x.toString());
+            }
+            return dates
+        }catch(TypeError){
+            console.log("No hay Ventas")
+        }
+    }
+    
+</script>
+
+{% endblock javascript %}

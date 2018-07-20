@@ -30,6 +30,9 @@ urlpatterns = [
     url(r'^categories/$', views.categories, name='categories'),
     url(r'^categories/new/$', views.new_category, name='new_category'),
     url(r'^categories/([A-Za-z]+)/$', views.categories_supplies, name='categories_supplies'),
+
+    # Warehouse
+    url(r'^warehouse/analytics$', views.warehouse_analytics, name='warehouse_analytics'),        
 ]
 
 # test

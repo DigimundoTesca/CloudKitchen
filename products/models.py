@@ -149,6 +149,23 @@ class CartridgeRecipe(models.Model):
         verbose_name_plural = 'Recetas de Cartuchos'
 
 
+class ExtraIngredient(models.Model):
+    """
+    Description: Extra ingredients that could have the cartridges in a new sale
+    """
+    ingredient = models.ForeignKey(Cartridge, null=True, blank=True, default=None, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=1)
+    cost = models.DecimalField(default=0, max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return '%s' % self.ingredient
+
+    class Meta:
+        ordering = ('ingredient', 'ingredient')
+        verbose_name = 'Ingrediente Extra'
+        verbose_name_plural = 'Ingredientes Extra'
+
+
 class PackageCartridge(models.Model):
     name = models.CharField(max_length=90)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
